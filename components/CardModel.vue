@@ -1,0 +1,337 @@
+<template>
+  <div>
+    <div class="box" v-if="typeCard === 'newModel'">
+      <div class="content">
+        <div class="header-content">
+          <div :class="flagValidation()"></div>
+          <div class="container_button" @click="openInfoCard">
+            <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
+            <img src="~/static/icons/arrowOpened.svg" alt="" srcset="" v-else />
+          </div>
+        </div>
+        <div class="containerMain">
+          <div class="informs">
+            <div class="inform">
+              <h3>Cód.RRIM</h3>
+              <p>XXXXXXXX</p>
+            </div>
+            <div class="inform">
+              <h3>Cliente</h3>
+              <p>XXXXXXXX</p>
+            </div>
+            <div class="inform">
+              <h3>Molde</h3>
+              <p>XXXXXXXX</p>
+            </div>
+            <div class="inform">
+              <h3>Cód. do Molde</h3>
+              <p>XXXXXXXX</p>
+            </div>
+            <div class="inform">
+              <h3>Descrição do Molde</h3>
+              <p>XXXXXXXX</p>
+            </div>
+          </div>
+        </div>
+
+        <transition name="slide-fade">
+          <div class="contentContainer" v-if="isOpenInfoCard">
+            <SlotBtn>
+              <BtnPirula
+                :color="statusOrigin"
+                titleBtn="Solicitar TryOut"
+                v-if="statusOrigin === 'RRIM'"
+              />
+            </SlotBtn>
+          </div>
+        </transition>
+      </div>
+    </div>
+
+    <div
+      class="box"
+      v-if="
+        typeCard === 'history' ||
+        typeCard === 'solicitation' ||
+        typeCard === 'resinTest'
+      "
+    >
+      <div class="content">
+        <div class="header-content">
+          <div :class="flagValidation()"></div>
+          <div class="container_button" @click="openInfoCard">
+            <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
+            <img src="~/static/icons/arrowOpened.svg" alt="" srcset="" v-else />
+          </div>
+        </div>
+        <div class="containerMain">
+          <div class="informs">
+            <div class="inform">
+              <h3>Cód. de TryOut</h3>
+              <p>XXXXXXXX</p>
+            </div>
+            <div class="inform">
+              <h3>Cód. do Produto</h3>
+              <p>XXXXXXXX</p>
+            </div>
+            <div class="inform">
+              <h3>Desc. do Produto</h3>
+              <p>XXXXXXXX</p>
+            </div>
+            <div class="inform">
+              <h3>Cliente</h3>
+              <p>XXXXXXXX</p>
+            </div>
+            <div class="inform">
+              <h3>Data</h3>
+              <p>XXXXXXXX</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="containerDetails" v-if="isOpenInfoCard">
+          <div class="informs">
+            <div class="inform">
+              <h3>Processos</h3>
+              <p>XXXXXXXX</p>
+            </div>
+
+            <div class="inform">
+              <h3>Quantidade</h3>
+              <p>XXXXXXXX</p>
+            </div>
+
+            <div class="inform">
+              <h3>Técnico</h3>
+              <p>XXXXXXXX</p>
+            </div>
+
+            <div class="inform">
+              <h3>Motivo</h3>
+              <p>XXXXXXXX</p>
+            </div>
+          </div>
+
+          <div class="processContent">
+            <div class="processBox">
+              <h3>Mão de Obra</h3>
+              <span>Descrição</span>
+              <h4>Operador de máquina</h4>
+              <div class="processFooter">
+                <h4>Qtde: 00</h4>
+              </div>
+            </div>
+
+            <div class="processBox">
+              <h3>Mão de Obra</h3>
+              <span>Descrição</span>
+              <h4>Operador de máquina</h4>
+              <div class="processFooter">
+                <h4>Qtde: 00</h4>
+              </div>
+            </div>
+
+            <div class="processBox">
+              <h3>Mão de Obra</h3>
+              <span>Descrição</span>
+              <h4>Operador de máquina</h4>
+              <div class="processFooter">
+                <h4>Qtde: 00</h4>
+              </div>
+            </div>
+          </div>
+
+          <div class="info">
+            <span>Último Comentário realizado pelo PCP</span>
+            <h3>Autor: William David</h3>
+            <div class="boxText">
+              <span
+                >Lorem Ipsum is simply dummy text of the printing and
+                typesetting industry. Lorem Ipsum has been the industry's
+                standard dummy text ever since the 1500s</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="contentContainer" v-if="isOpenInfoCard">
+          <SlotBtn>
+            <BtnPirula
+              :color="statusOrigin"
+              titleBtn="Gerar Relatório"
+              v-if="statusOrigin === 'Aprovado'"
+            />
+            <BtnPirula
+              :color="statusOrigin"
+              titleBtn="Revisar Solicitação"
+              v-if="statusOrigin === 'Reprovado'"
+            />
+            <BtnPirula
+              :color="statusOrigin"
+              titleBtn="Cancelar"
+              v-if="statusOrigin === 'PCP'"
+            />
+          </SlotBtn>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import Vue from 'vue'
+export default Vue.extend({
+  layout: 'mainFrame',
+  props: {
+    statusOrigin: String,
+    flag: String,
+    typeCard: String,
+  },
+  data() {
+    return {
+      isOpenInfoCard: false,
+      btnStatus: this.status,
+    }
+  },
+  methods: {
+    openInfoCard() {
+      this.isOpenInfoCard = !this.isOpenInfoCard
+    },
+
+    toggleButton() {
+      if (this.status === 'Aprovado') {
+        console.log('Teste')
+      }
+    },
+
+    flagValidation() {
+      if (this.flag == '1') {
+        return 'flap flap-green'
+      } else if (this.flag == '2') {
+        return 'flap flap-blue'
+      } else if (this.flag == '3') {
+        return 'flap flap-orange'
+      } else {
+        return 'flap flap-none'
+      }
+    },
+  },
+})
+</script>
+
+<style lang="scss" scoped>
+.box {
+  background: var(--gray);
+  padding: max(0.3rem, 1vw);
+
+  .content {
+    width: 100%;
+    background: var(--white);
+    padding: max(0.4rem, 1vw);
+    border-radius: 1rem;
+    border: 0.2rem solid #e0e0e0;
+    overflow: hidden;
+  }
+}
+
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  height: auto;
+
+  .flap {
+    height: 0.2rem;
+    width: 7rem;
+    height: 0.5rem;
+    position: relative;
+    background-color: transparent;
+  }
+  .flap-none {
+    background-color: none;
+  }
+  .flap-green {
+    background-color: var(--green);
+  }
+  .flap-blue {
+    background-color: var(--blue);
+  }
+  .flap-orange {
+    background-color: var(--orange);
+  }
+
+  .container_button {
+    cursor: pointer;
+  }
+}
+
+.containerDetails {
+  width: 100%;
+  height: auto;
+  background: var(--white);
+  overflow: hidden;
+  margin-top: 10px;
+
+  span {
+    font-size: 11px;
+    color: var(--gray_text);
+  }
+
+  .info {
+    margin: 25px 10px 10px 0;
+    .boxText {
+      margin-top: 10px;
+      background-color: var(--gray);
+      padding: 0.5rem;
+      span {
+        font-size: 15px;
+        color: var(--gray_text);
+      }
+    }
+
+    h3 {
+      margin: 5x 0 5px 0;
+      font-weight: 400;
+    }
+  }
+
+  .processContent {
+    gap: 20px;
+    margin-top: 20px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+
+    .processBox {
+      background-color: var(--gray);
+      padding: max(0.1rem, 0.5vw);
+
+      .processFooter {
+        margin-top: 10px;
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.containerMain {
+  width: 100%;
+  display: flex;
+}
+.informs {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  flex-wrap: wrap;
+  grid-gap: 30px;
+}
+.contentContainer {
+  border-top: 0.1rem solid #e0e0e0;
+  display: flex;
+  width: 100%;
+  height: 70px;
+  align-items: center;
+}
+</style>
