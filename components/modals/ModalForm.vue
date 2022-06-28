@@ -15,16 +15,17 @@
 
       <form action="">
         <!-- modificacao e testes -->
-        <div class="rowInputs">
+        <div class="rowInputs" v-if="showContainer">
           <div class="boxInput">
             <p>Código SAPP</p>
-            <input type="text" name="" id="" />
+            <input type="text" name="" id=""/>
           </div>
           <div class="boxInput">
             <p>Molde</p>
             <input type="text" name="" id="" />
           </div>
         </div>
+
 
         <div class="rowInputs">
           <div class="boxInput">
@@ -109,24 +110,33 @@
     </div>
   </div>
 </template>
-
-
-<script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
-
+<script>
+export default {
   props: {
     displayModal: { type: Boolean }
   },
-
+  data(){
+    return{
+      myRouter: false
+    }
+  },
+  computed: {
+    showContainer() {
+      if (this.$route.name === "") {
+        return (this.myRouter = false);
+      }
+      if (this.$route.name === "resin-test" || this.$route.name === "modifications") {
+        return (this.myRouter = true);
+      }
+    }
+  },
   methods: {
     closeModal() {
       this.$emit("closeModal", this.displayModal)
     }
   }
 
-})
+}
 </script>
 
 <style lang="scss" scoped>
