@@ -103,12 +103,12 @@ export default {
     height: 40px;
     margin: 2px;
     color: var(--black_text);
-    border-radius: 5px;
+    border-radius: 50%;
     background-color: var(--gray);
   }
   
   .btn-pagination:focus {
-    background-color: var(--green);
+    background-color: var(--gray_text);
     color: var(--white);
   }
 }
