@@ -24,7 +24,7 @@ export default {
     justify-content: center;
     align-items: center;
     height: 3.5rem;
-    width: auto;
+    width: 100%;
     font-weight: 600;
 
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
