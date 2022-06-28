@@ -5,7 +5,7 @@
         type="button"
         v-if="page != 1"
         @click="page--"
-    >Prev</button>
+    ><img src="~/static/icons/arrowClosed.svg" class="icon-prev"/></button>
 
     <div class="rowsBtn">
       <button
@@ -24,7 +24,7 @@
         type="button"
         @click="page++"
         v-if="page < pages.length"
-    >Next</button>
+    ><img src="~/static/icons/arrowClosed.svg" class="icon-next"/></button>
   </div>
 </template>
 
@@ -84,17 +84,26 @@ export default {
   margin-top: 1rem;
   display: flex;
   gap: .5rem;
+
   .rowsBtn{
     background-color: var(--gray);
     width: fit-content;
     border-radius: 2rem;
     padding: 0rem 1.5rem;
+    
   }
 
   .nextPrev{
     border-radius: 50%;
     min-width: 40px;
     width: 40px;
+
+    .icon-prev {
+      transform: rotate(-90deg);
+    }
+    .icon-next {
+      transform: rotate(90deg);
+    }
   }
   .btn-pagination {
     cursor: pointer;
@@ -103,12 +112,14 @@ export default {
     height: 40px;
     margin: 2px;
     color: var(--black_text);
-    border-radius: 5px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 50%;
     background-color: var(--gray);
   }
   
   .btn-pagination:focus {
-    background-color: var(--green);
+    background-color: var(--gray_text);
     color: var(--white);
   }
 }
