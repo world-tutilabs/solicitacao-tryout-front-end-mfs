@@ -10,7 +10,6 @@
         <div @click="closeModal()" class="btn-closed">
           <img src="~/static/icons/x.svg" />
         </div>
-
       </header>
 
       <form action="">
@@ -18,14 +17,13 @@
         <div class="rowInputs" v-if="showContainer">
           <div class="boxInput">
             <p>Código SAPP</p>
-            <input type="text" name="" id=""/>
+            <input type="text" name="" id="" />
           </div>
           <div class="boxInput">
             <p>Molde</p>
             <input type="text" name="" id="" />
           </div>
         </div>
-
 
         <div class="rowInputs">
           <div class="boxInput">
@@ -64,7 +62,7 @@
             <input type="text" name="" id="" />
           </div>
 
-          <button>
+          <button @click.prevent="addProcess">
             <img src="~/static/icons/plus.svg" alt="" />
             <h3>Adicionar</h3>
           </button>
@@ -73,12 +71,16 @@
         <!-- so aparece quando selecionar um processo -->
         <div class="containerProcess">
           <div class="tabs">
-            <div class="tab">
+            <div class="tab" v-for="index in count" :key="index">
               <p>Processo Injeção</p>
-              <img src="~/static/icons/x.svg" alt="" />
+              <img
+                @click="removeProcess(index)"
+                src="~/static/icons/x.svg"
+                alt=""
+              />
             </div>
           </div>
-          <div class="frameProcess">
+          <div class="frameProcess" v-if="processValidation">
             <div class="cardTryOut">
               <SlotCardVue>
                 <Title title="Mão de Obra" />
@@ -116,25 +118,47 @@ export default {
     displayModal: Boolean,
     dataRRIM: Object,
   },
-  data(){
-    return{
-      myRouter: false
-    }
+  data() {
+    return {
+      myRouter: false,
+      count: 1,
+      processValidation: true,
+    };
   },
   computed: {
     showContainer() {
       if (this.$route.name === "") {
         return (this.myRouter = false);
       }
-      if (this.$route.name === "resin-test" || this.$route.name === "modifications") {
+      if (
+        this.$route.name === "resin-test" ||
+        this.$route.name === "modifications"
+      ) {
         return (this.myRouter = true);
       }
-    }
+    },
   },
+  
   methods: {
     closeModal() {
       this.$emit("closeModal", this.displayModal)
-    }
+    },
+
+    addProcess() {
+      this.count++;
+      this.processValidation = true;
+    },
+    removeProcess(index) {
+      this.count--;
+      console.log(this.count + "count");
+      if (index === this.count) {
+        this.processValidation = false;
+      }
+      if (this.count === 0) {
+        this.processValidation = false;
+      }
+      console.log(index);
+    },
   },
 
   created: async function (){
@@ -142,6 +166,8 @@ export default {
   }
 
 }
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -166,7 +192,6 @@ export default {
     border-radius: 0.5rem;
 
     header {
-
       border-bottom: 0.2rem solid var(--gray);
       padding-bottom: 1vw;
       display: flex;
@@ -197,7 +222,8 @@ export default {
           font-weight: var(--bold);
         }
 
-        input, select{
+        input,
+        select {
           width: 100%;
         }
       }
@@ -210,7 +236,7 @@ export default {
 
       button {
         display: flex;
-        gap: .5rem;
+        gap: 0.5rem;
         justify-content: center;
         align-items: center;
         color: var(--gray_text);
@@ -225,7 +251,7 @@ export default {
           width: 1rem;
         }
 
-        @media(max-width: 343px){
+        @media (max-width: 343px) {
           margin-left: auto;
         }
       }
@@ -310,7 +336,7 @@ export default {
         .cardTryOut {
           width: 100%;
           display: grid;
-          grid-template-columns:repeat(auto-fill,  minmax(16rem, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
           gap: 2rem;
         }
       }
