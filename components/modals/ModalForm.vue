@@ -30,19 +30,19 @@
         <div class="rowInputs">
           <div class="boxInput">
             <p>Código do Produto</p>
-            <input type="text" name="" id="" />
+            <input type="text" name="" id="" :value="dataRRIM.produto[0].COD_PRODUTO"/>
           </div>
           <div class="boxInput">
             <p>Descrição do Produto</p>
-            <input type="text" name="" id="" />
+            <input type="text" name="" id="" :value="dataRRIM.produto[0].DESC_PRODUTO"/>
           </div>
           <div class="boxInput">
             <p>Cliente</p>
-            <input type="text" name="" id="" />
+            <input type="text" name="" id="" :value="dataRRIM.CLIENTE"/>
           </div>
           <div class="boxInput">
             <p>Motivo</p>
-            <input type="text" name="" id="" />
+            <input type="text" name="" id="" value="Novo"/>
           </div>
         </div>
 
@@ -113,7 +113,8 @@
 <script>
 export default {
   props: {
-    displayModal: { type: Boolean }
+    displayModal: Boolean,
+    dataRRIM: Object,
   },
   data(){
     return{
@@ -134,6 +135,10 @@ export default {
     closeModal() {
       this.$emit("closeModal", this.displayModal)
     }
+  },
+
+  created: async function (){
+    console.log(this.dataRRIM);
   }
 
 }

@@ -1,48 +1,40 @@
 <template>
   <div>
-    <CardModel
-      v-for="mold in listPaginated"
-      :key="mold.id"
-      :statusOrigin="mold.origin"
-      :flag="mold.flag"
-      :typeCard="mold.typeCard"
-    />
+    <CardNewModel v-for="mold in newMolds" :key="mold.id" :dataMold="mold" />
 
-    <Pagination :list="dataNewMold" @displayNewList="displayNewList"/>
+    <Pagination :list="newMolds" @displayNewList="displayNewList" /> 
+      
+      
+    <!-- Buscar forma de fazer o componente esperar requisição HTTP - Para WILL -->
   </div>
 </template>
 
 <script>
+import http from '~/services/newMold/mold';
+import CardNewModel from '../Cards/CardNewModel.vue';
 
-export default{
-  data(){
+export default {
+  components: { CardNewModel },
+
+  data() {
     return {
-      dataNewMold: [
-        { id: 1, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 2, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 3, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 4, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 5, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 6, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 7, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 8, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 9, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 10, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 11, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 12, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-      ],
-
+      newMolds: [],
       listPaginated: [],
     }
   },
 
   methods: {
-    displayNewList (e){
+    displayNewList(e) {
       this.listPaginated = e
     }
+  },
+
+  created: async function () {
+    await http.listAllRRIM().then((res) => {
+      this.newMolds = res.data
+    }).catch( (error) => {
+      console.log(`Deu o erro: ${error}`);
+    })
   }
 }
 </script>
-
-<style>
-</style>

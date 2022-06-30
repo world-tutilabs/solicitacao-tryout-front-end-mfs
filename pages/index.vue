@@ -1,5 +1,7 @@
 <template>
+
   <div>
+
     <div class="tabs">
       <button @click="newMoldes = true" :class="{ focus: newMoldes }">
         Novos Moldes
@@ -21,6 +23,8 @@
 
 <script>
 
+
+
 export default {
   name: 'IndexPage',
   head() {
@@ -28,13 +32,15 @@ export default {
       title: "TryOut - Novos Moldes"
     };
   },
-  created() {
+  created: async function() {
     this.$store.commit('change_my_router', 'Solicitações de TryOut')
   },
 
   data() {
     return {
       newMoldes: true,
+      data_inicial: '',
+      data_final: '',
     }
   },
 }
