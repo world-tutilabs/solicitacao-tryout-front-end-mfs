@@ -1,35 +1,47 @@
 <template>
   <div>
-    <button class="btn" :style="{backgroundColor: verifyColor()}">{{titleBtn}}</button>
+    <button class="btn" :style="{ backgroundColor: verifyColor() }" @click="modalStatus = !modalStatus">{{ titleBtn
+    }}</button>
+
+    <ModalForm :displayModal="modalStatus" @closeModal="closeModal" :dataRRIM="dataMold"/>
   </div>
 </template>
 
 <script>
 export default {
   name: 'BtnPirula',
-  props: ['titleBtn', 'color', 'modal'],
+  props: {
+    titleBtn: String,
+    color: String,
+    dataMold: Object,
+  },
 
   data() {
-    return{
-      colorBtn: ""
+    return {
+      colorBtn: "",
+      modalStatus: false,
     }
   },
 
 
   methods: {
-
-    verifyColor (){
-      if(this.color === "RRIM"  || this.color === "Aprovado" || this.color === "pcp-analise" ){
+    verifyColor() {
+      if (this.color === "RRIM" || this.color === "Aprovado" || this.color === "pcp-analise") {
         return 'var(--green)'
-      }else if(this.color === "Reprovado") {
+      } else if (this.color === "Reprovado") {
         return 'var(--orange)'
-      } else if(this.color === "CancelTryOut"){
+      } else if (this.color === "CancelTryOut") {
         return 'var(--red)'
       }
-      else if(this.color === "PCP"){
+      else if (this.color === "PCP") {
         return 'var(--blue)'
       }
+    },
+
+    closeModal() {
+      this.modalStatus = !this.modalStatus
     }
+
   }
 }
 </script>
