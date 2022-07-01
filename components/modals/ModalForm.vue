@@ -57,7 +57,6 @@
             <p>Processo</p>
             <select name="" id="">
               <option value="">Processo de Injeção</option>
-              <option value="">teste2</option>
             </select>
           </div>
           <div class="boxInput">
@@ -85,23 +84,23 @@
           </div>
           <div class="frameProcess" v-if="processValidation">
             <div class="cardTryOut">
-              <SlotCardVue>
+              <SlotCard>
                 <Title title="Mão de Obra" />
                 <FormInput label="Descrição" />
                 <FormInput label="Qtd" />
-              </SlotCardVue>
+              </SlotCard>
 
-              <SlotCardVue>
+              <SlotCard>
                 <Title title="Molde" />
                 <FormInput label="Descrição" />
                 <FormInput label="N Cavidade" />
-              </SlotCardVue>
+              </SlotCard>
 
-              <SlotCardVue>
+              <SlotCard>
                 <Title title="Matéria Prima" />
                 <FormInput label="Descrição" />
                 <FormInput label="Qtd" />
-              </SlotCardVue>
+              </SlotCard>
             </div>
             <!-- components aqui com props -->
           </div>
@@ -236,6 +235,7 @@ export default {
 
         input,
         select {
+          // font-size: 1rem;
           width: 100%;
         }
       }
