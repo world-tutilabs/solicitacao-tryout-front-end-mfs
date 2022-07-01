@@ -1,14 +1,8 @@
 <template>
   <div class="input">
     <label> {{ label }} </label>
-    <input
-      :type="type"
-      :placeholder="placeholder"
-      :value="value"
-      v-on="inputListeners"
-      :disabled="disabled"
-      :readonly="readonly"
-    />
+    <input :type="type" :placeholder="placeholder" :value="value" v-on="inputListeners" :disabled="disabled"
+      :readonly="readonly" />
   </div>
 </template>
 
@@ -16,30 +10,11 @@
 export default {
   name: 'FormInput',
   props: {
-    label: {
-      type: String,
-      default: undefined,
-    },
-    value: {
-      type: [String, Number],
-      default: undefined,
-    },
-    type: {
-      type: String,
-      default: 'text',
-    },
-    placeholder: {
-      type: String,
-      default: undefined,
-    },
-    disabled: {
-      type: String,
-      default: undefined,
-    },
-    readonly: {
-      type: String,
-      default: undefined,
-    },
+    label: String,
+    type: String,
+    placeholder: String,
+    value: String,
+    readonly:String,
   },
 
   data() {
@@ -87,6 +62,7 @@ export default {
     background-color: var(--gray);
     margin-bottom: 1rem;
   }
+
   input::placeholder {
     color: var(--gray_text);
   }
