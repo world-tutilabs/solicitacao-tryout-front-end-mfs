@@ -17,7 +17,6 @@
         <div class="rowInputs" v-if="showContainer">
           <div class="boxInput">
             <p>Código SAPP</p>
-            <select name="" id=""></select>
             <input type="text" name="" id="" />
           </div>
           <div class="boxInput">
@@ -29,19 +28,26 @@
         <div class="rowInputs">
           <div class="boxInput">
             <p>Código do Produto</p>
-            <input type="text" name="" id="" :value="dataRRIM.produto[0].COD_PRODUTO"/>
+            <input type="text" list="products" name="" id=""  />
+
+            <datalist id="products">
+              <option v-for="(products, index) in productsOptions.produto" :key="index">
+                {{ products.COD_PRODUTO }}
+              </option>
+            </datalist>
+            
           </div>
           <div class="boxInput">
             <p>Descrição do Produto</p>
-            <input type="text" name="" id="" :value="dataRRIM.produto[0].DESC_PRODUTO"/>
+            <input type="text" name="" id="" :value="dataRRIM.produto[0].DESC_PRODUTO" />
           </div>
           <div class="boxInput">
             <p>Cliente</p>
-            <input type="text" name="" id="" :value="dataRRIM.CLIENTE"/>
+            <input type="text" name="" id="" :value="dataRRIM.CLIENTE" />
           </div>
           <div class="boxInput">
             <p>Motivo</p>
-            <input type="text" name="" id="" value="Novo"/>
+            <input type="text" name="" id="" value="Novo" />
           </div>
         </div>
 
@@ -74,11 +80,7 @@
           <div class="tabs">
             <div class="tab" v-for="index in count" :key="index">
               <p>Processo Injeção</p>
-              <img
-                @click="removeProcess(index)"
-                src="~/static/icons/x.svg"
-                alt=""
-              />
+              <img @click="removeProcess(index)" src="~/static/icons/x.svg" alt="" />
             </div>
           </div>
           <div class="frameProcess" v-if="processValidation">
@@ -124,6 +126,7 @@ export default {
       myRouter: false,
       count: 1,
       processValidation: true,
+      productsOptions: []
     };
   },
   computed: {
@@ -139,7 +142,7 @@ export default {
       }
     },
   },
-  
+
   methods: {
     closeModal() {
       this.$emit("closeModal", this.displayModal)
@@ -162,8 +165,9 @@ export default {
     },
   },
 
-  created: async function (){
-    console.log(this.dataRRIM);
+  created: async function () {
+    this.productsOptions = this.dataRRIM
+    console.log(this.productsOptions);
   }
 
 }
