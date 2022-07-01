@@ -17,6 +17,7 @@
         <div class="rowInputs" v-if="showContainer">
           <div class="boxInput">
             <p>Código SAPP</p>
+            <select name="" id=""></select>
             <input type="text" name="" id="" />
           </div>
           <div class="boxInput">
