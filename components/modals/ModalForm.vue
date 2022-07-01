@@ -27,19 +27,19 @@
 
         <div class="rowInputs">
           <div class="boxInput">
-            <p>Código do Produto</p>
-            <input type="text" list="products" name="" id=""  />
+            <p>Código do Produto:</p>
+            <input type="text" list="products" name="" id="" @change="catchIndexProduct"/>
 
             <datalist id="products">
               <option v-for="(products, index) in productsOptions.produto" :key="index">
                 {{ products.COD_PRODUTO }}
               </option>
             </datalist>
-            
+
           </div>
           <div class="boxInput">
             <p>Descrição do Produto</p>
-            <input type="text" name="" id="" :value="dataRRIM.produto[0].DESC_PRODUTO" />
+            <input type="text" name="" id="" :value="indexProduct" />
           </div>
           <div class="boxInput">
             <p>Cliente</p>
@@ -56,7 +56,7 @@
           <div class="boxInput">
             <p>Processo</p>
             <select name="" id="">
-              <option value="">teste</option>
+              <option value="">Processo de Injeção</option>
               <option value="">teste2</option>
             </select>
           </div>
@@ -126,7 +126,8 @@ export default {
       myRouter: false,
       count: 1,
       processValidation: true,
-      productsOptions: []
+      productsOptions: [],
+      indexProduct: "",
     };
   },
   computed: {
@@ -144,6 +145,13 @@ export default {
   },
 
   methods: {
+    catchIndexProduct(event){
+      console.log(event.target.value);
+      const value = this.productsOptions.produto.find( (item) => item.COD_PRODUTO === event.target.value )
+      this.indexProduct = value.DESC_PRODUTO
+      console.log(value);
+    },
+
     closeModal() {
       this.$emit("closeModal", this.displayModal)
     },
@@ -161,13 +169,12 @@ export default {
       if (this.count === 0) {
         this.processValidation = false;
       }
-      console.log(index);
     },
   },
 
   created: async function () {
+    console.log(this.dataRRIM);
     this.productsOptions = this.dataRRIM
-    console.log(this.productsOptions);
   }
 
 }
