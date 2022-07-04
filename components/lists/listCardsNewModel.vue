@@ -2,19 +2,17 @@
   <div>
     <CardNewModel v-for="mold in newMolds" :key="mold.id" :dataMold="mold" />
 
-    <Pagination :list="newMolds" @displayNewList="displayNewList" /> 
-      
-      
-    <!-- Buscar forma de fazer o componente esperar requisição HTTP - Para WILL -->
+      <Pagination :list="newMolds" @displayNewList="displayNewList" />
   </div>
 </template>
 
 <script>
 import http from '~/services/newMold/mold';
 import CardNewModel from '../Cards/CardNewModel.vue';
+import Pagination from '../Pagination.vue'
 
 export default {
-  components: { CardNewModel },
+  components: { CardNewModel, Pagination },
 
   data() {
     return {
@@ -23,8 +21,15 @@ export default {
     }
   },
 
+  watch: {
+    newMolds(newValue) {
+      return newValue
+    }
+  },
+
   methods: {
     displayNewList(e) {
+      console.log("teste");
       this.listPaginated = e
     }
   },
@@ -32,9 +37,11 @@ export default {
   created: async function () {
     await http.listAllRRIM().then((res) => {
       this.newMolds = res.data
-    }).catch( (error) => {
+      console.log("1 -> list render");
+    }).catch((error) => {
       console.log(`Deu o erro: ${error}`);
     })
   }
+
 }
 </script>
