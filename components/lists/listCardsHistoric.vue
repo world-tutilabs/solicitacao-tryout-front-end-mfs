@@ -1,14 +1,9 @@
 <template>
   <div>
-    <CardModel
-      v-for="mold in listPaginated"
-      :key="mold.id"
-      :statusOrigin="mold.origin"
-      :flag="mold.flag"
-      :typeCard="mold.typeCard"
-    />
+    <CardModel v-for="mold in listPaginated" :key="mold.id" :statusOrigin="mold.origin" :flag="mold.flag"
+      :typeCard="mold.typeCard" />
 
-    <Pagination :list="dataNewMold" @displayNewList="displayNewList"/>
+    <Pagination :list="dataNewMold" @displayNewList="displayNewList" />
   </div>
 </template>
 
@@ -29,7 +24,7 @@ export default {
   },
 
   methods: {
-    displayNewList (e){
+    displayNewList(e) {
       this.listPaginated = e
     }
   }
