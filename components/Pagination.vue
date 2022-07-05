@@ -28,18 +28,17 @@ export default {
       pages: [],
     }
   },
-  created() {
-    setTimeout( () => {
-      this.posts = this.list
-      console.log("2 -> pagination render");
-    }, 1000)
-    
   
+  created() {
+   setTimeout( () => {
+    this.posts = this.list
+   }, 1000)
+    
   },
+
 
   computed: {
     displayedPosts() {
-      console.log("testeeee");
       return this.paginate(this.posts)
     },
   },

@@ -92,7 +92,7 @@
 
               <SlotCard>
                 <Title title="Molde" />
-                <FormInput label="Descrição" />
+                <FormInput label="Descrição" /> <!-- tacar v-model -->
                 <FormInput label="N Cavidade" />
               </SlotCard>
 

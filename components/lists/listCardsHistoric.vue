@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <CardModel v-for="mold in listPaginated" :key="mold.id" :statusOrigin="mold.origin" :flag="mold.flag"
       :typeCard="mold.typeCard" />
 
@@ -8,6 +9,7 @@
 </template>
 
 <script>
+import  httpLocal  from '../../services/newMold/mold'
 
 export default {
 
@@ -20,6 +22,7 @@ export default {
       ],
 
       listPaginated: [],
+      listHistoric: []
     }
   },
 
@@ -27,6 +30,12 @@ export default {
     displayNewList(e) {
       this.listPaginated = e
     }
+  },
+
+  created: async function() {
+    await httpLocal.listAllHistoric().then( (res) => {
+      console.log(res.data);
+    })
   }
 }
 </script>

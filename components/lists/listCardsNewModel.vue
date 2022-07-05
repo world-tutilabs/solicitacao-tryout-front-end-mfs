@@ -2,7 +2,7 @@
   <div>
     <CardNewModel v-for="mold in newMolds" :key="mold.id" :dataMold="mold" />
 
-      <Pagination :list="newMolds" @displayNewList="displayNewList" />
+    <Pagination :list="newMolds" @displayNewList="displayNewList" />
   </div>
 </template>
 
@@ -21,15 +21,9 @@ export default {
     }
   },
 
-  watch: {
-    newMolds(newValue) {
-      return newValue
-    }
-  },
-
   methods: {
     displayNewList(e) {
-      console.log("teste");
+      
       this.listPaginated = e
     }
   },
@@ -37,7 +31,6 @@ export default {
   created: async function () {
     await http.listAllRRIM().then((res) => {
       this.newMolds = res.data
-      console.log("1 -> list render");
     }).catch((error) => {
       console.log(`Deu o erro: ${error}`);
     })
