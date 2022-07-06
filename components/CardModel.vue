@@ -16,7 +16,7 @@
             <p>{{ dataMold.number_tryout }}</p>
           </div>
           <div class="inform">
-            <h3>Cód. do Produto</h3>
+            <h3>Cód. do Produto | SAP</h3>
             <p>{{ dataMold.code_sap }}</p>
           </div>
           <div class="inform">

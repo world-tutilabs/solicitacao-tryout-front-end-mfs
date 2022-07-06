@@ -92,12 +92,12 @@
           <div class="rowInputs divisor">
 
             <div class="boxInput">
-              <p>Técnico</p>
-              <input type="text"/>
+              <p>Quantidade</p>
+              <input type="text" />
             </div>
 
             <div class="boxInput">
-              <p>Qunatidade</p>
+              <p>Técnico</p>
               <input type="text"/>
             </div>
 
@@ -108,7 +108,7 @@
 
             <div class="boxInput">
               <p>Data Programada</p>
-              <input type="text"/>
+              <input type="date"/>
             </div>
           </div>
 
