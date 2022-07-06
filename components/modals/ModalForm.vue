@@ -35,7 +35,6 @@
                 {{ products.COD_PRODUTO }}
               </option>
             </datalist>
-
           </div>
           <div class="boxInput">
             <p>Descrição do Produto</p>
@@ -89,6 +88,30 @@
             </div>
           </div>
           <div class="frameProcess" v-if="processValidation">
+          
+          <div class="rowInputs divisor">
+
+            <div class="boxInput">
+              <p>Técnico</p>
+              <input type="text"/>
+            </div>
+
+            <div class="boxInput">
+              <p>Qunatidade</p>
+              <input type="text"/>
+            </div>
+
+            <div class="boxInput">
+              <p>Motivo</p>
+              <input type="text"/>
+            </div>
+
+            <div class="boxInput">
+              <p>Data Programada</p>
+              <input type="text"/>
+            </div>
+          </div>
+
             <div class="cardTryOut">
               <SlotCard>
                 <Title title="Mão de Obra" />
@@ -232,8 +255,6 @@ export default {
   created: async function () {
 
     this.productsOptions = this.dataRRIM
-
-
   }
 
 }
@@ -242,6 +263,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.divisor{
+  border-bottom: 2px solid rgba(0, 0, 0, 0.397);
+  padding: 1rem 0 !important;
+  margin-bottom: 1rem;
+  .boxInput{
+    input{
+      background-color: #ffffff !important;
+    }
+  }
+}
 .containerFilter {
   height: 100vh;
   position: fixed;
