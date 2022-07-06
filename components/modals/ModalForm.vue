@@ -65,11 +65,11 @@
           </div>
           <div class="boxInput">
             <p>Quantidade</p>
-            <input type="number" name="" id="" />
+            <input type="number" name="" id="" v-model="quantidade"/>
           </div>
           <div class="boxInput">
             <p>Técnico</p>
-            <input type="text" name="" id="" />
+            <input type="text" name="" id="" v-model="tecnico"/>
           </div>
 
           <button @click.prevent="addProcess" v-if="!processValidation">
@@ -93,17 +93,17 @@
 
             <div class="boxInput">
               <p>Quantidade</p>
-              <input type="text" />
+              <input type="text" v-model="quantidade" disabled/>
             </div>
 
             <div class="boxInput">
               <p>Técnico</p>
-              <input type="text"/>
+              <input type="text" v-model="tecnico" disabled/>
             </div>
 
             <div class="boxInput">
               <p>Motivo</p>
-              <input type="text"/>
+              <input type="text" v-model="reasonSolicitation" disabled/>
             </div>
 
             <div class="boxInput">
@@ -160,6 +160,9 @@ export default {
       productsOptions: [],
       indexProduct: "",
       reasonSolicitation: "Novo",
+
+      quantidade: "",
+      tecnico: "",
 
 
       newSolicitation: {
