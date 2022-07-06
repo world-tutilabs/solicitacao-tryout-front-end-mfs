@@ -28,7 +28,7 @@
         <div class="rowInputs">
           <div class="boxInput">
             <p>Código do Produto:</p>
-            <input type="text" list="products" name="" id="" @change="catchIndexProduct"/>
+            <input type="text" list="products" name="" id="" @change="catchIndexProduct" />
 
             <datalist id="products">
               <option v-for="(products, index) in productsOptions.produto" :key="index">
@@ -39,7 +39,7 @@
           </div>
           <div class="boxInput">
             <p>Descrição do Produto</p>
-            <input type="text" name="" id="" v-model="indexProduct" disabled/>
+            <input type="text" name="" id="" v-model="indexProduct" disabled />
           </div>
           <div class="boxInput">
             <p>Cliente</p>
@@ -47,14 +47,13 @@
           </div>
           <div class="boxInput" v-if="showContainer">
             <p>Motivo</p>
-            <input type="text" name="" id="" value=""/>
+            <input type="text" name="" id="" value="" />
           </div>
 
           <div class="boxInput" v-else>
             <p>Motivo</p>
-            <input type="text" name="" id="" v-model="reasonSolicitation" disabled/>
+            <input type="text" name="" id="" v-model="reasonSolicitation" disabled />
           </div>
-          {{processValidation}}
         </div>
 
         <!-- selecionar processos -->
@@ -99,7 +98,7 @@
 
               <SlotCard>
                 <Title title="Molde" />
-                <FormInput label="Descrição" /> 
+                <FormInput label="Descrição" />
                 <FormInput label="N Cavidade" />
               </SlotCard>
 
@@ -109,7 +108,6 @@
                 <FormInput label="Qtd" />
               </SlotCard>
             </div>
-            <!-- components aqui com props -->
           </div>
         </div>
 
@@ -122,6 +120,8 @@
   </div>
 </template>
 <script>
+import http from '~/services/newMold/mold';
+
 export default {
   props: {
     displayModal: Boolean,
@@ -136,15 +136,39 @@ export default {
 
       productsOptions: [],
       indexProduct: "",
-      reasonSolicitation: "Novo" ,
-      
+      reasonSolicitation: "Novo",
+
 
       newSolicitation: {
         cod_prod: "",
         desc_prod: "",
         client: "",
         reason: "",
-      }
+      },
+
+      testSolicitation: {
+        code_sap: "5012",
+        product_description: "description product new",
+        client: "Positivo",
+        date: "2022-06-21",
+        reason: "Molde Novo",
+        InjectionProcess: {
+          proc_technician: "Rafael Railton Bugas",
+          quantity: 25,
+          feedstocks: {
+            code: "1-2-3-4-5-6-7-8-9",
+            description: "descricao Padrao Materia Prima"
+          },
+          labor: {
+            description: "descricao Padrao Mão de Obra",
+            amount: 1
+          },
+          mold: {
+            number_cavity: 4,
+            mold: "Padrao descricao Molde"
+          }
+        }
+      },
     };
   },
   computed: {
@@ -163,15 +187,25 @@ export default {
 
   methods: {
 
-    saveNewSolicitation() {
+    async saveNewSolicitation() {
       this.newSolicitation.desc_prod = this.indexProduct
       this.newSolicitation.client = this.dataRRIM.CLIENTE
       this.newSolicitation.reason = this.reasonSolicitation
       console.log(JSON.parse(JSON.stringify(this.newSolicitation)));
+
+      await http.createNewSolicitation(this.testSolicitation).then( (res) => {
+        console.log(res);
+      }).catch( (error) => {
+        console.log(`Erro: ${error}`);
+      })
+
+
+
+
     },
-    catchIndexProduct(event){
+    catchIndexProduct(event) {
       this.newSolicitation.cod_prod = event.target.value
-      const value = this.productsOptions.produto.find( (item) => item.COD_PRODUTO === event.target.value )
+      const value = this.productsOptions.produto.find((item) => item.COD_PRODUTO === event.target.value)
       this.indexProduct = value.DESC_PRODUTO
     },
 

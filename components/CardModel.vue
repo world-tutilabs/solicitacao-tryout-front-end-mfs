@@ -1,191 +1,121 @@
 <template>
-  <div>
-    <div class="box" v-if="typeCard === 'newModel'">
-      <div class="content">
-        <div class="header-content">
-          <div :class="flagValidation()"></div>
-          <div class="container_button" @click="openInfoCard">
-            <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
-            <img src="~/static/icons/arrowOpened.svg" alt="" srcset="" v-else />
-          </div>
-        </div>
-        <div class="containerMain">
-          <div class="informs">
-            <div class="inform">
-              <h3>Cód.RRIM</h3>
-              <p>XXXXXXXX</p>
-            </div>
-            <div class="inform">
-              <h3>Cliente</h3>
-              <p>XXXXXXXX</p>
-            </div>
-            <div class="inform">
-              <h3>Molde</h3>
-              <p>XXXXXXXX</p>
-            </div>
-            <div class="inform">
-              <h3>Cód. do Molde</h3>
-              <p>XXXXXXXX</p>
-            </div>
-            <div class="inform">
-              <h3>Descrição do Molde</h3>
-              <p>XXXXXXXX</p>
-            </div>
-          </div>
-        </div>
 
-        <transition name="slide-fade">
-          <div class="contentContainer" v-if="isOpenInfoCard">
-            <SlotBtn>
-              <BtnPirula
-                :color="statusOrigin"
-                titleBtn="Solicitar TryOut"
-                v-if="statusOrigin === 'RRIM'"
-              />
-            </SlotBtn>
-          </div>
-        </transition>
+  <div class="box">
+    <div class="content">
+      <div class="header-content">
+        <div :class="flagValidation(dataMold.homologation.status.description)"></div>
+        <div class="container_button" @click="openInfoCard">
+          <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
+          <img src="~/static/icons/arrowOpened.svg" alt="" srcset="" v-else />
+        </div>
       </div>
-    </div>
-
-    <div
-      class="box"
-      v-if="
-        typeCard === 'history' ||
-        typeCard === 'solicitation' ||
-        typeCard === 'resinTest'
-      "
-    >
-      <div class="content">
-        <div class="header-content">
-          <div :class="flagValidation()"></div>
-          <div class="container_button" @click="openInfoCard">
-            <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
-            <img src="~/static/icons/arrowOpened.svg" alt="" srcset="" v-else />
+      <div class="containerMain">
+        <div class="informs">
+          <div class="inform">
+            <h3>Cód. de TryOut</h3>
+            <p>{{ dataMold.number_tryout }}</p>
+          </div>
+          <div class="inform">
+            <h3>Cód. do Produto</h3>
+            <p>{{ dataMold.code_sap }}</p>
+          </div>
+          <div class="inform">
+            <h3>Desc. do Produto</h3>
+            <p>{{ dataMold.desc_product }}</p>
+          </div>
+          <div class="inform">
+            <h3>Cliente</h3>
+            <p>{{ dataMold.client }}</p>
+          </div>
+          <div class="inform">
+            <h3>Data</h3>
+            <p>{{ dataMold.programmed_date }}</p>
           </div>
         </div>
-        <div class="containerMain">
-          <div class="informs">
-            <div class="inform">
-              <h3>Cód. de TryOut</h3>
-              <p>XXXXXXXX</p>
-            </div>
-            <div class="inform">
-              <h3>Cód. do Produto</h3>
-              <p>XXXXXXXX</p>
-            </div>
-            <div class="inform">
-              <h3>Desc. do Produto</h3>
-              <p>XXXXXXXX</p>
-            </div>
-            <div class="inform">
-              <h3>Cliente</h3>
-              <p>XXXXXXXX</p>
-            </div>
-            <div class="inform">
-              <h3>Data</h3>
-              <p>XXXXXXXX</p>
-            </div>
+      </div>
+
+      <div class="containerDetails" v-if="isOpenInfoCard">
+        <div class="informs">
+          <div class="inform">
+            <h3>Processos</h3>
+            <p>Processo de Injeção</p>
+          </div>
+
+          <div class="inform">
+            <h3>Quantidade</h3>
+            <p>{{ dataMold.injectionProcess.quantity }}</p>
+          </div>
+
+          <div class="inform">
+            <h3>Técnico</h3>
+            <p>{{ dataMold.injectionProcess.proc_technician }}</p>
+          </div>
+
+          <div class="inform">
+            <h3>Motivo</h3>
+            <p>{{ dataMold.reason }}</p>
           </div>
         </div>
 
-        <div class="containerDetails" v-if="isOpenInfoCard">
-          <div class="informs">
-            <div class="inform">
-              <h3>Processos</h3>
-              <p>XXXXXXXX</p>
-            </div>
-
-            <div class="inform">
-              <h3>Quantidade</h3>
-              <p>XXXXXXXX</p>
-            </div>
-
-            <div class="inform">
-              <h3>Técnico</h3>
-              <p>XXXXXXXX</p>
-            </div>
-
-            <div class="inform">
-              <h3>Motivo</h3>
-              <p>XXXXXXXX</p>
+        <div class="processContent">
+          <div class="processBox">
+            <h3>Mão de Obra</h3>
+            <span>Descrição</span>
+            <h4>{{ dataMold.injectionProcess.labor.description }}</h4>
+            <div class="processFooter">
+              <h4>Qtde: {{ dataMold.injectionProcess.labor.amount }}</h4>
             </div>
           </div>
 
-          <div class="processContent">
-            <div class="processBox">
-              <h3>Mão de Obra</h3>
-              <span>Descrição</span>
-              <h4>Operador de máquina</h4>
-              <div class="processFooter">
-                <h4>Qtde: 00</h4>
-              </div>
-            </div>
-
-            <div class="processBox">
-              <h3>Mão de Obra</h3>
-              <span>Descrição</span>
-              <h4>Operador de máquina</h4>
-              <div class="processFooter">
-                <h4>Qtde: 00</h4>
-              </div>
-            </div>
-
-            <div class="processBox">
-              <h3>Mão de Obra</h3>
-              <span>Descrição</span>
-              <h4>Operador de máquina</h4>
-              <div class="processFooter">
-                <h4>Qtde: 00</h4>
-              </div>
+          <div class="processBox">
+            <h3>Molde</h3>
+            <span>Descrição</span>
+            <h4>{{ dataMold.injectionProcess.mold.desc_mold }}</h4>
+            <div class="processFooter">
+              <h4>Qtde Cav: {{ dataMold.injectionProcess.mold.number_cavity }}</h4>
             </div>
           </div>
 
-          <div class="info">
-            <span>Último Comentário realizado pelo PCP</span>
-            <h3>Autor: William David</h3>
-            <div class="boxText">
-              <span
-                >Lorem Ipsum is simply dummy text of the printing and
-                typesetting industry. Lorem Ipsum has been the industry's
-                standard dummy text ever since the 1500s</span
-              >
+          <div class="processBox">
+            <h3>Matéria Prima</h3>
+            <span>Descrição</span>
+            <h4>{{ dataMold.injectionProcess.feedstock.description }}</h4>
+            <div class="processFooter">
+              <h4>Qtde: {{ dataMold.injectionProcess.feedstock.code }}</h4>
             </div>
           </div>
         </div>
 
-        <div class="contentContainer" v-if="isOpenInfoCard">
-          <SlotBtn>
-            <BtnPirula
-              :color="statusOrigin"
-              titleBtn="Gerar Relatório"
-              v-if="statusOrigin === 'Aprovado'"
-            />
-            <BtnPirula
-              :color="statusOrigin"
-              titleBtn="Revisar Solicitação"
-              v-if="statusOrigin === 'Reprovado'"
-            />
-            <BtnPirula
-              :color="statusOrigin"
-              titleBtn="Cancelar"
-              v-if="statusOrigin === 'PCP'"
-            />
-          </SlotBtn>
+        <div class="info" v-if="dataMold.homologation.status.description !== 'Revisao'">
+          <span>Último Comentário realizado pelo PCP</span>
+          <h3>Autor: William David</h3>
+          <div class="boxText">
+            <span>Lorem Ipsum is simply dummy text of the printing and
+              typesetting industry. Lorem Ipsum has been the industry's
+              standard dummy text ever since the 1500s</span>
+          </div>
         </div>
+      </div>
+
+      <div class="contentContainer" v-if="isOpenInfoCard">
+        <SlotBtn>
+          <BtnPirula :color="statusOrigin" titleBtn="Gerar Relatório" v-if="statusOrigin === 'Aprovado'" />
+          <BtnPirula :color="statusOrigin" titleBtn="Revisar Solicitação" v-if="statusOrigin === 'Reprovado'" />
+          <BtnPirula :color="statusOrigin" titleBtn="Cancelar" v-if="statusOrigin === 'PCP'" />
+        </SlotBtn>
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
 import Vue from 'vue'
 export default Vue.extend({
   layout: 'mainFrame',
+
   props: {
-    statusOrigin: String,
-    flag: String,
-    typeCard: String,
+    dataMold: Object,
   },
   data() {
     return {
@@ -195,7 +125,7 @@ export default Vue.extend({
   },
   methods: {
     openInfoCard() {
-      this.isOpenInfoCard = !this.isOpenInfoCard
+      return this.isOpenInfoCard = !this.isOpenInfoCard
     },
 
     toggleButton() {
@@ -204,12 +134,12 @@ export default Vue.extend({
       }
     },
 
-    flagValidation() {
-      if (this.flag == '1') {
+    flagValidation(data) {
+      if (data == 'Aprovado') {
         return 'flap flap-green'
-      } else if (this.flag == '2') {
+      } else if (data == 'Revisao') {
         return 'flap flap-blue'
-      } else if (this.flag == '3') {
+      } else if (data == 'Reprovado') {
         return 'flap flap-orange'
       } else {
         return 'flap flap-none'
@@ -247,15 +177,19 @@ export default Vue.extend({
     position: relative;
     background-color: transparent;
   }
+
   .flap-none {
     background-color: none;
   }
+
   .flap-green {
     background-color: var(--green);
   }
+
   .flap-blue {
     background-color: var(--blue);
   }
+
   .flap-orange {
     background-color: var(--orange);
   }
@@ -279,10 +213,12 @@ export default Vue.extend({
 
   .info {
     margin: 25px 10px 10px 0;
+
     .boxText {
       margin-top: 10px;
       background-color: var(--gray);
       padding: 0.5rem;
+
       span {
         font-size: 15px;
         color: var(--gray_text);
@@ -297,7 +233,7 @@ export default Vue.extend({
 
   .processContent {
     gap: 20px;
-    margin-top: 20px;
+    margin: 20px 0 20px 0;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -320,13 +256,19 @@ export default Vue.extend({
   width: 100%;
   display: flex;
 }
+
 .informs {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   flex-wrap: wrap;
   grid-gap: 30px;
+
+  .inform {
+    margin-bottom: 20px;
+  }
 }
+
 .contentContainer {
   border-top: 0.1rem solid #e0e0e0;
   display: flex;
