@@ -14,6 +14,7 @@ export default {
     type: String,
     placeholder: String,
     value: String,
+    disabled: String,
     readonly:String,
   },
 

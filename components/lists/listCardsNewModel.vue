@@ -1,7 +1,10 @@
 <template>
-  <div>
-    <CardNewModel v-for="mold in newMolds" :key="mold.id" :dataMold="mold" />
+  <div v-if="$fetchState.pending">
+    <Loading />
+  </div>
 
+  <div v-else>
+    <CardNewModel v-for="mold in newMolds" :key="mold.id" :dataMold="mold" />
     <Pagination :list="newMolds" @displayNewList="displayNewList" />
   </div>
 </template>
@@ -10,9 +13,10 @@
 import http from '~/services/newMold/mold';
 import CardNewModel from '../Cards/CardNewModel.vue';
 import Pagination from '../Pagination.vue'
+import Loading from '../Loading.vue';
 
 export default {
-  components: { CardNewModel, Pagination },
+  components: { CardNewModel, Pagination, Loading },
 
   data() {
     return {
@@ -23,14 +27,15 @@ export default {
 
   methods: {
     displayNewList(e) {
-      
+
       this.listPaginated = e
     }
   },
 
-  created: async function () {
+  async fetch() {
     await http.listAllRRIM().then((res) => {
-      this.newMolds = res.data
+      this.newMolds = JSON.parse(JSON.stringify(res.data))
+      console.log(this.newMolds);
     }).catch((error) => {
       console.log(`Deu o erro: ${error}`);
     })
