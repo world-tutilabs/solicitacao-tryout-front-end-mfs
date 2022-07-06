@@ -39,16 +39,22 @@
           </div>
           <div class="boxInput">
             <p>Descrição do Produto</p>
-            <input type="text" name="" id="" :value="indexProduct" />
+            <input type="text" name="" id="" v-model="indexProduct" disabled/>
           </div>
           <div class="boxInput">
             <p>Cliente</p>
-            <input type="text" name="" id="" :value="dataRRIM.CLIENTE" />
+            <input type="text" name="" id="" v-model="dataRRIM.CLIENTE" disabled />
           </div>
-          <div class="boxInput">
+          <div class="boxInput" v-if="showContainer">
             <p>Motivo</p>
-            <input type="text" name="" id="" value="Novo" />
+            <input type="text" name="" id="" value=""/>
           </div>
+
+          <div class="boxInput" v-else>
+            <p>Motivo</p>
+            <input type="text" name="" id="" v-model="reasonSolicitation" disabled/>
+          </div>
+          {{processValidation}}
         </div>
 
         <!-- selecionar processos -->
@@ -68,10 +74,11 @@
             <input type="text" name="" id="" />
           </div>
 
-          <button @click.prevent="addProcess">
+          <button @click.prevent="addProcess" v-if="!processValidation">
             <img src="~/static/icons/plus.svg" alt="" />
             <h3>Adicionar</h3>
           </button>
+
         </div>
 
         <!-- so aparece quando selecionar um processo -->
@@ -92,7 +99,7 @@
 
               <SlotCard>
                 <Title title="Molde" />
-                <FormInput label="Descrição" /> <!-- tacar v-model -->
+                <FormInput label="Descrição" /> 
                 <FormInput label="N Cavidade" />
               </SlotCard>
 
@@ -108,7 +115,7 @@
 
         <div class="boxButtons">
           <button class="cancel" @click="closeModal()">Cancelar</button>
-          <button class="save">Salvar</button>
+          <button class="save" @click.prevent="saveNewSolicitation()">Salvar</button>
         </div>
       </form>
     </div>
@@ -123,10 +130,21 @@ export default {
   data() {
     return {
       myRouter: false,
-      count: 1,
-      processValidation: true,
+      count: 0,
+      processValidation: false,
+
+
       productsOptions: [],
       indexProduct: "",
+      reasonSolicitation: "Novo" ,
+      
+
+      newSolicitation: {
+        cod_prod: "",
+        desc_prod: "",
+        client: "",
+        reason: "",
+      }
     };
   },
   computed: {
@@ -144,11 +162,17 @@ export default {
   },
 
   methods: {
+
+    saveNewSolicitation() {
+      this.newSolicitation.desc_prod = this.indexProduct
+      this.newSolicitation.client = this.dataRRIM.CLIENTE
+      this.newSolicitation.reason = this.reasonSolicitation
+      console.log(JSON.parse(JSON.stringify(this.newSolicitation)));
+    },
     catchIndexProduct(event){
-      console.log(event.target.value);
+      this.newSolicitation.cod_prod = event.target.value
       const value = this.productsOptions.produto.find( (item) => item.COD_PRODUTO === event.target.value )
       this.indexProduct = value.DESC_PRODUTO
-      console.log(value);
     },
 
     closeModal() {
@@ -172,8 +196,10 @@ export default {
   },
 
   created: async function () {
-    console.log(this.dataRRIM);
+
     this.productsOptions = this.dataRRIM
+
+
   }
 
 }

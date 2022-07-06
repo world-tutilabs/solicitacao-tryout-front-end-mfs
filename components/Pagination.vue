@@ -30,10 +30,7 @@ export default {
   },
   
   created() {
-   setTimeout( () => {
     this.posts = this.list
-   }, 1000)
-    
   },
 
 
