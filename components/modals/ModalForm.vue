@@ -98,7 +98,7 @@
             </div>
 
             <div class="boxInput">
-              <p>Qunatidade</p>
+              <p>Quantidade</p>
               <input type="text"/>
             </div>
 
@@ -199,6 +199,8 @@ export default {
 
     closeModal() {
       this.$emit("closeModal", this.displayModal)
+      
+      this.$toast.success("teste");
     },
 
     addProcess() {
