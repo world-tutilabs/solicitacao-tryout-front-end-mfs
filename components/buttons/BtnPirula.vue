@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="btn" :style="{ backgroundColor: verifyColor() }" @click="modalStatus = !modalStatus">{{ titleBtn
+    <button class="btn" :style="{ backgroundColor: verifyColor() }" @click="openModal">{{ titleBtn
     }}</button>
 
     <ModalForm :displayModal="modalStatus" @closeModal="closeModal" :dataRRIM="dataMold"/>
@@ -37,11 +37,22 @@ export default {
         return 'var(--blue)'
       }
     },
-
+    openModal(){
+      this.modalStatus = true
+    },
     closeModal() {
-      this.modalStatus = !this.modalStatus
+      this.modalStatus = false
     }
-
+  },
+  watch:{
+    modalStatus(newValue){
+      let scrollBody = document.body
+      if(newValue == true){
+        scrollBody.style.overflow = 'hidden'
+      }else{
+        scrollBody.style.overflow = 'scroll'
+      }
+    }
   }
 }
 </script>
