@@ -8,5 +8,9 @@ export default {
 
     listAllHistoric: async () => {
         return await httpLocal.get('/list')
+    },
+
+    createNewSolicitation: async (data) => {
+        return await httpLocal.post(`/signup`, data)
     }
 }

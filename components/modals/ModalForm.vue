@@ -28,7 +28,7 @@
         <div class="rowInputs">
           <div class="boxInput">
             <p>Código do Produto:</p>
-            <input type="text" list="products" name="" id="" @change="catchIndexProduct"/>
+            <input type="text" list="products" name="" id="" @change="catchIndexProduct" />
 
             <datalist id="products">
               <option v-for="(products, index) in productsOptions.produto" :key="index">
@@ -38,7 +38,7 @@
           </div>
           <div class="boxInput">
             <p>Descrição do Produto</p>
-            <input type="text" name="" id="" v-model="indexProduct" disabled/>
+            <input type="text" name="" id="" v-model="indexProduct" disabled />
           </div>
           <div class="boxInput">
             <p>Cliente</p>
@@ -46,14 +46,13 @@
           </div>
           <div class="boxInput" v-if="showContainer">
             <p>Motivo</p>
-            <input type="text" name="" id="" value=""/>
+            <input type="text" name="" id="" value="" />
           </div>
 
           <div class="boxInput" v-else>
             <p>Motivo</p>
-            <input type="text" name="" id="" v-model="reasonSolicitation" disabled/>
+            <input type="text" name="" id="" v-model="reasonSolicitation" disabled />
           </div>
-          {{processValidation}}
         </div>
 
         <!-- selecionar processos -->
@@ -66,11 +65,11 @@
           </div>
           <div class="boxInput">
             <p>Quantidade</p>
-            <input type="number" name="" id="" />
+            <input type="number" name="" id="" v-model="quantidade"/>
           </div>
           <div class="boxInput">
             <p>Técnico</p>
-            <input type="text" name="" id="" />
+            <input type="text" name="" id="" v-model="tecnico"/>
           </div>
 
           <button @click.prevent="addProcess" v-if="!processValidation">
@@ -93,43 +92,43 @@
           <div class="rowInputs divisor">
 
             <div class="boxInput">
-              <p>Técnico</p>
-              <input type="text"/>
+              <p>Quantidade</p>
+              <input type="text" v-model="quantidade" disabled/>
             </div>
 
             <div class="boxInput">
-              <p>Quantidade</p>
-              <input type="text"/>
+              <p>Técnico</p>
+              <input type="text" v-model="tecnico" disabled/>
             </div>
 
             <div class="boxInput">
               <p>Motivo</p>
-              <input type="text"/>
+              <input type="text" v-model="reasonSolicitation" disabled/>
             </div>
 
             <div class="boxInput">
               <p>Data Programada</p>
-              <input type="text"/>
+              <input type="date" v-model="newData"/>
             </div>
           </div>
 
             <div class="cardTryOut">
               <SlotCard>
                 <Title title="Mão de Obra" />
-                <FormInput label="Descrição" />
-                <FormInput label="Qtd" />
+                <FormInput label="Descrição" v-model="laborDescription"/>
+                <FormInput label="Qtd" v-model="laborAmount"/>
               </SlotCard>
 
               <SlotCard>
                 <Title title="Molde" />
-                <FormInput label="Descrição" /> 
-                <FormInput label="N Cavidade" />
+                <FormInput label="Descrição" v-model="moldMold"/>
+                <FormInput label="N Cavidade" v-model="moldNumber"/>
               </SlotCard>
 
               <SlotCard>
                 <Title title="Matéria Prima" />
-                <FormInput label="Descrição" />
-                <FormInput label="Qtd" />
+                <FormInput label="Descrição" v-model="feedstocksDescription"/>
+                <FormInput label="Qtd" v-model="feedstocksCode"/>
               </SlotCard>
             </div>
           </div>
@@ -144,6 +143,8 @@
   </div>
 </template>
 <script>
+import http from '~/services/newMold/mold';
+
 export default {
   props: {
     displayModal: Boolean,
@@ -158,15 +159,56 @@ export default {
 
       productsOptions: [],
       indexProduct: "",
-      reasonSolicitation: "Novo" ,
-      
+      reasonSolicitation: "Novo",
+
+      quantidade: "",
+      tecnico: "",
+      newData: "",
+
+      feedstocksDescription: "",
+      feedstocksCode: "",
+      laborAmount: "",
+      laborDescription: "",
+      moldMold: "",
+      moldNumber: "",
+
 
       newSolicitation: {
         cod_prod: "",
         desc_prod: "",
         client: "",
         reason: "",
-      }
+      },
+
+      testSolicitation: {
+        code_sap: "",
+        product_description: "",
+        client: "",
+        date: "",
+        reason: "",
+        homologation: {
+          created_user: {
+              tecnico:"Rafael",
+              role:"Eng_Analista",
+              }
+        },
+        InjectionProcess: {
+          proc_technician: "",
+          quantity: 0,
+          feedstocks: {
+            code: "",
+            description: ""
+          },
+          labor: {
+            description: "",
+            amount: 0
+          },
+          mold: {
+            number_cavity: 0,
+            mold: ""
+          }
+        }
+      },
     };
   },
   computed: {
@@ -185,15 +227,39 @@ export default {
 
   methods: {
 
-    saveNewSolicitation() {
-      this.newSolicitation.desc_prod = this.indexProduct
-      this.newSolicitation.client = this.dataRRIM.CLIENTE
-      this.newSolicitation.reason = this.reasonSolicitation
-      console.log(JSON.parse(JSON.stringify(this.newSolicitation)));
+    async saveNewSolicitation() {
+      this.testSolicitation.code_sap = this.newSolicitation.cod_prod
+      this.testSolicitation.product_description = this.indexProduct
+      this.testSolicitation.client = this.dataRRIM.CLIENTE
+      this.testSolicitation.reason = this.reasonSolicitation
+      this.testSolicitation.InjectionProcess.proc_technician = this.tecnico
+      this.testSolicitation.InjectionProcess.quantity = parseInt(this.quantidade)
+      this.testSolicitation.date = this.newData
+      this.testSolicitation.InjectionProcess.feedstocks.code = this.feedstocksCode
+      this.testSolicitation.InjectionProcess.feedstocks.description = this.feedstocksDescription
+      this.testSolicitation.InjectionProcess.labor.amount = parseInt(this.laborAmount)
+      this.testSolicitation.InjectionProcess.labor.description = this.laborDescription
+      this.testSolicitation.InjectionProcess.mold.mold = this.moldMold
+      this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(this.moldNumber)
+
+
+      await http.createNewSolicitation(this.testSolicitation).then( (res) => {
+        this.$toast.success("Solicitação realizada com sucesso!")
+      }).catch( (error) => {
+        if(error.response.status === 400) {
+          this.$toast.warning("Algum campo nao foi preenchido")
+        }
+        if(error.response.status === 500 ){
+          this.$toast.error("Erro no servidor")
+        }
+
+      })
+
+
     },
-    catchIndexProduct(event){
+    catchIndexProduct(event) {
       this.newSolicitation.cod_prod = event.target.value
-      const value = this.productsOptions.produto.find( (item) => item.COD_PRODUTO === event.target.value )
+      const value = this.productsOptions.produto.find((item) => item.COD_PRODUTO === event.target.value)
       this.indexProduct = value.DESC_PRODUTO
     },
 

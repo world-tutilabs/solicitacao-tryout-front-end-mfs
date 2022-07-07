@@ -1,25 +1,22 @@
 <template>
-  <div>
 
-    <CardModel v-for="mold in listPaginated" :key="mold.id" :statusOrigin="mold.origin" :flag="mold.flag"
-      :typeCard="mold.typeCard" />
+  <div v-if="$fetchState.pending">
+    <Loading />
+  </div>
+  <div v-else>
+    <CardModel v-for="mold in listHistoric" :key="mold.id" :dataMold="mold"/>
 
-    <Pagination :list="dataNewMold" @displayNewList="displayNewList" />
+    <Pagination :list="listHistoric" @displayNewList="displayNewList" />
   </div>
 </template>
 
 <script>
-import  httpLocal  from '../../services/newMold/mold'
+import httpLocal from '../../services/newMold/mold'
 
 export default {
 
   data() {
     return {
-      dataNewMold: [
-        { id: 1, origin: 'Aprovado', flag: '1', typeCard: 'history' },
-        { id: 2, origin: '', flag: '2', typeCard: 'history' },
-        { id: 2, origin: 'Reprovado', flag: '3', typeCard: 'history' },
-      ],
 
       listPaginated: [],
       listHistoric: []
@@ -32,11 +29,13 @@ export default {
     }
   },
 
-  created: async function() {
-    await httpLocal.listAllHistoric().then( (res) => {
-      console.log(res.data);
+  async fetch() {
+    await httpLocal.listAllHistoric().then((res) => {
+      this.listHistoric = res.data
+      console.log(this.listHistoric);
     })
   }
+
 }
 </script>
 

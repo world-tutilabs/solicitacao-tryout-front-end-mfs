@@ -34,8 +34,8 @@ export default {
 
   async fetch() {
     await http.listAllRRIM().then((res) => {
-      this.newMolds = JSON.parse(JSON.stringify(res.data))
-      console.log(this.newMolds);
+      this.newMolds = res.data
+      console.log(res.data);
     }).catch((error) => {
       console.log(`Deu o erro: ${error}`);
     })
