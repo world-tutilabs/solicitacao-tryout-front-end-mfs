@@ -3,9 +3,9 @@
     <Loading />
   </div>
   <div v-else>
-    <CardModel v-for="mold in listAllApproveds" :key="mold.id" :dataMold="mold"/>
+    <CardModel v-for="mold in listPaginated" :key="mold.id" :dataMold="mold"/>
 
-    <Pagination :list="listHistoric" @displayNewList="displayNewList" />
+    <Pagination :list="listAllApproveds" @displayNewList="displayNewList" />
   </div>
 </template>
 

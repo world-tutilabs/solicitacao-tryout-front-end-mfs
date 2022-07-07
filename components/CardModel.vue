@@ -97,9 +97,11 @@
 
       <div class="contentContainer" v-if="isOpenInfoCard">
         <SlotBtn>
-          <BtnPirula :color="statusOrigin" titleBtn="Gerar Relatório" v-if="statusOrigin === 'Aprovado'" />
-          <BtnPirula :color="statusOrigin" titleBtn="Revisar Solicitação" v-if="statusOrigin === 'Reprovado'" />
-          <BtnPirula :color="statusOrigin" titleBtn="Cancelar" v-if="statusOrigin === 'PCP'" />
+          <BtnPirula titleBtn="Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'" />
+
+          <BtnPirula titleBtn="Revisar" color="Reprovado" v-if="dataMold.homologation.status.description === 'Reprovado' " />
+
+          <BtnPirula titleBtn="Gerar Relatório" color="Aprovado" v-if="dataMold.homologation.status.description === 'Aprovado' && $route.name !== 'pcp-approveds'" />
         </SlotBtn>
       </div>
     </div>

@@ -4,7 +4,7 @@
     <Loading />
   </div>
   <div v-else>
-    <CardModel v-for="mold in listHistoric" :key="mold.id" :dataMold="mold"/>
+    <CardModel v-for="mold in listPaginated" :key="mold.id" :dataMold="mold"/>
 
     <Pagination :list="listHistoric" @displayNewList="displayNewList" />
   </div>

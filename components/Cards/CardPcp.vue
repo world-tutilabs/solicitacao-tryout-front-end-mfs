@@ -95,10 +95,6 @@
 
             <BtnPirula titleBtn="Revisar Solicitação" color="pcp-analise" v-if="$route.name === 'pcp-waiting'" :dataMold="dataMold"/>
 
-
-          <!-- <BtnPirula :color="statusOrigin" titleBtn="Gerar Relatório" v-if="statusOrigin === 'Aprovado'" />
-          <BtnPirula :color="statusOrigin" titleBtn="Revisar Solicitação" v-if="statusOrigin === 'Reprovado'" />
-          <BtnPirula :color="statusOrigin" titleBtn="Cancelar" v-if="statusOrigin === 'PCP'" /> -->
         </SlotBtn>
       </div>
     </div>

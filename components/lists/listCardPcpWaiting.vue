@@ -3,7 +3,7 @@
     <Loading />
   </div>
   <div v-else>
-    <CardPcp v-for="mold in listPcpWaiting" :key="mold.id" :dataMold="mold" />
+    <CardPcp v-for="mold in listPaginated" :key="mold.id" :dataMold="mold" />
     <Pagination :list="listPcpWaiting" @displayNewList="displayNewList" />
   </div>
 </template>
