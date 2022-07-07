@@ -3,7 +3,7 @@
     <div>
       <h1>Ooops...</h1>
       <h2 v-if="error.statusCode === 404">Página não encontrada :/</h2>
-      <h1 v-else>An error occurred</h1>
+      <h1 v-else>Ocorreu um erro!</h1>
     </div>
     <div>
       <p>Parece que o link que você seguiu está no lugar não explorado. Que tal tentar algo diferente?</p>

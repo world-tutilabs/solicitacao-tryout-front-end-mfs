@@ -1,12 +1,12 @@
 <template>
   <div>
-    <CardModel
+    <!-- <CardModel
       v-for="mold in listPaginated"
       :key="mold.id"
       :statusOrigin="mold.origin"
       :flag="mold.flag"
       :typeCard="mold.typeCard"
-    />
+    /> -->
 
     <Pagination :list="dataNewMold" @displayNewList="displayNewList" />
   </div>

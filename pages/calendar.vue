@@ -40,13 +40,13 @@
 
         <div class="cards">
           <div class="cardCalendar">
-            <CardModel
+            <!-- <CardModel
               v-for="mold in dataNewMold"
               :key="mold.id"
               :statusOrigin="mold.origin"
               :flag="mold.flag"
               :typeCard="mold.typeCard"
-            />
+            /> -->
           </div>
         </div>
       </div>

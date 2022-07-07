@@ -32,7 +32,6 @@ export default {
   async fetch() {
     await httpLocal.listAllHistoric().then((res) => {
       this.listHistoric = res.data
-      console.log(this.listHistoric);
     })
   }
 

@@ -245,6 +245,7 @@ export default {
 
       await http.createNewSolicitation(this.testSolicitation).then( (res) => {
         this.$toast.success("Solicitação realizada com sucesso!")
+        this.closeModal()
       }).catch( (error) => {
         if(error.response.status === 400) {
           this.$toast.warning("Algum campo nao foi preenchido")
@@ -265,8 +266,6 @@ export default {
 
     closeModal() {
       this.$emit("closeModal", this.displayModal)
-      
-      this.$toast.success("teste");
     },
 
     addProcess() {
@@ -275,7 +274,6 @@ export default {
     },
     removeProcess(index) {
       this.count--;
-      console.log(this.count + "count");
       if (index === this.count) {
         this.processValidation = false;
       }
