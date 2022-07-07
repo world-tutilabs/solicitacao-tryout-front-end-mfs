@@ -1,13 +1,11 @@
 <template>
-<div><CardPcp v-for="mold in listPcpWaiting" :key="mold.id" :dataMold="mold"/></div>
-  <!-- <div v-if="$fetchState.pending">
+  <div v-if="$fetchState.pending">
     <Loading />
   </div>
   <div v-else>
-    <CardModel v-for="mold in listPcpWaiting" :key="mold.id" :dataMold="mold"/>
-
+    <CardPcp v-for="mold in listPcpWaiting" :key="mold.id" :dataMold="mold" />
     <Pagination :list="listPcpWaiting" @displayNewList="displayNewList" />
-  </div> -->
+  </div>
 </template>
 
 <script>
@@ -16,8 +14,6 @@ import http from '../../services/pcp/pcp'
 export default {
   data() {
     return {
-  
-
       listPaginated: [],
       listPcpWaiting: [],
     }
@@ -29,7 +25,7 @@ export default {
   },
 
   async fetch() {
-    await http.listAllPcp().then( (res) => {
+    await http.listAllPcp().then((res) => {
       console.log(res.data);
       this.listPcpWaiting = res.data
     })

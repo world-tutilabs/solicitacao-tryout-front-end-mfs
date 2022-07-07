@@ -88,29 +88,29 @@
             </div>
           </div>
           <div class="frameProcess" v-if="processValidation">
-          
-          <div class="rowInputs divisor">
 
-            <div class="boxInput">
-              <p>Quantidade</p>
-              <input type="text" v-model="quantidade" disabled/>
-            </div>
+            <div class="rowInputs divisor">
 
-            <div class="boxInput">
-              <p>Técnico</p>
-              <input type="text" v-model="tecnico" disabled/>
-            </div>
+              <div class="boxInput">
+                <p>Quantidade</p>
+                <input type="text" v-model="quantidade" disabled />
+              </div>
 
-            <div class="boxInput">
-              <p>Motivo</p>
-              <input type="text" v-model="reasonSolicitation" disabled/>
-            </div>
+              <div class="boxInput">
+                <p>Técnico</p>
+                <input type="text" v-model="tecnico" disabled />
+              </div>
 
-            <div class="boxInput">
-              <p>Data Programada</p>
-              <input type="date" v-model="newData"/>
+              <div class="boxInput">
+                <p>Motivo</p>
+                <input type="text" v-model="reasonSolicitation" disabled />
+              </div>
+
+              <div class="boxInput">
+                <p>Data Programada</p>
+                <input type="date" v-model="newData" />
+              </div>
             </div>
-          </div>
 
             <div class="cardTryOut">
               <SlotCard>
@@ -189,9 +189,9 @@ export default {
         reason: "",
         homologation: {
           created_user: {
-              tecnico:"Rafael",
-              role:"Eng_Analista",
-              }
+            tecnico: "Rafael",
+            role: "Eng_Analista",
+          }
         },
         InjectionProcess: {
           proc_technician: "",
@@ -243,6 +243,7 @@ export default {
       this.testSolicitation.InjectionProcess.mold.mold = this.moldMold
       this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(this.moldNumber)
 
+
       await http.createNewSolicitation(this.testSolicitation).then( (res) => {
         this.$toast.success("Solicitação realizada com sucesso!")
         this.closeModal()
@@ -250,7 +251,7 @@ export default {
         if(error.response.status === 400) {
           this.$toast.warning("Algum campo não foi preenchido")
         }
-        if(error.response.status === 500 ){
+        if (error.response.status === 500) {
           this.$toast.error("Erro no servidor")
         }
 
@@ -320,16 +321,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.divisor{
+.divisor {
   border-bottom: 2px solid rgba(0, 0, 0, 0.397);
   padding: 1rem 0 !important;
   margin-bottom: 1rem;
-  .boxInput{
-    input{
+
+  .boxInput {
+    input {
       background-color: #ffffff !important;
     }
   }
 }
+
 .containerFilter {
   height: 100vh;
   position: fixed;

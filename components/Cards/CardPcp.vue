@@ -3,7 +3,7 @@
   <div class="box">
     <div class="content">
       <div class="header-content">
-        <div :class="flagValidation()"></div>
+        <div :class="flagValidation(dataMold.status.description)"></div>
         <div class="container_button" @click="openInfoCard">
           <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
           <img src="~/static/icons/arrowOpened.svg" alt="" srcset="" v-else />
@@ -90,6 +90,12 @@
 
       <div class="contentContainer" v-if="isOpenInfoCard">
         <SlotBtn>
+      
+            <BtnPirula titleBtn="Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'" />
+
+            <BtnPirula titleBtn="Revisar Solicitação" color="pcp-analise" v-if="$route.name === 'pcp-waiting'" :dataMold="dataMold"/>
+
+
           <!-- <BtnPirula :color="statusOrigin" titleBtn="Gerar Relatório" v-if="statusOrigin === 'Aprovado'" />
           <BtnPirula :color="statusOrigin" titleBtn="Revisar Solicitação" v-if="statusOrigin === 'Reprovado'" />
           <BtnPirula :color="statusOrigin" titleBtn="Cancelar" v-if="statusOrigin === 'PCP'" /> -->
