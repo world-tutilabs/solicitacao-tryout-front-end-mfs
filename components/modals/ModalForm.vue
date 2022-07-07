@@ -265,6 +265,8 @@ export default {
 
     closeModal() {
       this.$emit("closeModal", this.displayModal)
+      
+      this.$toast.success("teste");
     },
 
     addProcess() {
