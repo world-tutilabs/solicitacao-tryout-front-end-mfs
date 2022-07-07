@@ -1,46 +1,36 @@
 <template>
-  <div class="containerFilter">
+  <div class="containerFilter" v-if="displayModal">
     <div class="containerModal">
       <header>
         <div>
           <h1>Revisão PCP</h1>
           <p>Informações Gerais</p>
         </div>
-        <img src="~/static/icons/x.svg" alt="" />
+        <div @click="closeModal()" class="btn-closed">
+          <img src="~/static/icons/x.svg" />
+        </div>
       </header>
 
       <form action="">
         <!-- modificacao e testes -->
         <div class="rowInputs">
           <div class="boxInput">
-            <FormInput
-              label="Código SAPP"
-              v-model="codSapp"
-              readonly="readonly"
-            />
+            <FormInput label="Código SAPP" v-model="aa" readonly="readonly" />
           </div>
         </div>
 
         <div class="rowInputs">
           <div class="boxInput">
-            <FormInput
-              label="Código do Produto"
-              v-model="codProduct"
-              readonly="readonly"
-            />
+            <FormInput label="Código do Produto" v-model="dataPCP.solicitation.code_sap" readonly="readonly" />
           </div>
           <div class="boxInput">
-            <FormInput
-              label="Descrição do Produto"
-              v-model="descProduct"
-              readonly="readonly"
-            />
+            <FormInput label="Descrição do Produto" v-model="dataPCP.solicitation.desc_product" readonly="readonly" />
           </div>
           <div class="boxInput">
-            <FormInput label="Cliente" v-model="client" readonly="readonly" />
+            <FormInput label="Cliente" v-model="dataPCP.solicitation.client" readonly="readonly" />
           </div>
           <div class="boxInput">
-            <FormInput label="Motivo" v-model="reason" readonly="readonly" />
+            <FormInput label="Motivo" v-model="dataPCP.solicitation.reason" readonly="readonly" />
           </div>
         </div>
 
@@ -57,32 +47,19 @@
               <h2>Processo Injeção</h2>
               <div class="rowInputs">
                 <div class="boxInput">
-                  <FormInput
-                    label="Técnico"
-                    v-model="technician"
-                    readonly="readonly"
-                  />
+                  <FormInput label="Técnico" v-model="dataPCP.solicitation.injectionProcess.proc_technician"
+                    readonly="readonly" />
                 </div>
                 <div class="boxInput">
-                  <FormInput
-                    label="Quantidade"
-                    v-model="amount"
-                    readonly="readonly"
-                  />
+                  <FormInput label="Quantidade" v-model="dataPCP.solicitation.injectionProcess.quantity"
+                    readonly="readonly" />
                 </div>
                 <div class="boxInput">
-                  <FormInput
-                    label="Motivo"
-                    v-model="reason"
-                    readonly="readonly"
-                  />
+                  <FormInput label="Motivo" v-model="dataPCP.solicitation.reason" readonly="readonly" />
                 </div>
                 <div class="boxInput">
-                  <FormInput
-                    label="Data Programada"
-                    v-model="date_scheduled"
-                    readonly="readonly"
-                  />
+                  <FormInput label="Data Programada" v-model="dataPCP.solicitation.programmed_date"
+                    readonly="readonly" />
                 </div>
               </div>
             </div>
@@ -90,72 +67,94 @@
               <!-- components aqui com props -->
               <SlotCardVue>
                 <Title title="Mão de Obra" />
-                <FormInput
-                  label="Descrição"
-                  v-model="descriptionLabor"
-                  readonly="readonly"
-                />
-                <FormInput
-                  label="Qtd"
-                  v-model="amountLabor"
-                  readonly="readonly"
-                />
+                <FormInput label="Descrição" v-model="dataPCP.solicitation.injectionProcess.labor.description"
+                  readonly="readonly" />
+                <FormInput label="Qtd" v-model="dataPCP.solicitation.injectionProcess.labor.amount"
+                  readonly="readonly" />
               </SlotCardVue>
 
               <SlotCardVue>
                 <Title title="Molde" />
-                <FormInput
-                  label="Descrição"
-                  v-model="descriptionMold"
-                  readonly="readonly"
-                />
-                <FormInput
-                  label="Qtd"
-                  v-model="amountMold"
-                  readonly="readonly"
-                />
+                <FormInput label="Descrição" v-model="dataPCP.solicitation.injectionProcess.mold.desc_mold"
+                  readonly="readonly" />
+                <FormInput label="Qtd" v-model="dataPCP.solicitation.injectionProcess.mold.number_cavity"
+                  readonly="readonly" />
               </SlotCardVue>
 
               <SlotCardVue>
                 <Title title="Matéria Prima" />
-                <FormInput
-                  label="Descrição"
-                  v-model="descriptionFeedstock"
-                  readonly="readonly"
-                />
-                <FormInput
-                  label="Qtd"
-                  v-model="amountFeedstock"
-                  readonly="readonly"
-                />
+                <FormInput label="Descrição" v-model="dataPCP.solicitation.injectionProcess.feedstock.description"
+                  readonly="readonly" />
+                <FormInput label="Qtd" v-model="dataPCP.solicitation.injectionProcess.feedstock.code"
+                  readonly="readonly" />
               </SlotCardVue>
             </div>
           </div>
         </div>
 
-        <FormTextAreaVue title="Comentários*" v-model="textoTextArea" />
+        <FormTextArea title="Comentários*" v-model="textoTextArea" />
 
         <div class="boxButtons">
           <p>*Campo Obrigatório</p>
           <div>
-            <button class="cancel">Reprovar</button>
-            <button class="save">Aprovar</button>
+            <button class="cancel" @click.prevent="toHomologate(2)">Reprovar</button>
+            <button class="save" @click.prevent="toHomologate(1)">Aprovar</button>
           </div>
         </div>
       </form>
     </div>
+
   </div>
 </template>
 
 <script>
+
+import http from '../../services/pcp/pcp'
 
 export default {
   data() {
     return {
       descriptionLabor: '',
       textoTextArea: '',
+
+      homologateComment: {
+        status: 0,
+        comment: ''
+      }
     }
   },
+
+  props: {
+    displayModal: Boolean,
+    dataPCP: Object,
+  },
+
+  methods: {
+    closeModal() {
+      this.$emit("closeModal", this.displayModal)
+    },
+
+    toHomologate: async function (status) {
+      this.homologateComment.status = status
+      this.homologateComment.comment = this.textoTextArea
+      await http.homologatePCP(this.dataPCP.id, this.homologateComment).then((res) => {
+
+        if (status === 1) {
+          this.$toast.info("Solicitação Aprovada")
+        } else if (status === 2) {
+          this.$toast.warning("Solicitação Reprovada")
+        }
+        this.closeModal()
+        console.log(res)
+      }).catch((error) => {
+        console.log(`Erro: ${error}`)
+      })
+    },
+
+  },
+
+
+
 }
 </script>
 
@@ -185,6 +184,7 @@ export default {
         color: var(--green);
         font-weight: var(--bold);
       }
+
       border-bottom: 0.2rem solid var(--gray);
       padding-bottom: 1vw;
       display: flex;
@@ -193,10 +193,12 @@ export default {
       align-items: flex-start;
       margin-bottom: 1rem;
     }
+
     .rowInputs {
       display: flex;
       gap: 1rem;
       padding: 0 0.5rem;
+
       .boxInput {
         p {
           font-size: 0.8rem;
@@ -213,6 +215,7 @@ export default {
         display: flex;
         gap: 1rem;
         justify-content: space-between;
+
         button {
           font-size: 1rem;
           width: 7rem;
@@ -220,21 +223,25 @@ export default {
           border-radius: 1rem;
           font-weight: var(--bold);
         }
+
         .save {
           background-color: var(--blue);
           color: var(--white);
         }
+
         .cancel {
           color: var(--white);
           background-color: var(--orange);
         }
       }
     }
+
     .containerProcess {
       .tabs {
         display: flex;
         align-items: flex-end;
         height: 3.5rem;
+
         .tab {
           display: flex;
           gap: 1rem;
@@ -263,10 +270,12 @@ export default {
         width: 100%;
         padding: 1rem;
         background-color: var(--bgProcess);
+
         .typeProcess {
           margin-bottom: 0.8rem;
           border-bottom: 2px solid var(--gray_text);
         }
+
         .cardTryOut {
           width: 100%;
           display: grid;
