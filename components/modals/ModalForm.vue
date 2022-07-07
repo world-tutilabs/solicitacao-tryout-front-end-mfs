@@ -108,27 +108,27 @@
 
             <div class="boxInput">
               <p>Data Programada</p>
-              <input type="date"/>
+              <input type="date" v-model="newData"/>
             </div>
           </div>
 
             <div class="cardTryOut">
               <SlotCard>
                 <Title title="Mão de Obra" />
-                <FormInput label="Descrição" />
-                <FormInput label="Qtd" />
+                <FormInput label="Descrição" v-model="laborDescription"/>
+                <FormInput label="Qtd" v-model="laborAmount"/>
               </SlotCard>
 
               <SlotCard>
                 <Title title="Molde" />
-                <FormInput label="Descrição" />
-                <FormInput label="N Cavidade" />
+                <FormInput label="Descrição" v-model="moldMold"/>
+                <FormInput label="N Cavidade" v-model="moldNumber"/>
               </SlotCard>
 
               <SlotCard>
                 <Title title="Matéria Prima" />
-                <FormInput label="Descrição" />
-                <FormInput label="Qtd" />
+                <FormInput label="Descrição" v-model="feedstocksDescription"/>
+                <FormInput label="Qtd" v-model="feedstocksCode"/>
               </SlotCard>
             </div>
           </div>
@@ -163,6 +163,14 @@ export default {
 
       quantidade: "",
       tecnico: "",
+      newData: "",
+
+      feedstocksDescription: "",
+      feedstocksCode: "",
+      laborAmount: "",
+      laborDescription: "",
+      moldMold: "",
+      moldNumber: "",
 
 
       newSolicitation: {
@@ -173,25 +181,31 @@ export default {
       },
 
       testSolicitation: {
-        code_sap: "5012",
-        product_description: "description product new",
-        client: "Positivo",
-        date: "2022-06-21",
-        reason: "Molde Novo",
+        code_sap: "",
+        product_description: "",
+        client: "",
+        date: "",
+        reason: "",
+        homologation: {
+          created_user: {
+              tecnico:"Rafael",
+              role:"Eng_Analista",
+              }
+        },
         InjectionProcess: {
-          proc_technician: "Rafael Railton Bugas",
-          quantity: 25,
+          proc_technician: "",
+          quantity: 0,
           feedstocks: {
-            code: "1-2-3-4-5-6-7-8-9",
-            description: "descricao Padrao Materia Prima"
+            code: "",
+            description: ""
           },
           labor: {
-            description: "descricao Padrao Mão de Obra",
-            amount: 1
+            description: "",
+            amount: 0
           },
           mold: {
-            number_cavity: 4,
-            mold: "Padrao descricao Molde"
+            number_cavity: 0,
+            mold: ""
           }
         }
       },
@@ -214,18 +228,32 @@ export default {
   methods: {
 
     async saveNewSolicitation() {
-      this.newSolicitation.desc_prod = this.indexProduct
-      this.newSolicitation.client = this.dataRRIM.CLIENTE
-      this.newSolicitation.reason = this.reasonSolicitation
-      console.log(JSON.parse(JSON.stringify(this.newSolicitation)));
+      this.testSolicitation.code_sap = this.newSolicitation.cod_prod
+      this.testSolicitation.product_description = this.indexProduct
+      this.testSolicitation.client = this.dataRRIM.CLIENTE
+      this.testSolicitation.reason = this.reasonSolicitation
+      this.testSolicitation.InjectionProcess.proc_technician = this.tecnico
+      this.testSolicitation.InjectionProcess.quantity = parseInt(this.quantidade)
+      this.testSolicitation.date = this.newData
+      this.testSolicitation.InjectionProcess.feedstocks.code = this.feedstocksCode
+      this.testSolicitation.InjectionProcess.feedstocks.description = this.feedstocksDescription
+      this.testSolicitation.InjectionProcess.labor.amount = parseInt(this.laborAmount)
+      this.testSolicitation.InjectionProcess.labor.description = this.laborDescription
+      this.testSolicitation.InjectionProcess.mold.mold = this.moldMold
+      this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(this.moldNumber)
+
 
       await http.createNewSolicitation(this.testSolicitation).then( (res) => {
-        console.log(res);
+        this.$toast.success("Solicitação realizada com sucesso!")
       }).catch( (error) => {
-        console.log(`Erro: ${error}`);
+        if(error.response.status === 400) {
+          this.$toast.warning("Algum campo nao foi preenchido")
+        }
+        if(error.response.status === 500 ){
+          this.$toast.error("Erro no servidor")
+        }
+
       })
-
-
 
 
     },
