@@ -88,11 +88,9 @@
 
         <div class="info" v-if="dataMold.homologation.status.description !== 'Revisao'">
           <span>Último Comentário realizado pelo PCP</span>
-          <h3>Autor: William David</h3>
+          <h3>Autor: {{dataMold.homologation.homologation_user.nome_completo}}</h3>
           <div class="boxText">
-            <span>Lorem Ipsum is simply dummy text of the printing and
-              typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s</span>
+            <span>{{dataMold.homologation.comment}}</span>
           </div>
         </div>
       </div>
@@ -123,6 +121,9 @@ export default Vue.extend({
       btnStatus: this.status,
     }
   },
+  created: async function(){
+    console.log(this.dataMold.homologation);
+  },
   methods: {
     openInfoCard() {
       return this.isOpenInfoCard = !this.isOpenInfoCard
@@ -144,6 +145,7 @@ export default Vue.extend({
       } else {
         return 'flap flap-none'
       }
+
     },
   },
 })
