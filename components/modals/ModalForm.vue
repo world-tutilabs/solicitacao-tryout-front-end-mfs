@@ -106,7 +106,7 @@
                 <input type="text" v-model="reasonSolicitation" disabled />
               </div>
 
-              <div class="boxInput">
+              <div class="boxInput inputData">
                 <p>Data Programada</p>
                 <input type="date" v-model="newData" />
               </div>
@@ -144,7 +144,6 @@
 </template>
 <script>
 import http from '~/services/newMold/mold';
-
 
 export default {
   props: {
@@ -326,7 +325,7 @@ export default {
   padding: 1rem 0 !important;
   margin-bottom: 1rem;
 
-  .boxInput {
+  .inputData {
     input {
       background-color: #ffffff !important;
     }
