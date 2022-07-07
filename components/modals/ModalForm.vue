@@ -3,7 +3,7 @@
     <div class="containerModal">
       <header>
         <div>
-          <h1>Titulo</h1>
+          <h1>Solicitar de TryOut</h1>
           <p>Informações Gerais</p>
         </div>
 
@@ -12,7 +12,7 @@
         </div>
       </header>
 
-      <form action="">
+      <form id="myForm">
         <!-- modificacao e testes -->
         <div class="rowInputs" v-if="showContainer">
           <div class="boxInput">
@@ -28,7 +28,7 @@
         <div class="rowInputs">
           <div class="boxInput">
             <p>Código do Produto:</p>
-            <input type="text" list="products" name="" id="" @change="catchIndexProduct" />
+            <input type="text" list="products" @change="catchIndexProduct" />
 
             <datalist id="products">
               <option v-for="(products, index) in productsOptions.produto" :key="index">
@@ -38,20 +38,20 @@
           </div>
           <div class="boxInput">
             <p>Descrição do Produto</p>
-            <input type="text" name="" id="" v-model="indexProduct" disabled />
+            <input type="text" v-model="indexProduct" disabled />
           </div>
           <div class="boxInput">
             <p>Cliente</p>
-            <input type="text" name="" id="" v-model="dataRRIM.CLIENTE" disabled />
+            <input type="text" v-model="dataRRIM.CLIENTE" disabled />
           </div>
           <div class="boxInput" v-if="showContainer">
             <p>Motivo</p>
-            <input type="text" name="" id="" value="" />
+            <input type="text" value="" />
           </div>
 
           <div class="boxInput" v-else>
             <p>Motivo</p>
-            <input type="text" name="" id="" v-model="reasonSolicitation" disabled />
+            <input type="text" v-model="reasonSolicitation" disabled />
           </div>
         </div>
 
@@ -59,17 +59,17 @@
         <div class="rowInputs contentInputs">
           <div class="boxInput">
             <p>Processo</p>
-            <select name="" id="">
+            <select>
               <option value="">Processo de Injeção</option>
             </select>
           </div>
           <div class="boxInput">
             <p>Quantidade</p>
-            <input type="number" name="" id="" v-model="quantidade" />
+            <input type="number" min="1"  v-model="quantidade"/>
           </div>
           <div class="boxInput">
             <p>Técnico</p>
-            <input type="text" name="" id="" v-model="tecnico" />
+            <input type="text" v-model="tecnico"/>
           </div>
 
           <button @click.prevent="addProcess" v-if="!processValidation">
@@ -115,27 +115,27 @@
             <div class="cardTryOut">
               <SlotCard>
                 <Title title="Mão de Obra" />
-                <FormInput label="Descrição" v-model="laborDescription" />
-                <FormInput label="Qtd" v-model="laborAmount" />
+                <FormInput label="Descrição" type="text" v-model="laborDescription"/>
+                <FormInput label="Qtd" type="number" min="1" v-model="laborAmount"/>
               </SlotCard>
 
               <SlotCard>
                 <Title title="Molde" />
-                <FormInput label="Descrição" v-model="moldMold" />
-                <FormInput label="N Cavidade" v-model="moldNumber" />
+                <FormInput label="Descrição" type="text" v-model="moldMold"/>
+                <FormInput label="N° Cavidade" type="number" min="1" v-model="moldNumber"/>
               </SlotCard>
 
               <SlotCard>
                 <Title title="Matéria Prima" />
-                <FormInput label="Descrição" v-model="feedstocksDescription" />
-                <FormInput label="Qtd" v-model="feedstocksCode" />
+                <FormInput label="Descrição" type="text" v-model="feedstocksDescription"/>
+                <FormInput label="Qtd" type="number" min="1" v-model="feedstocksCode"/>
               </SlotCard>
             </div>
           </div>
         </div>
 
         <div class="boxButtons">
-          <button class="cancel" @click="closeModal()">Cancelar</button>
+          <button class="cancel" @click.prevent="closeModal()">Cancelar</button>
           <button class="save" @click.prevent="saveNewSolicitation()">Salvar</button>
         </div>
       </form>
@@ -144,6 +144,7 @@
 </template>
 <script>
 import http from '~/services/newMold/mold';
+
 
 export default {
   props: {
@@ -243,12 +244,12 @@ export default {
       this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(this.moldNumber)
 
 
-      await http.createNewSolicitation(this.testSolicitation).then((res) => {
-        this.$toast.info("Solicitação realizada com sucesso!")
+      await http.createNewSolicitation(this.testSolicitation).then( (res) => {
+        this.$toast.success("Solicitação realizada com sucesso!")
         this.closeModal()
-      }).catch((error) => {
-        if (error.response.status === 400) {
-          this.$toast.warning("Algum campo nao foi preenchido")
+      }).catch( (error) => {
+        if(error.response.status === 400) {
+          this.$toast.warning("Algum campo não foi preenchido")
         }
         if (error.response.status === 500) {
           this.$toast.error("Erro no servidor")
@@ -265,12 +266,38 @@ export default {
     },
 
     closeModal() {
+      this.indexProduct = null
+
+      this.quantidade = null
+      this.tecnico = null
+
+      this.laborDescription = null
+      this.laborAmount = null
+
+      this.moldMold = null
+      this.moldNumber = null
+
+      this.feedstocksDescription = null
+      this.feedstocksCode = null
+
+      this.count = 0
+      this.processValidation = false
+    
       this.$emit("closeModal", this.displayModal)
     },
 
     addProcess() {
-      this.count++;
-      this.processValidation = true;
+      if(this.quantidade === "" || this.tecnico === ""){
+        this.$toast.warning("Algum campo não foi preenchido")
+      }else if(this.quantidade <= 0){
+        this.$toast.error("Campo quantidade com valores impróprios")
+      }else{
+        this.count++;
+        this.processValidation = true;
+      }
+      
+
+      
     },
     removeProcess(index) {
       this.count--;

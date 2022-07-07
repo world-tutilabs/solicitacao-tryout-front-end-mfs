@@ -1,7 +1,7 @@
 <template>
   <div class="input">
     <label> {{ label }} </label>
-    <input :type="type" :placeholder="placeholder" :value="value" v-on="inputListeners" :disabled="disabled"
+    <input :type="type" :placeholder="placeholder" :value="value" v-on="inputListeners" :disabled="disabled" :min="min"
       :readonly="readonly" />
   </div>
 </template>
@@ -16,6 +16,7 @@ export default {
     value: String,
     disabled: String,
     readonly:String,
+    min: String
   },
 
   data() {
