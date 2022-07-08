@@ -8,6 +8,10 @@ export default {
 
     homologatePCP: async (id, data) => {
         return await httpLocal.patch(`/homologate/${id}`, data)
+    },
+
+    deleteSolicitation: async (id, data) => {
+        return await httpLocal.patch(`/homologate/${id}`, data)
     }
 
 }

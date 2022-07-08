@@ -1,7 +1,12 @@
 <template>
   <div>
-    <button class="btn" :style="{ backgroundColor: verifyColor() }" @click="openModal">{{ titleBtn
+    <button class="btn" :style="{ backgroundColor: verifyColor() }" @click="cancelBtn" v-if="this.color === 'pcp-approveds'">{{ titleBtn
     }}</button>
+
+    <button class="btn" :style="{ backgroundColor: verifyColor() }" @click="openModal" v-else>{{ titleBtn
+    }}</button>
+
+    
 
     <ModalForm :displayModal="modalStatus" @closeModal="closeModal" :dataRRIM="dataMold" v-if="this.color === 'RRIM'"/>
 
@@ -13,6 +18,8 @@
 
 <script>
 import ModalFormPcp from '../modals/ModalFormPcp.vue'
+import http from '../../services/pcp/pcp'
+
 export default {
     name: "BtnPirula",
     props: {
@@ -29,15 +36,35 @@ export default {
       }else{
         scrollBody.style.overflow = 'scroll'
       }
+    },
+
+    dataMold(newValue) {
+      console.log(newValue);
     }
   },
     data() {
         return {
             colorBtn: "",
             modalStatus: false,
+
+            homologate: {
+              status: 0,
+              comment: ''
+            },
+
+            dataCancel: [],
         };
     },
+
     methods: {
+
+      cancelBtn: async function(){
+        this.homologate.status = 4
+        this.homologate.comment = "aaa"
+        
+        await http.deleteSolicitation(this.dataMold.homologation.id, this.homologate)
+      },
+
         verifyColor() {
             if (this.color === "RRIM" || this.color === "Aprovado" || this.color === "pcp-analise") {
                 return "var(--green)";
