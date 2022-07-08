@@ -12,7 +12,7 @@
         </div>
       </header>
 
-      <form id="myForm">
+      <div class="form">
         <!-- modificacao e testes -->
         <div class="rowInputs" v-if="showContainer">
           <div class="boxInput">
@@ -138,7 +138,7 @@
           <button class="cancel" @click.prevent="closeModal()">Cancelar</button>
           <button class="save" @click.prevent="saveNewSolicitation()">Salvar</button>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>
@@ -312,11 +312,30 @@ export default {
   created: async function () {
 
     this.productsOptions = this.dataRRIM
+  },
+  watch:{
+    quantidade(newValue){
+      if(newValue < 0){
+        this.quantidade = newValue*(-1)
+      }
+    },
+    laborAmount(newValue){
+      if(newValue < 0){
+        this.laborAmount = newValue*(-1)
+      }
+    },
+    moldNumber(newValue){
+      if(newValue < 0){
+        this.moldNumber = newValue*(-1)
+      }
+    },
+    feedstocksCode(newValue){
+      if(newValue < 0){
+        this.feedstocksCode = newValue*(-1)
+      }
+    }
   }
-
 }
-
-
 </script>
 
 <style lang="scss" scoped>
@@ -429,7 +448,7 @@ export default {
       width: 10rem;
     }
 
-    form {
+    .form {
       display: grid;
       gap: 2rem;
       grid-template-columns: minmax(10rem, 1fr);
