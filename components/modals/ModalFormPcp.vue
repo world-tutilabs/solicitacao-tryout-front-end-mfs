@@ -92,13 +92,28 @@
           </div>
         </div>
 
-        <FormTextArea title="Comentários*" v-model="textoTextArea" />
+        <FormTextArea title="Comentários*" v-model="textoTextArea"/>
 
         <div class="boxButtons">
           <p>*Campo Obrigatório</p>
           <div>
-            <button class="cancel" @click.prevent="toHomologate(2)">Reprovar</button>
-            <button class="save" @click.prevent="toHomologate(1)">Aprovar</button>
+            <button class="cancel" @click.prevent="showModal(2)">Reprovar</button>
+            <button class="save" @click.prevent="showModal(1)">Aprovar</button>
+
+            <div class="containerPopUp" v-if="showPopUp">
+              <div class="popUp">
+                <div class="headPopup">
+                  <div class="frameImg">
+                    <img src="@/assets/img/formH.svg" alt="">
+                  </div>
+                  <h2>Deseja realmente {{typeHomologar}}?</h2>
+                </div>
+                <div class="buttons">
+                  <button class="btnPopup" @click.prevent="showPopUp = false">Não</button>
+                  <button :style="buttonColor" class="btnPopup" @click="toHomologate(statusPopUp)">sim, {{typeHomologar}}</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </form>
@@ -111,54 +126,118 @@
 
 import http from '../../services/pcp/pcp'
 
+
 export default {
-  data() {
-    return {
-      descriptionLabor: '',
-      textoTextArea: '',
+    data() {
+        return {
+            descriptionLabor: "",
+            textoTextArea: "",
+            homologateComment: {
+                status: 0,
+                comment: ""
+            },
+            typeHomologar: "",
+            showPopUp: false,
+            statusPopUp: 0,
+            buttonColor: ""
+        };
+    },
+    props: {
+        displayModal: Boolean,
+        dataPCP: Object,
+    },
+    methods: {
+        closeModal() {
+            this.$emit("closeModal", this.displayModal);
+        },
+        showModal(statusModal){
+          this.showPopUp = true
+          
 
-      homologateComment: {
-        status: 0,
-        comment: ''
-      }
+          if(statusModal === 1){
+            this.typeHomologar = 'Aprovar'
+            this.statusPopUp = statusModal
+            this.buttonColor = "background-color: var(--blue);color: var(--white)"
+
+          }
+          if(statusModal === 2){
+            this.typeHomologar = 'Reprovar'
+            this.statusPopUp = statusModal
+            this.buttonColor = "background-color: var(--orange);color: var(--white)"
+          }
+        },
+        toHomologate: async function (status) {
+            this.homologateComment.status = status;
+            this.homologateComment.comment = this.textoTextArea;
+            await http.homologatePCP(this.dataPCP.id, this.homologateComment).then((res) => {
+                if (status === 1) {
+                    this.$toast.info("Solicitação Aprovada");
+                }
+                else if (status === 2) {
+                    this.$toast.warning("Solicitação Reprovada");
+                }
+                this.closeModal();
+                console.log(res);
+            }).catch((error) => {
+                console.log(`Erro: ${error}`);
+            });
+        },
     }
-  },
-
-  props: {
-    displayModal: Boolean,
-    dataPCP: Object,
-  },
-
-  methods: {
-    closeModal() {
-      this.$emit("closeModal", this.displayModal)
-    },
-
-    toHomologate: async function (status) {
-      this.homologateComment.status = status
-      this.homologateComment.comment = this.textoTextArea
-      await http.homologatePCP(this.dataPCP.id, this.homologateComment).then((res) => {
-
-        if (status === 1) {
-          this.$toast.info("Solicitação Aprovada")
-        } else if (status === 2) {
-          this.$toast.warning("Solicitação Reprovada")
-        }
-        this.closeModal()
-        console.log(res)
-      }).catch((error) => {
-        console.log(`Erro: ${error}`)
-      })
-    },
-
-  },
-
-
-
 }
 </script>
 
 <style lang="scss" scoped>
+.containerPopUp{
+  background-color: rgba(38, 49, 141, 0.342);
+  backdrop-filter: blur(2px);
+  position: fixed;
+  height: 135vh;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  
+  .popUp{
+    background-color: var(--white);
+    width: 30rem;
+    height: 21rem;
+    padding: 1rem;
+    margin-top: 20rem;
+    position: sticky;
+    top: 0;
+    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+    border-radius: .5rem;
+    .headPopup{
+      margin-bottom: 1rem;
+      h2{
+        margin-top: 1rem;
+        font-size: 1.7rem;
+      }
+      .frameImg{
+        height: 10rem;
+        background-color: var(--blue);
+        display: grid;
+        justify-content: center;
+        img{
+          width: 18rem;
+          position: relative;
+          bottom: .5rem;
+        }
+      }
+    }
+    .buttons{
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      .btnPopup{
+        width: fit-content!important;
+      }
+    }
+  }
+}
 .containerFilter {
   height: 100vh;
   position: fixed;
@@ -252,8 +331,7 @@ export default {
           font-size: 1rem;
           font-weight: var(--bold);
           border-radius: 0.5rem 0.5rem 0 0;
-          background-color: var(--bgProcess);
-          border: 2px solid var(--bgProcess);
+          background-color: #ececec;
           transition: 0.2s;
 
           &:hover {
@@ -269,7 +347,7 @@ export default {
       .frameProcess {
         width: 100%;
         padding: 1rem;
-        background-color: var(--bgProcess);
+        background-color: #ececec;
 
         .typeProcess {
           margin-bottom: 0.8rem;
