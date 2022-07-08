@@ -6,6 +6,7 @@
       rows="10"
       :value="value"
       v-on="inputListeners"
+      :readonly="readonly"
     ></textarea>
   </div>
 </template>
@@ -14,6 +15,8 @@
 export default {
   name: 'FormTextArea',
   props: {
+    readonly:String,
+
     value: {
       type: [String, Number],
       default: undefined,

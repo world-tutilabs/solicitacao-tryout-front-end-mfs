@@ -33,6 +33,7 @@ export default {
     await httpLocal.listAllHistoric().then((res) => {
       this.listHistoric = res.data
     })
+
   }
 
 }

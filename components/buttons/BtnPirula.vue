@@ -1,16 +1,20 @@
 <template>
   <div>
-    <button class="btn" :style="{ backgroundColor: verifyColor() }" @click="cancelBtn" v-if="this.color === 'pcp-approveds'">{{ titleBtn
-    }}</button>
+    <button class="btn" :style="{ backgroundColor: verifyColor() }" @click="cancelBtn"
+      v-if="this.color === 'pcp-approveds'">{{ titleBtn
+      }}</button>
+
+    <!-- <button class="btn" :style="{ backgroundColor: verifyColor() }" @click="" v-if="this.color === 'Reprovado'">{{ titleBtn
+    }}</button> -->
 
     <button class="btn" :style="{ backgroundColor: verifyColor() }" @click="openModal" v-else>{{ titleBtn
     }}</button>
 
-    
+    <ModalForm :displayModal="modalStatus" @closeModal="closeModal" :dataRRIM="dataMold" v-if="this.color === 'RRIM'" />
 
-    <ModalForm :displayModal="modalStatus" @closeModal="closeModal" :dataRRIM="dataMold" v-if="this.color === 'RRIM'"/>
+    <ModalEng :displayModal="modalStatus" @closeModal="closeModal" v-else-if="this.color === 'Reprovado'" :dataRevisao="dataMold"/>
 
-    <ModalFormPcp :displayModal="modalStatus" @closeModal="closeModal"  v-else :dataPCP="dataMold"/>
+    <ModalFormPcp :displayModal="modalStatus" @closeModal="closeModal" v-else :dataPCP="dataMold" />
 
 
   </div>
@@ -19,21 +23,26 @@
 <script>
 import ModalFormPcp from '../modals/ModalFormPcp.vue'
 import http from '../../services/pcp/pcp'
+import ModalCancelSolicitation from '../modals/ModalEng.vue'
 
 export default {
-    name: "BtnPirula",
-    props: {
-        titleBtn: String,
-        color: String,
-        dataMold: Object,
-    },
-   
-  watch:{
-    modalStatus(newValue){
+  name: "BtnPirula",
+  props: {
+    titleBtn: String,
+    color: String,
+    dataMold: Object,
+  },
+
+  created: async function () {
+    console.log(this.dataMold);
+  },
+
+  watch: {
+    modalStatus(newValue) {
       let scrollBody = document.body
-      if(newValue == true){
+      if (newValue == true) {
         scrollBody.style.overflow = 'hidden'
-      }else{
+      } else {
         scrollBody.style.overflow = 'scroll'
       }
     },
@@ -42,51 +51,52 @@ export default {
       console.log(newValue);
     }
   },
-    data() {
-        return {
-            colorBtn: "",
-            modalStatus: false,
+  data() {
+    return {
+      colorBtn: "",
+      modalStatus: false,
 
-            homologate: {
-              status: 0,
-              comment: ''
-            },
+      homologate: {
+        status: 0,
+        comment: ''
+      },
 
-            dataCancel: [],
-        };
+      dataCancel: [],
+    };
+  },
+
+  methods: {
+
+    cancelBtn: async function () {
+      this.homologate.status = 4
+      this.homologate.comment = "aaa"
+      await http.deleteSolicitation(this.dataMold.homologation.id, this.homologate)
     },
 
-    methods: {
+    verifyColor() {
 
-      cancelBtn: async function(){
-        this.homologate.status = 4
-        this.homologate.comment = "aaa"
-        
-        await http.deleteSolicitation(this.dataMold.homologation.id, this.homologate)
-      },
+      if (this.color === "RRIM" || this.color === "Aprovado" || this.color === "pcp-analise") {
+        return "var(--green)";
+      }
+      else if (this.color === "Reprovado") {
+        return "var(--orange)";
+      }
+      else if (this.color === "cancelTryOut") {
+        return "var(--red)";
+      }
+      else if (this.color === "pcp-approveds") {
+        return "var(--blue)";
+      }
+    },
+    openModal() {
+      this.modalStatus = true
+    },
+    closeModal() {
+      this.modalStatus = false
+    },
 
-        verifyColor() {
-            if (this.color === "RRIM" || this.color === "Aprovado" || this.color === "pcp-analise") {
-                return "var(--green)";
-            }
-            else if (this.color === "Reprovado") {
-                return "var(--orange)";
-            }
-            else if (this.color === "cancelTryOut") {
-                return "var(--red)";
-            }
-            else if (this.color === "pcp-approveds") {
-                return "var(--blue)";
-            }
-        },
-        openModal(){
-          this.modalStatus = true
-        },
-        closeModal() {
-          this.modalStatus = false
-        }
-      },
-    components: { ModalFormPcp }
+  },
+  components: { ModalFormPcp, ModalCancelSolicitation }
 
 }
 </script>

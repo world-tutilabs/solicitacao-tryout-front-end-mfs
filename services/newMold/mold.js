@@ -12,5 +12,9 @@ export default {
 
     createNewSolicitation: async (data) => {
         return await httpLocal.post(`/signup`, data)
+    },
+
+    updateSolicitation: async (id, data) => {
+        return await httpLocal.put(`/update/${id}`, data)
     }
 }
