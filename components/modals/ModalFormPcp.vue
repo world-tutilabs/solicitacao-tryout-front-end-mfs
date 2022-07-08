@@ -110,7 +110,7 @@
                 </div>
                 <div class="buttons">
                   <button class="btnPopup" @click.prevent="showPopUp = false">Não</button>
-                  <button :style="buttonColor" class="btnPopup" @click="toHomologate(statusPopUp)">sim, {{typeHomologar}}</button>
+                  <button :style="buttonColor" class="btnPopup" @click.prevent="toHomologate(statusPopUp)">sim, {{typeHomologar}}</button>
                 </div>
               </div>
             </div>

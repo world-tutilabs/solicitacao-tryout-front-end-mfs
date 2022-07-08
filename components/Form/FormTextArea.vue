@@ -8,6 +8,7 @@
       v-on="inputListeners"
       :readonly="readonly"
     ></textarea>
+    dsdsd
   </div>
 </template>
 
@@ -29,6 +30,7 @@ export default {
   data() {
     return {
       localValue: this.value,
+      totalNumber: 0,
     }
   },
   watch: {
