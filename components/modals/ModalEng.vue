@@ -151,7 +151,7 @@ export default {
   },
 
   created: async function () {
-    console.log(this.dataRevisao);
+    console.log(this.dataRevisao.id);
   },
 
   props: {
@@ -178,33 +178,16 @@ export default {
       this.solicitationUpdated.InjectionProcess.labor.description = this.dataRevisao.injectionProcess.labor.description
       this.solicitationUpdated.InjectionProcess.mold.mold = this.dataRevisao.injectionProcess.mold.desc_mold
       this.solicitationUpdated.InjectionProcess.mold.number_cavity = parseInt(this.dataRevisao.injectionProcess.mold.number_cavity)
-      
-      console.log(this.dataRevisao);
-      console.log(this.solicitationUpdated);
+  
 
       await http.updateSolicitation(this.dataRevisao.id, this.solicitationUpdated).then((res) => {
-        console.log(res);
+        this.$toast.info("Solicitação enviada para o PCP")
+        this.closeModal()
       }).catch((error) => {
-        console.log(error);
+        this.$toast.info(`Erro: ${error}`)
       })
     }
 
-    // toHomologate: async function (status) {
-    //   this.homologateComment.status = status
-    //   this.homologateComment.comment = this.textoTextArea
-    //   await http.homologatePCP(this.dataRevisao.id, this.homologateComment).then((res) => {
-
-    //     if (status === 1) {
-    //       this.$toast.info("Solicitação Aprovada")
-    //     } else if (status === 2) {
-    //       this.$toast.warning("Solicitação Reprovada")
-    //     }
-    //     this.closeModal()
-    //     console.log(res)
-    //   }).catch((error) => {
-    //     console.log(`Erro: ${error}`)
-    //   })
-    // },
 
   },
 

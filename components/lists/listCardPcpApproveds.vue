@@ -24,6 +24,8 @@ export default {
     displayNewList(e) {
       this.listPaginated = e
     },
+
+    
   },
 
   async fetch() {

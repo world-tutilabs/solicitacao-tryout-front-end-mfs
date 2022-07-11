@@ -93,6 +93,9 @@ export default {
     },
     closeModal() {
       this.modalStatus = false
+      setTimeout(() => {
+        this.$emit('updateCard')
+      }, 1000);
     },
 
   },

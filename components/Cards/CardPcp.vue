@@ -107,7 +107,7 @@
       
             <BtnPirula titleBtn="Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'" />
 
-            <BtnPirula titleBtn="Revisar Solicitação" color="pcp-analise" v-if="$route.name === 'pcp-waiting'" :dataMold="dataMold"/>
+            <BtnPirula titleBtn="Revisar Solicitação" color="pcp-analise" v-if="$route.name === 'pcp-waiting'" :dataMold="dataMold" @updateCard="updateCard"/>
 
         </SlotBtn>
       </div>
@@ -142,6 +142,10 @@ export default Vue.extend({
       if (this.status === 'Aprovado') {
         console.log('Teste')
       }
+    },
+
+    updateCard() {
+      this.$emit('updateList')
     },
 
     flagValidation(data) {

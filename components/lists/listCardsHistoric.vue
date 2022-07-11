@@ -4,7 +4,7 @@
     <Loading />
   </div>
   <div v-else>
-    <CardModel v-for="mold in listPaginated" :key="mold.id" :dataMold="mold"/>
+    <CardModel v-for="mold in listPaginated" :key="mold.id" :dataMold="mold" @updateList='updateList'/>
 
     <Pagination :list="listHistoric" @displayNewList="displayNewList" />
   </div>
@@ -26,13 +26,31 @@ export default {
   methods: {
     displayNewList(e) {
       this.listPaginated = e
-    }
-  },
+    },
 
-  async fetch() {
+    updateList: async function() {
+      this.$fetchState.pending = true
+      setTimeout(() => {
+        this.$fetchState.pending = false
+      }, 1000);
+      
+      this.generateList()
+      
+      
+      console.log("Entrou aqui");
+    },
+
+    generateList: async function () {
     await httpLocal.listAllHistoric().then((res) => {
       this.listHistoric = res.data
     })
+  },
+  },
+
+  
+
+  async fetch() {
+    await this.generateList()
 
   }
 

@@ -99,7 +99,7 @@
         <SlotBtn>
           <BtnPirula titleBtn="Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'" :dataMold="dataMold"/>
            
-          <BtnPirula titleBtn="Revisar" color="Reprovado" v-if="dataMold.homologation.status.description === 'Reprovado' " :dataMold="dataMold" />
+          <BtnPirula titleBtn="Revisar" color="Reprovado" v-if="dataMold.homologation.status.description === 'Reprovado' " :dataMold="dataMold" @updateCard="updateCard"/>
           
           <BtnPirula titleBtn="Gerar Relatório" color="Aprovado" v-if="dataMold.homologation.status.description === 'Aprovado' && $route.name !== 'pcp-approveds'" />
         </SlotBtn>
@@ -127,6 +127,9 @@ export default Vue.extend({
     console.log(this.dataMold.homologation);
   },
   methods: {
+    updateCard(){
+      this.$emit('updateList')
+    },
     openInfoCard() {
       return this.isOpenInfoCard = !this.isOpenInfoCard
     },

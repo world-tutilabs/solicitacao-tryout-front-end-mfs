@@ -1,9 +1,9 @@
 <template>
-  <div v-if="$fetchState.pending">
+  <div v-if="$fetchState.pending" >
     <Loading />
   </div>
   <div v-else>
-    <CardPcp v-for="mold in listPaginated" :key="mold.id" :dataMold="mold" />
+    <CardPcp v-for="mold in listPaginated" :key="mold.id" :dataMold="mold" @updateList='updateList'/>
     <Pagination :list="listPcpWaiting" @displayNewList="displayNewList" />
   </div>
 </template>
@@ -22,14 +22,31 @@ export default {
     displayNewList(e) {
       this.listPaginated = e
     },
+
+    updateList: async function() {
+      this.$fetchState.pending = true
+      setTimeout(() => {
+        this.$fetchState.pending = false
+      }, 1000);
+      
+      this.generateList()
+      
+      
+      console.log("Entrou aqui");
+    },
+
+    generateList: async function () {
+      await http.listAllPcp().then((res) => {
+        console.log(this.$fetchState);
+        this.listPcpWaiting = res.data
+    })
+    }
+
   },
 
   async fetch() {
-    await http.listAllPcp().then((res) => {
-      console.log(res.data);
-      this.listPcpWaiting = res.data
-    })
-  }
+    await this.generateList()
+  } 
 }
 </script>
 

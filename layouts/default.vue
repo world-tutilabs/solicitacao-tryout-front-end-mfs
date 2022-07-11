@@ -44,21 +44,21 @@ export default Vue.extend({
       }
     }
   },
-  methods: {
-    closeModal() {
-      this.modalStatus = !this.modalStatus
-    }
-  },
-  watch:{
-    modalStatus(newValue){
-      let scrollBody = document.body
-      if(newValue == true){
-        scrollBody.style.overflow = 'hidden'
-      }else{
-        scrollBody.style.overflow = 'scroll'
-      }
-    }
-  }
+  // methods: {
+  //   closeModal() {
+  //     this.modalStatus = !this.modalStatus
+  //   }
+  // },
+  // watch:{
+  //   modalStatus(newValue){
+  //     let scrollBody = document.body
+  //     if(newValue == true){
+  //       scrollBody.style.overflow = 'hidden'
+  //     }else{
+  //       scrollBody.style.overflow = 'scroll'
+  //     }
+  //   }
+  // }
 })
 </script>
 
