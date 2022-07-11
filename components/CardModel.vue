@@ -1,9 +1,10 @@
 <template>
-
   <div class="box">
     <div class="content">
       <div class="header-content">
-        <div :class="flagValidation(dataMold.homologation.status.description)"></div>
+        <div
+          :class="flagValidation(dataMold.homologation.status.description)"
+        ></div>
         <div class="container_button" @click="openInfoCard">
           <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
           <img src="~/static/icons/arrowOpened.svg" alt="" srcset="" v-else />
@@ -72,7 +73,9 @@
             <span>Descrição</span>
             <h4>{{ dataMold.injectionProcess.mold.desc_mold }}</h4>
             <div class="processFooter">
-              <h4>Qtde Cav: {{ dataMold.injectionProcess.mold.number_cavity }}</h4>
+              <h4>
+                Qtde Cav: {{ dataMold.injectionProcess.mold.number_cavity }}
+              </h4>
             </div>
           </div>
 
@@ -86,33 +89,59 @@
           </div>
         </div>
 
-        <div class="info" v-if="dataMold.homologation.status.description !== 'Revisao'">
+        <div
+          class="info"
+          v-if="dataMold.homologation.status.description !== 'Revisao'"
+        >
           <span>Último Comentário realizado pelo PCP</span>
-          <h3>Autor: {{dataMold.homologation.homologation_user.nome_completo}}</h3>
+          <h3>
+            Autor: {{ dataMold.homologation.homologation_user.nome_completo }}
+          </h3>
           <div class="boxText">
-            <span>{{dataMold.homologation.comment}}</span>
+            <span>{{ dataMold.homologation.comment }}</span>
           </div>
         </div>
       </div>
 
       <div class="contentContainer" v-if="isOpenInfoCard">
         <SlotBtn>
-          <BtnPirula titleBtn="Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'" :dataMold="dataMold"/>
-           
-          <BtnPirula titleBtn="Revisar" color="Reprovado" v-if="dataMold.homologation.status.description === 'Reprovado' " :dataMold="dataMold" @updateCard="updateCard"/>
-          
-          <BtnPirula titleBtn="Gerar Relatório" color="Aprovado" v-if="dataMold.homologation.status.description === 'Aprovado' && $route.name !== 'pcp-approveds'" />
+          <BtnPirula
+            titleBtn="Cancelar"
+            color="pcp-approveds"
+            v-if="$route.name === 'pcp-approveds'"
+            :dataMold="dataMold"
+          />
+
+          <BtnPirula
+            titleBtn="Revisar"
+            color="Reprovado"
+            v-if="dataMold.homologation.status.description === 'Reprovado'"
+            :dataMold="dataMold"
+            @updateCard="updateCard"
+          />
+
+          <BtnPirula
+            titleBtn="Gerar Relatório"
+            color="Aprovado"
+            v-if="
+              dataMold.homologation.status.description === 'Aprovado' &&
+              $route.name !== 'pcp-approveds'
+            "
+          />
         </SlotBtn>
       </div>
+
+      <pre>
+        {{ dataMold.homologation }}
+      </pre>
     </div>
   </div>
-
 </template>
 
 <script>
-import Vue from 'vue'
+import Vue from "vue";
 export default Vue.extend({
-  layout: 'mainFrame',
+  layout: "mainFrame",
 
   props: {
     dataMold: Object,
@@ -121,39 +150,38 @@ export default Vue.extend({
     return {
       isOpenInfoCard: false,
       btnStatus: this.status,
-    }
+    };
   },
-  created: async function(){
+  created: async function () {
     console.log(this.dataMold.homologation);
   },
   methods: {
-    updateCard(){
-      this.$emit('updateList')
+    updateCard() {
+      this.$emit("updateList");
     },
     openInfoCard() {
-      return this.isOpenInfoCard = !this.isOpenInfoCard
+      return (this.isOpenInfoCard = !this.isOpenInfoCard);
     },
 
     toggleButton() {
-      if (this.status === 'Aprovado') {
-        console.log('Teste')
+      if (this.status === "Aprovado") {
+        console.log("Teste");
       }
     },
 
     flagValidation(data) {
-      if (data == 'Aprovado') {
-        return 'flap flap-green'
-      } else if (data == 'Revisao') {
-        return 'flap flap-blue'
-      } else if (data == 'Reprovado') {
-        return 'flap flap-orange'
+      if (data == "Aprovado") {
+        return "flap flap-green";
+      } else if (data == "Revisao") {
+        return "flap flap-blue";
+      } else if (data == "Reprovado") {
+        return "flap flap-orange";
       } else {
-        return 'flap flap-none'
+        return "flap flap-none";
       }
-
     },
   },
-})
+});
 </script>
 
 <style lang="scss" scoped>
@@ -170,7 +198,6 @@ export default Vue.extend({
     overflow: hidden;
   }
 }
-
 
 .header-content {
   display: flex;

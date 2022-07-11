@@ -40,13 +40,11 @@
 
         <div class="cards">
           <div class="cardCalendar">
-            <!-- <CardModel
+            <CardModel
               v-for="mold in dataNewMold"
               :key="mold.id"
-              :statusOrigin="mold.origin"
-              :flag="mold.flag"
-              :typeCard="mold.typeCard"
-            /> -->
+              :dataMold="mold"
+            />
           </div>
         </div>
       </div>
@@ -54,70 +52,62 @@
   </div>
 </template>
 <script>
-
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 
 export default {
-
-  layout: 'calendar',
+  layout: "calendar",
   head() {
     return {
-      title: 'TryOut - Kanban',
-    }
+      title: "TryOut - Kanban",
+    };
   },
   data() {
     return {
       dataExample: [],
       attrs: [],
-      date: dayjs(new Date()).format('MM'),
+      date: new Date(),
 
-      dataNewMold: [
-        { id: 1, origin: 'Aprovado', flag: '1', typeCard: 'solicitation' },
-        { id: 2, origin: 'Reprovado', flag: '3', typeCard: 'solicitation' },
-        { id: 3, origin: '', flag: '2', typeCard: 'solicitation' },
-        { id: 4, origin: 'Aprovado', flag: '1', typeCard: 'solicitation' },
-        { id: 5, origin: 'Reprovado', flag: '3', typeCard: 'solicitation' },
-      ],
-    }
+      dataNewMold: [],
+    };
   },
 
   created: async function () {},
 
   methods: {
     newDate(valor) {
-      return dayjs(valor).locale('pt-br').format('DD/MM/YYYY')
+      return dayjs(valor).locale("pt-br").format("DD/MM/YYYY");
     },
     newDateMonth(valor) {
-      return dayjs(valor).format('MM')
+      return dayjs(valor).format("MM");
     },
 
     verifyColorDays(dates) {
-      const colorDate2 = dayjs(dates)
-      const todayDate = dayjs(new Date())
-      const colorDate = todayDate.diff(colorDate2, 'day')
+      const colorDate2 = dayjs(dates);
+      const todayDate = dayjs(new Date());
+      const colorDate = todayDate.diff(colorDate2, "day");
       if (colorDate > 0) {
-        return 'red'
+        return "red";
       } else if (colorDate == 0) {
-        return 'blue'
+        return "blue";
       } else {
-        return 'green'
+        return "green";
       }
     },
 
     verifyLateDays(firstDay, secondDay) {
-      const date1 = dayjs(firstDay)
-      const date2 = dayjs(secondDay)
-      const dayCalculed = date1.diff(date2, 'day')
+      const date1 = dayjs(firstDay);
+      const date2 = dayjs(secondDay);
+      const dayCalculed = date1.diff(date2, "day");
       if (dayCalculed > 0) {
-        return `atraso de: ${dayCalculed}`
+        return `atraso de: ${dayCalculed}`;
       } else if (dayCalculed == 0) {
-        return `Programado para hoje`
+        return `Programado para hoje`;
       } else {
-        return `ainda faltam ${dayCalculed * -1} dias`
+        return `ainda faltam ${dayCalculed * -1} dias`;
       }
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
