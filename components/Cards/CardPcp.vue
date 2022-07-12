@@ -85,27 +85,13 @@
             </div>
           </div>
         </div>
-
       </div>
-      <div class="containerPopUp" v-if="showPopUp">
-              <div class="popUp">
-                <div class="headPopup">
-                  <div class="frameImg">
-                    <img src="@/assets/img/formH.svg" alt="">
-                  </div>
-                  <h2>Deseja realmente Cancelar?</h2>
-                </div>
-                <div class="buttons">
-                  <button class="btnPopup" @click.prevent="showPopUp = false">Não</button>
-                  <button :style="buttonColor" class="btnPopup" @click.prevent="toHomologate(statusPopUp)">sim, Cancelar</button>
-                </div>
-              </div>
-            </div>
+
+      
 
       <div class="contentContainer" v-if="isOpenInfoCard">
         <SlotBtn>
-      
-            <BtnPirula titleBtn="Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'" />
+            <!-- <BtnPirula titleBtn="Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'" /> -->
 
             <BtnPirula titleBtn="Revisar Solicitação" color="pcp-analise" v-if="$route.name === 'pcp-waiting'" :dataMold="dataMold" @updateCard="updateCard"/>
 
@@ -131,7 +117,7 @@ export default Vue.extend({
       btnStatus: this.status,
 
       typeHomologar: "",
-      showPopUp: false,
+      showPopUp: true,
     }
   },
   methods: {
@@ -170,58 +156,7 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 
-.containerPopUp{
-  background-color: rgba(38, 49, 141, 0.342);
-  backdrop-filter: blur(2px);
-  position: fixed;
-  height: 100vh;
-  width: 100%;
-  z-index: 99;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  
-  .popUp{
-    background-color: var(--white);
-    width: 30rem;
-    height: 21rem;
-    padding: 1rem;
-    margin-top: 10rem;
-    position: sticky;
-    
-    flex-direction: column;
-    display: flex;
-    justify-content: space-between;
-    border-radius: .5rem;
-    .headPopup{
-      margin-bottom: 1rem;
-      h2{
-        margin-top: 1rem;
-        font-size: 1.7rem;
-      }
-      .frameImg{
-        height: 10rem;
-        background-color: var(--blue);
-        display: grid;
-        justify-content: center;
-        img{
-          width: 18rem;
-          position: relative;
-          bottom: .5rem;
-        }
-      }
-    }
-    .buttons{
-      display: flex;
-      gap: 1rem;
-      justify-content: flex-end;
-      .btnPopup{
-        width: fit-content!important;
-      }
-    }
-  }
-}
+
 
 .box {
   background: var(--gray);

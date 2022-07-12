@@ -44,11 +44,11 @@ export default Vue.extend({
       }
     }
   },
-  // methods: {
-  //   closeModal() {
-  //     this.modalStatus = !this.modalStatus
-  //   }
-  // },
+  methods: {
+    closeModal() {
+      this.modalStatus = !this.modalStatus
+    }
+  },
   // watch:{
   //   modalStatus(newValue){
   //     let scrollBody = document.body

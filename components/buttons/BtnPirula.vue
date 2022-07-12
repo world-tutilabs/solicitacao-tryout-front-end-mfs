@@ -15,7 +15,7 @@
     <ModalEng :displayModal="modalStatus" @closeModal="closeModal" v-else-if="this.color === 'Reprovado'" :dataRevisao="dataMold"/>
 
     <ModalFormPcp :displayModal="modalStatus" @closeModal="closeModal" v-else :dataPCP="dataMold" />
-
+    
 
   </div>
 </template>
@@ -41,9 +41,9 @@ export default {
     modalStatus(newValue) {
       let scrollBody = document.body
       if (newValue == true) {
-        scrollBody.style.overflow = 'hidden'
+        scrollBody.style.overflowY = 'hidden'
       } else {
-        scrollBody.style.overflow = 'scroll'
+        scrollBody.style.overflowY = 'scroll'
       }
     },
 
