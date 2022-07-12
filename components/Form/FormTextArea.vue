@@ -8,7 +8,6 @@
       v-on="inputListeners"
       :readonly="readonly"
     ></textarea>
-    dsdsd
   </div>
 </template>
 
