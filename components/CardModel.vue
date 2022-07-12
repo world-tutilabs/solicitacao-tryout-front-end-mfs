@@ -65,7 +65,7 @@
             <span>Descrição</span>
             <h4>{{ dataMold.injectionProcess.labor.description }}</h4>
             <div class="processFooter">
-              <h4>Qtde: {{ dataMold.injectionProcess.labor.amount }}</h4>
+              <h4>Quantidade: {{ dataMold.injectionProcess.labor.amount }}</h4>
             </div>
           </div>
 
@@ -85,7 +85,7 @@
             <span>Descrição</span>
             <h4>{{ dataMold.injectionProcess.feedstock.description }}</h4>
             <div class="processFooter">
-              <h4>Qtde: {{ dataMold.injectionProcess.feedstock.code }}</h4>
+              <h4>KG: {{ dataMold.injectionProcess.feedstock.code }}</h4>
             </div>
           </div>
         </div>
@@ -106,30 +106,33 @@
 
       <div class="contentContainer" v-if="isOpenInfoCard">
         <SlotBtn>
+          <div class="containerPopUp" v-if="showPopUp">
 
-          <BtnPirula
-            titleBtn="Cancelar"
-            color="pcp-approveds"
-            v-if="$route.name === 'pcp-approveds'"
-            :dataMold="dataMold"
-          />
+          <form>
+            <div class="popUp">
+              <div class="headPopup">
+                <div class="frameImg">
+                  <img src="@/assets/img/formH.svg" alt="">
+                </div>
+                <h2>Deseja realmente Cancelar?</h2>
+              </div>
+              <div class="buttons">
+                <button class="btnPopup" @click.prevent="showPopUp = false">Não</button>
+                
+                <BtnPirula titleBtn="Sim, Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'" :dataMold="dataMold"  @click="showPopUp = false"/>
+              </div>
+            </div>
+        </form>
 
-          <BtnPirula
-            titleBtn="Revisar"
-            color="Reprovado"
-            v-if="dataMold.homologation.status.description === 'Reprovado'"
-            :dataMold="dataMold"
-            @updateCard="updateCard"
-          />
+        </div>
 
-          <BtnPirula
-            titleBtn="Gerar Relatório"
-            color="Aprovado"
-            v-if="
-              dataMold.homologation.status.description === 'Aprovado' &&
-              $route.name !== 'pcp-approveds'
-            "
-          />
+        <button class="btnCancel" v-if="$route.name === 'pcp-approveds'" @click.prevent="showPopUp = true">Cancelar</button>
+
+
+          <BtnPirula titleBtn="Revisar" color="Reprovado" v-if="dataMold.homologation.status.description === 'Reprovado' " :dataMold="dataMold" @updateCard="updateCard"/>
+          
+          <BtnPirula titleBtn="Gerar Relatório" color="Aprovado" v-if="dataMold.homologation.status.description === 'Aprovado' && $route.name !== 'pcp-approveds'" />
+        
 
         </SlotBtn>
       </div>
@@ -154,6 +157,7 @@ export default Vue.extend({
     return {
       isOpenInfoCard: false,
       btnStatus: this.status,
+      showPopUp: false
     };
 
   },

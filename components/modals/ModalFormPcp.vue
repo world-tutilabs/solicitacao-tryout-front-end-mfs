@@ -69,7 +69,7 @@
                 <Title title="Mão de Obra" />
                 <FormInput label="Descrição" v-model="dataPCP.solicitation.injectionProcess.labor.description"
                   readonly="readonly" />
-                <FormInput label="Qtd" v-model="dataPCP.solicitation.injectionProcess.labor.amount"
+                <FormInput label="Quantidade" v-model="dataPCP.solicitation.injectionProcess.labor.amount"
                   readonly="readonly" />
               </SlotCardVue>
 
@@ -77,7 +77,7 @@
                 <Title title="Molde" />
                 <FormInput label="Descrição" v-model="dataPCP.solicitation.injectionProcess.mold.desc_mold"
                   readonly="readonly" />
-                <FormInput label="Qtd" v-model="dataPCP.solicitation.injectionProcess.mold.number_cavity"
+                <FormInput label="N° Cavidade" v-model="dataPCP.solicitation.injectionProcess.mold.number_cavity"
                   readonly="readonly" />
               </SlotCardVue>
 
@@ -85,7 +85,7 @@
                 <Title title="Matéria Prima" />
                 <FormInput label="Descrição" v-model="dataPCP.solicitation.injectionProcess.feedstock.description"
                   readonly="readonly" />
-                <FormInput label="Qtd" v-model="dataPCP.solicitation.injectionProcess.feedstock.code"
+                <FormInput label="Kg" v-model="dataPCP.solicitation.injectionProcess.feedstock.code"
                   readonly="readonly" />
               </SlotCardVue>
             </div>

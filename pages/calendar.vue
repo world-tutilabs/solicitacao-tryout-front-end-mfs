@@ -28,11 +28,11 @@
           </template>
         </no-ssr>
 
-        <div class="contentCount">
+        <!-- <div class="contentCount">
           <h4>Mês: {{ newDateMonth(date) }}</h4>
           <h5>Atrasados: 7</h5>
           <h5>Programados: 3</h5>
-        </div>
+        </div> -->
       </div>
 
       <div class="list-content">
