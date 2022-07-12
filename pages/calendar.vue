@@ -18,18 +18,20 @@
           <v-date-picker
             mode="range"
             v-model="date"
-            color="teal"
             show-caps
             is-expanded
             title-position="left"
             :attributes="attrs"
           />
+          <template #day-popover>
+            <div>programado</div>
+          </template>
         </no-ssr>
 
         <div class="contentCount">
           <h4>Mês: {{ newDateMonth(date) }}</h4>
-          <h5>Atrasados: 03</h5>
-          <h5>Programados: 10</h5>
+          <h5>Atrasados: 7</h5>
+          <h5>Programados: 3</h5>
         </div>
       </div>
 
@@ -39,12 +41,13 @@
         </header>
 
         <div class="cards">
-          <div class="cardCalendar">
-            <CardModel
-              v-for="mold in dataNewMold"
-              :key="mold.id"
-              :dataMold="mold"
-            />
+          <div v-for="(mold, index) in dataNewMold" :key="index">
+            <div
+              class="cardCalendar"
+              v-if="newDate(date) === newDateCard(mold.programmed_date)"
+            >
+              <CardModel :dataMold="mold" :typeCard="'solicitation'" />
+            </div>
           </div>
         </div>
       </div>
@@ -53,7 +56,7 @@
 </template>
 <script>
 import dayjs from "dayjs";
-
+import serviceNewMold from "~/services/newMold/mold";
 export default {
   layout: "calendar",
   head() {
@@ -71,21 +74,62 @@ export default {
     };
   },
 
-  created: async function () {},
+  created: async function () {
+    const values = await serviceNewMold.listAllHistoric();
+
+    const SolicitationApproved = values.data.filter((solicitation) => {
+      return solicitation.homologation.status.description === "Aprovado";
+    });
+    this.newDateProgammed(SolicitationApproved);
+    this.dataNewMold = SolicitationApproved;
+    // if(SolicitationApproved.length !== 0){
+
+    // }
+  },
 
   methods: {
+    newDateProgammed(valor) {
+      let date2;
+      let date1;
+
+      for (const date of valor) {
+        date1 = dayjs(new Date());
+        date2 = dayjs(date.programmed_date).add(1, "day");
+        const color_date = date2.diff(date1, "day");
+        console.log(color_date);
+        if (color_date > 0) {
+          this.attrs.push({
+            key: "today",
+            bar: "green",
+            dates: new Date(date2),
+          });
+        } else if (color_date == 0) {
+          this.attrs.push({
+            key: "today",
+            bar: "blue",
+            dates: new Date(date2),
+          });
+        } else {
+          this.attrs.push({ key: "today", bar: "red", dates: new Date(date2) });
+        }
+      }
+    },
+    newDateCard(valor) {
+      return dayjs(valor).add(1, "day").format("DD/MM/YYYY");
+    },
     newDate(valor) {
-      return dayjs(valor).locale("pt-br").format("DD/MM/YYYY");
+      const data = dayjs(valor).format("DD/MM/YYYY");
+      return data;
     },
     newDateMonth(valor) {
-      return dayjs(valor).format("MM");
+      return dayjs(new Date()).format("MM");
     },
 
     verifyColorDays(dates) {
-      const colorDate2 = dayjs(dates);
-      const todayDate = dayjs(new Date());
-      const colorDate = todayDate.diff(colorDate2, "day");
-      if (colorDate > 0) {
+      const Date2 = dayjs(new Date());
+      const DataCLick = dayjs(dates);
+      const colorDate = DataCLick.diff(Date2, "day", false);
+      if (colorDate < 0) {
         return "red";
       } else if (colorDate == 0) {
         return "blue";
@@ -96,10 +140,11 @@ export default {
 
     verifyLateDays(firstDay, secondDay) {
       const date1 = dayjs(firstDay);
-      const date2 = dayjs(secondDay);
+      const date2 = dayjs(secondDay).add(1, "day");
+
       const dayCalculed = date1.diff(date2, "day");
       if (dayCalculed > 0) {
-        return `atraso de: ${dayCalculed}`;
+        return `${dayCalculed + 1}`;
       } else if (dayCalculed == 0) {
         return `Programado para hoje`;
       } else {

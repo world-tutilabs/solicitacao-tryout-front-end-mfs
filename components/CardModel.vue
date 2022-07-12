@@ -30,7 +30,7 @@
           </div>
           <div class="inform">
             <h3>Data</h3>
-            <p>{{ dataMold.programmed_date }}</p>
+            <p>{{ dataMolds() }}</p>
           </div>
         </div>
       </div>
@@ -130,15 +130,12 @@
           />
         </SlotBtn>
       </div>
-
-      <pre>
-        {{ dataMold.homologation }}
-      </pre>
     </div>
   </div>
 </template>
 
 <script>
+import dayjs from "dayjs";
 import Vue from "vue";
 export default Vue.extend({
   layout: "mainFrame",
@@ -158,6 +155,13 @@ export default Vue.extend({
   methods: {
     updateCard() {
       this.$emit("updateList");
+    },
+
+    dataMolds(valor) {
+      return dayjs(this.dataMold.programmed_date)
+        .locale("pt-br")
+        .add(1, "day")
+        .format("DD/MM/YYYY");
     },
     openInfoCard() {
       return (this.isOpenInfoCard = !this.isOpenInfoCard);
