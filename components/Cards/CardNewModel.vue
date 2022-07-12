@@ -11,7 +11,7 @@
         <div class="informs">
           <div class="inform">
             <h3>Cód.RRIM</h3>
-            <p>{{ dataMold.N_RRIM }}</p>
+            <p>{{ dataMold.ID }}</p>
           </div>
           <div class="inform">
             <h3>Cliente</h3>
@@ -25,10 +25,10 @@
             <h3>Cód. do Molde</h3>
             <p>{{ dataMold.CODIGO_MOLDE }}</p>
           </div>
-          <div class="inform">
+          <!-- <div class="inform">
             <h3>Descrição do Molde</h3>
             <p>XXXXXXXX</p>
-          </div>
+          </div> -->
         </div>
       </div>
 

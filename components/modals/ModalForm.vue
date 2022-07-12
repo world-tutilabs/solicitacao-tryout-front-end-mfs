@@ -121,14 +121,14 @@
 
               <SlotCard>
                 <Title title="Molde" />
-                <FormInput label="Descrição" type="text" v-model="moldMold"/>
+                <FormInput label="Descrição" type="text" v-model="dataRRIM.MOLDE" />
                 <FormInput label="N° Cavidade" type="number" min="1" v-model="moldNumber"/>
               </SlotCard>
 
               <SlotCard>
                 <Title title="Matéria Prima" />
                 <FormInput label="Descrição" type="text" v-model="feedstocksDescription"/>
-                <FormInput label="Qtd" type="number" min="1" v-model="feedstocksCode"/>
+                <FormInput label="kG" type="number" min="1" v-model="feedstocksCode"/>
               </SlotCard>
             </div>
           </div>
@@ -171,6 +171,7 @@ export default {
       laborDescription: "",
       moldMold: "",
       moldNumber: "",
+
 
 
       newSolicitation: {
@@ -239,7 +240,7 @@ export default {
       this.testSolicitation.InjectionProcess.feedstocks.description = this.feedstocksDescription
       this.testSolicitation.InjectionProcess.labor.amount = parseInt(this.laborAmount)
       this.testSolicitation.InjectionProcess.labor.description = this.laborDescription
-      this.testSolicitation.InjectionProcess.mold.mold = this.moldMold
+      this.testSolicitation.InjectionProcess.mold.mold = this.dataRRIM.MOLDE
       this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(this.moldNumber)
 
 
@@ -262,6 +263,7 @@ export default {
       this.newSolicitation.cod_prod = event.target.value
       const value = this.productsOptions.produto.find((item) => item.COD_PRODUTO === event.target.value)
       this.indexProduct = value.DESC_PRODUTO
+      this.feedstocksDescription = value.DESC_MATERIA_PRIMA
     },
 
     closeModal() {
