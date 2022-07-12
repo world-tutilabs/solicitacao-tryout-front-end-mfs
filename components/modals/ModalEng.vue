@@ -57,7 +57,7 @@
                   <FormInput label="Motivo" v-model="dataRevisao.reason"  />
                 </div>
                 <div class="boxInput">
-                  <FormInput label="Data Programada" :value="formatDate(dataRevisao.programmed_date)" type='date'/>
+                  <FormInput label="Data Programada" v-model="dataRevisao.programmed_date"  :type='inputTypeDate' @click="inputTypeDate = 'date'"/>
                 </div>
               </div>
             </div>
@@ -110,6 +110,8 @@ import dayjs from 'dayjs'
 export default {
   data() {
     return {
+      inputTypeDate: 'text',
+
       descriptionLabor: '',
       textoTextArea: '',
 
