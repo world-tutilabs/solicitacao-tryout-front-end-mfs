@@ -57,7 +57,7 @@
                   <FormInput label="Motivo" v-model="dataRevisao.reason"  />
                 </div>
                 <div class="boxInput">
-                  <FormInput label="Data Programada" :value="formatDate(dataRevisao.programmed_date)" />
+                  <FormInput label="Data Programada" :value="formatDate(dataRevisao.programmed_date)" type='date'/>
                 </div>
               </div>
             </div>

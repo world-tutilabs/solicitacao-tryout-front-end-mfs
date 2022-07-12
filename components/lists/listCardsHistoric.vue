@@ -41,16 +41,28 @@ export default {
     },
 
     generateList: async function () {
-    await httpLocal.listAllHistoric().then((res) => {
+    await httpLocal.listAllHistoric().then( async (res) => {
       this.listHistoric = res.data
+
     })
+
   },
+  },
+
+  watch: {
+
+     listHistoric(newValue){
+      console.log(newValue.length);
+       this.$store.commit('setCountNewMold', newValue.length)
+
+    }
   },
 
   
 
   async fetch() {
     await this.generateList()
+    
 
   }
 

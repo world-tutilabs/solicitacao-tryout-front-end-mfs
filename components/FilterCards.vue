@@ -1,5 +1,8 @@
 <template>
-  <div class="container">
+  <div v-if="$fetchState.pending" >
+    <Loading />
+  </div>
+  <div class="container" v-else>
     <NuxtLink
       v-if="!routePcp"
       :to="`/${filter.router}`"
@@ -27,9 +30,14 @@
 </template>
 
 <script>
+import httpLocal from '../services/newMold/mold'
+import http from '../services/pcp/pcp'
+
 export default {
   data() {
     return {
+      listAllApproveds: [],
+      listHistoric: [],
       filters: [
         { topName: 'Novos', name: 'Moldes', count: '000', router: '' },
         {
@@ -60,6 +68,34 @@ export default {
         },
       ],
     }
+  },
+
+  watch: {
+    countNewMolds(newValue) {
+      this.countNewMolds = newValue
+    }
+  },
+
+  async fetch() {
+      await httpLocal.listAllHistoric().then( async (res) => {
+      this.filters[0].count = res.data.length
+
+      this.listHistoric = res.data
+
+      this.listHistoric.map( (item) => {
+        if(item.homologation.status.id === 1){
+          this.listAllApproveds.push(item)
+        }
+      })
+
+      this.filtersPcp[1].count = this.listAllApproveds.length
+      
+    })
+
+      await http.listAllPcp().then((res) => {
+        this.filtersPcp[0].count = res.data.length
+    })
+
   },
 
   computed: {
