@@ -30,6 +30,7 @@
           </div>
           <div class="inform">
             <h3>Data</h3>
+
             <p>{{ dataMolds() }}</p>
           </div>
         </div>
@@ -105,6 +106,7 @@
 
       <div class="contentContainer" v-if="isOpenInfoCard">
         <SlotBtn>
+
           <BtnPirula
             titleBtn="Cancelar"
             color="pcp-approveds"
@@ -128,15 +130,20 @@
               $route.name !== 'pcp-approveds'
             "
           />
+
         </SlotBtn>
       </div>
     </div>
+
+
   </div>
 </template>
 
 <script>
+
 import dayjs from "dayjs";
 import Vue from "vue";
+
 export default Vue.extend({
   layout: "mainFrame",
 
@@ -148,6 +155,7 @@ export default Vue.extend({
       isOpenInfoCard: false,
       btnStatus: this.status,
     };
+
   },
   created: async function () {
     console.log(this.dataMold.homologation);
@@ -189,6 +197,74 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+.btnCancel{
+    min-width: 148px;
+    height: 40px;
+    padding: var(--paddingInput);
+    border-radius: 2rem;
+    color: var(--white);
+    font-weight: var(--bold);
+    font-size: 1rem;
+    background-color: var(--blue);
+}
+.containerPopUp{
+  background-color: rgba(38, 49, 141, 0.342);
+  backdrop-filter: blur(2px);
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  z-index: 99;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  
+  .popUp{
+    background-color: var(--white);
+    width: 30rem;
+    height: 21rem;
+    padding: 1rem;
+    margin-top: 10rem;
+    position: sticky;
+    
+    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+    border-radius: .5rem;
+    .headPopup{
+      margin-bottom: 1rem;
+      h2{
+        margin-top: 1rem;
+        font-size: 1.7rem;
+      }
+      .frameImg{
+        height: 10rem;
+        background-color: var(--blue);
+        display: grid;
+        justify-content: center;
+        img{
+          width: 18rem;
+          position: relative;
+          bottom: .5rem;
+        }
+      }
+    }
+    .buttons{
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      .btnPopup{
+        width: fit-content!important;
+        height: 40px;
+        padding: 0.5rem 0.7rem;
+        border-radius: 2rem;
+        font-weight: var(--bold);
+        font-size: 1rem;
+        font-weight: var(--bold);
+      }
+    }
+  }
+}
 .box {
   background: var(--gray);
   padding: max(0.3rem, 1vw);

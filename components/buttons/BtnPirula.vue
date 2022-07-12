@@ -15,7 +15,7 @@
     <ModalEng :displayModal="modalStatus" @closeModal="closeModal" v-else-if="this.color === 'Reprovado'" :dataRevisao="dataMold"/>
 
     <ModalFormPcp :displayModal="modalStatus" @closeModal="closeModal" v-else :dataPCP="dataMold" />
-
+    
 
   </div>
 </template>
@@ -41,9 +41,9 @@ export default {
     modalStatus(newValue) {
       let scrollBody = document.body
       if (newValue == true) {
-        scrollBody.style.overflow = 'hidden'
+        scrollBody.style.overflowY = 'hidden'
       } else {
-        scrollBody.style.overflow = 'scroll'
+        scrollBody.style.overflowY = 'scroll'
       }
     },
 
@@ -60,7 +60,6 @@ export default {
         status: 0,
         comment: ''
       },
-
       dataCancel: [],
     };
   },
@@ -68,6 +67,7 @@ export default {
   methods: {
 
     cancelBtn: async function () {
+      this.$toast.info("Solicitação Cancelada")
       this.homologate.status = 4
       this.homologate.comment = "aaa"
       await http.deleteSolicitation(this.dataMold.homologation.id, this.homologate)
