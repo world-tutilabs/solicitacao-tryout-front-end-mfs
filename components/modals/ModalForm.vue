@@ -347,6 +347,7 @@ export default {
   .inputData {
     input {
       background-color: #ffffff !important;
+      box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px, rgb(0 0 0 / 23%) 0px 3px 6px;
     }
   }
 }

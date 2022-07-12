@@ -13,6 +13,7 @@ httpLocal.interceptors.request.use(function (config) {
   // let token = sessionStorage.getItem("token");
   let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYXRyaWN1bGEiOiI1MDU0IiwiaWF0IjoxNjU3NjI2Mjg3LCJleHAiOjE2NTc2NTUwODcsInN1YiI6ImEzMDZmYTVmLTJmZmItNDMwNi05YmY2LWExNzg1YTY3OThjZiJ9.BG9HjM7wZZskjqp55WsmdNOAF1sQpyYSfhKDn55SCsw';
 
+
   if (!token) {
     token = "";
   }
