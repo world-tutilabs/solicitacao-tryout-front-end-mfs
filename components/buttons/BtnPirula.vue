@@ -60,7 +60,6 @@ export default {
         status: 0,
         comment: ''
       },
-
       dataCancel: [],
     };
   },
