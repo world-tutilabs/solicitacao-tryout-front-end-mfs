@@ -29,7 +29,7 @@
           </div>
           <div class="inform">
             <h3>Data</h3>
-            <p>{{ dataMold.solicitation.programmed_date }}</p>
+            <p>{{ formatDate(dataMold.solicitation.programmed_date) }}</p>
           </div>
         </div>
       </div>
@@ -104,6 +104,7 @@
 
 <script>
 import Vue from 'vue'
+import dayjs from 'dayjs'
 export default Vue.extend({
   layout: 'mainFrame',
 
@@ -122,6 +123,10 @@ export default Vue.extend({
   methods: {
     openInfoCard() {
       return this.isOpenInfoCard = !this.isOpenInfoCard
+    },
+
+    formatDate(date){
+      return dayjs(date).add(1, 'day').locale('pt-br').format('DD/MM/YYYY')
     },
 
     toggleButton() {

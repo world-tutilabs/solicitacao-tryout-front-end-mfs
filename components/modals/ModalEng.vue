@@ -51,13 +51,13 @@
                   <FormInput label="Técnico" v-model="dataRevisao.injectionProcess.proc_technician" />
                 </div>
                 <div class="boxInput">
-                  <FormInput label="Quantidade" v-model="dataRevisao.injectionProcess.quantity" readonly="readonly" />
+                  <FormInput label="Quantidade" v-model="dataRevisao.injectionProcess.quantity"  />
                 </div>
                 <div class="boxInput">
-                  <FormInput label="Motivo" v-model="dataRevisao.reason" readonly="readonly" />
+                  <FormInput label="Motivo" v-model="dataRevisao.reason"  />
                 </div>
                 <div class="boxInput">
-                  <FormInput label="Data Programada" v-model="dataRevisao.programmed_date" />
+                  <FormInput label="Data Programada" :value="formatDate(dataRevisao.programmed_date)" type='date'/>
                 </div>
               </div>
             </div>
@@ -67,21 +67,21 @@
                 <Title title="Mão de Obra" />
                 <FormInput label="Descrição" v-model="dataRevisao.injectionProcess.labor.description"
                   readonly="readonly" />
-                <FormInput label="Qtd" v-model="dataRevisao.injectionProcess.labor.amount" readonly="readonly" />
+                <FormInput label="Qtd" v-model="dataRevisao.injectionProcess.labor.amount"  />
               </SlotCardVue>
 
               <SlotCardVue>
                 <Title title="Molde" />
                 <FormInput label="Descrição" v-model="dataRevisao.injectionProcess.mold.desc_mold"
                   readonly="readonly" />
-                <FormInput label="Qtd" v-model="dataRevisao.injectionProcess.mold.number_cavity" readonly="readonly" />
+                <FormInput label="Qtd" v-model="dataRevisao.injectionProcess.mold.number_cavity"  />
               </SlotCardVue>
 
               <SlotCardVue>
                 <Title title="Matéria Prima" />
                 <FormInput label="Descrição" v-model="dataRevisao.injectionProcess.feedstock.description"
-                  readonly="readonly" />
-                <FormInput label="Qtd" v-model="dataRevisao.injectionProcess.feedstock.code" readonly="readonly" />
+                   />
+                <FormInput label="Qtd" v-model="dataRevisao.injectionProcess.feedstock.code"  />
               </SlotCardVue>
             </div>
           </div>
@@ -105,6 +105,7 @@
 <script>
 
 import http from '../../services/newMold/mold'
+import dayjs from 'dayjs'
 
 export default {
   data() {
@@ -160,6 +161,11 @@ export default {
   },
 
   methods: {
+
+    formatDate(date){
+      return dayjs(date).add(1, 'day').locale('pt-br').format('DD/MM/YYYY')
+    },
+
     closeModal() {
       this.$emit("closeModal", this.displayModal)
     },

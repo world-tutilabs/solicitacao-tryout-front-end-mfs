@@ -11,7 +11,8 @@ const httpLocal = axios.create({
 
 httpLocal.interceptors.request.use(function (config) {
   // let token = sessionStorage.getItem("token");
-  let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYXRyaWN1bGEiOiI1MDU0IiwiaWF0IjoxNjU3NjI4MjA4LCJleHAiOjE2NTc2NTcwMDgsInN1YiI6ImEzMDZmYTVmLTJmZmItNDMwNi05YmY2LWExNzg1YTY3OThjZiJ9.7U1k8i0SQTK1JfW68pZx5FXzwZ9tpGEKXMww0CAuJqU';
+  let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYXRyaWN1bGEiOiI1MDU0IiwiaWF0IjoxNjU3NjI2Mjg3LCJleHAiOjE2NTc2NTUwODcsInN1YiI6ImEzMDZmYTVmLTJmZmItNDMwNi05YmY2LWExNzg1YTY3OThjZiJ9.BG9HjM7wZZskjqp55WsmdNOAF1sQpyYSfhKDn55SCsw';
+
 
   if (!token) {
     token = "";
