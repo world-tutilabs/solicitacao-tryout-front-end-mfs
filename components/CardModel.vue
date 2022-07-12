@@ -98,6 +98,8 @@
       <div class="contentContainer" v-if="isOpenInfoCard">
         <SlotBtn>
           <div class="containerPopUp" v-if="showPopUp">
+
+          <form>
             <div class="popUp">
               <div class="headPopup">
                 <div class="frameImg">
@@ -107,9 +109,11 @@
               </div>
               <div class="buttons">
                 <button class="btnPopup" @click.prevent="showPopUp = false">Não</button>
-                <BtnPirula titleBtn="Sim, Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'" :dataMold="dataMold"/>
+                <BtnPirula titleBtn="Sim, Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'" :dataMold="dataMold"  @click="showPopUp = false"/>
               </div>
             </div>
+        </form>
+
         </div>
 
           <button class="btnCancel" v-if="$route.name === 'pcp-approveds'" @click.prevent="showPopUp = true">Cancelar</button>

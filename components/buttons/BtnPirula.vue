@@ -68,6 +68,7 @@ export default {
   methods: {
 
     cancelBtn: async function () {
+      this.$toast.info("Solicitação Cancelada")
       this.homologate.status = 4
       this.homologate.comment = "aaa"
       await http.deleteSolicitation(this.dataMold.homologation.id, this.homologate)
