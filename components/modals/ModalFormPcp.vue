@@ -58,7 +58,7 @@
                   <FormInput label="Motivo" v-model="dataPCP.solicitation.reason" readonly="readonly" />
                 </div>
                 <div class="boxInput">
-                  <FormInput label="Data Programada" v-model="dataPCP.solicitation.programmed_date"
+                  <FormInput label="Data Programada" :value="formatDate(dataPCP.solicitation.programmed_date)"
                     readonly="readonly" />
                 </div>
               </div>
@@ -123,6 +123,7 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
 
 import http from '../../services/pcp/pcp'
 
@@ -149,6 +150,10 @@ export default {
     methods: {
         closeModal() {
             this.$emit("closeModal", this.displayModal);
+        },
+
+        formatDate(date){
+          return dayjs(date).add(1, 'day').format('DD/MM/YYYY')
         },
         showModal(statusModal){
           this.showPopUp = true
