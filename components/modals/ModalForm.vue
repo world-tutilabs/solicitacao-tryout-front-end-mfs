@@ -69,7 +69,7 @@
           </div>
           <div class="boxInput">
             <p>Técnico</p>
-            <input type="text" v-model="tecnico"/>
+            <input type="text" v-model="dataRRIM.homologacao[0].created_user.nome" disabled/>
           </div>
 
           <button @click.prevent="addProcess" v-if="!processValidation">
@@ -98,7 +98,7 @@
 
               <div class="boxInput">
                 <p>Técnico</p>
-                <input type="text" v-model="tecnico" disabled />
+                <input type="text" v-model="dataRRIM.homologacao[0].created_user.nome" disabled />
               </div>
 
               <div class="boxInput">
@@ -110,6 +110,11 @@
                 <p>Data Programada</p>
                 <input type="date" v-model="newData" />
               </div>
+
+              <!-- <div class="boxInput">
+                <p>Máquina</p>
+                <input type="text" v-model="newData" />
+              </div> -->
             </div>
 
             <div class="cardTryOut">
@@ -121,14 +126,14 @@
 
               <SlotCard>
                 <Title title="Molde" />
-                <FormInput label="Descrição" type="text" v-model="moldMold"/>
+                <FormInput label="Descrição" type="text" v-model="dataRRIM.MOLDE" disabled/>
                 <FormInput label="N° Cavidade" type="number" min="1" v-model="moldNumber"/>
               </SlotCard>
 
               <SlotCard>
                 <Title title="Matéria Prima" />
-                <FormInput label="Descrição" type="text" v-model="feedstocksDescription"/>
-                <FormInput label="Qtd" type="number" min="1" v-model="feedstocksCode"/>
+                <FormInput label="Descrição" type="text" v-model="feedstocksDescription" disabled/>
+                <FormInput label="kG" type="number" min="1" v-model="feedstocksCode"/>
               </SlotCard>
             </div>
           </div>
@@ -171,6 +176,7 @@ export default {
       laborDescription: "",
       moldMold: "",
       moldNumber: "",
+
 
 
       newSolicitation: {
@@ -232,14 +238,14 @@ export default {
       this.testSolicitation.product_description = this.indexProduct
       this.testSolicitation.client = this.dataRRIM.CLIENTE
       this.testSolicitation.reason = this.reasonSolicitation
-      this.testSolicitation.InjectionProcess.proc_technician = this.tecnico
+      this.testSolicitation.InjectionProcess.proc_technician = dataRRIM.homologacao[0].created_user.nome
       this.testSolicitation.InjectionProcess.quantity = parseInt(this.quantidade)
       this.testSolicitation.date = this.newData
       this.testSolicitation.InjectionProcess.feedstocks.code = this.feedstocksCode
       this.testSolicitation.InjectionProcess.feedstocks.description = this.feedstocksDescription
       this.testSolicitation.InjectionProcess.labor.amount = parseInt(this.laborAmount)
       this.testSolicitation.InjectionProcess.labor.description = this.laborDescription
-      this.testSolicitation.InjectionProcess.mold.mold = this.moldMold
+      this.testSolicitation.InjectionProcess.mold.mold = this.dataRRIM.MOLDE
       this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(this.moldNumber)
 
 
@@ -262,6 +268,7 @@ export default {
       this.newSolicitation.cod_prod = event.target.value
       const value = this.productsOptions.produto.find((item) => item.COD_PRODUTO === event.target.value)
       this.indexProduct = value.DESC_PRODUTO
+      this.feedstocksDescription = value.DESC_MATERIA_PRIMA
     },
 
     closeModal() {
@@ -286,7 +293,7 @@ export default {
     },
 
     addProcess() {
-      if(this.quantidade === "" || this.tecnico === ""){
+      if(this.quantidade === ""){
         this.$toast.warning("Algum campo não foi preenchido")
       }else if(this.quantidade <= 0){
         this.$toast.error("Campo quantidade com valores impróprios")
@@ -312,6 +319,7 @@ export default {
   created: async function () {
 
     this.productsOptions = this.dataRRIM
+    console.log(this.dataRRIM)
   },
   watch:{
     quantidade(newValue){

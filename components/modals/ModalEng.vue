@@ -67,21 +67,26 @@
                 <Title title="Mão de Obra" />
                 <FormInput label="Descrição" v-model="dataRevisao.injectionProcess.labor.description"
                   readonly="readonly" />
-                <FormInput label="Qtd" v-model="dataRevisao.injectionProcess.labor.amount"  />
+
+                <FormInput label="Quantidade" v-model="dataRevisao.injectionProcess.labor.amount"  />
+
               </SlotCardVue>
 
               <SlotCardVue>
                 <Title title="Molde" />
                 <FormInput label="Descrição" v-model="dataRevisao.injectionProcess.mold.desc_mold"
                   readonly="readonly" />
-                <FormInput label="Qtd" v-model="dataRevisao.injectionProcess.mold.number_cavity"  />
+
+                <FormInput label="N° Cavidade" v-model="dataRevisao.injectionProcess.mold.number_cavity"  />
+
               </SlotCardVue>
 
               <SlotCardVue>
                 <Title title="Matéria Prima" />
                 <FormInput label="Descrição" v-model="dataRevisao.injectionProcess.feedstock.description"
                    />
-                <FormInput label="Qtd" v-model="dataRevisao.injectionProcess.feedstock.code"  />
+
+                <FormInput label="Kg" v-model="dataRevisao.injectionProcess.feedstock.code"  />
               </SlotCardVue>
             </div>
           </div>

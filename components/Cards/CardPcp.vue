@@ -63,7 +63,7 @@
             <span>Descrição</span>
             <h4>{{ dataMold.solicitation.injectionProcess.labor.description}}</h4>
             <div class="processFooter">
-              <h4>Qtde: {{ dataMold.solicitation.injectionProcess.labor.amount}}</h4>
+              <h4>Quantidade: {{ dataMold.solicitation.injectionProcess.labor.amount}}</h4>
             </div>
           </div>
 
@@ -72,7 +72,7 @@
             <span>Descrição</span>
             <h4>{{ dataMold.solicitation.injectionProcess.mold.desc_mold}}</h4>
             <div class="processFooter">
-              <h4>Qtde Cav: {{ dataMold.solicitation.injectionProcess.mold.number_cavity}}</h4>
+              <h4>N° Cavidade: {{ dataMold.solicitation.injectionProcess.mold.number_cavity}}</h4>
             </div>
           </div>
 
@@ -81,7 +81,7 @@
             <span>Descrição</span>
             <h4>{{ dataMold.solicitation.injectionProcess.feedstock.description}}</h4>
             <div class="processFooter">
-              <h4>Qtde: {{ dataMold.solicitation.injectionProcess.feedstock.code}}</h4>
+              <h4>Kg: {{ dataMold.solicitation.injectionProcess.feedstock.code}}</h4>
             </div>
           </div>
         </div>
