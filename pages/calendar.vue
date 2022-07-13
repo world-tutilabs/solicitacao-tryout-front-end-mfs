@@ -28,7 +28,7 @@
           </template>
         </no-ssr>
 
-        <!-- <div class="contentCount">
+        <div class="contentCount">
           <h4>Mês: {{ newDateMonth(date) }}</h4>
 
           <h5>Atrasados: {{ programmedRetard(date) }}</h5>
