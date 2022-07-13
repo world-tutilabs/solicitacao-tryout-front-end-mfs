@@ -31,10 +31,14 @@
         <div class="contentCount">
           <h4>Mês: {{ newDateMonth(date) }}</h4>
 
-          <h5>Atrasados: {{ programmedRetard(date) }}</h5>
+          <h5>
+            Atrasados:
+            <span :class="{ programmed_retard }">{{
+              programmedRetard(date)
+            }}</span>
+          </h5>
           <h5>Programados: {{ tryoutProgrammed(date) }}</h5>
         </div>
-
       </div>
 
       <div class="list-content">
@@ -71,7 +75,7 @@ export default {
       dataExample: [],
       attrs: [],
       date: new Date(),
-
+      programmed_retard: true,
       dataNewMold: [],
     };
   },
@@ -160,8 +164,10 @@ export default {
         }
       });
       if (dateMounth == dateAtual) {
+        this.programmed_retard = true;
         return `${atrasado.length} Tryout atrasado no mês`;
       } else {
+        this.programmed_retard = false;
         return "Não há Tryout atrasado para o mês";
       }
     },
@@ -178,20 +184,6 @@ export default {
         return "green";
       }
     },
-
-    // verifyLateDays(firstDay, secondDay) {
-    //   const date1 = dayjs(firstDay);
-    //   const date2 = dayjs(secondDay).add(1, "day");
-
-    //   const dayCalculed = date1.diff(date2, "day");
-    //   if (dayCalculed > 0) {
-    //     return `${dayCalculed + 1}`;
-    //   } else if (dayCalculed == 0) {
-    //     return `Programado para hoje`;
-    //   } else {
-    //     return `ainda faltam ${dayCalculed * -1} dias`;
-    //   }
-    // },
   },
 };
 </script>
@@ -252,6 +244,9 @@ export default {
         border: 2px solid var(--gray);
         border-radius: 10px;
         padding: 10px;
+        .programmed_retard {
+          color: var(--red);
+        }
       }
     }
 
