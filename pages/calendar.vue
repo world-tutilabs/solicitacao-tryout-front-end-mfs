@@ -28,13 +28,12 @@
           </template>
         </no-ssr>
 
-        <!-- <div class="contentCount">
+        <div class="contentCount">
           <h4>Mês: {{ newDateMonth(date) }}</h4>
 
           <h5>Atrasados: {{ programmedRetard(date) }}</h5>
           <h5>Programados: {{ tryoutProgrammed(date) }}</h5>
         </div>
-
       </div>
 
       <div class="list-content">
