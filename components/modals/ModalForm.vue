@@ -31,7 +31,10 @@
             <input type="text" list="products" @change="catchIndexProduct" />
 
             <datalist id="products">
-              <option v-for="(products, index) in productsOptions.produto" :key="index">
+              <option
+                v-for="(products, index) in productsOptions.produto"
+                :key="index"
+              >
                 {{ products.COD_PRODUTO }}
               </option>
             </datalist>
@@ -65,18 +68,21 @@
           </div>
           <div class="boxInput">
             <p>Quantidade</p>
-            <input type="number" min="1"  v-model="quantidade"/>
+            <input type="number" min="1" v-model="quantidade" />
           </div>
           <div class="boxInput">
             <p>Técnico</p>
-            <input type="text" v-model="dataRRIM.homologacao[0].created_user.nome" disabled/>
+            <input
+              type="text"
+              v-model="dataRRIM.homologacao[0].created_user.nome"
+              disabled
+            />
           </div>
 
           <button @click.prevent="addProcess" v-if="!processValidation">
             <img src="~/static/icons/plus.svg" alt="" />
             <h3>Adicionar</h3>
           </button>
-
         </div>
 
         <!-- so aparece quando selecionar um processo -->
@@ -84,13 +90,15 @@
           <div class="tabs">
             <div class="tab" v-for="index in count" :key="index">
               <p>Processo Injeção</p>
-              <img @click="removeProcess(index)" src="~/static/icons/x.svg" alt="" />
+              <img
+                @click="removeProcess(index)"
+                src="~/static/icons/x.svg"
+                alt=""
+              />
             </div>
           </div>
           <div class="frameProcess" v-if="processValidation">
-
             <div class="rowInputs divisor">
-
               <div class="boxInput">
                 <p>Quantidade</p>
                 <input type="text" v-model="quantidade" disabled />
@@ -98,7 +106,11 @@
 
               <div class="boxInput">
                 <p>Técnico</p>
-                <input type="text" v-model="dataRRIM.homologacao[0].created_user.nome" disabled />
+                <input
+                  type="text"
+                  v-model="dataRRIM.homologacao[0].created_user.nome"
+                  disabled
+                />
               </div>
 
               <div class="boxInput">
@@ -108,7 +120,7 @@
 
               <div class="boxInput inputData">
                 <p>Data Programada</p>
-                <input type="date" v-model="newData" />
+                <input type="date" v-model="newData" :min="dateCurrent" />
               </div>
 
               <!-- <div class="boxInput">
@@ -120,20 +132,50 @@
             <div class="cardTryOut">
               <SlotCard>
                 <Title title="Mão de Obra" />
-                <FormInput label="Descrição" type="text" v-model="laborDescription"/>
-                <FormInput label="Qtd" type="number" min="1" v-model="laborAmount"/>
+                <FormInput
+                  label="Descrição"
+                  type="text"
+                  v-model="laborDescription"
+                />
+                <FormInput
+                  label="Qtd"
+                  type="number"
+                  min="1"
+                  v-model="laborAmount"
+                />
               </SlotCard>
 
               <SlotCard>
                 <Title title="Molde" />
-                <FormInput label="Descrição" type="text" v-model="dataRRIM.MOLDE" disabled/>
-                <FormInput label="N° Cavidade" type="number" min="1" :value="calculeCavity(dataRRIM.molde_aberto[0].cavidade)" disabled/>
+                <FormInput
+                  label="Descrição"
+                  type="text"
+                  v-model="dataRRIM.MOLDE"
+                  disabled
+                />
+                <FormInput
+                  label="N° Cavidade"
+                  type="number"
+                  min="1"
+                  :value="calculeCavity(dataRRIM.molde_aberto[0].cavidade)"
+                  disabled
+                />
               </SlotCard>
 
               <SlotCard>
                 <Title title="Matéria Prima" />
-                <FormInput label="Descrição" type="text" v-model="feedstocksDescription" disabled/>
-                <FormInput label="kG" type="number" min="1" v-model="feedstocksCode"/>
+                <FormInput
+                  label="Descrição"
+                  type="text"
+                  v-model="feedstocksDescription"
+                  disabled
+                />
+                <FormInput
+                  label="kG"
+                  type="number"
+                  min="1"
+                  v-model="feedstocksCode"
+                />
               </SlotCard>
             </div>
           </div>
@@ -141,14 +183,17 @@
 
         <div class="boxButtons">
           <button class="cancel" @click.prevent="closeModal()">Cancelar</button>
-          <button class="save" @click.prevent="saveNewSolicitation()">Salvar</button>
+          <button class="save" @click.prevent="saveNewSolicitation()">
+            Salvar
+          </button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import http from '~/services/newMold/mold';
+import http from "~/services/newMold/mold";
+import dayjs from "dayjs";
 
 export default {
   props: {
@@ -157,10 +202,10 @@ export default {
   },
   data() {
     return {
+      dateCurrent: dayjs().format("YYYY-MM-DD"),
       myRouter: false,
       count: 0,
       processValidation: false,
-
 
       productsOptions: [],
       indexProduct: "",
@@ -176,8 +221,6 @@ export default {
       laborDescription: "",
       moldMold: "",
       moldNumber: "",
-
-
 
       newSolicitation: {
         cod_prod: "",
@@ -196,24 +239,24 @@ export default {
           created_user: {
             tecnico: "Rafael",
             role: "Eng_Analista",
-          }
+          },
         },
         InjectionProcess: {
           proc_technician: "",
           quantity: 0,
           feedstocks: {
             code: "",
-            description: ""
+            description: "",
           },
           labor: {
             description: "",
-            amount: 0
+            amount: 0,
           },
           mold: {
             number_cavity: 0,
-            mold: ""
-          }
-        }
+            mold: "",
+          },
+        },
       },
     };
   },
@@ -232,78 +275,85 @@ export default {
   },
 
   methods: {
-
     async saveNewSolicitation() {
-      this.testSolicitation.code_sap = this.newSolicitation.cod_prod
-      this.testSolicitation.product_description = this.indexProduct
-      this.testSolicitation.client = this.dataRRIM.CLIENTE
-      this.testSolicitation.reason = this.reasonSolicitation
-      this.testSolicitation.InjectionProcess.proc_technician = this.dataRRIM.homologacao[0].created_user.nome
-      this.testSolicitation.InjectionProcess.quantity = parseInt(this.quantidade)
-      this.testSolicitation.date = this.newData
-      this.testSolicitation.InjectionProcess.feedstocks.code = this.feedstocksCode
-      this.testSolicitation.InjectionProcess.feedstocks.description = this.feedstocksDescription
-      this.testSolicitation.InjectionProcess.labor.amount = parseInt(this.laborAmount)
-      this.testSolicitation.InjectionProcess.labor.description = this.laborDescription
-      this.testSolicitation.InjectionProcess.mold.mold = this.dataRRIM.MOLDE
-      this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(this.moldNumber)
+      this.testSolicitation.code_sap = this.newSolicitation.cod_prod;
+      this.testSolicitation.product_description = this.indexProduct;
+      this.testSolicitation.client = this.dataRRIM.CLIENTE;
+      this.testSolicitation.reason = this.reasonSolicitation;
+      this.testSolicitation.InjectionProcess.proc_technician =
+        this.dataRRIM.homologacao[0].created_user.nome;
+      this.testSolicitation.InjectionProcess.quantity = parseInt(
+        this.quantidade
+      );
+      this.testSolicitation.date = this.newData;
+      this.testSolicitation.InjectionProcess.feedstocks.code =
+        this.feedstocksCode;
+      this.testSolicitation.InjectionProcess.feedstocks.description =
+        this.feedstocksDescription;
+      this.testSolicitation.InjectionProcess.labor.amount = parseInt(
+        this.laborAmount
+      );
+      this.testSolicitation.InjectionProcess.labor.description =
+        this.laborDescription;
+      this.testSolicitation.InjectionProcess.mold.mold = this.dataRRIM.MOLDE;
+      this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(
+        this.moldNumber
+      );
 
-
-      await http.createNewSolicitation(this.testSolicitation).then( (res) => {
-        this.$toast.success("Solicitação realizada com sucesso!")
-        this.closeModal()
-      }).catch( (error) => {
-        if(error.response.status === 400) {
-          this.$toast.warning("Algum campo não foi preenchido")
-        }
-        if (error.response.status === 500) {
-          this.$toast.error("Erro no servidor")
-        }
-
-      })
-
-
+      await http
+        .createNewSolicitation(this.testSolicitation)
+        .then((res) => {
+          this.$toast.success("Solicitação realizada com sucesso!");
+          this.closeModal();
+        })
+        .catch((error) => {
+          if (error.response.status === 400) {
+            this.$toast.warning("Algum campo não foi preenchido");
+          }
+          if (error.response.status === 500) {
+            this.$toast.error("Erro no servidor");
+          }
+        });
     },
     catchIndexProduct(event) {
-      this.newSolicitation.cod_prod = event.target.value
-      const value = this.productsOptions.produto.find((item) => item.COD_PRODUTO === event.target.value)
-      this.indexProduct = value.DESC_PRODUTO
-      this.feedstocksDescription = value.DESC_MATERIA_PRIMA
+      this.newSolicitation.cod_prod = event.target.value;
+      const value = this.productsOptions.produto.find(
+        (item) => item.COD_PRODUTO === event.target.value
+      );
+      this.indexProduct = value.DESC_PRODUTO;
+      this.feedstocksDescription = value.DESC_MATERIA_PRIMA;
     },
 
     closeModal() {
-      this.indexProduct = null
+      this.indexProduct = null;
 
-      this.quantidade = null
-      this.tecnico = null
+      this.quantidade = null;
+      this.tecnico = null;
 
-      this.laborDescription = null
-      this.laborAmount = null
+      this.laborDescription = null;
+      this.laborAmount = null;
 
-      this.moldMold = null
-      this.moldNumber = null
+      this.moldMold = null;
+      this.moldNumber = null;
 
-      this.feedstocksDescription = null
-      this.feedstocksCode = null
+      this.feedstocksDescription = null;
+      this.feedstocksCode = null;
 
-      this.count = 0
-      this.processValidation = false
-    
-      this.$emit("closeModal", this.displayModal)
+      this.count = 0;
+      this.processValidation = false;
+
+      this.$emit("closeModal", this.displayModal);
     },
 
     addProcess() {
-      if(this.quantidade === ""){
-        this.$toast.warning("Algum campo não foi preenchido")
-      }else if(this.quantidade <= 0){
-        this.$toast.error("Campo quantidade com valores impróprios")
-      }else{
+      if (this.quantidade === "") {
+        this.$toast.warning("Algum campo não foi preenchido");
+      } else if (this.quantidade <= 0) {
+        this.$toast.error("Campo quantidade com valores impróprios");
+      } else {
         this.count++;
         this.processValidation = true;
       }
-      
-
-      
     },
     removeProcess(index) {
       this.count--;
@@ -315,46 +365,44 @@ export default {
       }
     },
 
-    calculeCavity(cavityArray){
+    calculeCavity(cavityArray) {
       console.log(cavityArray);
-      let total=0
-      cavityArray.map((item)=>{
-       total = item.N_CAVIDADE + total;
-      })
+      let total = 0;
+      cavityArray.map((item) => {
+        total = item.N_CAVIDADE + total;
+      });
       console.log(total);
-      this.moldNumber = total
+      this.moldNumber = total;
       return this.moldNumber;
-    }
+    },
   },
 
   created: async function () {
-
-    this.productsOptions = this.dataRRIM
-   
+    this.productsOptions = this.dataRRIM;
   },
-  watch:{
-    quantidade(newValue){
-      if(newValue < 0){
-        this.quantidade = newValue*(-1)
+  watch: {
+    quantidade(newValue) {
+      if (newValue < 0) {
+        this.quantidade = newValue * -1;
       }
     },
-    laborAmount(newValue){
-      if(newValue < 0){
-        this.laborAmount = newValue*(-1)
+    laborAmount(newValue) {
+      if (newValue < 0) {
+        this.laborAmount = newValue * -1;
       }
     },
-    moldNumber(newValue){
-      if(newValue < 0){
-        this.moldNumber = newValue*(-1)
+    moldNumber(newValue) {
+      if (newValue < 0) {
+        this.moldNumber = newValue * -1;
       }
     },
-    feedstocksCode(newValue){
-      if(newValue < 0){
-        this.feedstocksCode = newValue*(-1)
+    feedstocksCode(newValue) {
+      if (newValue < 0) {
+        this.feedstocksCode = newValue * -1;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
