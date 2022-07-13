@@ -4,7 +4,7 @@ export const state = () => ({
         router: ""
     },
 
-    isLoading: false,
+    countNewMolds: 0
 })
 
 export const mutations = {
@@ -13,10 +13,19 @@ export const mutations = {
         state.myRouter.router = router
     },
 
-    setIsLoading(state) {
-        state.isLoadding = !state.isLoadding
-        console.log(state.isLoading);
-    },
-
-    
+    setCountNewMold(state, data){
+        state.countNewMolds = data
+    }
 }
+
+export const getters = {
+    getCountNewMold(state){
+        console.log(state.countNewMolds);
+        return state.countNewMolds
+    }
+}
+
+
+
+
+
