@@ -30,8 +30,8 @@
 
         <div class="contentCount">
           <h4>Mês: {{ newDateMonth(date) }}</h4>
-          <h5>Atrasados: 7</h5>
-          <h5>Programados: 3</h5>
+          <h5>Atrasados: {{ programmedRetard(date) }}</h5>
+          <h5>Programados: {{ tryoutProgrammed(date) }}</h5>
         </div>
       </div>
 
@@ -96,7 +96,6 @@ export default {
         date1 = dayjs(new Date());
         date2 = dayjs(date.programmed_date).add(1, "day");
         const color_date = date2.diff(date1, "day");
-        console.log(color_date);
         if (color_date > 0) {
           this.attrs.push({
             key: "today",
@@ -121,8 +120,48 @@ export default {
       const data = dayjs(valor).format("DD/MM/YYYY");
       return data;
     },
-    newDateMonth(valor) {
-      return dayjs(new Date()).format("MM");
+    newDateMonth(date) {
+      const dateAtual = dayjs().format("MM");
+      const dateMounth = dayjs(date).format("MM");
+      if (dateMounth == dateAtual) {
+        return dateAtual;
+      } else {
+        return dateMounth;
+      }
+    },
+
+    tryoutProgrammed(date) {
+      const dateAtual = dayjs().format("MM");
+      const dateMounth = dayjs(date).format("MM");
+      if (dateMounth == dateAtual) {
+        return `${this.dataNewMold.length} Tryout Programado no mês`;
+      } else {
+        return "Não há Tryout Programado para o mês";
+      }
+    },
+
+    programmedRetard(date) {
+      let dadoTeste = this.dataNewMold;
+      let atrasado = [];
+      let element = [];
+
+      const dateAtual = dayjs().format("MM");
+      const dateMounth = dayjs(date).format("MM");
+      dadoTeste.map((e) => {
+        element.push(
+          dayjs(e.programmed_date).add(1, "day").format("DD/MM/YYYY")
+        );
+      });
+      element.map((e) => {
+        if (e < dayjs().format("DD/MM/YYYY")) {
+          atrasado.push(e);
+        }
+      });
+      if (dateMounth == dateAtual) {
+        return `${atrasado.length} Tryout atrasado no mês`;
+      } else {
+        return "Não há Tryout atrasado para o mês";
+      }
     },
 
     verifyColorDays(dates) {
@@ -138,19 +177,19 @@ export default {
       }
     },
 
-    verifyLateDays(firstDay, secondDay) {
-      const date1 = dayjs(firstDay);
-      const date2 = dayjs(secondDay).add(1, "day");
+    // verifyLateDays(firstDay, secondDay) {
+    //   const date1 = dayjs(firstDay);
+    //   const date2 = dayjs(secondDay).add(1, "day");
 
-      const dayCalculed = date1.diff(date2, "day");
-      if (dayCalculed > 0) {
-        return `${dayCalculed + 1}`;
-      } else if (dayCalculed == 0) {
-        return `Programado para hoje`;
-      } else {
-        return `ainda faltam ${dayCalculed * -1} dias`;
-      }
-    },
+    //   const dayCalculed = date1.diff(date2, "day");
+    //   if (dayCalculed > 0) {
+    //     return `${dayCalculed + 1}`;
+    //   } else if (dayCalculed == 0) {
+    //     return `Programado para hoje`;
+    //   } else {
+    //     return `ainda faltam ${dayCalculed * -1} dias`;
+    //   }
+    // },
   },
 };
 </script>

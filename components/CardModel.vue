@@ -149,9 +149,9 @@ export default Vue.extend({
       btnStatus: this.status,
     };
   },
-  created: async function () {
-    console.log(this.dataMold.homologation);
-  },
+  // created: async function () {
+  //   console.log(this.dataMold.homologation);
+  // },
   methods: {
     updateCard() {
       this.$emit("updateList");
