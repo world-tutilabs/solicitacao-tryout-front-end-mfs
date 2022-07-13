@@ -106,6 +106,7 @@
 
       <div class="contentContainer" v-if="isOpenInfoCard">
         <SlotBtn>
+
           <div class="containerPopUp" v-if="showPopUp">
 
           <form>
@@ -161,9 +162,9 @@ export default Vue.extend({
     };
 
   },
-  created: async function () {
-    console.log(this.dataMold.homologation);
-  },
+  // created: async function () {
+  //   console.log(this.dataMold.homologation);
+  // },
   methods: {
     updateCard() {
       this.$emit("updateList");
