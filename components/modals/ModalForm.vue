@@ -127,7 +127,7 @@
               <SlotCard>
                 <Title title="Molde" />
                 <FormInput label="Descrição" type="text" v-model="dataRRIM.MOLDE" disabled/>
-                <FormInput label="N° Cavidade" type="number" min="1" v-model="moldNumber"/>
+                <FormInput label="N° Cavidade" type="number" min="1" :value="calculeCavity(dataRRIM.molde_aberto[0].cavidade)" disabled/>
               </SlotCard>
 
               <SlotCard>
@@ -238,7 +238,7 @@ export default {
       this.testSolicitation.product_description = this.indexProduct
       this.testSolicitation.client = this.dataRRIM.CLIENTE
       this.testSolicitation.reason = this.reasonSolicitation
-      this.testSolicitation.InjectionProcess.proc_technician = dataRRIM.homologacao[0].created_user.nome
+      this.testSolicitation.InjectionProcess.proc_technician = this.dataRRIM.homologacao[0].created_user.nome
       this.testSolicitation.InjectionProcess.quantity = parseInt(this.quantidade)
       this.testSolicitation.date = this.newData
       this.testSolicitation.InjectionProcess.feedstocks.code = this.feedstocksCode
@@ -314,12 +314,23 @@ export default {
         this.processValidation = false;
       }
     },
+
+    calculeCavity(cavityArray){
+      console.log(cavityArray);
+      let total=0
+      cavityArray.map((item)=>{
+       total = item.N_CAVIDADE + total;
+      })
+      console.log(total);
+      this.moldNumber = total
+      return this.moldNumber;
+    }
   },
 
   created: async function () {
 
     this.productsOptions = this.dataRRIM
-    console.log(this.dataRRIM)
+   
   },
   watch:{
     quantidade(newValue){
