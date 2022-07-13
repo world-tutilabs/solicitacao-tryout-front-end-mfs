@@ -1,27 +1,17 @@
 <template>
-  <div v-if="$fetchState.pending" >
+  <div v-if="$fetchState.pending">
     <Loading />
   </div>
   <div class="container" v-else>
-    <NuxtLink
-      v-if="!routePcp"
-      :to="`/${filter.router}`"
-      v-for="filter in filters"
-      :key="filter.name"
-      :class="{ cards: true }"
-    >
+    <NuxtLink v-if="!routePcp" :to="`/${filter.router}`" v-for="filter in filters" :key="filter.name"
+      :class="{ cards: true }">
       <span>{{ filter.topName }}</span>
       <h2>{{ filter.name }}</h2>
       <h3>{{ filter.count }}</h3>
     </NuxtLink>
 
-    <NuxtLink
-      v-if="routePcp"
-      :to="`/${filterPcp.router}`"
-      v-for="filterPcp in filtersPcp"
-      :key="filterPcp.name"
-      :class="{ cards: true }"
-    >
+    <NuxtLink v-if="routePcp" :to="`/${filterPcp.router}`" v-for="filterPcp in filtersPcp" :key="filterPcp.name"
+      :class="{ cards: true }">
       <span>{{ filterPcp.topName }}</span>
       <h2>{{ filterPcp.name }}</h2>
       <h3>{{ filterPcp.count }}</h3>
@@ -76,25 +66,30 @@ export default {
     }
   },
 
+
   async fetch() {
-      await httpLocal.listAllHistoric().then( async (res) => {
-      this.filters[0].count = res.data.length
 
-      this.listHistoric = res.data
+    // Refatorar com VUEX
 
-      this.listHistoric.map( (item) => {
-        if(item.homologation.status.id === 1){
-          this.listAllApproveds.push(item)
-        }
+      await httpLocal.listAllHistoric().then(async (res) => {
+        this.filters[0].count = res.data.length
+
+        this.listHistoric = res.data
+
+        this.listHistoric.map((item) => {
+          if (item.homologation.status.id === 1) {
+            this.listAllApproveds.push(item)
+          }
+        })
+
+        this.filtersPcp[1].count = this.listAllApproveds.length
+
       })
-
-      this.filtersPcp[1].count = this.listAllApproveds.length
-      
-    })
 
       await http.listAllPcp().then((res) => {
         this.filtersPcp[0].count = res.data.length
-    })
+      })
+
 
   },
 
@@ -169,6 +164,7 @@ export default {
   background: var(--gray);
   border-radius: 2px;
 }
+
 .container::-webkit-scrollbar-thumb:hover {
   background: var(--gray_text);
 }
