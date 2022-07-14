@@ -51,13 +51,29 @@
                   <FormInput label="Técnico" v-model="dataRevisao.injectionProcess.proc_technician" />
                 </div>
                 <div class="boxInput">
-                  <FormInput label="Quantidade" v-model="dataRevisao.injectionProcess.quantity"  />
+                  <FormInput label="Quantidade" v-model="dataRevisao.injectionProcess.quantity" />
                 </div>
                 <div class="boxInput">
-                  <FormInput label="Motivo" v-model="dataRevisao.reason"  />
+                  <FormInput label="Motivo" v-model="dataRevisao.reason" />
                 </div>
                 <div class="boxInput">
-                  <FormInput label="Data Programada" v-model="dataRevisao.programmed_date"  :type='inputTypeDate' @click="inputTypeDate = 'date'"/>
+                  <FormInput label="Data Programada" v-model="dataRevisao.programmed_date" :type='inputTypeDate'
+                    @click="inputTypeDate = 'date'" />
+                </div>
+
+                <div class="boxInput">
+                  <p>Máquina</p>
+
+                  <input type="text" list="machines" v-model="dataRevisao.injectionProcess.machine.model" />
+
+                  <datalist id="machines">
+              <option
+                v-for="(machine, index) in listAllMachines.results"
+                :key="index"
+              >
+                {{machine.VisResCode}}
+              </option>
+            </datalist>
                 </div>
               </div>
             </div>
@@ -68,7 +84,7 @@
                 <FormInput label="Descrição" v-model="dataRevisao.injectionProcess.labor.description"
                   readonly="readonly" />
 
-                <FormInput label="Quantidade" v-model="dataRevisao.injectionProcess.labor.amount"  />
+                <FormInput label="Quantidade" v-model="dataRevisao.injectionProcess.labor.amount" />
 
               </SlotCardVue>
 
@@ -77,16 +93,15 @@
                 <FormInput label="Descrição" v-model="dataRevisao.injectionProcess.mold.desc_mold"
                   readonly="readonly" />
 
-                <FormInput label="N° Cavidade" v-model="dataRevisao.injectionProcess.mold.number_cavity"  />
+                <FormInput label="N° Cavidade" v-model="dataRevisao.injectionProcess.mold.number_cavity" />
 
               </SlotCardVue>
 
               <SlotCardVue>
                 <Title title="Matéria Prima" />
-                <FormInput label="Descrição" v-model="dataRevisao.injectionProcess.feedstock.description"
-                   />
+                <FormInput label="Descrição" v-model="dataRevisao.injectionProcess.feedstock.description" />
 
-                <FormInput label="Kg" v-model="dataRevisao.injectionProcess.feedstock.code"  />
+                <FormInput label="Kg" v-model="dataRevisao.injectionProcess.feedstock.code" />
               </SlotCardVue>
             </div>
           </div>
@@ -111,10 +126,12 @@
 
 import http from '../../services/newMold/mold'
 import dayjs from 'dayjs'
+import httpNewMold from "~/services/newMold/mold";
 
 export default {
   data() {
     return {
+      listAllMachines: [],
       inputTypeDate: 'text',
 
       descriptionLabor: '',
@@ -160,6 +177,11 @@ export default {
 
   created: async function () {
     console.log(this.dataRevisao.id);
+    await httpNewMold.listAllMachines().then( (res) => {
+      this.listAllMachines = res.data
+      console.log(this.listAllMachines);
+    })
+
   },
 
   props: {
@@ -169,7 +191,7 @@ export default {
 
   methods: {
 
-    formatDate(date){
+    formatDate(date) {
       return dayjs(date).add(1, 'day').locale('pt-br').format('DD/MM/YYYY')
     },
 
@@ -191,7 +213,7 @@ export default {
       this.solicitationUpdated.InjectionProcess.labor.description = this.dataRevisao.injectionProcess.labor.description
       this.solicitationUpdated.InjectionProcess.mold.mold = this.dataRevisao.injectionProcess.mold.desc_mold
       this.solicitationUpdated.InjectionProcess.mold.number_cavity = parseInt(this.dataRevisao.injectionProcess.mold.number_cavity)
-  
+
 
       await http.updateSolicitation(this.dataRevisao.id, this.solicitationUpdated).then((res) => {
         this.$toast.info("Solicitação enviada para o PCP")
@@ -249,6 +271,7 @@ export default {
       display: flex;
       gap: 1rem;
       padding: 0 0.5rem;
+      flex-wrap: wrap;
 
       .boxInput {
         p {

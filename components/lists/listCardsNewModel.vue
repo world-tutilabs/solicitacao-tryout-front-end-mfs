@@ -36,6 +36,7 @@ export default {
     await http.listAllRRIM().then((res) => {
       this.newMolds = res.data
       console.log(this.newMolds);
+
     }).catch((error) => {
       console.log(`Deu o erro: ${error}`);
     })

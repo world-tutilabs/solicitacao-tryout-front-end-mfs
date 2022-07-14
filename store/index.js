@@ -1,10 +1,13 @@
+import httpLocal from '../services/newMold/mold'
+
 export const state = () => ({
     myRouter: {
         status: "",
         router: ""
     },
 
-    countNewMolds: 0
+    countNewModels: 0,
+
 })
 
 export const mutations = {
@@ -13,17 +16,20 @@ export const mutations = {
         state.myRouter.router = router
     },
 
-    setCountNewMold(state, data){
-        state.countNewMolds = data
+    setCountNewModels(state, payload){
+        state.countNewModels += payload
     }
+
 }
 
 export const getters = {
-    getCountNewMold(state){
-        console.log(state.countNewMolds);
-        return state.countNewMolds
+    getCountNewModels(state) {
+        return state.countNewModels
     }
+
 }
+
+
 
 
 

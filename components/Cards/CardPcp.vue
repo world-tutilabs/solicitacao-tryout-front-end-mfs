@@ -31,6 +31,11 @@
             <h3>Data</h3>
             <p>{{ formatDate(dataMold.solicitation.programmed_date) }}</p>
           </div>
+
+          <div class="inform">
+            <h3>Máquina</h3>
+            <p>{{dataMold.solicitation.injectionProcess.machine.model}}</p>
+          </div>
         </div>
       </div>
 

@@ -4,8 +4,7 @@
     <Loading />
   </div>
   <div v-else>
-    <CardModel v-for="mold in listPaginated" :key="mold.id" :dataMold="mold" @updateList='updateList'/>
-
+    <CardModel v-for="mold in listPaginated" :key="mold.id" :dataMold="mold" @updateList='updateList' />
     <Pagination :list="listHistoric" @displayNewList="displayNewList" />
   </div>
 </template>
@@ -28,41 +27,28 @@ export default {
       this.listPaginated = e
     },
 
-    updateList: async function() {
+    updateList: async function () {
       this.$fetchState.pending = true
       setTimeout(() => {
         this.$fetchState.pending = false
       }, 1000);
-      
+
       this.generateList()
-      
-      
-      console.log("Entrou aqui");
+
     },
 
     generateList: async function () {
-    await httpLocal.listAllHistoric().then( async (res) => {
-      this.listHistoric = res.data
+      await httpLocal.listAllHistoric().then(async (res) => {
+        this.listHistoric = res.data
 
-    })
+      })
 
+    },
   },
-  },
-
-  watch: {
-
-     listHistoric(newValue){
-      console.log(newValue.length);
-       this.$store.commit('setCountNewMold', newValue.length)
-
-    }
-  },
-
-  
 
   async fetch() {
     await this.generateList()
-    
+
 
   }
 
