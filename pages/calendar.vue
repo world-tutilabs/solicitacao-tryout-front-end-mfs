@@ -94,6 +94,7 @@ export default {
   },
 
   methods: {
+    // funcao que verifica as cores da legenda
     newDateProgammed(valor) {
       let date2;
       let date1;
@@ -101,7 +102,7 @@ export default {
       for (const date of valor) {
         date1 = dayjs(new Date());
         date2 = dayjs(date.programmed_date).add(1, "day");
-        const color_date = date2.diff(date1, "day");
+        const color_date = date2.diff(date1, "days", true).toFixed();
         if (color_date > 0) {
           this.attrs.push({
             key: "today",
@@ -119,13 +120,19 @@ export default {
         }
       }
     },
+
+    // funcao que retorna a data do Tryout programado
     newDateCard(valor) {
       return dayjs(valor).add(1, "day").format("DD/MM/YYYY");
     },
+
+    // funcao que retorna a data clicada
     newDate(valor) {
       const data = dayjs(valor).format("DD/MM/YYYY");
       return data;
     },
+
+    // funcao que retorna o mês clicado
     newDateMonth(date) {
       const dateAtual = dayjs().format("MM");
       const dateMounth = dayjs(date).format("MM");
@@ -136,16 +143,33 @@ export default {
       }
     },
 
+    // funcao que retorna quantos tryouts tem programados no mês
     tryoutProgrammed(date) {
-      const dateAtual = dayjs().format("MM");
-      const dateMounth = dayjs(date).format("MM");
-      if (dateMounth == dateAtual) {
-        return `${this.dataNewMold.length} Tryout Programado no mês`;
-      } else {
-        return "Não há Tryout Programado para o mês";
+      const dateAtual = dayjs().format("MM/YYYY");
+      const clickDate = dayjs(date).format("MM/YYYY"); // pega o click do mês e ano
+      const getMounth = [];
+      const getTryout = [];
+
+      this.dataNewMold.map((e) => {
+        getMounth.push(dayjs(e.programmed_date).format("MM/YYYY"));
+      });
+
+      getMounth.map((e) => {
+        if (clickDate === e) {
+          getTryout.push(e);
+        }
+      });
+
+      if (clickDate === dateAtual) {
+        return `${getTryout.length} Tryout Programado no mês`;
+      } else if (clickDate > dateAtual) {
+        return `${getTryout.length} Tryout Programado no mês`;
+      } else if (clickDate < dateAtual) {
+        return `${getTryout.length} Tryout Programado no mês`;
       }
     },
 
+    // funcao que retorna quantos tryouts tem atrasados no mês
     programmedRetard(date) {
       let dadoTeste = this.dataNewMold;
       let atrasado = [];
@@ -172,18 +196,18 @@ export default {
       }
     },
 
-    verifyColorDays(dates) {
-      const Date2 = dayjs(new Date());
-      const DataCLick = dayjs(dates);
-      const colorDate = DataCLick.diff(Date2, "day", false);
-      if (colorDate < 0) {
-        return "red";
-      } else if (colorDate == 0) {
-        return "blue";
-      } else {
-        return "green";
-      }
-    },
+    // verifyColorDays(dates) {
+    //   const Date2 = dayjs(new Date());
+    //   const DataCLick = dayjs(dates);
+    //   const colorDate = DataCLick.diff(Date2, "day", false);
+    //   if (colorDate < 0) {
+    //     return "red";
+    //   } else if (colorDate == 0) {
+    //     return "blue";
+    //   } else {
+    //     return "green";
+    //   }
+    // },
   },
 };
 </script>
