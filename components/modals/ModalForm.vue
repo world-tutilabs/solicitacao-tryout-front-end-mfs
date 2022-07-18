@@ -129,14 +129,14 @@
 
                 <input type="text" list="machines" v-model="machine" />
 
-            <datalist id="machines">
-              <option
-                v-for="(machine, index) in listAllMachines.results"
-                :key="index"
-              >
-                {{machine.VisResCode}}
-              </option>
-            </datalist>
+                <datalist id="machines">
+                  <option
+                    v-for="(machine, index) in listAllMachines.results"
+                    :key="index"
+                  >
+                    {{ machine.VisResCode }}
+                  </option>
+                </datalist>
               </div>
             </div>
 
@@ -187,8 +187,6 @@
                   min="1"
                   v-model="feedstocksCode"
                 />
-
-                
               </SlotCard>
             </div>
           </div>
@@ -274,8 +272,8 @@ export default {
             mold: "",
           },
           machine: {
-            model: ""
-          }
+            model: "",
+          },
         },
       },
     };
@@ -294,11 +292,8 @@ export default {
     },
   },
 
-  
-
   methods: {
     async saveNewSolicitation() {
-
       this.testSolicitation.code_sap = this.newSolicitation.cod_prod;
       this.testSolicitation.product_description = this.indexProduct;
       this.testSolicitation.client = this.dataRRIM.CLIENTE;
@@ -309,8 +304,9 @@ export default {
         this.quantidade
       );
       this.testSolicitation.date = this.newData;
-      this.testSolicitation.InjectionProcess.feedstocks.kg =
-        parseInt(this.feedstocksCode);
+      this.testSolicitation.InjectionProcess.feedstocks.kg = parseInt(
+        this.feedstocksCode
+      );
       this.testSolicitation.InjectionProcess.feedstocks.description =
         this.feedstocksDescription;
       this.testSolicitation.InjectionProcess.labor.amount = parseInt(
@@ -323,15 +319,13 @@ export default {
         this.moldNumber
       );
 
-      this.testSolicitation.InjectionProcess.machine.model = this.machine
-      this.$store.commit('setCountNewModels', this.toToggleFilter++)
+      this.testSolicitation.InjectionProcess.machine.model = this.machine;
+      this.$store.commit("setCountNewModels", this.toToggleFilter++);
       await http
         .createNewSolicitation(this.testSolicitation)
         .then((res) => {
-          
           this.$toast.success("Solicitação realizada com sucesso!");
           this.closeModal();
-          
         })
         .catch((error) => {
           if (error.response.status === 400) {
@@ -341,8 +335,6 @@ export default {
             this.$toast.error("Erro no servidor");
           }
         });
-
- 
     },
     catchIndexProduct(event) {
       this.newSolicitation.cod_prod = event.target.value;
@@ -409,14 +401,12 @@ export default {
   created: async function () {
     this.productsOptions = this.dataRRIM;
 
-    await http.listAllMachines().then( (res) => {
-      this.listAllMachines = res.data
+    await http.listAllMachines().then((res) => {
+      this.listAllMachines = res.data;
       console.log(this.listAllMachines);
-    })
-
+    });
   },
   watch: {
-
     quantidade(newValue) {
       if (newValue < 0) {
         this.quantidade = newValue * -1;

@@ -19,19 +19,34 @@
           </div>
         </div> -->
 
-
         <div class="rowInputs">
           <div class="boxInput">
-            <FormInput label="Código do Produto" v-model="dataRevisao.code_sap" readonly="readonly" />
+            <FormInput
+              label="Código do Produto"
+              v-model="dataRevisao.code_sap"
+              readonly="readonly"
+            />
           </div>
           <div class="boxInput">
-            <FormInput label="Descrição do Produto" v-model="dataRevisao.desc_product" readonly="readonly" />
+            <FormInput
+              label="Descrição do Produto"
+              v-model="dataRevisao.desc_product"
+              readonly="readonly"
+            />
           </div>
           <div class="boxInput">
-            <FormInput label="Cliente" v-model="dataRevisao.client" readonly="readonly" />
+            <FormInput
+              label="Cliente"
+              v-model="dataRevisao.client"
+              readonly="readonly"
+            />
           </div>
           <div class="boxInput">
-            <FormInput label="Motivo" v-model="dataRevisao.reason" readonly="readonly" />
+            <FormInput
+              label="Motivo"
+              v-model="dataRevisao.reason"
+              readonly="readonly"
+            />
           </div>
         </div>
 
@@ -48,32 +63,51 @@
               <h2>Processo Injeção</h2>
               <div class="rowInputs">
                 <div class="boxInput">
-                  <FormInput label="Técnico" v-model="dataRevisao.injectionProcess.proc_technician" />
+                  <FormInput
+                    label="Técnico"
+                    v-model="dataRevisao.injectionProcess.proc_technician"
+                  />
                 </div>
                 <div class="boxInput">
-                  <FormInput label="Quantidade" v-model="dataRevisao.injectionProcess.quantity" />
+                  <FormInput
+                    label="Quantidade"
+                    v-model="dataRevisao.injectionProcess.quantity"
+                  />
                 </div>
                 <div class="boxInput">
                   <FormInput label="Motivo" v-model="dataRevisao.reason" />
                 </div>
                 <div class="boxInput">
-                  <FormInput label="Data Programada" v-model="dataRevisao.programmed_date" :type='inputTypeDate'
-                    @click="inputTypeDate = 'date'" />
+                  <FormInput
+                    label="Data Programada"
+                    v-model="dataRevisao.programmed_date"
+                    :type="inputTypeDate"
+                    @click="inputTypeDate = 'date'"
+                  />
                 </div>
 
                 <div class="boxInput">
-                  <p>Máquina</p>
+                  <FormInputSelect
+                    label="Máquina"
+                    :options="listAllMachines.results"
+                    v-model="dataRevisao.injectionProcess.machine.model"
+                  />
+                  <!-- <p>Máquina</p>
 
-                  <input type="text" list="machines" v-model="dataRevisao.injectionProcess.machine.model" />
+                  <input
+                    type="text"
+                    list="machines"
+                    v-model="dataRevisao.injectionProcess.machine.model"
+                  />
 
                   <datalist id="machines">
-              <option
-                v-for="(machine, index) in listAllMachines.results"
-                :key="index"
-              >
-                {{machine.VisResCode}}
-              </option>
-            </datalist>
+                    <option
+                      v-for="(machine, index) in listAllMachines.results"
+                      :key="index"
+                    >
+                      {{ machine.VisResCode }}
+                    </option>
+                  </datalist> -->
                 </div>
               </div>
             </div>
@@ -81,33 +115,53 @@
               <!-- components aqui com props -->
               <SlotCardVue>
                 <Title title="Mão de Obra" />
-                <FormInput label="Descrição" v-model="dataRevisao.injectionProcess.labor.description"
-                  readonly="readonly" />
+                <FormInput
+                  label="Descrição"
+                  v-model="dataRevisao.injectionProcess.labor.description"
+                  readonly="readonly"
+                />
 
-                <FormInput label="Quantidade" v-model="dataRevisao.injectionProcess.labor.amount" />
-
+                <FormInput
+                  label="Quantidade"
+                  v-model="dataRevisao.injectionProcess.labor.amount"
+                />
               </SlotCardVue>
 
               <SlotCardVue>
                 <Title title="Molde" />
-                <FormInput label="Descrição" v-model="dataRevisao.injectionProcess.mold.desc_mold"
-                  readonly="readonly" />
+                <FormInput
+                  label="Descrição"
+                  v-model="dataRevisao.injectionProcess.mold.desc_mold"
+                  readonly="readonly"
+                />
 
-                <FormInput label="N° Cavidade" v-model="dataRevisao.injectionProcess.mold.number_cavity" />
-
+                <FormInput
+                  label="N° Cavidade"
+                  v-model="dataRevisao.injectionProcess.mold.number_cavity"
+                />
               </SlotCardVue>
 
               <SlotCardVue>
                 <Title title="Matéria Prima" />
-                <FormInput label="Descrição" v-model="dataRevisao.injectionProcess.feedstock.description" />
+                <FormInput
+                  label="Descrição"
+                  v-model="dataRevisao.injectionProcess.feedstock.description"
+                />
 
-                <FormInput label="Kg" v-model="dataRevisao.injectionProcess.feedstock.code" />
+                <FormInput
+                  label="Kg"
+                  v-model="dataRevisao.injectionProcess.feedstock.kg"
+                />
               </SlotCardVue>
             </div>
           </div>
         </div>
 
-        <FormTextArea title="Comentários*" v-model="dataRevisao.homologation.comment" readonly="readonly" />
+        <FormTextArea
+          title="Comentários*"
+          v-model="dataRevisao.homologation.comment"
+          readonly="readonly"
+        />
 
         <div class="boxButtons">
           <p>*Campo Obrigatório</p>
@@ -118,30 +172,26 @@
         </div>
       </form>
     </div>
-
   </div>
 </template>
 
 <script>
-
-import http from '../../services/newMold/mold'
-import dayjs from 'dayjs'
+import http from "../../services/newMold/mold";
+import dayjs from "dayjs";
 import httpNewMold from "~/services/newMold/mold";
+import FormInputSelect from "../Form/FormInputSelect.vue";
 
 export default {
   data() {
     return {
       listAllMachines: [],
-      inputTypeDate: 'text',
-
-      descriptionLabor: '',
-      textoTextArea: '',
-
+      inputTypeDate: "text",
+      descriptionLabor: "",
+      textoTextArea: "",
       homologateComment: {
         status: 0,
-        comment: ''
+        comment: "",
       },
-
       solicitationUpdated: {
         code_sap: "",
         product_description: "",
@@ -152,83 +202,89 @@ export default {
           created_user: {
             tecnico: "Rafael",
             role: "Eng_Analista",
-          }
+          },
         },
         InjectionProcess: {
           proc_technician: "",
           quantity: 0,
           feedstocks: {
-            code: "",
-            description: ""
+            kg: 0,
+            description: "",
           },
           labor: {
             description: "",
-            amount: 0
+            amount: 0,
           },
           mold: {
             number_cavity: 0,
-            mold: ""
-          }
-        }
+            mold: "",
+          },
+          machine: {
+            model: "",
+          },
+        },
       },
-
-    }
+    };
   },
-
   created: async function () {
     console.log(this.dataRevisao.id);
-    await httpNewMold.listAllMachines().then( (res) => {
-      this.listAllMachines = res.data
+    await httpNewMold.listAllMachines().then((res) => {
+      this.listAllMachines = res.data;
       console.log(this.listAllMachines);
-    })
-
+    });
   },
-
   props: {
     displayModal: Boolean,
     dataRevisao: Object,
   },
-
   methods: {
-
     formatDate(date) {
-      return dayjs(date).add(1, 'day').locale('pt-br').format('DD/MM/YYYY')
+      return dayjs(date).add(1, "day").locale("pt-br").format("DD/MM/YYYY");
     },
-
     closeModal() {
-      this.$emit("closeModal", this.displayModal)
+      this.$emit("closeModal", this.displayModal);
     },
-
     updateSoli: async function () {
-      this.solicitationUpdated.code_sap = this.dataRevisao.code_sap
-      this.solicitationUpdated.product_description = this.dataRevisao.desc_product
-      this.solicitationUpdated.client = this.dataRevisao.client
-      this.solicitationUpdated.reason = this.dataRevisao.reason
-      this.solicitationUpdated.InjectionProcess.proc_technician = this.dataRevisao.injectionProcess.proc_technician
-      this.solicitationUpdated.InjectionProcess.quantity = parseInt(this.dataRevisao.injectionProcess.quantity)
-      this.solicitationUpdated.date = this.dataRevisao.programmed_date
-      this.solicitationUpdated.InjectionProcess.feedstocks.code = this.dataRevisao.injectionProcess.feedstock.code
-      this.solicitationUpdated.InjectionProcess.feedstocks.description = this.dataRevisao.injectionProcess.feedstock.description
-      this.solicitationUpdated.InjectionProcess.labor.amount = parseInt(this.dataRevisao.injectionProcess.labor.amount)
-      this.solicitationUpdated.InjectionProcess.labor.description = this.dataRevisao.injectionProcess.labor.description
-      this.solicitationUpdated.InjectionProcess.mold.mold = this.dataRevisao.injectionProcess.mold.desc_mold
-      this.solicitationUpdated.InjectionProcess.mold.number_cavity = parseInt(this.dataRevisao.injectionProcess.mold.number_cavity)
-
-
-      await http.updateSolicitation(this.dataRevisao.id, this.solicitationUpdated).then((res) => {
-        this.$toast.info("Solicitação enviada para o PCP")
-        this.closeModal()
-      }).catch((error) => {
-        this.$toast.info(`Erro: ${error}`)
-      })
-    }
-
-
+      this.solicitationUpdated.code_sap = this.dataRevisao.code_sap;
+      this.solicitationUpdated.product_description =
+        this.dataRevisao.desc_product;
+      this.solicitationUpdated.client = this.dataRevisao.client;
+      this.solicitationUpdated.reason = this.dataRevisao.reason;
+      this.solicitationUpdated.InjectionProcess.proc_technician =
+        this.dataRevisao.injectionProcess.proc_technician;
+      this.solicitationUpdated.InjectionProcess.quantity = parseInt(
+        this.dataRevisao.injectionProcess.quantity
+      );
+      this.solicitationUpdated.date = this.dataRevisao.programmed_date;
+      this.solicitationUpdated.InjectionProcess.feedstocks.kg =
+        this.dataRevisao.injectionProcess.feedstock.kg;
+      this.solicitationUpdated.InjectionProcess.machine.model =
+        this.dataRevisao.injectionProcess.machine.model;
+      this.solicitationUpdated.InjectionProcess.feedstocks.description =
+        this.dataRevisao.injectionProcess.feedstock.description;
+      this.solicitationUpdated.InjectionProcess.labor.amount = parseInt(
+        this.dataRevisao.injectionProcess.labor.amount
+      );
+      this.solicitationUpdated.InjectionProcess.labor.description =
+        this.dataRevisao.injectionProcess.labor.description;
+      this.solicitationUpdated.InjectionProcess.mold.mold =
+        this.dataRevisao.injectionProcess.mold.desc_mold;
+      this.solicitationUpdated.InjectionProcess.mold.number_cavity = parseInt(
+        this.dataRevisao.injectionProcess.mold.number_cavity
+      );
+      await http
+        .updateSolicitation(this.dataRevisao.id, this.solicitationUpdated)
+        .then((res) => {
+          this.$toast.info("Solicitação enviada para o PCP");
+          this.closeModal();
+        })
+        .catch((error) => {
+          this.$toast.info(`Erro: ${error}`);
+        });
+    },
   },
-
-
-
-}
+  components: { FormInputSelect },
+};
 </script>
 
 <style lang="scss" scoped>
