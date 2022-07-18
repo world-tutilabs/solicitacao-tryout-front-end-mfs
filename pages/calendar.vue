@@ -134,10 +134,10 @@ export default {
 
     // funcao que retorna o mês clicado
     newDateMonth(date) {
-      const dateAtual = dayjs().format("MM");
+      const dateCurrent = dayjs().format("MM");
       const dateMounth = dayjs(date).format("MM");
-      if (dateMounth == dateAtual) {
-        return dateAtual;
+      if (dateMounth == dateCurrent) {
+        return dateCurrent;
       } else {
         return dateMounth;
       }
@@ -145,49 +145,53 @@ export default {
 
     // funcao que retorna quantos tryouts tem programados no mês
     tryoutProgrammed(date) {
-      const dateAtual = dayjs().format("MM/YYYY");
+      const dateCurrent = dayjs().format("MM/YYYY");
       const clickDate = dayjs(date).format("MM/YYYY"); // pega o click do mês e ano
-      const getMounth = [];
-      const getTryout = [];
+      const listMountYear = []; // lista os meses das data programadas
+      const getTryout = []; // lista os meses das datas programadas de acordo com a variavel "clickDate"
 
+      // adiciona os meses das datas programadas na variavel listMountYear
       this.dataNewMold.map((e) => {
-        getMounth.push(dayjs(e.programmed_date).format("MM/YYYY"));
+        listMountYear.push(dayjs(e.programmed_date).format("MM/YYYY"));
       });
 
-      getMounth.map((e) => {
+      // adiciona os meses das datas programadas na variavel "getTryout" de acordo com a variavel "clickDate"
+      listMountYear.map((e) => {
         if (clickDate === e) {
           getTryout.push(e);
         }
       });
 
-      if (clickDate === dateAtual) {
+      if (clickDate === dateCurrent) {
         return `${getTryout.length} Tryout Programado no mês`;
-      } else if (clickDate > dateAtual) {
+      } else if (clickDate > dateCurrent) {
         return `${getTryout.length} Tryout Programado no mês`;
-      } else if (clickDate < dateAtual) {
+      } else if (clickDate < dateCurrent) {
         return `${getTryout.length} Tryout Programado no mês`;
       }
     },
 
     // funcao que retorna quantos tryouts tem atrasados no mês
     programmedRetard(date) {
-      let dadoTeste = this.dataNewMold;
       let atrasado = [];
       let element = [];
 
-      const dateAtual = dayjs().format("MM");
+      const dateCurrent = dayjs().format("MM");
       const dateMounth = dayjs(date).format("MM");
-      dadoTeste.map((e) => {
+      this.dataNewMold.map((e) => {
         element.push(
           dayjs(e.programmed_date).add(1, "day").format("DD/MM/YYYY")
         );
       });
+
+      console.log(element);
       element.map((e) => {
         if (e < dayjs().format("DD/MM/YYYY")) {
           atrasado.push(e);
         }
       });
-      if (dateMounth == dateAtual) {
+
+      if (dateMounth == dateCurrent) {
         this.programmed_retard = true;
         return `${atrasado.length} Tryout atrasado no mês`;
       } else {
