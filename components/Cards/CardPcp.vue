@@ -1,5 +1,4 @@
 <template>
-
   <div class="box">
     <div class="content">
       <div class="header-content">
@@ -34,7 +33,7 @@
 
           <div class="inform">
             <h3>Máquina</h3>
-            <p>{{dataMold.solicitation.injectionProcess.machine.model}}</p>
+            <p>{{ dataMold.solicitation.injectionProcess.machine.model }}</p>
           </div>
         </div>
       </div>
@@ -66,52 +65,66 @@
           <div class="processBox">
             <h3>Mão de Obra</h3>
             <span>Descrição</span>
-            <h4>{{ dataMold.solicitation.injectionProcess.labor.description}}</h4>
+            <h4>
+              {{ dataMold.solicitation.injectionProcess.labor.description }}
+            </h4>
             <div class="processFooter">
-              <h4>Quantidade: {{ dataMold.solicitation.injectionProcess.labor.amount}}</h4>
+              <h4>
+                Quantidade:
+                {{ dataMold.solicitation.injectionProcess.labor.amount }}
+              </h4>
             </div>
           </div>
 
           <div class="processBox">
             <h3>Molde</h3>
             <span>Descrição</span>
-            <h4>{{ dataMold.solicitation.injectionProcess.mold.desc_mold}}</h4>
+            <h4>{{ dataMold.solicitation.injectionProcess.mold.desc_mold }}</h4>
             <div class="processFooter">
-              <h4>N° Cavidade: {{ dataMold.solicitation.injectionProcess.mold.number_cavity}}</h4>
+              <h4>
+                N° Cavidade:
+                {{ dataMold.solicitation.injectionProcess.mold.number_cavity }}
+              </h4>
             </div>
           </div>
 
           <div class="processBox">
             <h3>Matéria Prima</h3>
             <span>Descrição</span>
-            <h4>{{ dataMold.solicitation.injectionProcess.feedstock.description}}</h4>
+            <h4>
+              {{ dataMold.solicitation.injectionProcess.feedstock.description }}
+            </h4>
             <div class="processFooter">
-              <h4>Kg: {{ dataMold.solicitation.injectionProcess.feedstock.code}}</h4>
+              <h4>
+                Kg: {{ dataMold.solicitation.injectionProcess.feedstock.kg }}
+              </h4>
             </div>
           </div>
         </div>
       </div>
 
-      
-
       <div class="contentContainer" v-if="isOpenInfoCard">
         <SlotBtn>
-            <!-- <BtnPirula titleBtn="Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'" /> -->
+          <!-- <BtnPirula titleBtn="Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'" /> -->
 
-            <BtnPirula titleBtn="Revisar Solicitação" color="pcp-analise" v-if="$route.name === 'pcp-waiting'" :dataMold="dataMold" @updateCard="updateCard"/>
-
+          <BtnPirula
+            titleBtn="Revisar Solicitação"
+            color="pcp-analise"
+            v-if="$route.name === 'pcp-waiting'"
+            :dataMold="dataMold"
+            @updateCard="updateCard"
+          />
         </SlotBtn>
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
-import Vue from 'vue'
-import dayjs from 'dayjs'
+import Vue from "vue";
+import dayjs from "dayjs";
 export default Vue.extend({
-  layout: 'mainFrame',
+  layout: "mainFrame",
 
   props: {
     dataMold: Object,
@@ -123,46 +136,43 @@ export default Vue.extend({
 
       typeHomologar: "",
       showPopUp: true,
-    }
+    };
   },
   methods: {
     openInfoCard() {
-      return this.isOpenInfoCard = !this.isOpenInfoCard
+      return (this.isOpenInfoCard = !this.isOpenInfoCard);
     },
 
-    formatDate(date){
-      return dayjs(date).add(1, 'day').locale('pt-br').format('DD/MM/YYYY')
+    formatDate(date) {
+      return dayjs(date).add(1, "day").locale("pt-br").format("DD/MM/YYYY");
     },
 
     toggleButton() {
-      if (this.status === 'Aprovado') {
-        console.log('Teste')
+      if (this.status === "Aprovado") {
+        console.log("Teste");
       }
     },
 
     updateCard() {
-      this.$emit('updateList')
+      this.$emit("updateList");
     },
 
     flagValidation(data) {
-      if (data == 'Aprovado') {
-        return 'flap flap-green'
-      } else if (data == 'Revisao') {
-        return 'flap flap-blue'
-      } else if (data == 'Reprovado') {
-        return 'flap flap-orange'
+      if (data == "Aprovado") {
+        return "flap flap-green";
+      } else if (data == "Revisao") {
+        return "flap flap-blue";
+      } else if (data == "Reprovado") {
+        return "flap flap-orange";
       } else {
-        return 'flap flap-none'
+        return "flap flap-none";
       }
     },
   },
-})
+});
 </script>
 
 <style lang="scss" scoped>
-
-
-
 .box {
   background: var(--gray);
   padding: max(0.3rem, 1vw);
@@ -176,7 +186,6 @@ export default Vue.extend({
     overflow: hidden;
   }
 }
-
 
 .header-content {
   display: flex;

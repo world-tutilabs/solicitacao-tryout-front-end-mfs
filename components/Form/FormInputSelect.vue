@@ -3,14 +3,19 @@
     <label> {{ label }} </label>
 
     <div id="alvo">
-      <select name="opcoes" id="select">
-        <option value=""></option>
-        <option value="1">{{ option }}</option>
-        <option value="2">{{ option1 }}</option>
-        <option value="3">{{ option2 }}</option>
-        <option value="3">{{ option3 }}</option>
-        <option value="3">{{ option4 }}</option>
-        <option value="3">{{ option5 }}</option>
+      <select
+        name="opcoes"
+        id="select"
+        v-on="inputListeners"
+        v-model="selected"
+      >
+        <option
+          v-for="machine in options"
+          :value="machine.VisResCode"
+          :key="machine"
+        >
+          {{ machine.VisResCode }}
+        </option>
       </select>
       <input type="hidden" />
     </div>
@@ -19,7 +24,7 @@
 
 <script>
 export default {
-  name: 'FormInputSelect',
+  name: "FormInputSelect",
   props: {
     label: {
       type: String,
@@ -31,30 +36,10 @@ export default {
     },
     type: {
       type: String,
-      default: 'text',
+      default: "text",
     },
-    option: {
-      type: String,
-      default: undefined,
-    },
-    option1: {
-      type: String,
-      default: undefined,
-    },
-    option2: {
-      type: String,
-      default: undefined,
-    },
-    option3: {
-      type: String,
-      default: undefined,
-    },
-    option4: {
-      type: String,
-      default: undefined,
-    },
-    option5: {
-      type: String,
+    options: {
+      type: [Array, Object],
       default: undefined,
     },
   },
@@ -62,36 +47,38 @@ export default {
   data() {
     return {
       localValue: this.value,
-    }
+      selected: "",
+    };
   },
 
   watch: {
     value(value) {
-      this.localValue = value
+      this.localValue = value;
     },
   },
 
   computed: {
     inputListeners() {
-      const vm = this
+      const vm = this;
       return {
         ...this.$listeners,
         input(event) {
-          vm.$emit('input', event.target.value)
+          vm.$emit("input", event.target.value);
         },
-      }
+      };
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
 .input {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
 
   label {
+    font-size: 0.8rem;
     font-weight: var(--bold);
   }
 
