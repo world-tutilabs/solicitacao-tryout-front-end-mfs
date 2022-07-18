@@ -61,6 +61,10 @@
                   <FormInput label="Data Programada" :value="formatDate(dataPCP.solicitation.programmed_date)"
                     readonly="readonly" />
                 </div>
+                <div class="boxInput">
+                  <FormInput label="Máquina" v-model="dataPCP.solicitation.injectionProcess.machine.model"
+                    readonly="readonly" />
+                </div>
               </div>
             </div>
             <div class="cardTryOut">
@@ -282,6 +286,7 @@ export default {
       display: flex;
       gap: 1rem;
       padding: 0 0.5rem;
+      flex-wrap: wrap;
 
       .boxInput {
         p {

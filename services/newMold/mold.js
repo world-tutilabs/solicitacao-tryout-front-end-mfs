@@ -1,9 +1,14 @@
 import { http } from '../config/index'
-import { httpLocal } from '../configLocal/index';
+import { httpLocal } from '../configLocal/index'
+import { httpSAP } from '../configSAP/index'
 
 export default {
     listAllRRIM: async () => {
         return await http.get('/list-all-rrim/aprovadas')
+    },
+
+    listAllMachines: async () => {
+        return await httpSAP.get('/api/v1/sap/tutilabs/machines')
     },
 
     listAllHistoric: async () => {

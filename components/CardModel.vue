@@ -30,8 +30,11 @@
           </div>
           <div class="inform">
             <h3>Data</h3>
-
             <p>{{ dataMolds() }}</p>
+          </div>
+          <div class="inform">
+            <h3>Máquina</h3>
+            <p>{{ dataMold.injectionProcess.machine.model }}</p>
           </div>
         </div>
       </div>
@@ -85,7 +88,7 @@
             <span>Descrição</span>
             <h4>{{ dataMold.injectionProcess.feedstock.description }}</h4>
             <div class="processFooter">
-              <h4>KG: {{ dataMold.injectionProcess.feedstock.code }}</h4>
+              <h4>KG: {{ dataMold.injectionProcess.feedstock.kg }}</h4>
             </div>
           </div>
         </div>

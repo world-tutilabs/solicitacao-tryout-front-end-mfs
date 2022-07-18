@@ -123,10 +123,21 @@
                 <input type="date" v-model="newData" :min="dateCurrent" />
               </div>
 
-              <!-- <div class="boxInput">
+              <div class="boxInput inputData">
                 <p>Máquina</p>
-                <input type="text" v-model="newData" />
-              </div> -->
+                <!-- <input type="text" v-model="newData" /> -->
+
+                <input type="text" list="machines" v-model="machine" />
+
+            <datalist id="machines">
+              <option
+                v-for="(machine, index) in listAllMachines.results"
+                :key="index"
+              >
+                {{machine.VisResCode}}
+              </option>
+            </datalist>
+              </div>
             </div>
 
             <div class="cardTryOut">
@@ -176,6 +187,8 @@
                   min="1"
                   v-model="feedstocksCode"
                 />
+
+                
               </SlotCard>
             </div>
           </div>
@@ -202,6 +215,8 @@ export default {
   },
   data() {
     return {
+      toToggleFilter: 0,
+      machine: "",
       dateCurrent: dayjs().format("YYYY-MM-DD"),
       myRouter: false,
       count: 0,
@@ -214,6 +229,8 @@ export default {
       quantidade: "",
       tecnico: "",
       newData: "",
+
+      listAllMachines: [],
 
       feedstocksDescription: "",
       feedstocksCode: "",
@@ -245,7 +262,7 @@ export default {
           proc_technician: "",
           quantity: 0,
           feedstocks: {
-            code: "",
+            kg: "",
             description: "",
           },
           labor: {
@@ -256,6 +273,9 @@ export default {
             number_cavity: 0,
             mold: "",
           },
+          machine: {
+            model: ""
+          }
         },
       },
     };
@@ -274,8 +294,11 @@ export default {
     },
   },
 
+  
+
   methods: {
     async saveNewSolicitation() {
+
       this.testSolicitation.code_sap = this.newSolicitation.cod_prod;
       this.testSolicitation.product_description = this.indexProduct;
       this.testSolicitation.client = this.dataRRIM.CLIENTE;
@@ -286,8 +309,8 @@ export default {
         this.quantidade
       );
       this.testSolicitation.date = this.newData;
-      this.testSolicitation.InjectionProcess.feedstocks.code =
-        this.feedstocksCode;
+      this.testSolicitation.InjectionProcess.feedstocks.kg =
+        parseInt(this.feedstocksCode);
       this.testSolicitation.InjectionProcess.feedstocks.description =
         this.feedstocksDescription;
       this.testSolicitation.InjectionProcess.labor.amount = parseInt(
@@ -300,11 +323,15 @@ export default {
         this.moldNumber
       );
 
+      this.testSolicitation.InjectionProcess.machine.model = this.machine
+      this.$store.commit('setCountNewModels', this.toToggleFilter++)
       await http
         .createNewSolicitation(this.testSolicitation)
         .then((res) => {
+          
           this.$toast.success("Solicitação realizada com sucesso!");
           this.closeModal();
+          
         })
         .catch((error) => {
           if (error.response.status === 400) {
@@ -314,6 +341,8 @@ export default {
             this.$toast.error("Erro no servidor");
           }
         });
+
+ 
     },
     catchIndexProduct(event) {
       this.newSolicitation.cod_prod = event.target.value;
@@ -379,8 +408,15 @@ export default {
 
   created: async function () {
     this.productsOptions = this.dataRRIM;
+
+    await http.listAllMachines().then( (res) => {
+      this.listAllMachines = res.data
+      console.log(this.listAllMachines);
+    })
+
   },
   watch: {
+
     quantidade(newValue) {
       if (newValue < 0) {
         this.quantidade = newValue * -1;

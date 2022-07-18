@@ -3,6 +3,7 @@
     <Loading />
   </div>
   <div class="container" v-else>
+  
     <NuxtLink v-if="!routePcp" :to="`/${filter.router}`" v-for="filter in filters" :key="filter.name"
       :class="{ cards: true }">
       <span>{{ filter.topName }}</span>
@@ -26,10 +27,11 @@ import http from '../services/pcp/pcp'
 export default {
   data() {
     return {
+      countTeste: 0,
       listAllApproveds: [],
       listHistoric: [],
       filters: [
-        { topName: 'Novos', name: 'Moldes', count: '000', router: '' },
+        { topName: 'Novos', name: 'Moldes', count: '', router: '' },
         {
           topName: 'Solicitações de',
           name: 'Modificações',
@@ -61,16 +63,16 @@ export default {
   },
 
   watch: {
-    countNewMolds(newValue) {
-      this.countNewMolds = newValue
+    countTeste: async function(newValue){
+      this.filters[0].count = newValue
     }
   },
 
-
-  async fetch() {
-
-    // Refatorar com VUEX
-
+ 
+  methods: {
+ 
+    
+    generateList: async function(){
       await httpLocal.listAllHistoric().then(async (res) => {
         this.filters[0].count = res.data.length
 
@@ -89,8 +91,12 @@ export default {
       await http.listAllPcp().then((res) => {
         this.filtersPcp[0].count = res.data.length
       })
+    }
+  },
 
 
+  async fetch() {
+    await this.generateList()
   },
 
   computed: {
@@ -102,6 +108,8 @@ export default {
         return true
       }
     },
+
+    
   },
 }
 </script>

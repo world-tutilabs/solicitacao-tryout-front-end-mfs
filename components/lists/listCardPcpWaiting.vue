@@ -37,7 +37,9 @@ export default {
 
     generateList: async function () {
       await http.listAllPcp().then((res) => {
+        
         this.listPcpWaiting = res.data
+        console.log(this.listPcpWaiting);
     })
     }
 
