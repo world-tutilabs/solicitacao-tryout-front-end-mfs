@@ -367,7 +367,6 @@ export default {
 
       this.count = 0;
       this.processValidation = false;
-
       this.machine = "";
 
       this.$emit("closeModal", this.displayModal);
