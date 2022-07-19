@@ -173,45 +173,42 @@ export default {
 
     // funcao que retorna quantos tryouts tem atrasados no mês
     programmedRetard(date) {
-      let atrasado = [];
-      let element = [];
+      const dateCurrent = dayjs().get("M"); // pega data atual que tem como referencia o mês
+      const clickDate = dayjs(date).get("M"); // pega data do clique que tem como referencia o mês
+      const arrayDateProgrammed = []; // array das datas programadas
+      const arrayDateCurrent = []; // array das datas atrasadas, que tem como referencia o mês e sendo filtrada atraves da variavel "clickDate"
+      const arrayDateCurrentMounth = []; // array das datas atrasadas por mês
 
-      const dateCurrent = dayjs().format("MM");
-      const dateMounth = dayjs(date).format("MM");
+      // adiciona as datas programadas na variavel arrayDateProgrammed
       this.dataNewMold.map((e) => {
-        element.push(
-          dayjs(e.programmed_date).add(1, "day").format("DD/MM/YYYY")
-        );
+        arrayDateProgrammed.push(dayjs(e.programmed_date).add(1, "d"));
       });
 
-      console.log(element);
-      element.map((e) => {
-        if (e < dayjs().format("DD/MM/YYYY")) {
-          atrasado.push(e);
+      // adiciona todas as datas programadas atrasadas na variavel "arrayDateCurrent", mas tendo como referencia o mês do clique
+      arrayDateProgrammed.map((e) => {
+        console.log(e);
+        const mounthDateProgrammed = dayjs(e).get("M"); // filtra datas por mês
+        if (mounthDateProgrammed === clickDate) {
+          arrayDateCurrent.push(e);
         }
       });
 
-      if (dateMounth == dateCurrent) {
-        this.programmed_retard = true;
-        return `${atrasado.length} Tryout atrasado no mês`;
-      } else {
-        this.programmed_retard = false;
-        return "Não há Tryout atrasado para o mês";
+      // adiciona as datas atrasadas na variavel "arrayDateCurrentMounth".
+      arrayDateCurrent.map((e) => {
+        console.log(e);
+        if (dayjs() > dayjs(e)) {
+          arrayDateCurrentMounth.push(dayjs(e).format("DD/MM/YYYY"));
+        }
+      });
+
+      if (clickDate === dateCurrent) {
+        return `${arrayDateCurrentMounth.length} Tryout atrasado no mês`;
+      } else if (clickDate > dateCurrent) {
+        return `${arrayDateCurrentMounth.length} Tryout atrasado no mês`;
+      } else if (clickDate < dateCurrent) {
+        return `${arrayDateCurrentMounth.length} Tryout atrasado no mês`;
       }
     },
-
-    // verifyColorDays(dates) {
-    //   const Date2 = dayjs(new Date());
-    //   const DataCLick = dayjs(dates);
-    //   const colorDate = DataCLick.diff(Date2, "day", false);
-    //   if (colorDate < 0) {
-    //     return "red";
-    //   } else if (colorDate == 0) {
-    //     return "blue";
-    //   } else {
-    //     return "green";
-    //   }
-    // },
   },
 };
 </script>
