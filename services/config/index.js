@@ -8,14 +8,10 @@ const http = axios.create({
   }
 })
 
-
-
 http.interceptors.request.use(function (config) {
 
-  console.log('teste config')
-  const tokenTets = Cookies.get('auth._token.local')
-  console.log(tokenTets)
-  let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYXRyaWN1bGEiOiI1MDU0IiwiaWF0IjoxNjU4MzIxNzgyLCJleHAiOjE2NTgzNTA1ODIsInN1YiI6ImEzMDZmYTVmLTJmZmItNDMwNi05YmY2LWExNzg1YTY3OThjZiJ9.ZZoUeTWhfkNUhW_7H-9bTrvbuoWjhbCLjdjOkStvz5M';
+
+  const token = Cookies.get('auth._token.local')
   if (!token) {
     token = "";
   }

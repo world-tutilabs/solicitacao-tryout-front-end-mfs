@@ -12,10 +12,7 @@ const httpSAP = axios.create({
 
 httpSAP.interceptors.request.use(function (config) {
   console.log('teste sap')
-  const tokenTets = Cookies.get('auth._token.local')
-  console.log(tokenTets)
-  let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYXRyaWN1bGEiOiI1MDU0IiwiaWF0IjoxNjU3OTA4Mjg5LCJleHAiOjE2NTc5MzcwODksInN1YiI6ImEzMDZmYTVmLTJmZmItNDMwNi05YmY2LWExNzg1YTY3OThjZiJ9.x7MS2yZX-YdebO4UxTQ5HqEUlVpdrZrmUU4ooFPzoA4';
-
+  const token = Cookies.get('auth._token.local')
   if (!token) {
     token = "";
   }
