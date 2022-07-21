@@ -170,7 +170,9 @@ export default {
   data() {
     return {
       dateCurrent: dayjs().format("YYYY-MM-DD"),
-      dateProgrammed: this.formatDate(),
+      dateProgrammed: dayjs(this.dataRevisao.programmed_date)
+        .add(1, "day")
+        .format("DD/MM/YYYY"),
       listAllMachines: [],
       inputTypeDate: "text",
       descriptionLabor: "",
@@ -225,12 +227,12 @@ export default {
     dataRevisao: Object,
   },
   methods: {
-    formatDate() {
-      return dayjs(this.dataRevisao.programmed_date)
-        .add(1, "day")
-        .format("DD/MM/YYYY");
-      // return dayjs(tete.programmed_date).add(1, "day").format("DD/MM/YYYY");
-    },
+    // formatDate() {
+    //   return dayjs(this.dataRevisao.programmed_date)
+    //     .add(1, "day")
+    //     .format("DD/MM/YYYY");
+    //   // return dayjs(tete.programmed_date).add(1, "day").format("DD/MM/YYYY");
+    // },
     closeModal() {
       this.$emit("closeModal", this.displayModal);
     },
