@@ -15,7 +15,18 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  ssr: false,
+  server: {
+    port: 8500, // valor padrão: 3000
+    host: '0.0.0.0', // valor padrão: localhost,
+    timing: false
+  },
+   
+ router: {
+    middleware: 'auth'
+   },
 
+  
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '@/assets/sass/main.scss'
