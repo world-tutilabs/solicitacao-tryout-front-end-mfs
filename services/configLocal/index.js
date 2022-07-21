@@ -10,7 +10,6 @@ const httpLocal = axios.create({
 
 
 httpLocal.interceptors.request.use(function (config) {
-  // let token = sessionStorage.getItem("token");
   const token = Cookies.get('auth._token.local')
 
   if (!token) {

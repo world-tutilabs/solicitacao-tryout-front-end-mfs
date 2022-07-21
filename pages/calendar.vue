@@ -150,18 +150,19 @@ export default {
       const listMountYear = []; // lista os meses das data programadas
       const getTryout = []; // lista os meses das datas programadas de acordo com a variavel "clickDate"
 
-      // adiciona os meses das datas programadas na variavel listMountYear
+      // adiciona as das datas programadas vindas do JSON na variavel listMountYear, tendo como referencia o mês e ano
       this.dataNewMold.map((e) => {
         listMountYear.push(dayjs(e.programmed_date).format("MM/YYYY"));
       });
 
-      // adiciona os meses das datas programadas na variavel "getTryout" de acordo com a variavel "clickDate"
+      // adiciona os meses das datas programadas na variavel "getTryout" de acordo com a variavel "clickDate", tendo como referencia o mês e ano
       listMountYear.map((e) => {
         if (clickDate === e) {
           getTryout.push(e);
         }
       });
 
+      // faz a comparacao dos meses em relação ao clique de cada mês
       if (clickDate === dateCurrent) {
         return `${getTryout.length} Tryout Programado no mês`;
       } else if (clickDate > dateCurrent) {
@@ -179,28 +180,27 @@ export default {
       const arrayDateCurrent = []; // array das datas atrasadas, que tem como referencia o mês e sendo filtrada atraves da variavel "clickDate"
       const arrayDateCurrentMounth = []; // array das datas atrasadas por mês
 
-      // adiciona as datas programadas na variavel arrayDateProgrammed
+      // adiciona as datas programadas vinda do JSON => na variavel arrayDateProgrammed
       this.dataNewMold.map((e) => {
         arrayDateProgrammed.push(dayjs(e.programmed_date).add(1, "d"));
       });
 
-      // adiciona todas as datas programadas atrasadas na variavel "arrayDateCurrent", mas tendo como referencia o mês do clique
+      // adiciona todas as datas programadas na variavel "arrayDateCurrent", mas tendo como referencia o mês do clique
       arrayDateProgrammed.map((e) => {
-        console.log(e);
         const mounthDateProgrammed = dayjs(e).get("M"); // filtra datas por mês
         if (mounthDateProgrammed === clickDate) {
           arrayDateCurrent.push(e);
         }
       });
 
-      // adiciona as datas atrasadas na variavel "arrayDateCurrentMounth".
+      // adiciona as datas programadas do mês na variavel "arrayDateCurrentMounth", mas tendo como referencia o clique do mês.
       arrayDateCurrent.map((e) => {
-        console.log(e);
         if (dayjs() > dayjs(e)) {
           arrayDateCurrentMounth.push(dayjs(e).format("DD/MM/YYYY"));
         }
       });
 
+      // compara as datas atrasadas em cada mês
       if (clickDate === dateCurrent) {
         return `${arrayDateCurrentMounth.length} Tryout atrasado no mês`;
       } else if (clickDate > dateCurrent) {

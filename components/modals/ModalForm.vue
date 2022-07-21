@@ -321,20 +321,25 @@ export default {
 
       this.testSolicitation.InjectionProcess.machine.model = this.machine;
       this.$store.commit("setCountNewModels", this.toToggleFilter++);
-      await http
-        .createNewSolicitation(this.testSolicitation)
-        .then((res) => {
-          this.$toast.success("Solicitação realizada com sucesso!");
-          this.closeModal();
-        })
-        .catch((error) => {
-          if (error.response.status === 400) {
-            this.$toast.warning("Algum campo não foi preenchido");
-          }
-          if (error.response.status === 500) {
-            this.$toast.error("Erro no servidor");
-          }
-        });
+
+      if (this.machine !== "") {
+        await http
+          .createNewSolicitation(this.testSolicitation)
+          .then((res) => {
+            this.$toast.success("Solicitação realizada com sucesso!");
+            this.closeModal();
+          })
+          .catch((error) => {
+            if (error.response.status === 400) {
+              this.$toast.warning("Algum campo não foi preenchido");
+            }
+            if (error.response.status === 500) {
+              this.$toast.error("Erro no servidor");
+            }
+          });
+      } else {
+        this.$toast.warning("Algum campo não foi preenchido");
+      }
     },
     catchIndexProduct(event) {
       this.newSolicitation.cod_prod = event.target.value;
@@ -362,6 +367,7 @@ export default {
 
       this.count = 0;
       this.processValidation = false;
+      this.machine = "";
 
       this.$emit("closeModal", this.displayModal);
     },
