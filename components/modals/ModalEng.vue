@@ -80,8 +80,9 @@
                 <div class="boxInput">
                   <FormInput
                     label="Data Programada"
-                    v-model="dataRevisao.programmed_date"
+                    v-model="dateProgrammed"
                     :type="inputTypeDate"
+                    :min="dateCurrent"
                     @click="inputTypeDate = 'date'"
                   />
                 </div>
@@ -92,22 +93,6 @@
                     :options="listAllMachines.results"
                     v-model="dataRevisao.injectionProcess.machine.model"
                   />
-                  <!-- <p>Máquina</p>
-
-                  <input
-                    type="text"
-                    list="machines"
-                    v-model="dataRevisao.injectionProcess.machine.model"
-                  />
-
-                  <datalist id="machines">
-                    <option
-                      v-for="(machine, index) in listAllMachines.results"
-                      :key="index"
-                    >
-                      {{ machine.VisResCode }}
-                    </option>
-                  </datalist> -->
                 </div>
               </div>
             </div>
@@ -184,6 +169,8 @@ import FormInputSelect from "../Form/FormInputSelect.vue";
 export default {
   data() {
     return {
+      dateCurrent: dayjs().format("YYYY-MM-DD"),
+      dateProgrammed: this.formatDate(),
       listAllMachines: [],
       inputTypeDate: "text",
       descriptionLabor: "",
@@ -238,8 +225,11 @@ export default {
     dataRevisao: Object,
   },
   methods: {
-    formatDate(date) {
-      return dayjs(date).add(1, "day").locale("pt-br").format("DD/MM/YYYY");
+    formatDate() {
+      return dayjs(this.dataRevisao.programmed_date)
+        .add(1, "day")
+        .format("DD/MM/YYYY");
+      // return dayjs(tete.programmed_date).add(1, "day").format("DD/MM/YYYY");
     },
     closeModal() {
       this.$emit("closeModal", this.displayModal);
@@ -255,7 +245,7 @@ export default {
       this.solicitationUpdated.InjectionProcess.quantity = parseInt(
         this.dataRevisao.injectionProcess.quantity
       );
-      this.solicitationUpdated.date = this.dataRevisao.programmed_date;
+      this.solicitationUpdated.date = this.dateProgrammed;
       this.solicitationUpdated.InjectionProcess.feedstocks.kg =
         this.dataRevisao.injectionProcess.feedstock.kg;
       this.solicitationUpdated.InjectionProcess.machine.model =
