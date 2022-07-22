@@ -3,7 +3,7 @@
     <nav>
       <div>
         <img src="~/static/icons/iconMolde.svg" alt="molde" />
-        <h1>TRYOUT - Relatórios</h1>
+        <h1>TRYOUT - Solicitação</h1>
       </div>
       <button @click="menu">
         <img src="~/static/icons/iconMenu.svg" alt="" />
@@ -18,28 +18,23 @@
               <h3>Relatórios</h3>
               <ul>
                 <li>
-                  <NuxtLink to="#">RRIM</NuxtLink>
+                  <a href="http://185.209.179.253:8300/" target="_blank">RRIM</a>
                 </li>
                 <li>
-                  <NuxtLink :to="{ name: 'index' }">TRYOUT</NuxtLink>
+                  <!-- <NuxtLink :to="{ name: 'index' }">TRYOUT</NuxtLink> -->
+                  <p>TRYOUT</p>
                 </li>
-                <li>
-                  <NuxtLink to="#">FIT</NuxtLink>
-                </li>
-                <li>
-                  <NuxtLink to="#">FTI</NuxtLink>
-                </li>
+                
               </ul>
             </div>
             <div class="adminOption">
               <h3>Opções</h3>
-              <div class="icons">
+              <div class="icons" >
                 <div class="icon">
-                  <img :src="iconConfirm" alt="" />Elaborados
+                  <NuxtLink :to="{ name: 'index' }">TRYOUT - Solicitação</NuxtLink>
                 </div>
-                <div class="icon"><img :src="iconFile" alt="" />Em revisão</div>
                 <div class="icon">
-                  <img :src="iconConfig" alt="" />Configurações
+                    <NuxtLink to="emdesenvolvimento">TRYOUT - Relatorio</NuxtLink>
                 </div>
               </div>
             </div>
@@ -157,6 +152,11 @@ nav {
                 width: 100%;
                 color: var(--blue);
               }
+              p{
+                color: var(--blue);
+                cursor: pointer;
+                width: 100%;
+              }
             }
           }
         }
@@ -177,6 +177,9 @@ nav {
               }
             }
           }
+        }
+        @media(max-width:531px) {
+          grid-template-columns: 1fr;
         }
       }
       .containerExit {
@@ -209,9 +212,8 @@ nav {
     .heightAdmin {
       .cardAdmin {
         .menuAdmin {
-          grid-template-columns: 1fr 1fr 1fr;
           gap: 0;
-          margin-top: 10vh;
+          
           padding: 0.5rem;
           overflow: scroll;
           justify-items: center;
