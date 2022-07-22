@@ -36,13 +36,15 @@ export default {
           topName: 'Solicitações de',
           name: 'Modificações',
           count: '000',
-          router: 'modifications',
+          // router: 'modifications',
+          router: 'emdesenvolvimento',
         },
         {
           topName: 'Solicitações testes de',
           name: 'Resina',
           count: '000',
-          router: 'resin-test',
+          // router: 'resin-test',
+          router: 'emdesenvolvimento',
         },
       ],
       filtersPcp: [
