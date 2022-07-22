@@ -1,22 +1,22 @@
 import { http } from "~/services/config";
+import Cookies from "js-cookie"
 
 export default async function ({ redirect, app, store }) {
 
     
 http.interceptors.request.use( (config) => {
 
-  const tokenCookie = app.$cookies.get('auth._token.local')
-  
-
+  const tokenCookie = Cookies.get('auth._token.local');
 
   if(!tokenCookie){
-    redirect(`${process.env.ROUTER_REDIRECT}`)
+    redirect(`http://185.209.179.253:7800`)
+    return;
   }
 
   const [_, token ] = tokenCookie.split(" ");
 
    if (!token) {
-    redirect(`${process.env.ROUTER_REDIRECT}`)
+    redirect(`http://185.209.179.253:7800`)
     return;
     }
  
@@ -25,18 +25,16 @@ http.interceptors.request.use( (config) => {
  
    });
  
-
     try {
           
-          const response = await http.get("http://185.209.179.253:8400/verify_user");
-       console.log(response);
-       
+      await http.get("http://185.209.179.253:8400/verify_user");
+          
       } catch (e) {
     
-        app.$cookies.set('auth._token.local', false);
-        app.$cookies.set('auth._token_expiration.local', false);
+         Cookies.set('auth._token.local', false);
+         Cookies.set('auth._token_expiration.local', false);
   
-        return  redirect(`${process.env.ROUTER_REDIRECT}`)
+        return  redirect(`http://185.209.179.253:7800`)
 
       }
 
