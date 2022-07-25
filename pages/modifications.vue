@@ -6,6 +6,7 @@
 
 export default {
   name: 'IndexPage',
+  middleware: 'auth_eng',
   created() {
     this.$store.commit('change_my_router', 'Solicitações de Modificação')
   },

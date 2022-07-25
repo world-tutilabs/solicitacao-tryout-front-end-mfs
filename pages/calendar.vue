@@ -65,6 +65,7 @@ import dayjs from "dayjs";
 import serviceNewMold from "~/services/newMold/mold";
 export default {
   layout: "calendar",
+  middleware: 'auth_eng',
   head() {
     return {
       title: "TryOut - Kanban",

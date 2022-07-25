@@ -25,6 +25,7 @@
 
 export default {
   name: 'IndexPage',
+  middleware: 'auth_eng',
   head() {
     return {
       title: "TryOut - Novos Moldes"

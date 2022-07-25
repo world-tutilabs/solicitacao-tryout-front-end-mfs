@@ -1,7 +1,7 @@
 import axios from "axios"
 import Cookies from 'js-cookie'
 const httpLocal = axios.create({
-  baseURL: "http://185.209.179.253:5000/api",                                    //Adicionar Base URL
+  baseURL: `${process.env.ROUTER_API_SOLICITATION_TRYOUT}`,                                    //Adicionar Base URL
   headers: {
     "Accept": "application/json",
     "Content": "application/json"
