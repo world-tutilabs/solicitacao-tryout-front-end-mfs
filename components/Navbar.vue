@@ -39,12 +39,21 @@
               </div>
             </div>
             <div class="adminUser">
-              <h3>Relatórios</h3>
-              <p>cargo</p>
+              <h3>Informações do usuário</h3>
+              <p>Nome: {{this.$store.getters.getUser.nome_completo}}</p>
+              <p>Matricula: {{this.$store.getters.getUser.matricula}}</p>
+              <p>Cargo: {{this.$store.getters.getUser.cargo.descricao}}</p>
+              <p>Nível de acesso: {{this.$store.getters.getUser.nivel_de_acesso.descricao}}</p>
+
+              <button @click="showChange">Trocar Senha</button>
             </div>
+            <ChangePassword
+            v-if="showPassword"
+            @showChangePassword="showChangePassword"
+          />
           </div>
           <div class="containerExit">
-            <div class="logout">
+            <div class="logout" @click="logout">
               <p>Sair</p>
               <img :src="iconExit" alt="" />
             </div>
@@ -63,13 +72,25 @@ export default {
       iconConfig: './icons/iconConfig.svg',
       iconConfirm: './icons/iconConfirm.svg',
       iconFile: './icons/iconFile.svg',
+      showPassword: false,
     }
   },
   methods: {
     menu() {
       this.transitionMenu = !this.transitionMenu
     },
-  },
+    showChange(){
+      this.showPassword = !this.showPassword
+    },
+    logout(){
+      document.cookie = "auth._token.local=false";
+      document.cookie = "auth._token_expiration.local=false";
+      window.location.replace('http://185.209.179.253:7800/login')
+    },
+    showChangePassword(){
+      this.showPassword = false
+    }
+  }, 
 }
 </script>
 
