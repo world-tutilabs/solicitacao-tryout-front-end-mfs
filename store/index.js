@@ -5,7 +5,7 @@ export const state = () => ({
         status: "",
         router: ""
     },
-
+    user: "",
     countNewModels: 0,
 
 })
@@ -18,6 +18,9 @@ export const mutations = {
 
     setCountNewModels(state, payload){
         state.countNewModels += payload
+    },
+    setUser(state, payload){
+        state.user = payload
     }
 
 }
@@ -25,6 +28,9 @@ export const mutations = {
 export const getters = {
     getCountNewModels(state) {
         return state.countNewModels
+    },
+    getUser(state){
+        return state.user
     }
 
 }
