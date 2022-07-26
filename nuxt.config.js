@@ -22,9 +22,9 @@ export default {
     timing: false
   },
    
- router: {
-    middleware: 'auth'
-   },
+//  router: {
+//     middleware: 'auth'
+//    },
 
   
   // Global CSS: https://go.nuxtjs.dev/config-css
