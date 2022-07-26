@@ -5,15 +5,18 @@ export default async function ({ redirect, app, store }) {
 
     
 http.interceptors.request.use( (config) => {
-
-  const tokenCookie = Cookies.get('auth._token.local');
-
+  // const tokenCookie = process.env.TOKEN_LOCAL
+  
+  
+   const tokenCookie = Cookies.get('auth._token.local')
+  
   if(!tokenCookie){
     redirect(`${process.env.ROUTER_REDIRECT_SYSTEM_USER}`)
     return;
   }
-  
+
   const [_, token ] = tokenCookie.split(" ");
+  
    if (!token) {
     redirect(`${process.env.ROUTER_REDIRECT_SYSTEM_USER}`)
     return;
@@ -24,6 +27,7 @@ http.interceptors.request.use( (config) => {
    });
  
     try {
+   
      const role = await http.get(`${process.env.ROUTER_VERIFY_USER}`);
      if (role.data.nivel_de_acesso.descricao === "pcp_acabamento" 
      || role.data.nivel_de_acesso.descricao === "pcp_injecao"
