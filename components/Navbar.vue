@@ -42,8 +42,9 @@
               <h3>Informações do usuário</h3>
               <p>Nome: {{this.$store.getters.getUser.nome_completo}}</p>
               <p>Matricula: {{this.$store.getters.getUser.matricula}}</p>
-              <p>Cargo: {{this.$store.getters.getUser.cargo.descricao}}</p>
-              <p>Nível de acesso: {{this.$store.getters.getUser.nivel_de_acesso.descricao}}</p>
+              <!-- {{this.$store.getters}} -->
+              <!-- <p>Cargo: {{this.$store.getters.getUser.cargo.descricao}}</p> -->
+              <!-- <p>Nível de acesso: {{this.$store.getters.getUser.nivel_de_acesso.descricao}}</p> -->
 
               <button @click="showChange">Trocar Senha</button>
             </div>
