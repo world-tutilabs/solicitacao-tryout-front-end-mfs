@@ -44,9 +44,9 @@ http.interceptors.request.use( (config) => {
        }
       } catch (e) {
        console.error(e)
-        //  Cookies.set('auth._token.local', false);
-        //  Cookies.set('auth._token_expiration.local', false);
-        //  return  redirect(`${process.env.ROUTER_REDIRECT_SYSTEM_USER}`)
+         Cookies.set('auth._token.local', false);
+         Cookies.set('auth._token_expiration.local', false);
+         return  redirect(`${process.env.ROUTER_REDIRECT_SYSTEM_USER}`)
       }
 
   }
