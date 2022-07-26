@@ -2,7 +2,6 @@ import { http } from "~/services/config";
 
 export default async function({redirect}){
     try {
-      console.log(process.env.ROUTER_VERIFY_USER)
        const res =  await http.get(process.env.ROUTER_VERIFY_USER);
       
        if (res.data.nivel_de_acesso.descricao === "pcp_acabamento" 

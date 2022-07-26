@@ -9,10 +9,9 @@ const httpSAP = axios.create({
 })
 
 httpSAP.interceptors.request.use(function (config) {
-  const token = process.env.TOKEN_LOCAL
-  if (!token) {
-    token = Cookies.get('auth._token.local')
-  } 
+ 
+    const token = Cookies.get('auth._token.local')
+  
   if (!token) {
     token = "";
   }
