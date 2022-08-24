@@ -27,11 +27,6 @@ export default Vue.extend({
       modalStatus: false,
     };
   },
-  methods: {
-    closeModal() {
-      this.modalStatus = !this.modalStatus
-    } // 
-  },
   computed: {
     showRequestButton() {
 
@@ -48,8 +43,22 @@ export default Vue.extend({
         return true;
       }
     }
-
   },
+  methods: {
+    closeModal() {
+      this.modalStatus = !this.modalStatus
+    }
+  },
+  // watch:{
+  //   modalStatus(newValue){
+  //     let scrollBody = document.body
+  //     if(newValue == true){
+  //       scrollBody.style.overflow = 'hidden'
+  //     }else{
+  //       scrollBody.style.overflow = 'scroll'
+  //     }
+  //   }
+  // }
 })
 </script>
 

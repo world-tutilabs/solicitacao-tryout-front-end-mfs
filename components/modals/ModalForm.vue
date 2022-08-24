@@ -3,19 +3,18 @@
     <div class="containerModal">
       <header>
         <div>
-          <h1>Titulo</h1>
+          <h1>Solicitar de TryOut</h1>
           <p>Informações Gerais</p>
         </div>
 
         <div @click="closeModal()" class="btn-closed">
           <img src="~/static/icons/x.svg" />
         </div>
-
       </header>
 
-      <form action="">
+      <div class="form">
         <!-- modificacao e testes -->
-        <div class="rowInputs">
+        <div class="rowInputs" v-if="showContainer">
           <div class="boxInput">
             <p>Código SAPP</p>
             <input type="text" name="" id="" />
@@ -28,20 +27,34 @@
 
         <div class="rowInputs">
           <div class="boxInput">
-            <p>Código do Produto</p>
-            <input type="text" name="" id="" />
+            <p>Código do Produto:</p>
+            <input type="text" list="products" @change="catchIndexProduct" />
+
+            <datalist id="products">
+              <option
+                v-for="(products, index) in productsOptions.produto"
+                :key="index"
+              >
+                {{ products.COD_PRODUTO }}
+              </option>
+            </datalist>
           </div>
           <div class="boxInput">
             <p>Descrição do Produto</p>
-            <input type="text" name="" id="" />
+            <input type="text" v-model="indexProduct" disabled />
           </div>
           <div class="boxInput">
             <p>Cliente</p>
-            <input type="text" name="" id="" />
+            <input type="text" v-model="dataRRIM.CLIENTE" disabled />
           </div>
-          <div class="boxInput">
+          <div class="boxInput" v-if="showContainer">
             <p>Motivo</p>
-            <input type="text" name="" id="" />
+            <input type="text" value="" />
+          </div>
+
+          <div class="boxInput" v-else>
+            <p>Motivo</p>
+            <input type="text" v-model="reasonSolicitation" disabled />
           </div>
         </div>
 
@@ -49,21 +62,24 @@
         <div class="rowInputs contentInputs">
           <div class="boxInput">
             <p>Processo</p>
-            <select name="" id="">
-              <option value="">teste</option>
-              <option value="">teste2</option>
+            <select>
+              <option value="">Processo de Injeção</option>
             </select>
           </div>
           <div class="boxInput">
             <p>Quantidade</p>
-            <input type="number" name="" id="" />
+            <input type="number" min="1" v-model="quantidade" />
           </div>
           <div class="boxInput">
             <p>Técnico</p>
-            <input type="text" name="" id="" />
+            <input
+              type="text"
+              v-model="dataRRIM.homologacao[0].created_user.nome"
+              disabled
+            />
           </div>
 
-          <button>
+          <button @click.prevent="addProcess" v-if="!processValidation">
             <img src="~/static/icons/plus.svg" alt="" />
             <h3>Adicionar</h3>
           </button>
@@ -72,64 +88,369 @@
         <!-- so aparece quando selecionar um processo -->
         <div class="containerProcess">
           <div class="tabs">
-            <div class="tab">
+            <div class="tab" v-for="index in count" :key="index">
               <p>Processo Injeção</p>
-              <img src="~/static/icons/x.svg" alt="" />
+              <img
+                @click="removeProcess(index)"
+                src="~/static/icons/x.svg"
+                alt=""
+              />
             </div>
           </div>
-          <div class="frameProcess">
-            <div class="cardTryOut">
-              <SlotCardVue>
-                <Title title="Mão de Obra" />
-                <FormInput label="Descrição" />
-                <FormInput label="Qtd" />
-              </SlotCardVue>
+          <div class="frameProcess" v-if="processValidation">
+            <div class="rowInputs divisor">
+              <div class="boxInput">
+                <p>Quantidade</p>
+                <input type="text" v-model="quantidade" disabled />
+              </div>
 
-              <SlotCardVue>
-                <Title title="Molde" />
-                <FormInput label="Descrição" />
-                <FormInput label="N Cavidade" />
-              </SlotCardVue>
+              <div class="boxInput">
+                <p>Técnico</p>
+                <input
+                  type="text"
+                  v-model="dataRRIM.homologacao[0].created_user.nome"
+                  disabled
+                />
+              </div>
 
-              <SlotCardVue>
-                <Title title="Matéria Prima" />
-                <FormInput label="Descrição" />
-                <FormInput label="Qtd" />
-              </SlotCardVue>
+              <div class="boxInput">
+                <p>Motivo</p>
+                <input type="text" v-model="reasonSolicitation" disabled />
+              </div>
+
+              <div class="boxInput inputData">
+                <p>Data Programada</p>
+                <input type="date" v-model="newData" :min="dateCurrent" />
+              </div>
+
+              <div class="boxInput inputData">
+                <p>Máquina</p>
+                <!-- <input type="text" v-model="newData" /> -->
+
+                <input type="text" list="machines" v-model="machine" />
+
+                <datalist id="machines">
+                  <option
+                    v-for="(machine, index) in listAllMachines.results"
+                    :key="index"
+                  >
+                    {{ machine.VisResCode }}
+                  </option>
+                </datalist>
+              </div>
             </div>
-            <!-- components aqui com props -->
+
+            <div class="cardTryOut">
+              <SlotCard>
+                <Title title="Mão de Obra" />
+                <FormInput
+                  label="Descrição"
+                  type="text"
+                  v-model="laborDescription"
+                />
+                <FormInput
+                  label="Qtd"
+                  type="number"
+                  min="1"
+                  v-model="laborAmount"
+                />
+              </SlotCard>
+
+              <SlotCard>
+                <Title title="Molde" />
+                <FormInput
+                  label="Descrição"
+                  type="text"
+                  v-model="dataRRIM.MOLDE"
+                  disabled
+                />
+                <FormInput
+                  label="N° Cavidade"
+                  type="number"
+                  min="1"
+                  :value="calculeCavity(dataRRIM.molde_aberto[0].cavidade)"
+                  disabled
+                />
+              </SlotCard>
+
+              <SlotCard>
+                <Title title="Matéria Prima" />
+                <FormInput
+                  label="Descrição"
+                  type="text"
+                  v-model="feedstocksDescription"
+                  disabled
+                />
+                <FormInput
+                  label="kG"
+                  type="number"
+                  min="1"
+                  v-model="feedstocksCode"
+                />
+              </SlotCard>
+            </div>
           </div>
         </div>
 
         <div class="boxButtons">
-          <button class="cancel" @click="closeModal()">Cancelar</button>
-          <button class="save">Salvar</button>
+          <button class="cancel" @click.prevent="closeModal()">Cancelar</button>
+          <button class="save" @click.prevent="saveNewSolicitation()">
+            Salvar
+          </button>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>
+<script>
+import http from "~/services/newMold/mold";
+import dayjs from "dayjs";
 
-
-<script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
-
+export default {
   props: {
-    displayModal: { type: Boolean }
+    displayModal: Boolean,
+    dataRRIM: Object,
+  },
+  data() {
+    return {
+      toToggleFilter: 0,
+      machine: "",
+      dateCurrent: dayjs().format("YYYY-MM-DD"),
+      myRouter: false,
+      count: 0,
+      processValidation: false,
+
+      productsOptions: [],
+      indexProduct: "",
+      reasonSolicitation: "Novo",
+
+      quantidade: "",
+      tecnico: "",
+      newData: "",
+
+      listAllMachines: [],
+
+      feedstocksDescription: "",
+      feedstocksCode: "",
+      laborAmount: "",
+      laborDescription: "",
+      moldMold: "",
+      moldNumber: "",
+
+      newSolicitation: {
+        cod_prod: "",
+        desc_prod: "",
+        client: "",
+        reason: "",
+      },
+
+      testSolicitation: {
+        code_sap: "",
+        product_description: "",
+        client: "",
+        date: "",
+        reason: "",
+        homologation: {
+          created_user: {
+            tecnico: "Rafael",
+            role: "Eng_Analista",
+          },
+        },
+        InjectionProcess: {
+          proc_technician: "",
+          quantity: 0,
+          feedstocks: {
+            kg: "",
+            description: "",
+          },
+          labor: {
+            description: "",
+            amount: 0,
+          },
+          mold: {
+            number_cavity: 0,
+            mold: "",
+          },
+          machine: {
+            model: "",
+          },
+        },
+      },
+    };
+  },
+  computed: {
+    showContainer() {
+      if (this.$route.name === "") {
+        return (this.myRouter = false);
+      }
+      if (
+        this.$route.name === "resin-test" ||
+        this.$route.name === "modifications"
+      ) {
+        return (this.myRouter = true);
+      }
+    },
   },
 
   methods: {
-    closeModal() {
-      this.$emit("closeModal", this.displayModal)
-    }
-  }
+    async saveNewSolicitation() {
+      this.testSolicitation.code_sap = this.newSolicitation.cod_prod;
+      this.testSolicitation.product_description = this.indexProduct;
+      this.testSolicitation.client = this.dataRRIM.CLIENTE;
+      this.testSolicitation.reason = this.reasonSolicitation;
+      this.testSolicitation.InjectionProcess.proc_technician =
+        this.dataRRIM.homologacao[0].created_user.nome;
+      this.testSolicitation.InjectionProcess.quantity = parseInt(
+        this.quantidade
+      );
+      this.testSolicitation.date = this.newData;
+      this.testSolicitation.InjectionProcess.feedstocks.kg = parseInt(
+        this.feedstocksCode
+      );
+      this.testSolicitation.InjectionProcess.feedstocks.description =
+        this.feedstocksDescription;
+      this.testSolicitation.InjectionProcess.labor.amount = parseInt(
+        this.laborAmount
+      );
+      this.testSolicitation.InjectionProcess.labor.description =
+        this.laborDescription;
+      this.testSolicitation.InjectionProcess.mold.mold = this.dataRRIM.MOLDE;
+      this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(
+        this.moldNumber
+      );
 
-})
+      this.testSolicitation.InjectionProcess.machine.model = this.machine;
+      this.$store.commit("setCountNewModels", this.toToggleFilter++);
+
+      if (this.machine !== "") {
+        await http
+          .createNewSolicitation(this.testSolicitation)
+          .then((res) => {
+            this.$toast.success("Solicitação realizada com sucesso!");
+            this.closeModal();
+          })
+          .catch((error) => {
+            if (error.response.status === 400) {
+              this.$toast.warning("Algum campo não foi preenchido");
+            }
+            if (error.response.status === 500) {
+              this.$toast.error("Erro no servidor");
+            }
+          });
+      } else {
+        this.$toast.warning("Algum campo não foi preenchido");
+      }
+    },
+    catchIndexProduct(event) {
+      this.newSolicitation.cod_prod = event.target.value;
+      const value = this.productsOptions.produto.find(
+        (item) => item.COD_PRODUTO === event.target.value
+      );
+      this.indexProduct = value.DESC_PRODUTO;
+      this.feedstocksDescription = value.DESC_MATERIA_PRIMA;
+    },
+
+    closeModal() {
+      this.indexProduct = null;
+
+      this.quantidade = null;
+      this.tecnico = null;
+
+      this.laborDescription = null;
+      this.laborAmount = null;
+
+      this.moldMold = null;
+      this.moldNumber = null;
+
+      this.feedstocksDescription = null;
+      this.feedstocksCode = null;
+
+      this.count = 0;
+      this.processValidation = false;
+      this.machine = "";
+
+      this.$emit("closeModal", this.displayModal);
+    },
+
+    addProcess() {
+      if (this.quantidade === "") {
+        this.$toast.warning("Algum campo não foi preenchido");
+      } else if (this.quantidade <= 0) {
+        this.$toast.error("Campo quantidade com valores impróprios");
+      } else {
+        this.count++;
+        this.processValidation = true;
+      }
+    },
+    removeProcess(index) {
+      this.count--;
+      if (index === this.count) {
+        this.processValidation = false;
+      }
+      if (this.count === 0) {
+        this.processValidation = false;
+      }
+    },
+
+    calculeCavity(cavityArray) {
+      console.log(cavityArray);
+      let total = 0;
+      cavityArray.map((item) => {
+        total = item.N_CAVIDADE + total;
+      });
+      console.log(total);
+      this.moldNumber = total;
+      return this.moldNumber;
+    },
+  },
+
+  created: async function () {
+    this.productsOptions = this.dataRRIM;
+
+    await http.listAllMachines().then((res) => {
+      this.listAllMachines = res.data;
+      console.log(this.listAllMachines);
+    });
+  },
+  watch: {
+    quantidade(newValue) {
+      if (newValue < 0) {
+        this.quantidade = newValue * -1;
+      }
+    },
+    laborAmount(newValue) {
+      if (newValue < 0) {
+        this.laborAmount = newValue * -1;
+      }
+    },
+    moldNumber(newValue) {
+      if (newValue < 0) {
+        this.moldNumber = newValue * -1;
+      }
+    },
+    feedstocksCode(newValue) {
+      if (newValue < 0) {
+        this.feedstocksCode = newValue * -1;
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
+.divisor {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.397);
+  padding: 1rem 0 !important;
+  margin-bottom: 1rem;
+
+  .inputData {
+    input {
+      background-color: #ffffff !important;
+      box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px, rgb(0 0 0 / 23%) 0px 3px 6px;
+    }
+  }
+}
+
 .containerFilter {
   height: 100vh;
   position: fixed;
@@ -151,7 +472,6 @@ export default Vue.extend({
     border-radius: 0.5rem;
 
     header {
-
       border-bottom: 0.2rem solid var(--gray);
       padding-bottom: 1vw;
       display: flex;
@@ -182,7 +502,9 @@ export default Vue.extend({
           font-weight: var(--bold);
         }
 
-        input, select{
+        input,
+        select {
+          // font-size: 1rem;
           width: 100%;
         }
       }
@@ -195,7 +517,7 @@ export default Vue.extend({
 
       button {
         display: flex;
-        gap: .5rem;
+        gap: 0.5rem;
         justify-content: center;
         align-items: center;
         color: var(--gray_text);
@@ -210,7 +532,7 @@ export default Vue.extend({
           width: 1rem;
         }
 
-        @media(max-width: 343px){
+        @media (max-width: 343px) {
           margin-left: auto;
         }
       }
@@ -226,7 +548,7 @@ export default Vue.extend({
       width: 10rem;
     }
 
-    form {
+    .form {
       display: grid;
       gap: 2rem;
       grid-template-columns: minmax(10rem, 1fr);
@@ -295,7 +617,7 @@ export default Vue.extend({
         .cardTryOut {
           width: 100%;
           display: grid;
-          grid-template-columns:repeat(auto-fill,  minmax(16rem, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
           gap: 2rem;
         }
       }

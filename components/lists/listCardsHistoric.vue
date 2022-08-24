@@ -1,38 +1,57 @@
 <template>
-  <div>
-    <CardModel
-      v-for="mold in listPaginated"
-      :key="mold.id"
-      :statusOrigin="mold.origin"
-      :flag="mold.flag"
-      :typeCard="mold.typeCard"
-    />
 
-    <Pagination :list="dataNewMold" @displayNewList="displayNewList"/>
+  <div v-if="$fetchState.pending">
+    <Loading />
+  </div>
+  <div v-else>
+    <CardModel v-for="mold in listPaginated" :key="mold.id" :dataMold="mold" @updateList='updateList' />
+    <Pagination :list="listHistoric" @displayNewList="displayNewList" />
   </div>
 </template>
 
 <script>
+import httpLocal from '../../services/newMold/mold'
 
 export default {
 
   data() {
     return {
-      dataNewMold: [
-        { id: 1, origin: 'Aprovado', flag: '1', typeCard: 'history' },
-        { id: 2, origin: '', flag: '2', typeCard: 'history' },
-        { id: 2, origin: 'Reprovado', flag: '3', typeCard: 'history' },
-      ],
 
       listPaginated: [],
+      listHistoric: []
     }
   },
 
   methods: {
-    displayNewList (e){
+    displayNewList(e) {
       this.listPaginated = e
-    }
+    },
+
+    updateList: async function () {
+      this.$fetchState.pending = true
+      setTimeout(() => {
+        this.$fetchState.pending = false
+      }, 1000);
+
+      this.generateList()
+
+    },
+
+    generateList: async function () {
+      await httpLocal.listAllHistoric().then(async (res) => {
+        this.listHistoric = res.data
+
+      })
+
+    },
+  },
+
+  async fetch() {
+    await this.generateList()
+
+
   }
+
 }
 </script>
 

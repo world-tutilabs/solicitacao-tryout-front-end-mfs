@@ -3,7 +3,7 @@
     <div class="containerModal">
       <header>
         <div>
-          <h1>Revisão PCP</h1>
+          <h1>Revisão Engenharia</h1>
           <p>Informações Gerais</p>
         </div>
         <div @click="closeModal()" class="btn-closed">
@@ -23,28 +23,28 @@
           <div class="boxInput">
             <FormInput
               label="Código do Produto"
-              v-model="dataPCP.solicitation.code_sap"
+              v-model="dataRevisao.code_sap"
               readonly="readonly"
             />
           </div>
           <div class="boxInput">
             <FormInput
               label="Descrição do Produto"
-              v-model="dataPCP.solicitation.desc_product"
+              v-model="dataRevisao.desc_product"
               readonly="readonly"
             />
           </div>
           <div class="boxInput">
             <FormInput
               label="Cliente"
-              v-model="dataPCP.solicitation.client"
+              v-model="dataRevisao.client"
               readonly="readonly"
             />
           </div>
           <div class="boxInput">
             <FormInput
               label="Motivo"
-              v-model="dataPCP.solicitation.reason"
+              v-model="dataRevisao.reason"
               readonly="readonly"
             />
           </div>
@@ -65,40 +65,33 @@
                 <div class="boxInput">
                   <FormInput
                     label="Técnico"
-                    v-model="
-                      dataPCP.solicitation.injectionProcess.proc_technician
-                    "
-                    readonly="readonly"
+                    v-model="dataRevisao.injectionProcess.proc_technician"
                   />
                 </div>
                 <div class="boxInput">
                   <FormInput
                     label="Quantidade"
-                    v-model="dataPCP.solicitation.injectionProcess.quantity"
-                    readonly="readonly"
+                    v-model="dataRevisao.injectionProcess.quantity"
                   />
                 </div>
                 <div class="boxInput">
-                  <FormInput
-                    label="Motivo"
-                    v-model="dataPCP.solicitation.reason"
-                    readonly="readonly"
-                  />
+                  <FormInput label="Motivo" v-model="dataRevisao.reason" />
                 </div>
                 <div class="boxInput">
                   <FormInput
                     label="Data Programada"
-                    :value="formatDate(dataPCP.solicitation.programmed_date)"
-                    readonly="readonly"
+                    v-model="dateProgrammed"
+                    :type="inputTypeDate"
+                    :min="dateCurrent"
+                    @click="inputTypeDate = 'date'"
                   />
                 </div>
+
                 <div class="boxInput">
-                  <FormInput
+                  <FormInputSelect
                     label="Máquina"
-                    v-model="
-                      dataPCP.solicitation.injectionProcess.machine.model
-                    "
-                    readonly="readonly"
+                    :options="listAllMachines.results"
+                    v-model="dataRevisao.injectionProcess.machine.model"
                   />
                 </div>
               </div>
@@ -109,15 +102,13 @@
                 <Title title="Mão de Obra" />
                 <FormInput
                   label="Descrição"
-                  v-model="
-                    dataPCP.solicitation.injectionProcess.labor.description
-                  "
+                  v-model="dataRevisao.injectionProcess.labor.description"
                   readonly="readonly"
                 />
+
                 <FormInput
                   label="Quantidade"
-                  v-model="dataPCP.solicitation.injectionProcess.labor.amount"
-                  readonly="readonly"
+                  v-model="dataRevisao.injectionProcess.labor.amount"
                 />
               </SlotCardVue>
 
@@ -125,15 +116,13 @@
                 <Title title="Molde" />
                 <FormInput
                   label="Descrição"
-                  v-model="dataPCP.solicitation.injectionProcess.mold.desc_mold"
+                  v-model="dataRevisao.injectionProcess.mold.desc_mold"
                   readonly="readonly"
                 />
+
                 <FormInput
                   label="N° Cavidade"
-                  v-model="
-                    dataPCP.solicitation.injectionProcess.mold.number_cavity
-                  "
-                  readonly="readonly"
+                  v-model="dataRevisao.injectionProcess.mold.number_cavity"
                 />
               </SlotCardVue>
 
@@ -141,53 +130,29 @@
                 <Title title="Matéria Prima" />
                 <FormInput
                   label="Descrição"
-                  v-model="
-                    dataPCP.solicitation.injectionProcess.feedstock.description
-                  "
-                  readonly="readonly"
+                  v-model="dataRevisao.injectionProcess.feedstock.description"
                 />
+
                 <FormInput
                   label="Kg"
-                  v-model="dataPCP.solicitation.injectionProcess.feedstock.kg"
-                  readonly="readonly"
+                  v-model="dataRevisao.injectionProcess.feedstock.kg"
                 />
               </SlotCardVue>
             </div>
           </div>
         </div>
 
-        <FormTextArea title="Comentários*" v-model="textoTextArea" />
+        <FormTextArea
+          title="Comentários*"
+          v-model="dataRevisao.homologation.comment"
+          readonly="readonly"
+        />
 
         <div class="boxButtons">
           <p>*Campo Obrigatório</p>
           <div>
-            <button class="cancel" @click.prevent="showModal(2)">
-              Reprovar
-            </button>
-            <button class="save" @click.prevent="showModal(1)">Aprovar</button>
-
-            <div class="containerPopUp" v-if="showPopUp">
-              <div class="popUp">
-                <div class="headPopup">
-                  <div class="frameImg">
-                    <img src="@/assets/img/formH.svg" alt="" />
-                  </div>
-                  <h2>Deseja realmente {{ typeHomologar }}?</h2>
-                </div>
-                <div class="buttons">
-                  <button class="btnPopup" @click.prevent="showPopUp = false">
-                    Não
-                  </button>
-                  <button
-                    :style="buttonColor"
-                    class="btnPopup"
-                    @click.prevent="toHomologate(statusPopUp)"
-                  >
-                    sim, {{ typeHomologar }}
-                  </button>
-                </div>
-              </div>
-            </div>
+            <!-- <button class="cancel" @click.prevent="toHomologate(2)">Reprovar</button> -->
+            <button class="save" @click.prevent="updateSoli">Aprovar</button>
           </div>
         </div>
       </form>
@@ -196,126 +161,125 @@
 </template>
 
 <script>
+import http from "../../services/newMold/mold";
 import dayjs from "dayjs";
-
-import http from "../../services/pcp/pcp";
+import httpNewMold from "~/services/newMold/mold";
+import FormInputSelect from "../Form/FormInputSelect.vue";
 
 export default {
   data() {
     return {
+      dateCurrent: dayjs().format("YYYY-MM-DD"),
+      dateProgrammed: dayjs(this.dataRevisao.programmed_date)
+        .add(1, "day")
+        .format("DD/MM/YYYY"),
+      listAllMachines: [],
+      inputTypeDate: "text",
       descriptionLabor: "",
       textoTextArea: "",
       homologateComment: {
         status: 0,
         comment: "",
       },
-      typeHomologar: "",
-      showPopUp: false,
-      statusPopUp: 0,
-      buttonColor: "",
+      solicitationUpdated: {
+        code_sap: "",
+        product_description: "",
+        client: "",
+        date: "",
+        reason: "",
+        homologation: {
+          created_user: {
+            tecnico: "Rafael",
+            role: "Eng_Analista",
+          },
+        },
+        InjectionProcess: {
+          proc_technician: "",
+          quantity: 0,
+          feedstocks: {
+            kg: 0,
+            description: "",
+          },
+          labor: {
+            description: "",
+            amount: 0,
+          },
+          mold: {
+            number_cavity: 0,
+            mold: "",
+          },
+          machine: {
+            model: "",
+          },
+        },
+      },
     };
+  },
+  created: async function () {
+    console.log(this.dataRevisao.id);
+    await httpNewMold.listAllMachines().then((res) => {
+      this.listAllMachines = res.data;
+      console.log(this.listAllMachines);
+    });
   },
   props: {
     displayModal: Boolean,
-    dataPCP: Object,
+    dataRevisao: Object,
   },
   methods: {
+    // formatDate() {
+    //   return dayjs(this.dataRevisao.programmed_date)
+    //     .add(1, "day")
+    //     .format("DD/MM/YYYY");
+    //   // return dayjs(tete.programmed_date).add(1, "day").format("DD/MM/YYYY");
+    // },
     closeModal() {
       this.$emit("closeModal", this.displayModal);
     },
-
-    formatDate(date) {
-      return dayjs(date).add(1, "day").format("DD/MM/YYYY");
-    },
-    showModal(statusModal) {
-      this.showPopUp = true;
-
-      if (statusModal === 1) {
-        this.typeHomologar = "Aprovar";
-        this.statusPopUp = statusModal;
-        this.buttonColor = "background-color: var(--blue);color: var(--white)";
-      }
-      if (statusModal === 2) {
-        this.typeHomologar = "Reprovar";
-        this.statusPopUp = statusModal;
-        this.buttonColor =
-          "background-color: var(--orange);color: var(--white)";
-      }
-    },
-    toHomologate: async function (status) {
-      this.homologateComment.status = status;
-      this.homologateComment.comment = this.textoTextArea;
+    updateSoli: async function () {
+      this.solicitationUpdated.code_sap = this.dataRevisao.code_sap;
+      this.solicitationUpdated.product_description =
+        this.dataRevisao.desc_product;
+      this.solicitationUpdated.client = this.dataRevisao.client;
+      this.solicitationUpdated.reason = this.dataRevisao.reason;
+      this.solicitationUpdated.InjectionProcess.proc_technician =
+        this.dataRevisao.injectionProcess.proc_technician;
+      this.solicitationUpdated.InjectionProcess.quantity = parseInt(
+        this.dataRevisao.injectionProcess.quantity
+      );
+      this.solicitationUpdated.date = this.dateProgrammed;
+      this.solicitationUpdated.InjectionProcess.feedstocks.kg =
+        this.dataRevisao.injectionProcess.feedstock.kg;
+      this.solicitationUpdated.InjectionProcess.machine.model =
+        this.dataRevisao.injectionProcess.machine.model;
+      this.solicitationUpdated.InjectionProcess.feedstocks.description =
+        this.dataRevisao.injectionProcess.feedstock.description;
+      this.solicitationUpdated.InjectionProcess.labor.amount = parseInt(
+        this.dataRevisao.injectionProcess.labor.amount
+      );
+      this.solicitationUpdated.InjectionProcess.labor.description =
+        this.dataRevisao.injectionProcess.labor.description;
+      this.solicitationUpdated.InjectionProcess.mold.mold =
+        this.dataRevisao.injectionProcess.mold.desc_mold;
+      this.solicitationUpdated.InjectionProcess.mold.number_cavity = parseInt(
+        this.dataRevisao.injectionProcess.mold.number_cavity
+      );
       await http
-        .homologatePCP(this.dataPCP.id, this.homologateComment)
+        .updateSolicitation(this.dataRevisao.id, this.solicitationUpdated)
         .then((res) => {
-          if (status === 1) {
-            this.$toast.info("Solicitação Aprovada");
-          } else if (status === 2) {
-            this.$toast.warning("Solicitação Reprovada");
-          }
+          this.$toast.info("Solicitação enviada para o PCP");
           this.closeModal();
-          console.log(res);
         })
         .catch((error) => {
-          console.log(`Erro: ${error}`);
+          this.$toast.info(`Erro: ${error}`);
         });
     },
   },
+  components: { FormInputSelect },
 };
 </script>
 
 <style lang="scss" scoped>
-.containerPopUp {
-  background-color: rgba(38, 49, 141, 0.342);
-  backdrop-filter: blur(2px);
-  position: fixed;
-  height: 135vh;
-  width: 100%;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-
-  .popUp {
-    background-color: var(--white);
-    width: 30rem;
-    height: 21rem;
-    padding: 1rem;
-    margin-top: 20rem;
-    position: sticky;
-    top: 0;
-    flex-direction: column;
-    display: flex;
-    justify-content: space-between;
-    border-radius: 0.5rem;
-    .headPopup {
-      margin-bottom: 1rem;
-      h2 {
-        margin-top: 1rem;
-        font-size: 1.7rem;
-      }
-      .frameImg {
-        height: 10rem;
-        background-color: var(--blue);
-        display: grid;
-        justify-content: center;
-        img {
-          width: 18rem;
-          position: relative;
-          bottom: 0.5rem;
-        }
-      }
-    }
-    .buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: flex-end;
-      .btnPopup {
-        width: fit-content !important;
-      }
-    }
-  }
-}
 .containerFilter {
   height: 100vh;
   position: fixed;
@@ -410,7 +374,8 @@ export default {
           font-size: 1rem;
           font-weight: var(--bold);
           border-radius: 0.5rem 0.5rem 0 0;
-          background-color: #ececec;
+          background-color: var(--bgProcess);
+          border: 2px solid var(--bgProcess);
           transition: 0.2s;
 
           &:hover {
@@ -426,7 +391,7 @@ export default {
       .frameProcess {
         width: 100%;
         padding: 1rem;
-        background-color: #ececec;
+        background-color: var(--bgProcess);
 
         .typeProcess {
           margin-bottom: 0.8rem;

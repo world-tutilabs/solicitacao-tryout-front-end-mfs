@@ -2,9 +2,7 @@
   <div class="box">
     <div class="content">
       <div class="header-content">
-        <div
-          :class="flagValidation(dataMold.homologation.status.description)"
-        ></div>
+        <div :class="flagValidation(dataMold.status.description)"></div>
         <div class="container_button" @click="openInfoCard">
           <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
           <img src="~/static/icons/arrowOpened.svg" alt="" srcset="" v-else />
@@ -14,27 +12,28 @@
         <div class="informs">
           <div class="inform">
             <h3>Cód. de TryOut</h3>
-            <p>{{ dataMold.number_tryout }}</p>
+            <p>{{ dataMold.solicitation.number_tryout }}</p>
           </div>
           <div class="inform">
             <h3>Cód. do Produto | SAP</h3>
-            <p>{{ dataMold.code_sap }}</p>
+            <p>{{ dataMold.solicitation.code_sap }}</p>
           </div>
           <div class="inform">
             <h3>Desc. do Produto</h3>
-            <p>{{ dataMold.desc_product }}</p>
+            <p>{{ dataMold.solicitation.desc_product }}</p>
           </div>
           <div class="inform">
             <h3>Cliente</h3>
-            <p>{{ dataMold.client }}</p>
+            <p>{{ dataMold.solicitation.client }}</p>
           </div>
           <div class="inform">
             <h3>Data</h3>
-            <p>{{ dataMolds() }}</p>
+            <p>{{ formatDate(dataMold.solicitation.programmed_date) }}</p>
           </div>
+
           <div class="inform">
             <h3>Máquina</h3>
-            <p>{{ dataMold.injectionProcess.machine.model }}</p>
+            <p>{{ dataMold.solicitation.injectionProcess.machine.model }}</p>
           </div>
         </div>
       </div>
@@ -48,17 +47,17 @@
 
           <div class="inform">
             <h3>Quantidade</h3>
-            <p>{{ dataMold.injectionProcess.quantity }}</p>
+            <p>{{ dataMold.solicitation.injectionProcess.quantity }}</p>
           </div>
 
           <div class="inform">
             <h3>Técnico</h3>
-            <p>{{ dataMold.injectionProcess.proc_technician }}</p>
+            <p>{{ dataMold.solicitation.injectionProcess.proc_technician }}</p>
           </div>
 
           <div class="inform">
             <h3>Motivo</h3>
-            <p>{{ dataMold.reason }}</p>
+            <p>{{ dataMold.solicitation.reason }}</p>
           </div>
         </div>
 
@@ -66,19 +65,25 @@
           <div class="processBox">
             <h3>Mão de Obra</h3>
             <span>Descrição</span>
-            <h4>{{ dataMold.injectionProcess.labor.description }}</h4>
+            <h4>
+              {{ dataMold.solicitation.injectionProcess.labor.description }}
+            </h4>
             <div class="processFooter">
-              <h4>Quantidade: {{ dataMold.injectionProcess.labor.amount }}</h4>
+              <h4>
+                Quantidade:
+                {{ dataMold.solicitation.injectionProcess.labor.amount }}
+              </h4>
             </div>
           </div>
 
           <div class="processBox">
             <h3>Molde</h3>
             <span>Descrição</span>
-            <h4>{{ dataMold.injectionProcess.mold.desc_mold }}</h4>
+            <h4>{{ dataMold.solicitation.injectionProcess.mold.desc_mold }}</h4>
             <div class="processFooter">
               <h4>
-                Qtde Cav: {{ dataMold.injectionProcess.mold.number_cavity }}
+                N° Cavidade:
+                {{ dataMold.solicitation.injectionProcess.mold.number_cavity }}
               </h4>
             </div>
           </div>
@@ -86,71 +91,38 @@
           <div class="processBox">
             <h3>Matéria Prima</h3>
             <span>Descrição</span>
-            <h4>{{ dataMold.injectionProcess.feedstock.description }}</h4>
+            <h4>
+              {{ dataMold.solicitation.injectionProcess.feedstock.description }}
+            </h4>
             <div class="processFooter">
-              <h4>KG: {{ dataMold.injectionProcess.feedstock.kg }}</h4>
+              <h4>
+                Kg: {{ dataMold.solicitation.injectionProcess.feedstock.kg }}
+              </h4>
             </div>
-          </div>
-        </div>
-
-        <div
-          class="info"
-          v-if="dataMold.homologation.status.description !== 'Revisao'"
-        >
-          <span>Último Comentário realizado pelo PCP</span>
-          <h3>
-            Autor: {{ dataMold.homologation.homologation_user.nome_completo }}
-          </h3>
-          <div class="boxText">
-            <span>{{ dataMold.homologation.comment }}</span>
           </div>
         </div>
       </div>
 
       <div class="contentContainer" v-if="isOpenInfoCard">
         <SlotBtn>
+          <!-- <BtnPirula titleBtn="Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'" /> -->
 
-          <div class="containerPopUp" v-if="showPopUp">
-
-          <form>
-            <div class="popUp">
-              <div class="headPopup">
-                <div class="frameImg">
-                  <img src="@/assets/img/formH.svg" alt="">
-                </div>
-                <h2>Deseja realmente Cancelar?</h2>
-              </div>
-              <div class="buttons">
-                <button class="btnPopup" @click.prevent="showPopUp = false">Não</button>
-                
-                <BtnPirula titleBtn="Sim, Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'" :dataMold="dataMold"  @click="showPopUp = false"/>
-              </div>
-            </div>
-        </form>
-
-        </div>
-
-        <button class="btnCancel" v-if="$route.name === 'pcp-approveds'" @click.prevent="showPopUp = true">Cancelar</button>
-
-
-          <BtnPirula titleBtn="Revisar" color="Reprovado" v-if="dataMold.homologation.status.description === 'Reprovado' " :dataMold="dataMold" @updateCard="updateCard"/>
-          
-          <BtnPirula titleBtn="Gerar Relatório" color="Aprovado" v-if="dataMold.homologation.status.description === 'Aprovado' && $route.name !== 'pcp-approveds'" />
-        
-
+          <BtnPirula
+            titleBtn="Revisar Solicitação"
+            color="pcp-analise"
+            v-if="$route.name === 'pcp-waiting'"
+            :dataMold="dataMold"
+            @updateCard="updateCard"
+          />
         </SlotBtn>
       </div>
     </div>
-
-
   </div>
 </template>
 
 <script>
-
-import dayjs from "dayjs";
 import Vue from "vue";
-
+import dayjs from "dayjs";
 export default Vue.extend({
   layout: "mainFrame",
 
@@ -161,32 +133,28 @@ export default Vue.extend({
     return {
       isOpenInfoCard: false,
       btnStatus: this.status,
-      showPopUp: false
+
+      typeHomologar: "",
+      showPopUp: true,
     };
-
   },
-  // created: async function () {
-  //   console.log(this.dataMold.homologation);
-  // },
   methods: {
-    updateCard() {
-      this.$emit("updateList");
-    },
-
-    dataMolds(valor) {
-      return dayjs(this.dataMold.programmed_date)
-        .locale("pt-br")
-        .add(1, "day")
-        .format("DD/MM/YYYY");
-    },
     openInfoCard() {
       return (this.isOpenInfoCard = !this.isOpenInfoCard);
+    },
+
+    formatDate(date) {
+      return dayjs(date).add(1, "day").locale("pt-br").format("DD/MM/YYYY");
     },
 
     toggleButton() {
       if (this.status === "Aprovado") {
         console.log("Teste");
       }
+    },
+
+    updateCard() {
+      this.$emit("updateList");
     },
 
     flagValidation(data) {
@@ -205,74 +173,6 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-.btnCancel{
-    min-width: 148px;
-    height: 40px;
-    padding: var(--paddingInput);
-    border-radius: 2rem;
-    color: var(--white);
-    font-weight: var(--bold);
-    font-size: 1rem;
-    background-color: var(--blue);
-}
-.containerPopUp{
-  background-color: rgba(38, 49, 141, 0.342);
-  backdrop-filter: blur(2px);
-  position: fixed;
-  height: 100vh;
-  width: 100%;
-  z-index: 99;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  
-  .popUp{
-    background-color: var(--white);
-    width: 30rem;
-    height: 21rem;
-    padding: 1rem;
-    margin-top: 10rem;
-    position: sticky;
-    
-    flex-direction: column;
-    display: flex;
-    justify-content: space-between;
-    border-radius: .5rem;
-    .headPopup{
-      margin-bottom: 1rem;
-      h2{
-        margin-top: 1rem;
-        font-size: 1.7rem;
-      }
-      .frameImg{
-        height: 10rem;
-        background-color: var(--blue);
-        display: grid;
-        justify-content: center;
-        img{
-          width: 18rem;
-          position: relative;
-          bottom: .5rem;
-        }
-      }
-    }
-    .buttons{
-      display: flex;
-      gap: 1rem;
-      justify-content: flex-end;
-      .btnPopup{
-        width: fit-content!important;
-        height: 40px;
-        padding: 0.5rem 0.7rem;
-        border-radius: 2rem;
-        font-weight: var(--bold);
-        font-size: 1rem;
-        font-weight: var(--bold);
-      }
-    }
-  }
-}
 .box {
   background: var(--gray);
   padding: max(0.3rem, 1vw);

@@ -18,18 +18,26 @@
           <v-date-picker
             mode="range"
             v-model="date"
-            color="teal"
             show-caps
             is-expanded
             title-position="left"
             :attributes="attrs"
           />
+          <template #day-popover>
+            <div>programado</div>
+          </template>
         </no-ssr>
 
         <div class="contentCount">
           <h4>Mês: {{ newDateMonth(date) }}</h4>
-          <h5>Atrasados: 03</h5>
-          <h5>Programados: 10</h5>
+
+          <h5>
+            Atrasados:
+            <span :class="{ programmed_retard }">{{
+              programmedRetard(date)
+            }}</span>
+          </h5>
+          <h5>Programados: {{ tryoutProgrammed(date) }}</h5>
         </div>
       </div>
 
@@ -39,14 +47,13 @@
         </header>
 
         <div class="cards">
-          <div class="cardCalendar">
-            <CardModel
-              v-for="mold in dataNewMold"
-              :key="mold.id"
-              :statusOrigin="mold.origin"
-              :flag="mold.flag"
-              :typeCard="mold.typeCard"
-            />
+          <div v-for="(mold, index) in dataNewMold" :key="index">
+            <div
+              class="cardCalendar"
+              v-if="newDate(date) === newDateCard(mold.programmed_date)"
+            >
+              <CardModel :dataMold="mold" :typeCard="'solicitation'" />
+            </div>
           </div>
         </div>
       </div>
@@ -54,70 +61,157 @@
   </div>
 </template>
 <script>
-
-import dayjs from 'dayjs'
-
+import dayjs from "dayjs";
+import serviceNewMold from "~/services/newMold/mold";
 export default {
-
-  layout: 'calendar',
+  layout: "calendar",
+  middleware: 'auth_eng',
   head() {
     return {
-      title: 'TryOut - Kanban',
-    }
+      title: "TryOut - Kanban",
+    };
   },
   data() {
     return {
       dataExample: [],
       attrs: [],
-      date: dayjs(new Date()).format('MM'),
-
-      dataNewMold: [
-        { id: 1, origin: 'Aprovado', flag: '1', typeCard: 'solicitation' },
-        { id: 2, origin: 'Reprovado', flag: '3', typeCard: 'solicitation' },
-        { id: 3, origin: '', flag: '2', typeCard: 'solicitation' },
-        { id: 4, origin: 'Aprovado', flag: '1', typeCard: 'solicitation' },
-        { id: 5, origin: 'Reprovado', flag: '3', typeCard: 'solicitation' },
-      ],
-    }
+      date: new Date(),
+      programmed_retard: true,
+      dataNewMold: [],
+    };
   },
 
-  created: async function () {},
+  created: async function () {
+    const values = await serviceNewMold.listAllHistoric();
+
+    const SolicitationApproved = values.data.filter((solicitation) => {
+      return solicitation.homologation.status.description === "Aprovado";
+    });
+    this.newDateProgammed(SolicitationApproved);
+    this.dataNewMold = SolicitationApproved;
+    // if(SolicitationApproved.length !== 0){
+
+    // }
+  },
 
   methods: {
-    newDate(valor) {
-      return dayjs(valor).locale('pt-br').format('DD/MM/YYYY')
-    },
-    newDateMonth(valor) {
-      return dayjs(valor).format('MM')
-    },
+    // funcao que verifica as cores da legenda
+    newDateProgammed(valor) {
+      let date2;
+      let date1;
 
-    verifyColorDays(dates) {
-      const colorDate2 = dayjs(dates)
-      const todayDate = dayjs(new Date())
-      const colorDate = todayDate.diff(colorDate2, 'day')
-      if (colorDate > 0) {
-        return 'red'
-      } else if (colorDate == 0) {
-        return 'blue'
-      } else {
-        return 'green'
+      for (const date of valor) {
+        date1 = dayjs(new Date());
+        date2 = dayjs(date.programmed_date).add(1, "day");
+        const color_date = date2.diff(date1, "days", true).toFixed();
+        if (color_date > 0) {
+          this.attrs.push({
+            key: "today",
+            bar: "green",
+            dates: new Date(date2),
+          });
+        } else if (color_date == 0) {
+          this.attrs.push({
+            key: "today",
+            bar: "blue",
+            dates: new Date(date2),
+          });
+        } else {
+          this.attrs.push({ key: "today", bar: "red", dates: new Date(date2) });
+        }
       }
     },
 
-    verifyLateDays(firstDay, secondDay) {
-      const date1 = dayjs(firstDay)
-      const date2 = dayjs(secondDay)
-      const dayCalculed = date1.diff(date2, 'day')
-      if (dayCalculed > 0) {
-        return `atraso de: ${dayCalculed}`
-      } else if (dayCalculed == 0) {
-        return `Programado para hoje`
+    // funcao que retorna a data do Tryout programado
+    newDateCard(valor) {
+      return dayjs(valor).add(1, "day").format("DD/MM/YYYY");
+    },
+
+    // funcao que retorna a data clicada
+    newDate(valor) {
+      const data = dayjs(valor).format("DD/MM/YYYY");
+      return data;
+    },
+
+    // funcao que retorna o mês clicado
+    newDateMonth(date) {
+      const dateCurrent = dayjs().format("MM");
+      const dateMounth = dayjs(date).format("MM");
+      if (dateMounth == dateCurrent) {
+        return dateCurrent;
       } else {
-        return `ainda faltam ${dayCalculed * -1} dias`
+        return dateMounth;
+      }
+    },
+
+    // funcao que retorna quantos tryouts tem programados no mês
+    tryoutProgrammed(date) {
+      const dateCurrent = dayjs().format("MM/YYYY");
+      const clickDate = dayjs(date).format("MM/YYYY"); // pega o click do mês e ano
+      const listMountYear = []; // lista os meses das data programadas
+      const getTryout = []; // lista os meses das datas programadas de acordo com a variavel "clickDate"
+
+      // adiciona as das datas programadas vindas do JSON na variavel listMountYear, tendo como referencia o mês e ano
+      this.dataNewMold.map((e) => {
+        listMountYear.push(dayjs(e.programmed_date).format("MM/YYYY"));
+      });
+
+      // adiciona os meses das datas programadas na variavel "getTryout" de acordo com a variavel "clickDate", tendo como referencia o mês e ano
+      listMountYear.map((e) => {
+        if (clickDate === e) {
+          getTryout.push(e);
+        }
+      });
+
+      // faz a comparacao dos meses em relação ao clique de cada mês
+      if (clickDate === dateCurrent) {
+        return `${getTryout.length} Tryout Programado no mês`;
+      } else if (clickDate > dateCurrent) {
+        return `${getTryout.length} Tryout Programado no mês`;
+      } else if (clickDate < dateCurrent) {
+        return `${getTryout.length} Tryout Programado no mês`;
+      }
+    },
+
+    // funcao que retorna quantos tryouts tem atrasados no mês
+    programmedRetard(date) {
+      const dateCurrent = dayjs().get("M"); // pega data atual que tem como referencia o mês
+      const clickDate = dayjs(date).get("M"); // pega data do clique que tem como referencia o mês
+      const arrayDateProgrammed = []; // array das datas programadas
+      const arrayDateCurrent = []; // array das datas atrasadas, que tem como referencia o mês e sendo filtrada atraves da variavel "clickDate"
+      const arrayDateCurrentMounth = []; // array das datas atrasadas por mês
+
+      // adiciona as datas programadas vinda do JSON => na variavel arrayDateProgrammed
+      this.dataNewMold.map((e) => {
+        arrayDateProgrammed.push(dayjs(e.programmed_date).add(1, "d"));
+      });
+
+      // adiciona todas as datas programadas na variavel "arrayDateCurrent", mas tendo como referencia o mês do clique
+      arrayDateProgrammed.map((e) => {
+        const mounthDateProgrammed = dayjs(e).get("M"); // filtra datas por mês
+        if (mounthDateProgrammed === clickDate) {
+          arrayDateCurrent.push(e);
+        }
+      });
+
+      // adiciona as datas programadas do mês na variavel "arrayDateCurrentMounth", mas tendo como referencia o clique do mês.
+      arrayDateCurrent.map((e) => {
+        if (dayjs() > dayjs(e)) {
+          arrayDateCurrentMounth.push(dayjs(e).format("DD/MM/YYYY"));
+        }
+      });
+
+      // compara as datas atrasadas em cada mês
+      if (clickDate === dateCurrent) {
+        return `${arrayDateCurrentMounth.length} Tryout atrasado no mês`;
+      } else if (clickDate > dateCurrent) {
+        return `${arrayDateCurrentMounth.length} Tryout atrasado no mês`;
+      } else if (clickDate < dateCurrent) {
+        return `${arrayDateCurrentMounth.length} Tryout atrasado no mês`;
       }
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -176,6 +270,9 @@ export default {
         border: 2px solid var(--gray);
         border-radius: 10px;
         padding: 10px;
+        .programmed_retard {
+          color: var(--red);
+        }
       }
     }
 

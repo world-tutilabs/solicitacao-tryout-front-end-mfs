@@ -18,8 +18,9 @@ export default {
   width: 100%;
   background-color: var(--white);
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: var(--radius);
+
   .cardInput {
     position: relative;
     width: 100%;

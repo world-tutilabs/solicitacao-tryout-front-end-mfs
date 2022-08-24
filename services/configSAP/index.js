@@ -1,16 +1,18 @@
 import axios from "axios"
 import Cookies from 'js-cookie'
-const http = axios.create({
-  baseURL: `${process.env.ROUTER_API_RRIM}`,                                    //Adicionar Base URL
+const httpSAP = axios.create({
+  baseURL: `${process.env.ROUTER_API_SAP}`,                                    //Adicionar Base URL
   headers: {
     "Accept": "application/json",
     "Content": "application/json"
   }
 })
 
-http.interceptors.request.use(function (config) {
-  const token = Cookies.get('auth._token.local')
-// const token = `${process.env.TOKEN_LOCAL}`
+httpSAP.interceptors.request.use(function (config) {
+ 
+     const token = Cookies.get('auth._token.local')
+    // const token  = `${process.env.TOKEN_LOCAL}`
+
   if (!token) {
     token = "";
   }
@@ -22,6 +24,4 @@ http.interceptors.request.use(function (config) {
     return Promise.reject(error)
   }
 )
-
-
-export { http }
+export { httpSAP }

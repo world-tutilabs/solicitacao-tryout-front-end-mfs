@@ -6,7 +6,7 @@
 <script>
 
 export default {
-
+middleware: 'auth_eng',
   head() {
     return {
       title: 'TryOut - Testes de Resina',

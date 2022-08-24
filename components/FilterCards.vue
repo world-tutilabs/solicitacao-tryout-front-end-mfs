@@ -1,24 +1,18 @@
 <template>
-  <div class="container">
-    <NuxtLink
-      v-if="!routePcp"
-      :to="`/${filter.router}`"
-      v-for="filter in filters"
-      :key="filter.name"
-      :class="{ cards: true }"
-    >
+  <div v-if="$fetchState.pending">
+    <Loading />
+  </div>
+  <div class="container" v-else>
+  
+    <NuxtLink v-if="!routePcp" :to="`/${filter.router}`" v-for="filter in filters" :key="filter.name"
+      :class="{ cards: true }">
       <span>{{ filter.topName }}</span>
       <h2>{{ filter.name }}</h2>
       <h3>{{ filter.count }}</h3>
     </NuxtLink>
 
-    <NuxtLink
-      v-if="routePcp"
-      :to="`/${filterPcp.router}`"
-      v-for="filterPcp in filtersPcp"
-      :key="filterPcp.name"
-      :class="{ cards: true }"
-    >
+    <NuxtLink v-if="routePcp" :to="`/${filterPcp.router}`" v-for="filterPcp in filtersPcp" :key="filterPcp.name"
+      :class="{ cards: true }">
       <span>{{ filterPcp.topName }}</span>
       <h2>{{ filterPcp.name }}</h2>
       <h3>{{ filterPcp.count }}</h3>
@@ -27,22 +21,30 @@
 </template>
 
 <script>
+import httpLocal from '../services/newMold/mold'
+import http from '../services/pcp/pcp'
+
 export default {
   data() {
     return {
+      countTeste: 0,
+      listAllApproveds: [],
+      listHistoric: [],
       filters: [
-        { topName: 'Novos', name: 'Moldes', count: '000', router: '' },
+        { topName: 'Novos', name: 'Moldes', count: '', router: '' },
         {
           topName: 'Solicitações de',
           name: 'Modificações',
           count: '000',
-          router: 'modifications',
+          // router: 'modifications',
+          router: 'emdesenvolvimento',
         },
         {
           topName: 'Solicitações testes de',
           name: 'Resina',
           count: '000',
-          router: 'resin-test',
+          // router: 'resin-test',
+          router: 'emdesenvolvimento',
         },
       ],
       filtersPcp: [
@@ -62,6 +64,43 @@ export default {
     }
   },
 
+  watch: {
+    countTeste: async function(newValue){
+      this.filters[0].count = newValue
+    }
+  },
+
+ 
+  methods: {
+ 
+    
+    generateList: async function(){
+      await httpLocal.listAllHistoric().then(async (res) => {
+        this.filters[0].count = res.data.length
+
+        this.listHistoric = res.data
+
+        this.listHistoric.map((item) => {
+          if (item.homologation.status.id === 1) {
+            this.listAllApproveds.push(item)
+          }
+        })
+
+        this.filtersPcp[1].count = this.listAllApproveds.length
+
+      })
+
+      await http.listAllPcp().then((res) => {
+        this.filtersPcp[0].count = res.data.length
+      })
+    }
+  },
+
+
+  async fetch() {
+    await this.generateList()
+  },
+
   computed: {
     routePcp() {
       if (
@@ -71,6 +110,8 @@ export default {
         return true
       }
     },
+
+    
   },
 }
 </script>
@@ -133,6 +174,7 @@ export default {
   background: var(--gray);
   border-radius: 2px;
 }
+
 .container::-webkit-scrollbar-thumb:hover {
   background: var(--gray_text);
 }

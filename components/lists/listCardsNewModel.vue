@@ -1,48 +1,46 @@
 <template>
-  <div>
-    <CardModel
-      v-for="mold in listPaginated"
-      :key="mold.id"
-      :statusOrigin="mold.origin"
-      :flag="mold.flag"
-      :typeCard="mold.typeCard"
-    />
+  <div v-if="$fetchState.pending">
+    <Loading />
+  </div>
 
-    <Pagination :list="dataNewMold" @displayNewList="displayNewList"/>
+  <div v-else>
+    <CardNewModel v-for="mold in newMolds" :key="mold.id" :dataMold="mold" />
+    <Pagination :list="newMolds" @displayNewList="displayNewList" />
   </div>
 </template>
 
 <script>
+import http from '~/services/newMold/mold';
+import CardNewModel from '../Cards/CardNewModel.vue';
+import Pagination from '../Pagination.vue'
+import Loading from '../Loading.vue';
 
-export default{
-  data(){
+export default {
+  components: { CardNewModel, Pagination, Loading },
+
+  data() {
     return {
-      dataNewMold: [
-        { id: 1, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 2, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 3, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 4, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 5, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 6, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 7, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 8, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 9, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 10, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 11, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-        { id: 12, origin: 'RRIM', flag: '0', typeCard: 'newModel' },
-      ],
-
+      newMolds: [],
       listPaginated: [],
     }
   },
 
   methods: {
-    displayNewList (e){
+    displayNewList(e) {
+
       this.listPaginated = e
     }
+  },
+
+  async fetch() {
+    await http.listAllRRIM().then((res) => {
+      this.newMolds = res.data
+      console.log(this.newMolds);
+
+    }).catch((error) => {
+      console.log(`Deu o erro: ${error}`);
+    })
   }
+
 }
 </script>
-
-<style>
-</style>

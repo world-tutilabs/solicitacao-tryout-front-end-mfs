@@ -21,20 +21,25 @@
 
 <script>
 
+
+
 export default {
   name: 'IndexPage',
+  middleware: 'auth_eng',
   head() {
     return {
       title: "TryOut - Novos Moldes"
     };
   },
-  created() {
+  created: async function() {
     this.$store.commit('change_my_router', 'Solicitações de TryOut')
   },
 
   data() {
     return {
       newMoldes: true,
+      data_inicial: '',
+      data_final: '',
     }
   },
 }

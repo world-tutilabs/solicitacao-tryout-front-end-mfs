@@ -7,7 +7,7 @@
 <script>
 
 export default {
-
+  middleware: 'auth_pcp',
   head () {
     return {
       title: "PCP - Solicitações em Espera"
