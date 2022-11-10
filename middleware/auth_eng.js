@@ -13,7 +13,7 @@ export default async function ({ redirect }) {
   } catch (e) {
     // Cookies.set('auth._token.local', false);
     // Cookies.set('auth._token_expiration.local', false);
-    return redirect(`${process.env.ROUTER_REDIRECT_SYSTEM_USER}`)
+    // return redirect(`${process.env.ROUTER_REDIRECT_SYSTEM_USER}`)
 
   }
 
