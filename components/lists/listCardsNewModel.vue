@@ -26,16 +26,20 @@ export default {
   },
 
   methods: {
-    displayNewList(e) {
+   async displayNewList(e) {
+      await http.listAllRRIM(e.page,10).then((res) => {
+      this.newMolds = res.data
+      console.log(this.newMolds);
 
-      this.listPaginated = e
+    }).catch((error) => {
+      console.log(`Deu o erro: ${error}`);
+    })
     }
   },
 
   async fetch() {
     await http.listAllRRIM().then((res) => {
       this.newMolds = res.data
-      console.log(this.newMolds);
 
     }).catch((error) => {
       console.log(`Deu o erro: ${error}`);

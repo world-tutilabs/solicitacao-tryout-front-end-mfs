@@ -3,7 +3,7 @@
     <Loading />
   </div>
   <div class="container" v-else>
-  
+
     <NuxtLink v-if="!routePcp" :to="`/${filter.router}`" v-for="filter in filters" :key="filter.name"
       :class="{ cards: true }">
       <span>{{ filter.topName }}</span>
@@ -70,14 +70,17 @@ export default {
     }
   },
 
- 
-  methods: {
- 
-    
-    generateList: async function(){
-      await httpLocal.listAllHistoric().then(async (res) => {
-        this.filters[0].count = res.data.length
 
+  methods: {
+
+
+    generateList: async function(){
+      await httpLocal.listAllRRIM(0, 10000).then(async (res) => {
+        this.filters[0].count = res.data.length
+      })
+
+      await httpLocal.listAllHistoric().then(async (res) => {
+        // this.filters[0].count = res.data.length
         this.listHistoric = res.data
 
         this.listHistoric.map((item) => {
@@ -111,7 +114,7 @@ export default {
       }
     },
 
-    
+
   },
 }
 </script>

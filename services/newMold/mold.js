@@ -3,8 +3,8 @@ import { httpLocal } from '../configLocal/index'
 import { httpSAP } from '../configSAP/index'
 
 export default {
-    listAllRRIM: async () => {
-        return await http.get('/list-all-rrim/aprovadas')
+    listAllRRIM: async (page = 0,offset = 10) => {
+        return await http.get(`/list-all-rrim/aprovadas?page=${page}&offset=${offset}`)
     },
 
     listAllMachines: async () => {

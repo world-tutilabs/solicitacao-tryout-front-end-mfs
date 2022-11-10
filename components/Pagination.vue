@@ -1,5 +1,6 @@
 <template>
   <div class="containerBtn">
+
     <button class="nextPrev" type="button" v-if="page != 1" @click="page--"><img src="~/static/icons/arrowClosed.svg"
         class="icon-prev" /></button>
 
@@ -26,9 +27,10 @@ export default {
       page: 1,
       perPage: 10,
       pages: [],
+      teste : 0
     }
   },
-  
+
   created() {
     this.posts = this.list
   },
@@ -42,10 +44,15 @@ export default {
 
   methods: {
     setPages() {
-      let numberOfPages = Math.ceil(this.posts.length / this.perPage);
-      for (let index = 1; index <= numberOfPages; index++) {
+      if(this.posts.length > 0){
+      this.teste = Math.ceil(this.posts[0].ID / 10)
+
+
+    //   let numberOfPages = Math.ceil(this.posts.length / this.perPage);
+      for (let index = 1; index <= this.teste; index++) {
         this.pages.push(index);
       }
+    }
     },
     paginate(posts) {
       let page = this.page;
@@ -58,7 +65,12 @@ export default {
 
   watch: {
     displayedPosts(newValue) {
-      this.$emit('displayNewList', newValue)
+
+
+      this.$emit('displayNewList', {
+          page:  (this.page * 10) - 10,
+          offset: (this.page * 10)
+      })
     },
     posts() {
       this.setPages();

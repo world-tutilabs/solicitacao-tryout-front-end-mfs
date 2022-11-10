@@ -99,7 +99,7 @@
         >
           <span>Último Comentário realizado pelo PCP</span>
           <h3>
-            Autor: {{ dataMold.homologation.homologation_user.nome_completo }}
+            Autor:
           </h3>
           <div class="boxText">
             <span>{{ dataMold.homologation.comment }}</span>
@@ -122,7 +122,7 @@
               </div>
               <div class="buttons">
                 <button class="btnPopup" @click.prevent="showPopUp = false">Não</button>
-                
+
                 <BtnPirula titleBtn="Sim, Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'" :dataMold="dataMold"  @click="showPopUp = false"/>
               </div>
             </div>
@@ -134,9 +134,9 @@
 
 
           <BtnPirula titleBtn="Revisar" color="Reprovado" v-if="dataMold.homologation.status.description === 'Reprovado' " :dataMold="dataMold" @updateCard="updateCard"/>
-          
+
           <BtnPirula titleBtn="Gerar Relatório" color="Aprovado" v-if="dataMold.homologation.status.description === 'Aprovado' && $route.name !== 'pcp-approveds'" />
-        
+
 
         </SlotBtn>
       </div>
@@ -226,7 +226,7 @@ export default Vue.extend({
   left: 0;
   display: flex;
   justify-content: center;
-  
+
   .popUp{
     background-color: var(--white);
     width: 30rem;
@@ -234,7 +234,7 @@ export default Vue.extend({
     padding: 1rem;
     margin-top: 10rem;
     position: sticky;
-    
+
     flex-direction: column;
     display: flex;
     justify-content: space-between;
