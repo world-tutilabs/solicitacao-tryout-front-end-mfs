@@ -1,43 +1,26 @@
 import { http } from "~/services/config";
 import Cookies from "js-cookie"
-
+import axios from "axios"
 export default async function ({ redirect, app, store }) {
 
-    
-http.interceptors.request.use( (config) => {
 
-  //  const tokenCookie = Cookies.get('auth._token.local')
 
- const tokenCookie = `${process.env.TOKEN_LOCAL}`
-
-  if(!tokenCookie){
-    redirect(`${process.env.ROUTER_REDIRECT_SYSTEM_USER}`)
-    return;
-  }
-
-  // const [_, token ] = tokenCookie.split(" ");
-  //  if (!token) {
-  //   redirect(`${process.env.ROUTER_REDIRECT_SYSTEM_USER}`)
-  //   return;
-  //   }
-    // console.log(token)
-
-   config.headers.Authorization = `${tokenCookie}`;
-   return config;
- 
-    });
- 
     try {
-   
-     await http.get(`${process.env.ROUTER_VERIFY_USER}`);
+
+      await axios.post(`${process.env.ROUTER_VERIFY_USER}`,
+        {},
+        { headers: { Authorization: `${Cookies.get('auth._token.local')}` } });
+
 
      return;
-  
+
       } catch (e) {
        console.error(e)
         //  Cookies.set('auth._token.local', false);
         //  Cookies.set('auth._token_expiration.local', false);
        return  redirect(`${process.env.ROUTER_REDIRECT_SYSTEM_USER}`)
+      // return redirect(`http://192.168.2.9:8500/`)
+
       }
 
   }
