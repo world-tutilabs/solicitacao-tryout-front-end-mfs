@@ -1,11 +1,14 @@
-import { http } from "~/services/config";
+
+import Cookies from "js-cookie"
 
 export default async function({redirect}){
   let user;
     try {
-       const res =  await http.post(process.env.ROUTER_VERIFY_USER);
-        user = res.data.user
-      // console.log(res);
+      const res = await axios.post(`${process.env.ROUTER_VERIFY_USER}`,
+      {},
+      { headers: { Authorization: `${Cookies.get('auth._token.local')}` } });
+
+      user = res.data.user
 
         } catch (e) {
          //   Cookies.set('auth._token.local', false);
