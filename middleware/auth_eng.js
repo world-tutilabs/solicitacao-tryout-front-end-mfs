@@ -23,10 +23,12 @@ export default async function ({ redirect }) {
 ) {
 
   return user
-
-} else {
-  return redirect(`${process.env.ROUTER_SYSTEM_PCP}`)
-
 }
+
+console.log(user)
+// } else {
+//   return redirect(`${process.env.ROUTER_SYSTEM_PCP}`)
+
+// }
 
 }
