@@ -19,8 +19,12 @@ export default {
     }
   },
   methods: {
-    displayNewList(e) {
-      this.listPaginated = e
+    async displayNewList(e) {
+      await http.listAllPcp().then((res) => {
+
+     this.listPaginated  = res.data
+
+      })
     },
 
     updateList: async function() {
@@ -28,16 +32,16 @@ export default {
       setTimeout(() => {
         this.$fetchState.pending = false
       }, 1000);
-      
+
       this.generateList()
-      
-      
+
+
       console.log("Entrou aqui");
     },
 
     generateList: async function () {
       await http.listAllPcp().then((res) => {
-        
+
         this.listPcpWaiting = res.data
         console.log(this.listPcpWaiting);
     })
@@ -47,7 +51,7 @@ export default {
 
   async fetch() {
     await this.generateList()
-  } 
+  }
 }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="containerBtn">
 
-    <button class="nextPrev" type="button" v-if="page != 1" @click="page--"><img src="~/static/icons/arrowClosed.svg"
+    <button class="nextPrev" type="button" v-if="page != 0" @click="page--"><img src="~/static/icons/arrowClosed.svg"
         class="icon-prev" /></button>
 
     <div class="rowsBtn">

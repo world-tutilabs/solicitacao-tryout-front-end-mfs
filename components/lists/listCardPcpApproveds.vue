@@ -21,16 +21,27 @@ export default {
     }
   },
   methods: {
-    displayNewList(e) {
-      this.listPaginated = e
+    async displayNewList(e) {
+
+      await httpLocal.listAllHistoric().then((res) => {
+
+      this.listHistoric = res.data
+
+      this.listHistoric.map( (item) => {
+        if(item.homologation.status.id === 1){
+          this.listPaginated.push(item)
+        }
+      })
+
+    })
     },
 
-    
+
   },
 
   async fetch() {
     await httpLocal.listAllHistoric().then((res) => {
-      
+
       this.listHistoric = res.data
 
       this.listHistoric.map( (item) => {
