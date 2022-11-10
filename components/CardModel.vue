@@ -135,7 +135,7 @@
 
           <BtnPirula titleBtn="Revisar" color="Reprovado" v-if="dataMold.homologation.status.description === 'Reprovado' " :dataMold="dataMold" @updateCard="updateCard"/>
 
-          <BtnPirula titleBtn="Gerar Relatório" color="Aprovado" v-if="dataMold.homologation.status.description === 'Aprovado' && $route.name !== 'pcp-approveds'" />
+          <BtnPirula titleBtn="Gerar Relatório" color="Aprovado" v-if="dataMold.homologation.status.description === 'Aprovado'" @click.native="relTryout()" />
 
 
         </SlotBtn>
@@ -169,6 +169,9 @@ export default Vue.extend({
   //   console.log(this.dataMold.homologation);
   // },
   methods: {
+    relTryout(){
+      window.location.replace("http://185.209.179.253:9007/")
+    },
     updateCard() {
       this.$emit("updateList");
     },

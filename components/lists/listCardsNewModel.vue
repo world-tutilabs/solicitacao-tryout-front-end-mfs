@@ -5,7 +5,7 @@
 
   <div v-else>
     <CardNewModel v-for="mold in newMolds" :key="mold.id" :dataMold="mold" />
-    <Pagination :list="newMolds" @displayNewList="displayNewList" />
+    <Pagination :tipoderouter="3" :list="newMolds" @displayNewList="displayNewList" />
   </div>
 </template>
 

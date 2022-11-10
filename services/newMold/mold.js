@@ -11,8 +11,8 @@ export default {
         return await httpSAP.get('/api/v1/sap/tutilabs/machines')
     },
 
-    listAllHistoric: async () => {
-        return await httpLocal.get('/list')
+    listAllHistoric: async (offset = 0, limit = 10) => {
+        return await httpLocal.get(`/list?limit=${limit}&offset=${offset}`)
     },
 
     createNewSolicitation: async (data) => {

@@ -1,10 +1,10 @@
 <template>
   <div class="containerBtn">
-
-    <button class="nextPrev" type="button" v-if="page != 0" @click="page--"><img src="~/static/icons/arrowClosed.svg"
+    <button class="nextPrev" type="button" v-if="page != 1" @click="page--"><img src="~/static/icons/arrowClosed.svg"
         class="icon-prev" /></button>
 
     <div class="rowsBtn">
+
       <button class="btn-pagination" type="button" v-for="pageNumber in pages.slice(page - 1, page + 5)"
         :key="pageNumber" @click="page = pageNumber">
         {{ pageNumber }}
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  props: ['list'],
+  props: ['list' ,'tipoderouter'],
   emits: ['displayedPosts'],
 
   data() {
@@ -27,12 +27,14 @@ export default {
       page: 1,
       perPage: 10,
       pages: [],
-      teste : 0
+      teste : 0,
+      tipoderouter2: 0
     }
   },
 
   created() {
     this.posts = this.list
+    this.tipoderouter2 = this.tipoderouter || 0
   },
 
 
@@ -44,8 +46,17 @@ export default {
 
   methods: {
     setPages() {
+
       if(this.posts.length > 0){
-      this.teste = Math.ceil(this.posts[0].ID / 10)
+        let number_tryout = 0
+
+        if(this.tipoderouter2 != 0){
+          number_tryout = this.posts[0].ID
+        }else{
+          number_tryout = this.posts[0].number_tryout
+        }
+
+      this.teste = Math.ceil(number_tryout / this.perPage)
 
 
     //   let numberOfPages = Math.ceil(this.posts.length / this.perPage);
@@ -68,8 +79,8 @@ export default {
 
 
       this.$emit('displayNewList', {
-          page:  (this.page * 10) - 10,
-          offset: (this.page * 10)
+          page:  (this.page * this.perPage) - this.perPage,
+          offset: (this.page * this.perPage)
       })
     },
     posts() {
