@@ -9,6 +9,8 @@ const http = axios.create({
   }
 })
 
+console.log({ cookiee: Cookies.get('auth._token.local')});
+
 http.interceptors.request.use(function (config) {
   const token = Cookies.get('auth._token.local')
 // const token = `${process.env.TOKEN_LOCAL}`
