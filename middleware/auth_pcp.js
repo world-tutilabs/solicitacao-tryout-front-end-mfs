@@ -33,6 +33,8 @@ export default async function ({ redirect }) {
       //   Cookies.set('auth._token.local', false);
       //   Cookies.set('auth._token_expiration.local', false);
       // return redirect(`http://192.168.2.9:8500/`)
-      return redirect(`${process.env.ROUTER_REDIRECT_SYSTEM_USER}`);
+      console.log({coki:Cookies.get("auth._token.local")});
+      console.log(e);
+      // return redirect(`${process.env.ROUTER_REDIRECT_SYSTEM_USER}`);
     });
 }
