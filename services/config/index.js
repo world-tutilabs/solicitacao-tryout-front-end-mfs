@@ -1,5 +1,6 @@
 import axios from "axios"
 import Cookies from 'js-cookie'
+
 const http = axios.create({
   baseURL: `${process.env.ROUTER_API_RRIM}`,                                    //Adicionar Base URL
   headers: {
