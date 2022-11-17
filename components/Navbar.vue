@@ -2,12 +2,16 @@
   <div>
     <nav>
       <div>
-        <img src="~/static/icons/iconMolde.svg" alt="molde" />
-        <h1>TRYOUT - Solicitação</h1>
+        <!-- <img src="~/static/icons/iconMolde.svg" alt="molde" /> -->
+        <h3>Relatório de TryOut</h3>
       </div>
-      <button @click="menu">
-        <img src="~/static/icons/iconMenu.svg" alt="" />
-      </button>
+
+      <div style="display: flex; align-items: center;">
+        <span style="font-size:0.6rem;">Versão 1.0.0</span>
+        <button @click="menu">
+          <img src="~/static/icons/iconMenu.svg" alt="">
+        </button>
+      </div>
     </nav>
 
     <div class="noTransitionMenu" :class="{ transitionMenu }">
@@ -15,48 +19,43 @@
         <div class="cardAdmin">
           <div class="menuAdmin">
             <div class="adminReport">
-              <h3>Relatórios</h3>
+              <h3>Sistemas</h3>
               <ul>
                 <li>
                   <a href="http://185.209.179.253:8300/" target="_blank">RRIM</a>
                 </li>
                 <li>
-                  <!-- <NuxtLink :to="{ name: 'index' }">TRYOUT</NuxtLink> -->
-                  <p>TRYOUT</p>
+                  <a href="http://185.209.179.253:8500/" target="_blank">Solicitação de TryOut</a>
                 </li>
-                
+                <li>
+                  <a href="http://185.209.179.253:9200/" target="_blank">Relatório de TryOut</a>
+                </li>
+                <li>
+                  <a href="http://185.209.179.253:9007/" target="_blank">FIT - Ficha de Instrução de Trabalho</a>
+                </li>
               </ul>
-            </div>
-            <div class="adminOption">
-              <h3>Opções</h3>
-              <div class="icons" >
-                <div class="icon">
-                  <NuxtLink :to="{ name: 'index' }">TRYOUT - Solicitação</NuxtLink>
-                </div>
-                <div class="icon">
-                    <NuxtLink to="emdesenvolvimento">TRYOUT - Relatorio</NuxtLink>
-                </div>
-              </div>
             </div>
             <div class="adminUser">
               <h3>Informações do usuário</h3>
-              <p>Nome: {{this.$store.getters.getUser.nome_completo}}</p>
-              <p>Matricula: {{this.$store.getters.getUser.matricula}}</p>
-              <!-- {{this.$store.getters}} -->
-              <!-- <p>Cargo: {{this.$store.getters.getUser.cargo.descricao}}</p> -->
-              <!-- <p>Nível de acesso: {{this.$store.getters.getUser.nivel_de_acesso.descricao}}</p> -->
+              <p><strong>Nome:</strong> {{ $store.state.isUser.data.user.nome_completo }}</p>
+              <p><strong>Matricula:</strong> {{ $store.state.isUser.data.user.matricula }}</p>
+              <p><strong>Email:</strong> {{ $store.state.isUser.data.user.email }}</p>
+              <p><strong>Cargo:</strong> {{ $store.state.isUser.data.user.cargo.descricao }}</p>
+              <p><strong>Nível de Acesso:</strong> {{ $store.state.isUser.data.user.nivel_de_acesso.descricao }}</p>
 
-              <button @click="showChange">Trocar Senha</button>
+              <!-- <button style="padding: 10px; border-radius: 4px" @click="showChange">
+                Trocar Senha
+              </button> -->
             </div>
             <ChangePassword
-            v-if="showPassword"
-            @showChangePassword="showChangePassword"
-          />
+              v-if="showPassword"
+              @showChangePassword="showChangePassword"
+            />
           </div>
           <div class="containerExit">
             <div class="logout" @click="logout">
               <p>Sair</p>
-              <img :src="iconExit" alt="" />
+              <!-- <img :src="iconExit" alt="" /> -->
             </div>
           </div>
         </div>
@@ -66,32 +65,29 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       transitionMenu: false,
-      iconExit: './icons/iconExit.svg',
-      iconConfig: './icons/iconConfig.svg',
-      iconConfirm: './icons/iconConfirm.svg',
-      iconFile: './icons/iconFile.svg',
-      showPassword: false,
+      showPassword: false
     }
   },
   methods: {
-    menu() {
+
+    menu () {
       this.transitionMenu = !this.transitionMenu
     },
-    showChange(){
+    showChange () {
       this.showPassword = !this.showPassword
     },
-    logout(){
-      document.cookie = "auth._token.local=false";
-      document.cookie = "auth._token_expiration.local=false";
+    logout () {
+      document.cookie = 'auth._token.local=false'
+      document.cookie = 'auth._token_expiration.local=false'
       window.location.replace('http://185.209.179.253:7800/login')
     },
-    showChangePassword(){
+    showChangePassword () {
       this.showPassword = false
     }
-  }, 
+  }
 }
 </script>
 
@@ -102,7 +98,7 @@ nav {
   align-items: center;
   padding: 0 var(--negativeSpace);
   width: 100%;
-  height: 10vh;
+  height: 9vh;
   position: fixed;
   top: 0;
   z-index: 9;
@@ -116,13 +112,20 @@ nav {
 
   button {
     background: none;
+
+    img {
+      transition: 0.5s;
+    }
+    img:hover {
+      transform: rotate(225deg);
+    }
   }
 }
 
 .noTransitionMenu.transitionMenu {
   width: 100%;
   transition: 1.2s;
-  margin-top: 0px;
+  margin-top: 0vh;
   background: rgba(149, 164, 167, 0.178);
   backdrop-filter: blur(15px);
   z-index: 3;
@@ -147,9 +150,14 @@ nav {
         position: relative;
         width: 100%;
         display: grid;
-        grid-template-columns: 1fr 4fr 1fr;
+        grid-template-columns: 5fr 1fr;
         padding: 2rem;
         gap: 2rem;
+        .adminUser {
+          p, button {
+            margin-top: 10px;
+          }
+        }
         .adminReport,
         .adminOption {
           width: 100%;
@@ -162,24 +170,33 @@ nav {
             width: 100%;
             display: flex;
             flex-direction: column;
-            font-size: 1.4rem;
-            font-weight: 700;
+            font-size: 1.2rem;
+            font-weight: 500;
             list-style: none;
             li {
               width: 100%;
               display: flex;
-              border-bottom: 1px solid var(--gray);
+              // border-bottom: 1px solid var(--gray);
               padding: 0.8rem 0;
+
               a {
                 width: 100%;
-                color: var(--blue);
+                color: var(--blue_base);
+                transition: 0.1s;
               }
+
+              a:hover {
+                font-weight: 600;
+              }
+
               p{
-                color: var(--blue);
+                color: var(--blue_base);
                 cursor: pointer;
                 width: 100%;
               }
+
             }
+
           }
         }
         .adminOption {
@@ -192,7 +209,7 @@ nav {
               display: flex;
               align-items: center;
               gap: 2rem;
-              color: var(--blue);
+              color: var(--blue_base);
               img {
                 width: 30px;
                 height: 30px;
@@ -235,7 +252,7 @@ nav {
       .cardAdmin {
         .menuAdmin {
           gap: 0;
-          
+
           padding: 0.5rem;
           overflow: scroll;
           justify-items: center;

@@ -135,7 +135,7 @@ export default {
     width: 300px;
     padding: max(0.3rem, 1vw);
     height: 100%;
-    border-radius: 1rem;
+    border-radius: 5px;
     cursor: pointer;
     display: flex;
     flex-direction: column;

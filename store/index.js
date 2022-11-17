@@ -5,7 +5,7 @@ export const state = () => ({
         status: "",
         router: ""
     },
-    user: "",
+    isUser: "",
     countNewModels: 0,
 
 })
@@ -19,8 +19,9 @@ export const mutations = {
     setCountNewModels(state, payload){
         state.countNewModels += payload
     },
-    setUser(state, payload){
-        state.user = payload
+    setIsUser(state, payload){
+        state.isUser = payload
+        console.log(state.user);
     }
 
 }

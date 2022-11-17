@@ -21,7 +21,7 @@ div {
   a {
     background: var(--white);
     border: 4px solid var(--blue);
-    border-radius: 1rem;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;

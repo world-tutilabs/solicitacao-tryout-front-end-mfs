@@ -181,7 +181,7 @@ export default Vue.extend({
     width: 100%;
     background: var(--white);
     padding: max(0.4rem, 1vw);
-    border-radius: 1rem;
+    border-radius: 5px;
     border: 0.2rem solid #e0e0e0;
     overflow: hidden;
   }
