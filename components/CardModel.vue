@@ -99,7 +99,7 @@
         >
           <span>Último Comentário realizado pelo PCP</span>
           <h3>
-            Autor:
+            Autor: {{dataMold.homologation.homologation_user.nome_completo}}
           </h3>
           <div class="boxText">
             <span>{{ dataMold.homologation.comment }}</span>
@@ -188,7 +188,7 @@ export default Vue.extend({
 
     toggleButton() {
       if (this.status === "Aprovado") {
-        console.log("Teste");
+
       }
     },
 
@@ -304,7 +304,8 @@ export default Vue.extend({
   }
 
   .flap-none {
-    background-color: none;
+    background-color: var(--lilac);
+
   }
 
   .flap-green {

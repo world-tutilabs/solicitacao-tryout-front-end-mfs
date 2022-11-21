@@ -152,7 +152,7 @@
           <p>*Campo Obrigatório</p>
           <div>
             <!-- <button class="cancel" @click.prevent="toHomologate(2)">Reprovar</button> -->
-            <button class="save" @click.prevent="updateSoli">Revisar</button>
+            <button class="save" @click.prevent="updateSoli">Atualizar</button>
           </div>
         </div>
       </form>
@@ -219,7 +219,7 @@ export default {
     console.log(this.dataRevisao.id);
     await httpNewMold.listAllMachines().then((res) => {
       this.listAllMachines = res.data;
-      console.log(this.listAllMachines);
+
     });
   },
   props: {
@@ -271,7 +271,9 @@ export default {
           this.closeModal();
         })
         .catch((error) => {
-          this.$toast.info(`Erro: ${error}`);
+          // this.$toast.info(`Erro: ${error}`);
+          this.$toast.warning("Campos não preenchidos.");
+
         });
     },
   },
