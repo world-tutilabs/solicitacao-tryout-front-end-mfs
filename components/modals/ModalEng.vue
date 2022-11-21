@@ -152,7 +152,7 @@
           <p>*Campo Obrigatório</p>
           <div>
             <!-- <button class="cancel" @click.prevent="toHomologate(2)">Reprovar</button> -->
-            <button class="save" @click.prevent="updateSoli">Aprovar</button>
+            <button class="save" @click.prevent="updateSoli">Revisar</button>
           </div>
         </div>
       </form>
