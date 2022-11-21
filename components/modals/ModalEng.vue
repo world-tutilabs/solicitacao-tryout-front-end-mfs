@@ -81,7 +81,7 @@
                   <FormInput
                     label="Data Programada"
                     v-model="dateProgrammed"
-                    :type="inputTypeDate"
+                    type="date"
                     :min="dateCurrent"
                     @click="inputTypeDate = 'date'"
                   />
@@ -170,9 +170,11 @@ export default {
   data() {
     return {
       dateCurrent: dayjs().format("YYYY-MM-DD"),
-      dateProgrammed: dayjs(this.dataRevisao.programmed_date)
-        .add(1, "day")
-        .format("DD/MM/YYYY"),
+      // dateProgrammed: dayjs(this.dataRevisao.programmed_date)
+      //   .add(1, "day")
+      //   .format("DD/MM/YYYY"),
+
+      dateProgrammed: '',
       listAllMachines: [],
       inputTypeDate: "text",
       descriptionLabor: "",
