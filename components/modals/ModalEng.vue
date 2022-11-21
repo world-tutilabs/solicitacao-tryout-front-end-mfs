@@ -249,7 +249,7 @@ export default {
       );
       this.solicitationUpdated.date = this.dateProgrammed;
       this.solicitationUpdated.InjectionProcess.feedstocks.kg =
-        this.dataRevisao.injectionProcess.feedstock.kg;
+       parseFloat(this.dataRevisao.injectionProcess.feedstock.kg);
       this.solicitationUpdated.InjectionProcess.machine.model =
         this.dataRevisao.injectionProcess.machine.model;
       this.solicitationUpdated.InjectionProcess.feedstocks.description =
