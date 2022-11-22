@@ -66,6 +66,7 @@
                   <FormInput
                     label="Técnico"
                     v-model="dataRevisao.injectionProcess.proc_technician"
+                    readonly="readonly"
                   />
                 </div>
                 <div class="boxInput">
@@ -75,7 +76,11 @@
                   />
                 </div>
                 <div class="boxInput">
-                  <FormInput label="Motivo" v-model="dataRevisao.reason" />
+                  <FormInput 
+                    label="Motivo" 
+                    v-model="dataRevisao.reason" 
+                    readonly="readonly"
+                  />
                 </div>
                 <div class="boxInput">
                   <FormInput
@@ -103,7 +108,6 @@
                 <FormInput
                   label="Descrição"
                   v-model="dataRevisao.injectionProcess.labor.description"
-                  readonly="readonly"
                 />
 
                 <FormInput
@@ -123,6 +127,7 @@
                 <FormInput
                   label="N° Cavidade"
                   v-model="dataRevisao.injectionProcess.mold.number_cavity"
+                  readonly="readonly"
                 />
               </SlotCardVue>
 
@@ -131,19 +136,20 @@
                 <FormInput
                   label="Descrição"
                   v-model="dataRevisao.injectionProcess.feedstock.description"
+                  readonly="readonly"
                 />
 
-                <FormInput
+                <!-- <FormInput
                   label="Kg"
                   v-model="dataRevisao.injectionProcess.feedstock.kg"
-                />
+                /> -->
               </SlotCardVue>
             </div>
           </div>
         </div>
 
         <FormTextArea
-          title="Comentários*"
+          title="Comentários do PCP*"
           v-model="dataRevisao.homologation.comment"
           readonly="readonly"
         />
@@ -250,8 +256,8 @@ export default {
         this.dataRevisao.injectionProcess.quantity
       );
       this.solicitationUpdated.date = this.dateProgrammed;
-      this.solicitationUpdated.InjectionProcess.feedstocks.kg =
-       parseFloat(this.dataRevisao.injectionProcess.feedstock.kg);
+      // input de Kg
+      this.solicitationUpdated.InjectionProcess.feedstocks.kg = 0;
       this.solicitationUpdated.InjectionProcess.machine.model =
         this.dataRevisao.injectionProcess.machine.model;
       this.solicitationUpdated.InjectionProcess.feedstocks.description =
