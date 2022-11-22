@@ -135,7 +135,7 @@
 
           <BtnPirula titleBtn="Revisar" color="Reprovado" v-if="dataMold.homologation.status.description === 'Reprovado' " :dataMold="dataMold" @updateCard="updateCard"/>
 
-          <BtnPirula titleBtn="Gerar Relatório" color="Aprovado" v-if="dataMold.homologation.status.description === 'Aprovado'" @click.native="relTryout()" />
+          <BtnPirula titleBtn="Gerar Relatório" color="Aprovado" v-if="dataMold.homologation.status.description === 'Aprovado' && $route.name === 'calendar'" @click.native="relTryout()" />
 
 
         </SlotBtn>
@@ -170,7 +170,7 @@ export default Vue.extend({
   // },
   methods: {
     relTryout(){
-      window.location.replace("http://185.209.179.253:9007/")
+      window.location.replace("http://185.209.179.253:9200/")
     },
     updateCard() {
       this.$emit("updateList");
