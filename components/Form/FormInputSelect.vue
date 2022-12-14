@@ -9,6 +9,7 @@
         v-on="inputListeners"
         v-model="selected"
       >
+      <option value="" selected disabled>Selecione</option>
         <option
           v-for="machine in options"
           :value="machine.VisResCode"

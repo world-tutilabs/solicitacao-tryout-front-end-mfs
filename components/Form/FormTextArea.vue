@@ -7,6 +7,7 @@
       :value="value"
       v-on="inputListeners"
       :readonly="readonly"
+      maxlength="500"
     ></textarea>
   </div>
 </template>

@@ -30,6 +30,7 @@ export default {
         { title: 'Análise', background: 'background: var(--blue)' },
         { title: 'Aprovado', background: 'background: var(--green)' },
         { title: 'Reprovado', background: 'background: var(--orange)' },
+        { title: 'Concluído', background: 'background: var(--lilac)' }
       ],
       subtitlesPCP: [
         { title: 'Solicitação TryOut', background: 'background: var(--blue)' },

@@ -66,6 +66,7 @@
                   <FormInput
                     label="Técnico"
                     v-model="dataRevisao.injectionProcess.proc_technician"
+                    readonly="readonly"
                   />
                 </div>
                 <div class="boxInput">
@@ -75,13 +76,17 @@
                   />
                 </div>
                 <div class="boxInput">
-                  <FormInput label="Motivo" v-model="dataRevisao.reason" />
+                  <FormInput 
+                    label="Motivo" 
+                    v-model="dataRevisao.reason" 
+                    readonly="readonly"
+                  />
                 </div>
                 <div class="boxInput">
                   <FormInput
                     label="Data Programada"
                     v-model="dateProgrammed"
-                    :type="inputTypeDate"
+                    type="date"
                     :min="dateCurrent"
                     @click="inputTypeDate = 'date'"
                   />
@@ -103,7 +108,6 @@
                 <FormInput
                   label="Descrição"
                   v-model="dataRevisao.injectionProcess.labor.description"
-                  readonly="readonly"
                 />
 
                 <FormInput
@@ -123,6 +127,7 @@
                 <FormInput
                   label="N° Cavidade"
                   v-model="dataRevisao.injectionProcess.mold.number_cavity"
+                  readonly="readonly"
                 />
               </SlotCardVue>
 
@@ -131,19 +136,20 @@
                 <FormInput
                   label="Descrição"
                   v-model="dataRevisao.injectionProcess.feedstock.description"
+                  readonly="readonly"
                 />
 
-                <FormInput
+                <!-- <FormInput
                   label="Kg"
                   v-model="dataRevisao.injectionProcess.feedstock.kg"
-                />
+                /> -->
               </SlotCardVue>
             </div>
           </div>
         </div>
 
         <FormTextArea
-          title="Comentários*"
+          title="Comentários do PCP*"
           v-model="dataRevisao.homologation.comment"
           readonly="readonly"
         />
@@ -152,7 +158,7 @@
           <p>*Campo Obrigatório</p>
           <div>
             <!-- <button class="cancel" @click.prevent="toHomologate(2)">Reprovar</button> -->
-            <button class="save" @click.prevent="updateSoli">Aprovar</button>
+            <button class="save" @click.prevent="updateSoli">Atualizar</button>
           </div>
         </div>
       </form>
@@ -170,9 +176,11 @@ export default {
   data() {
     return {
       dateCurrent: dayjs().format("YYYY-MM-DD"),
-      dateProgrammed: dayjs(this.dataRevisao.programmed_date)
-        .add(1, "day")
-        .format("DD/MM/YYYY"),
+      // dateProgrammed: dayjs(this.dataRevisao.programmed_date)
+      //   .add(1, "day")
+      //   .format("DD/MM/YYYY"),
+
+      dateProgrammed: '',
       listAllMachines: [],
       inputTypeDate: "text",
       descriptionLabor: "",
@@ -219,7 +227,7 @@ export default {
     console.log(this.dataRevisao.id);
     await httpNewMold.listAllMachines().then((res) => {
       this.listAllMachines = res.data;
-      console.log(this.listAllMachines);
+
     });
   },
   props: {
@@ -248,8 +256,8 @@ export default {
         this.dataRevisao.injectionProcess.quantity
       );
       this.solicitationUpdated.date = this.dateProgrammed;
-      this.solicitationUpdated.InjectionProcess.feedstocks.kg =
-        this.dataRevisao.injectionProcess.feedstock.kg;
+      // input de Kg
+      this.solicitationUpdated.InjectionProcess.feedstocks.kg = 0;
       this.solicitationUpdated.InjectionProcess.machine.model =
         this.dataRevisao.injectionProcess.machine.model;
       this.solicitationUpdated.InjectionProcess.feedstocks.description =
@@ -271,7 +279,9 @@ export default {
           this.closeModal();
         })
         .catch((error) => {
-          this.$toast.info(`Erro: ${error}`);
+          // this.$toast.info(`Erro: ${error}`);
+          this.$toast.warning("Campos não preenchidos.");
+
         });
     },
   },

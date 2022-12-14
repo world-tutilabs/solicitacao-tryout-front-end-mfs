@@ -5,7 +5,7 @@
 
   <div v-else>
     <CardNewModel v-for="mold in newMolds" :key="mold.id" :dataMold="mold" />
-    <Pagination :list="newMolds" @displayNewList="displayNewList" />
+    <Pagination :tipoderouter="3" :list="newMolds" @displayNewList="displayNewList" />
   </div>
 </template>
 
@@ -26,16 +26,20 @@ export default {
   },
 
   methods: {
-    displayNewList(e) {
+   async displayNewList(e) {
+      await http.listAllRRIM(e.page,10).then((res) => {
+      this.newMolds = res.data
+      console.log(this.newMolds);
 
-      this.listPaginated = e
+    }).catch((error) => {
+      console.log(`Deu o erro: ${error}`);
+    })
     }
   },
 
   async fetch() {
     await http.listAllRRIM().then((res) => {
       this.newMolds = res.data
-      console.log(this.newMolds);
 
     }).catch((error) => {
       console.log(`Deu o erro: ${error}`);

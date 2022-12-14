@@ -1,27 +1,42 @@
-import { http } from "~/services/config";
+
+import axios from "axios"
+import Cookies from "js-cookie"
 
 export default async function ({ redirect }) {
-  try {
 
-    const res = await http.get(process.env.ROUTER_VERIFY_USER);
+  let user;
 
-    if (res.data.nivel_de_acesso.descricao === "eng_analista" ||
-      res.data.nivel_de_acesso.descricao === "eng_admin" ||
-      res.data.nivel_de_acesso.descricao === "eng"
-    ) {
+  await axios
+  .post(
+    `${process.env.ROUTER_VERIFY_USER}`,
+    {},
+    { headers: { Authorization: `${Cookies.get("auth._token.local")}` } }
+  )
+  .then((res) => {
+    user = res.data.user
 
-      return
+    if (user.nivel_de_acesso.descricao === "eng_analista" ||
+    user.nivel_de_acesso.descricao === "eng_admin" ||
+    user.nivel_de_acesso.descricao === "eng"
+      ) {
 
-    } else {
+    return user
 
-      redirect(`${process.env.ROUTER_SYSTEM_PCP}`)
+  } else if (
+    user.nivel_de_acesso.descricao === "pcp_acabamento" ||
+    user.nivel_de_acesso.descricao === "pcp_injecao" ||
+    user.nivel_de_acesso.descricao === "pcp"
+  )  {
 
-    
-    }
-  } catch (e) {
-    // Cookies.set('auth._token.local', false);
-    // Cookies.set('auth._token_expiration.local', false);
-    return redirect(`${process.env.ROUTER_REDIRECT_SYSTEM_USER}`)
+    return redirect(`${process.env.ROUTER_SYSTEM_PCP}`)
+
   }
+
+  }).catch((e)=>{
+    console.log(e);
+    // return redirect(`${process.env.ROUTER_REDIRECT_SYSTEM_USER}`);
+  })
+
+
 
 }

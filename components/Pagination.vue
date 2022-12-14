@@ -4,6 +4,7 @@
         class="icon-prev" /></button>
 
     <div class="rowsBtn">
+
       <button class="btn-pagination" type="button" v-for="pageNumber in pages.slice(page - 1, page + 5)"
         :key="pageNumber" @click="page = pageNumber">
         {{ pageNumber }}
@@ -17,7 +18,7 @@
 
 <script>
 export default {
-  props: ['list'],
+  props: ['list' ,'tipoderouter'],
   emits: ['displayedPosts'],
 
   data() {
@@ -26,11 +27,14 @@ export default {
       page: 1,
       perPage: 10,
       pages: [],
+      teste : 0,
+      tipoderouter2: 0
     }
   },
-  
+
   created() {
     this.posts = this.list
+    this.tipoderouter2 = this.tipoderouter || 0
   },
 
 
@@ -42,10 +46,24 @@ export default {
 
   methods: {
     setPages() {
-      let numberOfPages = Math.ceil(this.posts.length / this.perPage);
-      for (let index = 1; index <= numberOfPages; index++) {
+
+      if(this.posts.length > 0){
+        let number_tryout = 0
+
+        if(this.tipoderouter2 != 0){
+          number_tryout = this.posts[0].ID
+        }else{
+          number_tryout = this.posts[0].number_tryout
+        }
+
+      this.teste = Math.ceil(number_tryout / this.perPage)
+
+
+    //   let numberOfPages = Math.ceil(this.posts.length / this.perPage);
+      for (let index = 1; index <= this.teste; index++) {
         this.pages.push(index);
       }
+    }
     },
     paginate(posts) {
       let page = this.page;
@@ -58,7 +76,12 @@ export default {
 
   watch: {
     displayedPosts(newValue) {
-      this.$emit('displayNewList', newValue)
+
+
+      this.$emit('displayNewList', {
+          page:  (this.page * this.perPage) - this.perPage,
+          offset: (this.page * this.perPage)
+      })
     },
     posts() {
       this.setPages();
