@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import httpLocal from '../services/newMold/mold'
+import httpNewMold from '../services/newMold/mold'
 import http from '../services/pcp/pcp'
 
 export default {
@@ -36,14 +36,12 @@ export default {
           topName: 'Solicitações de',
           name: 'Modificações',
           count: '000',
-          // router: 'modifications',
           router: 'emdesenvolvimento',
         },
         {
           topName: 'Solicitações testes de',
           name: 'Resina',
           count: '000',
-          // router: 'resin-test',
           router: 'emdesenvolvimento',
         },
       ],
@@ -72,28 +70,30 @@ export default {
 
 
   methods: {
-
-
     generateList: async function(){
-      await httpLocal.listAllRRIM(0, 10000).then(async (res) => {
+      await httpNewMold.listAllRRIM(0, 10000).then(async (res) => {
         this.filters[0].count = res.data.length
       })
 
-      await httpLocal.listAllHistoric().then(async (res) => {
+      await httpNewMold.listAllHistoric().then(async (res) => {
         // this.filters[0].count = res.data.length
         this.listHistoric = res.data
 
         this.listHistoric.map((item) => {
           if (item.homologation.status.id === 1) {
             this.listAllApproveds.push(item)
+            
           }
         })
+
+        console.log(this.listAllApproveds);
 
         this.filtersPcp[1].count = this.listAllApproveds.length
 
       })
 
       await http.listAllPcp().then((res) => {
+        console.log(res.data);
         this.filtersPcp[0].count = res.data.length
       })
     }
@@ -102,6 +102,7 @@ export default {
 
   async fetch() {
     await this.generateList()
+
   },
 
   computed: {

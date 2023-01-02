@@ -21,6 +21,7 @@ export default {
   methods: {
     async displayNewList(e) {
       await http.listAllPcp().then((res) => {
+        console.log(res);
 
      this.listPaginated  = res.data
 

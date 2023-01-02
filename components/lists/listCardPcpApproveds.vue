@@ -24,7 +24,7 @@ export default {
     async displayNewList(e) {
 
       await httpLocal.listAllHistoric().then((res) => {
-
+        console.log(res);
       this.listHistoric = res.data
 
       this.listHistoric.map( (item) => {
