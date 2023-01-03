@@ -21,19 +21,17 @@ export default {
   data() {
     return {
       newMolds: [],
-      listPaginated: [],
     }
   },
 
   methods: {
-   async displayNewList(e) {
-      await http.listAllRRIM(e.page,10).then((res) => {
-      this.newMolds = res.data
-      console.log(this.newMolds);
+    async displayNewList(e) {
+      await http.listAllRRIM(e.page, 10).then((res) => {
+        this.newMolds = res.data
 
-    }).catch((error) => {
-      console.log(`Deu o erro: ${error}`);
-    })
+      }).catch((error) => {
+        console.log(`Deu o erro: ${error}`);
+      })
     }
   },
 

@@ -3,55 +3,47 @@
     <Loading />
   </div>
   <div v-else>
-    <CardPcp v-for="mold in listPaginated" :key="mold.id" :dataMold="mold" @updateList='updateList'/>
-    <Pagination :list="listPcpWaiting" @displayNewList="displayNewList" />
+    <CardPcp v-for="mold in listPcpWaiting" :key="mold.id" :dataMold="mold"/>
+    <Pagination :tipoderouter="3" :list="listArray" @displayNewList="displayNewList" />
+    <h2>a</h2>
   </div>
 </template>
 
 <script>
 import http from '../../services/pcp/pcp'
+import Pagination from '../Pagination.vue'
 
 export default {
+  components: { Pagination },
   data() {
     return {
-      listPaginated: [],
       listPcpWaiting: [],
+      listArray: []
     }
   },
   methods: {
     async displayNewList(e) {
-      await http.listAllPcp().then((res) => {
-        console.log(res);
-
-     this.listPaginated  = res.data
-
+      await http.listAllPcp(e.page, 10).then((res) => {
+        const list = res.data
+        list.map((item) => {
+          this.listArray.push(item)
+        })
       })
     },
 
-    updateList: async function() {
-      this.$fetchState.pending = true
-      setTimeout(() => {
-        this.$fetchState.pending = false
-      }, 1000);
-
-      this.generateList()
-
-
-      console.log("Entrou aqui");
-    },
-
-    generateList: async function () {
-      await http.listAllPcp().then((res) => {
-
-        this.listPcpWaiting = res.data
-        console.log(this.listPcpWaiting);
-    })
-    }
 
   },
 
   async fetch() {
-    await this.generateList()
+    await http.listAllPcp().then( (res) => {
+      this.listPcpWaiting = res.data
+      const list = res.data
+        list.map((item) => {
+          this.listArray.push(item)
+        })
+    })
+
+    console.log(this.listArray);
   }
 }
 </script>

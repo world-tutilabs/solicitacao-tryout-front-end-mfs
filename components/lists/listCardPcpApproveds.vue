@@ -3,9 +3,8 @@
     <Loading />
   </div>
   <div v-else>
-    <CardModel v-for="mold in listPaginated" :key="mold.id" :dataMold="mold"/>
-
-    <Pagination :list="listAllApproveds" @displayNewList="displayNewList" />
+    <CardModel v-for="mold in listAllApproveds" :key="mold.id" :dataMold="mold" />
+    <Pagination :tipoderouter="3" :list="listAllApproveds" @displayNewList="displayNewList" />
   </div>
 </template>
 
@@ -23,32 +22,31 @@ export default {
   methods: {
     async displayNewList(e) {
 
-      await httpLocal.listAllHistoric().then((res) => {
-        console.log(res);
-      this.listHistoric = res.data
+      await httpLocal.listAllHistoric(e.page, 10).then((res) => {
 
-      this.listHistoric.map( (item) => {
-        if(item.homologation.status.id === 1){
-          this.listPaginated.push(item)
-        }
+        this.listHistoric = res.data
+
+        this.listHistoric.map((item) => {
+          if (item.homologation.status.id === 1) {
+            this.listPaginated.push(item)
+          }
+        })
+
       })
-
-    })
     },
-
 
   },
 
   async fetch() {
-    await httpLocal.listAllHistoric().then((res) => {
+    await httpLocal.listAllHistoric(0, 10000).then((res) => {
 
-      this.listHistoric = res.data
-
-      this.listHistoric.map( (item) => {
-        if(item.homologation.status.id === 1){
-          this.listAllApproveds.push(item)
+      res.data.map((item) => {
+        if (item.homologation.status.id === 1) {
+          this.listHistoric.push(item)
         }
       })
+
+      console.log(this.listHistoric);
 
     })
   }
@@ -56,4 +54,5 @@ export default {
 </script>
 
 <style>
+
 </style>

@@ -30,6 +30,7 @@ export default {
       countTeste: 0,
       listAllApproveds: [],
       listHistoric: [],
+      countHistoric: 0,
       filters: [
         { topName: 'Novos', name: 'Moldes', count: '', router: '' },
         {
@@ -75,32 +76,25 @@ export default {
         this.filters[0].count = res.data.length
       })
 
-      await httpNewMold.listAllHistoric().then(async (res) => {
-        // this.filters[0].count = res.data.length
-        this.listHistoric = res.data
-
-        this.listHistoric.map((item) => {
-          if (item.homologation.status.id === 1) {
-            this.listAllApproveds.push(item)
-            
-          }
-        })
-
-        console.log(this.listAllApproveds);
-
-        this.filtersPcp[1].count = this.listAllApproveds.length
-
-      })
-
-      await http.listAllPcp().then((res) => {
-        console.log(res.data);
-        this.filtersPcp[0].count = res.data.length
-      })
     }
   },
 
 
   async fetch() {
+
+    await httpNewMold.listAllHistoric(0, 10000).then( (res) => {
+      res.data.map( (item) => {
+        if (item.homologation.status.id === 1) {
+          this.countHistoric = this.countHistoric + 1
+        }
+      })
+      this.filtersPcp[1].count = this.countHistoric
+    })
+
+    await http.listAllPcp().then( (res) => {
+      this.filtersPcp[0].count = res.data.length
+    })
+
     await this.generateList()
 
   },
