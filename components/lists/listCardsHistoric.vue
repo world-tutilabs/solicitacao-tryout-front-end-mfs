@@ -4,9 +4,11 @@
     <Loading />
   </div>
   <div v-else>
-    <CardModel v-for="mold in listPaginated" :key="mold.id" :dataMold="mold" @updateList='updateList' />
+    <CardModel v-for="mold in listHistoric" :key="mold.id" :dataMold="mold" @updateList='updateList' />
 
-    <Pagination :list="listHistoric" @displayNewList="displayNewList" />
+    <button @click="init()" class="btn-pagination" v-if="currentPage !== 0">Inicio</button>
+    <button @click="back()" class="btn-pagination" v-if="currentPage !== 0">Voltar</button>
+    <button @click="next()" class="btn-pagination" >Proximo</button>
   </div>
 </template>
 
@@ -20,42 +22,37 @@ export default {
   data() {
     return {
 
-      listPaginated: [],
+      currentPage: 0,
       listHistoric: []
     }
   },
 
   methods: {
-    async displayNewList(e) {
-
-      await httpLocal.listAllHistoric(e.page, 10).then(async (res) => {
-        this.listPaginated  = res.data
+    async listAllHistoricReq () {
+      await httpLocal.listAllHistoric(this.currentPage, 10).then(async (res) => {
         this.listHistoric = res.data
+
       })
-
     },
 
-    updateList: async function () {
-      this.$fetchState.pending = true
-      setTimeout(() => {
-        this.$fetchState.pending = false
-      }, 1000);
-
-      this.generateList()
-
+    async init () {
+      this.currentPage = 0
+      await this.listAllHistoricReq()
     },
 
-    generateList: async function () {
-
-
+    async next() {
+      this.currentPage +=10
+      await this.listAllHistoricReq()
     },
+
+    async back() {
+      this.currentPage -=10
+      await this.listAllHistoricReq()
+    }
   },
 
   async fetch() {
-    await httpLocal.listAllHistoric().then(async (res) => {
-        this.listHistoric = res.data
-
-      })
+    await this.listAllHistoricReq()
 
 
   }
@@ -63,5 +60,15 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.btn-pagination {
+  border: none;
+  cursor: pointer;
+  margin: 0.1rem;
+  height: 2rem;
+  padding: 0.4rem;
+  border-radius: 0.25rem;
+  background-color: var(--green);
+  color: #fff;
+}
 </style>
