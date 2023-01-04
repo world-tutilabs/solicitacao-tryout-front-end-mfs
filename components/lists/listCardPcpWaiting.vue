@@ -4,49 +4,67 @@
   </div>
   <div v-else>
     <CardPcp v-for="mold in listPcpWaiting" :key="mold.id" :dataMold="mold"/>
-    <Pagination :tipoderouter="3" :list="listArray" @displayNewList="displayNewList" />
-    <h2>a</h2>
+
+    <button @click="init()" class="btn-pagination" v-if="currentPage !== 0">Inicio</button>
+    <button @click="back()" class="btn-pagination" v-if="currentPage !== 0">Voltar</button>
+    <button @click="next()" class="btn-pagination" v-if="listPcpWaiting > 10">Proximo</button>
+
   </div>
 </template>
 
 <script>
 import http from '../../services/pcp/pcp'
-import Pagination from '../Pagination.vue'
+import CardPcp from '../Cards/CardPcp.vue'
+import Loading from '../Loading.vue'
+
 
 export default {
-  components: { Pagination },
+  components: { CardPcp, Loading },
   data() {
     return {
       listPcpWaiting: [],
-      listArray: []
+      currentPage: 0,
     }
   },
   methods: {
-    async displayNewList(e) {
-      await http.listAllPcp(e.page, 10).then((res) => {
-        const list = res.data
-        list.map((item) => {
-          this.listArray.push(item)
-        })
-      })
+    async listAllPcpReq () {
+      await http.listAllPcp(this.currentPage, 10).then( (res) => {
+      this.listPcpWaiting = res.data
+    })
     },
 
+    async init () {
+      this.currentPage = 0
+      await this.listAllPcpReq()
+    },
+
+    async next() {
+      this.currentPage +=10
+      await this.listAllPcpReq()
+    },
+
+    async back() {
+      this.currentPage -=10
+      await this.listAllPcpReq()
+    }
 
   },
 
   async fetch() {
-    await http.listAllPcp().then( (res) => {
-      this.listPcpWaiting = res.data
-      const list = res.data
-        list.map((item) => {
-          this.listArray.push(item)
-        })
-    })
-
-    console.log(this.listArray);
+    await this.listAllPcpReq()
   }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.btn-pagination {
+  border: none;
+  cursor: pointer;
+  margin: 0.1rem;
+  height: 2rem;
+  padding: 0.4rem;
+  border-radius: 0.25rem;
+  background-color: var(--green);
+  color: #fff;
+}
 </style>

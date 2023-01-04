@@ -64,38 +64,37 @@ export default {
   },
 
   watch: {
-    countTeste: async function(newValue){
+    countTeste: async function (newValue) {
       this.filters[0].count = newValue
     }
   },
 
-
-  methods: {
-    generateList: async function(){
-      await httpNewMold.listAllRRIM(0, 10000).then(async (res) => {
-        this.filters[0].count = res.data.length
-      })
-
-    }
-  },
-
-
   async fetch() {
 
-    await httpNewMold.listAllHistoric(0, 10000).then( (res) => {
-      res.data.map( (item) => {
-        if (item.homologation.status.id === 1) {
-          this.countHistoric = this.countHistoric + 1
-        }
+    if (this.$nuxt.$route.path === '/') {
+      await httpNewMold.listAllRRIM(0, 10000).then((res) => {
+        this.filters[0].count = res.data.length
+        console.log(this.filters)
       })
-      this.filtersPcp[1].count = this.countHistoric
-    })
+    } else {
+      await httpNewMold.listAllHistoric(0, 10000).then((res) => {
+        res.data.map((item) => {
+          if (item.homologation.status.id === 1) {
+            this.countHistoric = this.countHistoric + 1
+          }
+        })
+        this.filtersPcp[1].count = this.countHistoric
+      })
 
-    await http.listAllPcp().then( (res) => {
-      this.filtersPcp[0].count = res.data.length
-    })
+      await http.listAllPcp().then((res) => {
+        this.filtersPcp[0].count = res.data.length
+      })
+    }
 
-    await this.generateList()
+
+
+
+
 
   },
 
