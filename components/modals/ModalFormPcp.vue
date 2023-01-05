@@ -146,11 +146,11 @@
                   "
                   readonly="readonly"
                 />
-                <FormInput
+              <!--  <FormInput
                   label="Kg"
                   v-model="dataPCP.solicitation.injectionProcess.feedstock.kg"
                   readonly="readonly"
-                />
+                /> -->
               </SlotCardVue>
             </div>
           </div>
