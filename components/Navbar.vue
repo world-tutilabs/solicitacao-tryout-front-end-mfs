@@ -3,11 +3,11 @@
     <nav>
       <div>
         <!-- <img src="~/static/icons/iconMolde.svg" alt="molde" /> -->
-        <h3>Relatório de TryOut</h3>
+        <h3>Solicitação de TryOut</h3>
       </div>
 
       <div style="display: flex; align-items: center;">
-        <span style="font-size:0.6rem;">Versão 1.0.1</span>
+        <span style="font-size:0.6rem;">Versão 1.1.1</span>
         <button @click="menu">
           <img src="~/static/icons/iconMenu.svg" alt="">
         </button>

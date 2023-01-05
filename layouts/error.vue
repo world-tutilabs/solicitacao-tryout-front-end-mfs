@@ -15,6 +15,11 @@
 <script>
 export default {
   props: ['error'],
+  head() {
+    return {
+      title: "TryOut - Ocorreu um erro"
+    };
+  },
   layout: 'custom404' // you can set a custom layout for the error page
 }
 </script>

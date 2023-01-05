@@ -110,7 +110,7 @@ export default {
   min-width: 148px;
   height: 40px;
   padding: var(--paddingInput);
-  border-radius: 2rem;
+  border-radius: 0.25rem;
   color: var(--white);
   font-weight: var(--bold);
   font-size: 1rem;

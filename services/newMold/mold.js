@@ -15,6 +15,10 @@ export default {
         return await httpLocal.get(`/list?limit=${limit}&offset=${offset}`)
     },
 
+    listAllAproveds: async (offset = 0, limit = 10, status = 1) => {
+        return await httpLocal.get(`/listByStatus?limit=${limit}&offset=${offset}&status=${status}`)
+    },
+
     createNewSolicitation: async (data) => {
         return await httpLocal.post(`/signup`, data)
     },
