@@ -7,7 +7,7 @@
       </div>
 
       <div style="display: flex; align-items: center;">
-        <span style="font-size:0.6rem;">Versão 1.1.1</span>
+        <span style="font-size:0.6rem;">Versão 1.1.3</span>
         <button @click="menu">
           <img src="~/static/icons/iconMenu.svg" alt="">
         </button>
