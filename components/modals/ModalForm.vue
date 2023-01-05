@@ -405,10 +405,10 @@ export default {
   created: async function () {
     this.productsOptions = this.dataRRIM;
 
-    // await http.listAllMachines().then((res) => {
-    //   this.listAllMachines = res.data;
-    //   console.log(this.listAllMachines);
-    // });
+    await http.listAllMachines().then((res) => {
+      this.listAllMachines = res.data;
+      console.log(this.listAllMachines);
+    });
   },
   watch: {
     quantidade(newValue) {
