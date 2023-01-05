@@ -77,13 +77,12 @@ export default Vue.extend({
 .box {
   background: var(--gray);
   padding: max(0.3rem, 1vw);
-  border-radius: 0 10px 10px 10px;
 
   .content {
     width: 100%;
     background: var(--white);
     padding: max(0.4rem, 1vw);
-    border-radius: 5px;
+    border-radius: 0.4rem;
     border: 0.2rem solid #e0e0e0;
     overflow: hidden;
   }

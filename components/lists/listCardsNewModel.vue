@@ -5,7 +5,10 @@
 
   <div v-else>
     <CardNewModel v-for="mold in newMolds" :key="mold.id" :dataMold="mold" />
-    <Pagination :tipoderouter="3" :list="newMolds" @displayNewList="displayNewList" />
+
+    <button @click="init()" class="btn-pagination" v-if="currentPage !== 0">Inicio</button>
+    <button @click="back()" class="btn-pagination" v-if="currentPage !== 0">Voltar</button>
+    <button @click="next()" class="btn-pagination" >Proximo</button>
   </div>
 </template>
 
@@ -21,30 +24,51 @@ export default {
   data() {
     return {
       newMolds: [],
-      listPaginated: [],
+      currentPage: 0
     }
   },
 
   methods: {
-   async displayNewList(e) {
-      await http.listAllRRIM(e.page,10).then((res) => {
-      this.newMolds = res.data
-      console.log(this.newMolds);
 
-    }).catch((error) => {
-      console.log(`Deu o erro: ${error}`);
+    async listAllRRIMReq () {
+      await http.listAllRRIM(this.currentPage, 10).then((res) => {
+      this.newMolds = res.data
     })
+    },
+
+    async init () {
+      this.currentPage = 0
+      await this.listAllRRIMReq()
+    },
+
+    async next() {
+      this.currentPage +=10
+      await this.listAllRRIMReq()
+    },
+
+    async back() {
+      this.currentPage -=10
+      await this.listAllRRIMReq()
     }
+
   },
 
   async fetch() {
-    await http.listAllRRIM().then((res) => {
-      this.newMolds = res.data
-
-    }).catch((error) => {
-      console.log(`Deu o erro: ${error}`);
-    })
+    await this.listAllRRIMReq()
   }
 
 }
 </script>
+
+<style lang="scss" scoped>
+.btn-pagination {
+  border: none;
+  cursor: pointer;
+  margin: 0.1rem;
+  height: 2rem;
+  padding: 0.4rem;
+  border-radius: 0.25rem;
+  background-color: var(--green);
+  color: #fff;
+}
+</style>

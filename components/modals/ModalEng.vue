@@ -225,10 +225,10 @@ export default {
   },
   created: async function () {
     console.log(this.dataRevisao.id);
-    await httpNewMold.listAllMachines().then((res) => {
-      this.listAllMachines = res.data;
+    // // await httpNewMold.listAllMachines().then((res) => {
+    // //   this.listAllMachines = res.data;
 
-    });
+    // });
   },
   props: {
     displayModal: Boolean,

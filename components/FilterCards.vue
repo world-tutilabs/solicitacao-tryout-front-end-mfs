@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import httpLocal from '../services/newMold/mold'
+import httpNewMold from '../services/newMold/mold'
 import http from '../services/pcp/pcp'
 
 export default {
@@ -30,20 +30,19 @@ export default {
       countTeste: 0,
       listAllApproveds: [],
       listHistoric: [],
+      countHistoric: 0,
       filters: [
         { topName: 'Novos', name: 'Moldes', count: '', router: '' },
         {
           topName: 'Solicitações de',
           name: 'Modificações',
           count: '000',
-          // router: 'modifications',
           router: 'emdesenvolvimento',
         },
         {
           topName: 'Solicitações testes de',
           name: 'Resina',
           count: '000',
-          // router: 'resin-test',
           router: 'emdesenvolvimento',
         },
       ],
@@ -65,43 +64,38 @@ export default {
   },
 
   watch: {
-    countTeste: async function(newValue){
+    countTeste: async function (newValue) {
       this.filters[0].count = newValue
     }
   },
 
+  async fetch() {
 
-  methods: {
-
-
-    generateList: async function(){
-      await httpLocal.listAllRRIM(0, 10000).then(async (res) => {
+    if (this.$nuxt.$route.path === '/') {
+      await httpNewMold.listAllRRIM(0, 10000).then((res) => {
         this.filters[0].count = res.data.length
+        console.log(this.filters)
       })
-
-      await httpLocal.listAllHistoric().then(async (res) => {
-        // this.filters[0].count = res.data.length
-        this.listHistoric = res.data
-
-        this.listHistoric.map((item) => {
+    } else {
+      await httpNewMold.listAllHistoric(0, 10000).then((res) => {
+        res.data.map((item) => {
           if (item.homologation.status.id === 1) {
-            this.listAllApproveds.push(item)
+            this.countHistoric = this.countHistoric + 1
           }
         })
-
-        this.filtersPcp[1].count = this.listAllApproveds.length
-
+        this.filtersPcp[1].count = this.countHistoric
       })
 
       await http.listAllPcp().then((res) => {
         this.filtersPcp[0].count = res.data.length
       })
     }
-  },
 
 
-  async fetch() {
-    await this.generateList()
+
+
+
+
   },
 
   computed: {

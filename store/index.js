@@ -21,7 +21,6 @@ export const mutations = {
     },
     setIsUser(state, payload){
         state.isUser = payload
-        console.log(state.user);
     }
 
 }
