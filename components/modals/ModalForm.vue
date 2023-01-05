@@ -181,12 +181,12 @@
                   v-model="feedstocksDescription"
                   disabled
                 />
-                <FormInput
+            <!--    <FormInput
                   label="kG"
                   type="number"
                   min="1"
                   v-model="feedstocksCode"
-                />
+                /> -->
               </SlotCard>
             </div>
           </div>
@@ -304,9 +304,7 @@ export default {
         this.quantidade
       );
       this.testSolicitation.date = this.newData;
-      this.testSolicitation.InjectionProcess.feedstocks.kg = parseInt(
-        this.feedstocksCode
-      );
+      this.testSolicitation.InjectionProcess.feedstocks.kg = 0;
       this.testSolicitation.InjectionProcess.feedstocks.description =
         this.feedstocksDescription;
       this.testSolicitation.InjectionProcess.labor.amount = parseInt(
