@@ -3,7 +3,7 @@
     <nav>
       <div>
         <!-- <img src="~/static/icons/iconMolde.svg" alt="molde" /> -->
-        <h3>Solicitação de TryOut</h3>
+        <h3>MFS - Solicitação de TryOut</h3>
       </div>
 
       <div style="display: flex; align-items: center;">
