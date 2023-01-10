@@ -4,6 +4,7 @@
   </div>
 
   <div v-else>
+
     <InputSearch v-model="valueSearch" class="InputSearch" />
     <CardNewModel  v-for="mold in filterSearchField" :key="mold.id" :dataMold="mold" />
     <button @click="init()" class="btn-pagination" v-if="currentPage !== 0">
