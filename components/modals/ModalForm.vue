@@ -143,13 +143,13 @@
             <div class="cardTryOut">
               <SlotCard>
                 <Title title="Mão de Obra" />
-                <FormInput
+                <!-- <FormInput
                   label="Descrição"
                   type="text"
                   v-model="laborDescription"
-                />
+                /> -->
                 <FormInput
-                  label="Qtd"
+                  label="Quantidade"
                   type="number"
                   min="1"
                   v-model="laborAmount"
@@ -176,17 +176,12 @@
               <SlotCard>
                 <Title title="Matéria Prima" />
                 <FormInput
-                  label="Descrição"
+                  label="Cód + Descrição"
                   type="text"
                   v-model="feedstocksDescription"
                   disabled
                 />
-            <!--    <FormInput
-                  label="kG"
-                  type="number"
-                  min="1"
-                  v-model="feedstocksCode"
-                /> -->
+     
               </SlotCard>
             </div>
           </div>
@@ -341,11 +336,13 @@ export default {
     },
     catchIndexProduct(event) {
       this.newSolicitation.cod_prod = event.target.value;
+      console.log(event.target.value);
+      console.log(this.productsOptions);
       const value = this.productsOptions.produto.find(
         (item) => item.COD_PRODUTO === event.target.value
       );
       this.indexProduct = value.DESC_PRODUTO;
-      this.feedstocksDescription = value.DESC_MATERIA_PRIMA;
+      this.feedstocksDescription = `${value.COD_MATERIA_PRIMA} - ${value.DESC_MATERIA_PRIMA}`;
     },
 
     closeModal() {

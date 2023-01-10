@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  nuxt_solicitation_tryout:
+    container_name: nuxt_solicitation_tryout
+    build: .
+    restart: always
+    command: bash -c "yarn --only=prod && yarn build && yarn start"
+    volumes:
+      - .:/usr/app
+    environment:
+      - TZ=America/Manaus
+    ports:
+      - "8500:8500"
+

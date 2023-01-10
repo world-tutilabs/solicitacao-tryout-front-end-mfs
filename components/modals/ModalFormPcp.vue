@@ -108,13 +108,6 @@
               <SlotCardVue>
                 <Title title="Mão de Obra" />
                 <FormInput
-                  label="Descrição"
-                  v-model="
-                    dataPCP.solicitation.injectionProcess.labor.description
-                  "
-                  readonly="readonly"
-                />
-                <FormInput
                   label="Quantidade"
                   v-model="dataPCP.solicitation.injectionProcess.labor.amount"
                   readonly="readonly"
@@ -335,6 +328,10 @@ export default {
     background-color: var(--bg);
     padding: 1vw;
     border-radius: 0.5rem;
+
+    .btn-closed {
+      cursor: pointer;
+    }
 
     header {
       p {
