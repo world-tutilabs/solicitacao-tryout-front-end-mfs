@@ -6,6 +6,9 @@ export default {
     listAllRRIM: async (page = 0,offset = 10) => {
         return await http.get(`/list-all-rrim/aprovadas?page=${page}&offset=${offset}`)
     },
+    listAll: async () => {
+        return await http.get(`/list-all-rrim/aprovadas?page=0&offset=100000`)
+    },
 
     listAllMachines: async () => {
         return await httpSAP.get('/api/v1/sap/tutilabs/machines')
