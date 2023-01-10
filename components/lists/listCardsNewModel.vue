@@ -4,16 +4,26 @@
   </div>
 
   <div v-else>
-
     <InputSearch v-model="valueSearch" class="InputSearch" />
-    <CardNewModel  v-for="mold in filterSearchField" :key="mold.id" :dataMold="mold" />
-    <button @click="init()" class="btn-pagination" v-if="currentPage !== 0">
+
+    <div v-if="valueSearch.length < 1">
+      <CardNewModel  v-for="mold in newMolds" :key="mold.id" :dataMold="mold" />
+    </div>
+
+    <div v-else>
+      <CardNewModel  v-for="mold in filterSearchField" :key="mold.id" :dataMold="mold" />
+    </div>
+    
+    <div v-if="valueSearch.length < 1">
+      <button @click="init()" class="btn-pagination" v-if="currentPage !== 0">
       Inicio
     </button>
     <button @click="back()" class="btn-pagination" v-if="currentPage !== 0">
       Voltar
     </button>
     <button @click="next()" class="btn-pagination">Proximo</button>
+    </div>
+    
   </div>
 </template>
 
@@ -31,12 +41,19 @@ export default {
       newMolds: [],
       currentPage: 0,
       valueSearch: "",
+      listSearch: []
     };
+  },
+
+  async mounted () {
+    await http.listAllRRIM(0, 10000).then((res) => {
+      this.listSearch = res.data
+    })
   },
 
   computed: {
     filterSearchField () {
-      let allContent = this.newMolds.filter((filter) => {
+      let allContent = this.listSearch.filter((filter) => {
         return (
         filter.CLIENTE.match(this.valueSearch)||
         filter.CLIENTE.toLowerCase().match(this.valueSearch)||
