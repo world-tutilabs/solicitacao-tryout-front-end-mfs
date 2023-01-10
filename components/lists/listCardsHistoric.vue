@@ -4,7 +4,8 @@
     <Loading />
   </div>
   <div v-else>
-    <CardModel v-for="mold in listHistoric" :key="mold.id" :dataMold="mold" @updateList='updateList' />
+    <InputSearch v-model="valueSearch" class="InputSearch" />
+    <CardModel v-for="mold in filterSearchField" :key="mold.id" :dataMold="mold" @updateList='updateList' />
 
     <button @click="init()" class="btn-pagination" v-if="currentPage !== 0">Inicio</button>
     <button @click="back()" class="btn-pagination" v-if="currentPage !== 0">Voltar</button>
@@ -23,10 +24,25 @@ export default {
     return {
 
       currentPage: 0,
-      listHistoric: []
+      listHistoric: [],
+      valueSearch: "",
     }
   },
-
+  computed: {
+    filterSearchField () {
+      let allContent = this.listHistoric.filter((filter) => {
+        return (
+        filter.client.match(this.valueSearch)||
+        filter.client.toLowerCase().match(this.valueSearch)||
+        String(filter.number_tryout).toLowerCase().match(this.valueSearch)
+        
+        )
+      })
+    return allContent;
+  
+     },
+       
+  },
   methods: {
     async listAllHistoricReq () {
       await httpLocal.listAllHistoric(this.currentPage, 10).then(async (res) => {

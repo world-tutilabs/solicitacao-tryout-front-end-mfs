@@ -37,7 +37,8 @@ export default {
     filterSearchField () {
       let allContent = this.newMolds.filter((filter) => {
         return (
-        
+        filter.CLIENTE.match(this.valueSearch)||
+        filter.CLIENTE.toLowerCase().match(this.valueSearch)||
         String(filter.ID).toLowerCase().match(this.valueSearch)
         )
       })

@@ -1,16 +1,15 @@
 <template>
-    <div class="form">
-        <div class="search">
-        <input type="text"
-        placeholder="Cliente, Cód. SAP, Molde ou Nº Tryout"
+  <div class="form">
+    <div class="search">
+      <input
+        type="text"
+        placeholder="Cód.RRIM ou Cliente.."
         class="inputSearch"
-        :value="valueSearch"  
+        :value="valueSearch"
         @input="onInput"
-        />
-        
+      />
     </div>
-            
-            </div>
+  </div>
 </template>
 <script lang="js">
     export default {
@@ -32,32 +31,25 @@
     }
   </script>
 <style scoped>
-
 .search {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 5px;
+  font-size: 1.2rem;
+  background-color: var(--gray) !important;
+  padding: 1rem;
 }
 input {
   border-radius: 4px;
   border: none;
   width: 400px;
-  border: 1px solid var(--green);
+  height: 2.4rem;
+  border: 2px solid var(--green);
   padding: 5px;
   margin-bottom: 20px;
+  
 }
 
-button {
-  padding: 5px;
-  border-radius: 4px;
-  color: var(--white);
-  border: 1px solid var(--green);
-  background-color: var(--green);
-}
- @media only screen and (max-width: 548px) {
+@media only screen and (max-width: 548px) {
   input {
-   width: auto;
+    width: auto;
   }
 }
-
 </style>
