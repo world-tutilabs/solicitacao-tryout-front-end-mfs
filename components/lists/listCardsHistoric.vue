@@ -4,11 +4,25 @@
     <Loading />
   </div>
   <div v-else>
-    <CardModel v-for="mold in listHistoric" :key="mold.id" :dataMold="mold" @updateList='updateList' />
+    <InputSearch v-model="valueSearch" class="InputSearch" />
 
-    <button @click="init()" class="btn-pagination" v-if="currentPage !== 0">Inicio</button>
-    <button @click="back()" class="btn-pagination" v-if="currentPage !== 0">Voltar</button>
-    <button @click="next()" class="btn-pagination" >Proximo</button>
+    <div v-if="valueSearch.length < 1">
+      <CardModel v-for="mold in listHistoric" :key="mold.id" :dataMold="mold" @updateList='updateList' />
+    </div>
+    <div v-else>
+      <CardModel v-for="mold in filterSearchField" :key="mold.id" :dataMold="mold" @updateList='updateList' />
+    </div>
+    
+
+    <div v-if="valueSearch.length < 1">
+      <button @click="init()" class="btn-pagination" v-if="currentPage !== 0">
+      Inicio
+    </button>
+    <button @click="back()" class="btn-pagination" v-if="currentPage !== 0">
+      Voltar
+    </button>
+    <button @click="next()" class="btn-pagination">Proximo</button>
+    </div>
   </div>
 </template>
 
@@ -23,10 +37,31 @@ export default {
     return {
 
       currentPage: 0,
-      listHistoric: []
+      listHistoric: [],
+      valueSearch: "",
+      listSearch: []
     }
   },
-
+  async mounted () {
+    await httpLocal.listAllHistoric(0, 10000).then((res) => {
+      this.listSearch = res.data
+    })
+  },
+  computed: {
+    filterSearchField () {
+      let allContent = this.listSearch.filter((filter) => {
+        return (
+        filter.client.match(this.valueSearch)||
+        filter.client.toLowerCase().match(this.valueSearch)||
+        String(filter.number_tryout).toLowerCase().match(this.valueSearch)
+        
+        )
+      })
+    return allContent;
+  
+     },
+       
+  },
   methods: {
     async listAllHistoricReq () {
       await httpLocal.listAllHistoric(this.currentPage, 10).then(async (res) => {
