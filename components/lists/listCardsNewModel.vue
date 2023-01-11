@@ -53,10 +53,12 @@ export default {
 
   computed: {
     filterSearchField () {
+
+      this.valueSearch = this.valueSearch.toLowerCase()
       let allContent = this.listSearch.filter((filter) => {
         return (
-        filter.CLIENTE.match(this.valueSearch)||
         filter.CLIENTE.toLowerCase().match(this.valueSearch)||
+        filter.MOLDE.toLowerCase().match(this.valueSearch)||
         String(filter.ID).toLowerCase().match(this.valueSearch)
         )
       })

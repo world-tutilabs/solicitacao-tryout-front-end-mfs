@@ -5,6 +5,7 @@
   </div>
   <div v-else>
     <InputSearch v-model="valueSearch" class="InputSearch" />
+    
 
     <div v-if="valueSearch.length < 1">
       <CardModel v-for="mold in listHistoric" :key="mold.id" :dataMold="mold" @updateList='updateList' />
@@ -49,10 +50,11 @@ export default {
   },
   computed: {
     filterSearchField () {
+      this.valueSearch = this.valueSearch.toLowerCase()
       let allContent = this.listSearch.filter((filter) => {
         return (
-        filter.client.match(this.valueSearch)||
         filter.client.toLowerCase().match(this.valueSearch)||
+        filter.injectionProcess.mold.desc_mold.toLowerCase().match(this.valueSearch)||
         String(filter.number_tryout).toLowerCase().match(this.valueSearch)
         
         )

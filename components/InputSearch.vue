@@ -4,7 +4,7 @@
       <h4>Pesquisar</h4>
       <input
         type="text"
-        placeholder="Cód.RRIM ou Cliente.."
+        placeholder="Cód.RRIM, Molde ou Cliente.."
         class="inputSearch"
         :value="valueSearch"
         @input="onInput"
