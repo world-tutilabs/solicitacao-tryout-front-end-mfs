@@ -65,11 +65,9 @@
         <div class="processContent">
           <div class="processBox">
             <h3>Mão de Obra</h3>
-            <span>Descrição</span>
-            <h4>{{ dataMold.injectionProcess.labor.description }}</h4>
-            <div class="processFooter">
-              <h4>Quantidade: {{ dataMold.injectionProcess.labor.amount }}</h4>
-            </div>
+            <span>Quantidade</span>
+            <h4>{{ dataMold.injectionProcess.labor.amount }}</h4>
+        
           </div>
 
           <div class="processBox">
@@ -85,11 +83,9 @@
 
           <div class="processBox">
             <h3>Matéria Prima</h3>
-            <span>Descrição</span>
+            <span>Código - Descrição</span>
             <h4>{{ dataMold.injectionProcess.feedstock.description }}</h4>
-            <div class="processFooter">
-              <h4>KG: {{ dataMold.injectionProcess.feedstock.kg }}</h4>
-            </div>
+
           </div>
         </div>
 

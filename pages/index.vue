@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <div class="tabs">
       <button @click="newMoldes = true" :class="{ focus: newMoldes }">
         Novos Moldes
