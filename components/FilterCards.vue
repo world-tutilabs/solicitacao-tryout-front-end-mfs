@@ -33,6 +33,7 @@
 </template>
 
 <script>
+
 import httpNewMold from "../services/newMold/mold";
 import http from "../services/pcp/pcp";
 
@@ -75,6 +76,12 @@ export default {
           count: "000",
           router: "pcp/approveds",
         },
+        {
+          topName: "Solicitações",
+          name: "Concluidas",
+          count: "000",
+          router: "pcp/completed",
+        },
       ],
     };
   },
@@ -104,6 +111,10 @@ export default {
       await http.listAllPcp().then((res) => {
         this.filtersPcp[0].count = res.data.length;
       });
+
+      await httpNewMold.listAllAproveds(1000, 10, 5).then((res) => {
+        this.filtersPcp[2].count = res.data.all;
+      });
     }
   },
   methods: {
@@ -117,7 +128,8 @@ export default {
     routePcp() {
       if (
         this.$route.name === "pcp-waiting" ||
-        this.$route.name === "pcp-approveds"
+        this.$route.name === "pcp-approveds" ||
+        this.$route.name === "pcp-completed"
       ) {
         return true;
       }

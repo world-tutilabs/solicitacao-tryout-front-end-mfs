@@ -41,7 +41,9 @@ export default Vue.extend({
     },
 
     showCalendarButton() {
-      if (this.$route.name === "modifications" || this.$route.name === "resin-test" || this.$route.name === "index") {
+      if (this.$route.name === "modifications"
+       || this.$route.name === "resin-test" 
+       || this.$route.name === "index") {
         return true;
       }
     }
