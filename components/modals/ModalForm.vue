@@ -54,7 +54,7 @@
 
           <div class="boxInput" v-else>
             <p>Motivo</p>
-            <input type="text" v-model="reasonSolicitation" disabled />
+            <input type="text" v-model="reasonSolicitation" />
           </div>
         </div>
 
@@ -120,7 +120,7 @@
 
               <div class="boxInput inputData">
                 <p>Data Programada</p>
-                <input type="date" v-model="newData" :min="dateCurrent" />
+                <input type="date" v-model="newData" />
               </div>
 
               <div class="boxInput inputData">
