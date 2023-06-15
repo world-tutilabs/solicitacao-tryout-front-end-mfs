@@ -37,7 +37,7 @@
     animation: cubo-transform 2s infinite;
   }
   .title {
-    color: black;
+    color: var(--black_text);
     font-size: 4rem;
     animation: title-transform 1s;
     margin-bottom: 0.1rem;
@@ -47,7 +47,7 @@
     display: none;
   }
   .version {
-    color: black;
+    color: var(--black_text);
   }.loader {
     width: 100%;
     height: 1rem;
@@ -56,7 +56,7 @@
     overflow: hidden;
   }
   .name-module {
-    color: black;
+    color: var(--black_text);
     margin-bottom: 1rem;
   }
   .loader::after {
@@ -74,17 +74,17 @@
   @keyframes hitZak {
     0% {
       left: 0;
-      background: blue;
+      background: var(--blue);
       transform: translateX(-1%);
     }
     50% {
       left: 50%;
-      background: green;
+      background: var(--green);
       transform: translateX(-55%);
     }
     100% {
       left: 100%;
-      background: red;
+      background: var(--red);
       transform: translateX(-99%);
     }
   }

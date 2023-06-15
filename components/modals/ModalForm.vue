@@ -464,7 +464,7 @@ export default {
     margin: auto;
     background-color: var(--bg);
     padding: 1vw;
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
 
     header {
       border-bottom: 0.2rem solid var(--gray);

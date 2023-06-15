@@ -3,7 +3,7 @@
     
     <div class="tabs">
       <button @click="newMoldes = true" :class="{ focus: newMoldes }">
-        Novos Moldes
+        Solicitações
       </button>
       <button @click="newMoldes = false" :class="{ focus: !newMoldes }">
         Histórico

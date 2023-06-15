@@ -1,20 +1,17 @@
 <template>
-  <div v-if="$fetchState.pending">
-    <Loading />
-  </div>
-  <div class="container" v-else>
+  <div class="container">
     <div v-if="!routePcp" class="containerCard" >
     <NuxtLink to="/" class="cards">
       <span>Solicitações de</span>
       <h3>Novos Moldes</h3>
 
-      <h5> 5 </h5>
+      <h5> {{ qtdNewModels }}</h5>
     </NuxtLink>
 
     <NuxtLink to="/modifications" class="cards">
       <span>Solicitações de</span>
       <h3>Modificação de Molde</h3>
-      <h5>5</h5>
+      <h5>0</h5>
     </NuxtLink>
 </div>
 <div class="containerCard" v-if="routePcp" >     
@@ -41,84 +38,32 @@ import http from "../services/pcp/pcp";
 export default {
   data() {
     return {
-      countTeste: 0,
-      listAllApproveds: [],
-      listHistoric: [],
-      countHistoric: 0,
-      counter: 0,
-      filters: [
-        { topName: "Novos",
-          name: "Moldes", 
-          count: "", 
-          router: "" },
-        {
-          topName: "Modificação de",
-          name: "Molde",
-          count: "000",
-          router: "",
-        },
-      ],
-      filtersPcp: [
-        {
-          topName: "Solicitações",
-          name: "Espera",
-          count: "000",
-          router: "pcp/waiting",
-        },
-        {
-          topName: "Solicitações",
-          name: "Aprovados",
-          count: "000",
-          router: "pcp/approveds",
-        },
-      ],
+      qtdNewModels: 'Aguardando Dados...',
+      qtdeModifications: 'Aguardando Dados...',
     };
   },
 
-  watch: {
-    countTeste: async function (newValue) {
-      this.filters[0].count = newValue;
-    },
-  },
-
-  async fetch() {
+  async mounted() {
     if (this.$nuxt.$route.path === "/") {
-      await httpNewMold.listAllRRIM(0, 10000).then((res) => {
-        this.filters[0].count = res.data.length;
-        console.log(this.filters);
-      });
-    } else {
-      await httpNewMold.listAllHistoric(0, 10000).then((res) => {
-        res.data.map((item) => {
-          if (item.homologation.status.id === 1) {
-            this.countHistoric = this.countHistoric + 1;
-          }
-        });
-        this.filtersPcp[1].count = this.countHistoric;
-      });
-
-      await http.listAllPcp().then((res) => {
-        this.filtersPcp[0].count = res.data.length;
-      });
+      await this.reqSolicitations()
     }
+    
   },
   methods: {
-    greet: function (event) {
-      if (event) {
-        this.$toast.warning("Funcionalidade em Desenvolvimento");
-      }
+
+    async reqSolicitations() {
+      await httpNewMold.listAllRRIM(0, 100000).then( (res) => {
+        this.qtdNewModels = res.data.length
+      })
     },
+
+    async reqPCP() {
+      await http.homologatePCP(0,10000).then((res) => {
+        console.log(res.data)
+      })
+    }
   },
-  computed: {
-    routePcp() {
-      if (
-        this.$route.name === "pcp-waiting" ||
-        this.$route.name === "pcp-approveds"
-      ) {
-        return true;
-      }
-    },
-  },
+
 };
 </script>
 
