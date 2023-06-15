@@ -98,7 +98,7 @@ nav {
   align-items: center;
   padding: 0 var(--negativeSpace);
   width: 100%;
-  height: 9vh;
+  height: 7vh;
   position: fixed;
   top: 0;
   z-index: 9;
@@ -126,7 +126,7 @@ nav {
   width: 100%;
   transition: 1.2s;
   margin-top: 0vh;
-  background: rgba(149, 164, 167, 0.178);
+  // background: rgba(149, 164, 167, 0.178);
   backdrop-filter: blur(15px);
   z-index: 3;
 }
@@ -134,8 +134,8 @@ nav {
   display: flex;
   width: 100%;
   transition: 1.2s;
-  background: rgba(149, 164, 167, 0.178);
-  backdrop-filter: blur(15px);
+  // background: rgba(149, 164, 167, 0.178);
+  // backdrop-filter: blur(15px);
   margin-top: -100vh;
   position: fixed;
   z-index: 3;

@@ -54,7 +54,7 @@
 
           <div class="boxInput" v-else>
             <p>Motivo</p>
-            <input type="text" v-model="reasonSolicitation" disabled />
+            <input type="text" v-model="reasonSolicitation"  />
           </div>
         </div>
 
@@ -449,7 +449,7 @@ export default {
 .containerFilter {
   height: 100vh;
   position: fixed;
-  background: rgba(249, 249, 249, 0.2666666667);
+  background: rgba(32, 31, 31, 0.7);
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
   left: 0;
@@ -539,7 +539,7 @@ export default {
       background-color: #ececec;
       font-size: 1rem;
       padding: 0.5rem 0.7rem;
-      border-radius: var(--paddingInput);
+      border-radius: 0.25rem;
       width: 10rem;
     }
 
@@ -557,7 +557,7 @@ export default {
           font-size: 1rem;
           width: 7rem;
           padding: 0.5rem 0.7rem;
-          border-radius: 1rem;
+          border-radius: 0.25rem;
           font-weight: var(--bold);
         }
 

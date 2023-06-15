@@ -3,10 +3,6 @@
     <div class="content">
       <div class="header-content">
         <div :class="flagValidation(dataMold.status.description)"></div>
-        <div class="container_button" @click="openInfoCard">
-          <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
-          <img src="~/static/icons/arrowOpened.svg" alt="" srcset="" v-else />
-        </div>
       </div>
       <div class="containerMain">
         <div class="informs">

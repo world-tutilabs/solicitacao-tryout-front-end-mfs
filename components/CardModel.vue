@@ -5,10 +5,6 @@
         <div
           :class="flagValidation(dataMold.homologation.status.description)"
         ></div>
-        <div class="container_button" @click="openInfoCard">
-          <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
-          <img src="~/static/icons/arrowOpened.svg" alt="" srcset="" v-else />
-        </div>
       </div>
       <div class="containerMain">
         <div class="informs">
@@ -39,7 +35,7 @@
         </div>
       </div>
 
-      <div class="containerDetails" v-if="isOpenInfoCard">
+      <div class="containerDetails">
         <div class="informs">
           <div class="inform">
             <h3>Processos</h3>
@@ -277,12 +273,16 @@ export default Vue.extend({
   padding: max(0.3rem, 1vw);
 
   .content {
-    width: 100%;
-    background: var(--white);
-    padding: max(0.4rem, 1vw);
-    border-radius: 0.25rem;
-    border: 0.2rem solid #e0e0e0;
     overflow: hidden;
+    font-size: 0.8rem;
+    width: 100%;
+    background-color: var(--white);
+    padding: max(.4rem, 1vw);
+    border-radius: 7px;
+    border: 1px solid var(--gray_text);
+    overflow: hidden;
+    min-height: 9.5rem;
+    height: auto;
   }
 }
 
@@ -295,6 +295,7 @@ export default Vue.extend({
     height: 0.2rem;
     width: 7rem;
     height: 0.5rem;
+    margin-bottom: 1rem;
     position: relative;
     background-color: transparent;
   }
@@ -361,8 +362,9 @@ export default Vue.extend({
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 
     .processBox {
-      background-color: var(--gray);
+      // background-color: var(--gray);
       padding: max(0.1rem, 0.5vw);
+      border: 2px solid var(--gray);
 
       .processFooter {
         margin-top: 10px;

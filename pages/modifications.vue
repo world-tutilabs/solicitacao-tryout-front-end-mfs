@@ -1,5 +1,7 @@
 <template>
-  <listCardsModifiedMolds />
+  <div>
+    <h5 style="margin-top: 30px;">Módulo em Desenvolvimento...</h5>
+  </div>
 </template>
 
 <script>

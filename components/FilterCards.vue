@@ -4,16 +4,18 @@
   </div>
   <div class="container" v-else>
     <div v-if="!routePcp" class="containerCard" >
-    <div
-      @click="greet"
-      v-for="filter in filters"
-      :key="filter.name"
-      :class="{ cards: true }"
-    >
-      <span>{{ filter.topName }}</span>
-      <h2>{{ filter.name }}</h2>
-      <h3>{{ filter.count }}</h3>
-    </div>
+    <NuxtLink to="/" class="cards">
+      <span>Solicitações de</span>
+      <h3>Novos Moldes</h3>
+
+      <h5> 5 </h5>
+    </NuxtLink>
+
+    <NuxtLink to="/modifications" class="cards">
+      <span>Solicitações de</span>
+      <h3>Modificação de Molde</h3>
+      <h5>5</h5>
+    </NuxtLink>
 </div>
 <div class="containerCard" v-if="routePcp" >     
     <NuxtLink
@@ -24,8 +26,8 @@
       :class="{ cards: true }"
     >
       <span>{{ filterPcp.topName }}</span>
-      <h2>{{ filterPcp.name }}</h2>
-      <h3>{{ filterPcp.count }}</h3>
+      <h3>{{ filterPcp.name }}</h3>
+      <h5>{{ filterPcp.count }}</h5>
     </NuxtLink>
     </div>
 
@@ -50,14 +52,8 @@ export default {
           count: "", 
           router: "" },
         {
-          topName: "Solicitações de",
-          name: "Modificações",
-          count: "000",
-          router: "",
-        },
-        {
-          topName: "Solicitações testes de",
-          name: "Resina",
+          topName: "Modificação de",
+          name: "Molde",
           count: "000",
           router: "",
         },
@@ -129,51 +125,47 @@ export default {
 <style lang="scss" scoped>
 .container {
   display: flex;
+  justify-content: flex-start;
   gap: 1rem;
-  overflow: hidden;
-  padding: 2px;
-  width: 100%;
-  padding-bottom: 20px;
+  padding: 5vh var(--negativeSpace) 0 var(--negativeSpace);
   .containerCard{
     display: flex;
     gap: 1rem;
     overflow-y: none;
     width: 100%;
+
+    a.nuxt-link-exact-active {
+    border: 2.9px solid var(--green);
   }
-  .cards {
+
+    .cards {
+    grid-gap: .4rem;
     background: var(--white);
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-    width: 300px;
-    padding: max(0.3rem, 1vw);
-    height: 100%;
+    border: 1px solid var(--gray);
     border-radius: 5px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    gap: 0.6rem;
+    height: 100%;
     justify-content: center;
-
-    h2 {
-      font-size: max(0.9rem, 1.3vw);
-    }
-
-    &:hover {
-      background: var(--bg);
-    }
+    max-height: 6rem;
+    padding: max(.3rem,1vw);
+    transition: .1s;
+    width: 300px;
 
     span {
-      font-size: max(0.8rem, 0.8vw);
+      font-weight: 500;
     }
 
-    @media (max-width: 768px) {
-      padding: 0.5rem;
-
-      span {
-        width: 40vw;
-      }
+    h3 {
+      font-size: 1rem;
     }
+
+  }
   }
 
+ 
   @media (max-width: 768px) {
     width: 100%;
     overflow-x: auto;

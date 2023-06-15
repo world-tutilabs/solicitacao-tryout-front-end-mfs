@@ -18,14 +18,14 @@ export default {
 <style lang="scss" scoped>
   footer{
     width: 100%;
-    height: 10vh;
+    height: 6vh;
     background: #012A35;
     display: flex;
     align-items: center;
     padding: 0 var(--negativeSpace);
 
     img{
-      width: 7rem;
+      width: 5rem;
     }
   }
 </style>

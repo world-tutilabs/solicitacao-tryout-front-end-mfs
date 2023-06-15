@@ -293,7 +293,7 @@ export default {
 .containerFilter {
   height: 100vh;
   position: fixed;
-  background: rgba(249, 249, 249, 0.2666666667);
+  background: rgba(32, 31, 31, 0.7);
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
   left: 0;

@@ -59,7 +59,7 @@ export default {
 .content {
   background: var(--gray);
   width: 100%;
-  height: 10vh;
+  height: 3.2rem;
   display: flex;
   gap: 2rem;
   align-items: center;
@@ -68,6 +68,8 @@ export default {
   position: sticky;
   bottom: 0;
   box-shadow: 0px 2px 0.5rem #757575a6;
+  position: fixed;
+  bottom: 0;
   .container {
     display: flex;
     align-items: center;
@@ -78,10 +80,10 @@ export default {
       text-align: center;
     }
     .circle {
-      width: 2rem;
-      min-width: 2rem;
-      height: 2rem;
-      min-height: 2rem;
+      width: 1.5rem;
+      min-width: 1.5rem;
+      height: 1.5rem;
+      min-height: 1.5rem;
       border-radius: 50%;
     }
   }
