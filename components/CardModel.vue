@@ -269,8 +269,7 @@ export default Vue.extend({
   }
 }
 .box {
-  background: var(--gray);
-  padding: max(0.3rem, 1vw);
+  margin-top: 1.5rem;
 
   .content {
     overflow: hidden;
@@ -279,7 +278,7 @@ export default Vue.extend({
     background-color: var(--white);
     padding: max(.4rem, 1vw);
     border-radius: 7px;
-    border: 1px solid var(--gray_text);
+    border: 1px solid var(--gray);
     overflow: hidden;
     min-height: 9.5rem;
     height: auto;

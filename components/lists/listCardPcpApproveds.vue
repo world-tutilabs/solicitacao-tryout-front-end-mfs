@@ -7,7 +7,7 @@
 
     <button @click="init()" class="btn-pagination" v-if="currentPage !== 0">Inicio</button>
     <button @click="back()" class="btn-pagination" v-if="currentPage !== 0">Voltar</button>
-    <button @click="next()" class="btn-pagination">Proximo</button>
+    <button @click="next()" class="btn-pagination" v-if="listHistoric.length !== 0">Proximo</button>
 
   </div>
 </template>

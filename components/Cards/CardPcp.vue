@@ -160,8 +160,6 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .box {
-  background: var(--gray);
-  padding: max(0.3rem, 1vw);
 
   .content {
     width: 100%;

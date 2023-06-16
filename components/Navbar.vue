@@ -2,8 +2,9 @@
   <div>
     <nav>
       <div>
-        <!-- <img src="~/static/icons/iconMolde.svg" alt="molde" /> -->
-        <h3>Solicitação de TryOut</h3>
+        <h3 v-if="this.$nuxt.$route.path === '/' || this.$nuxt.$route.path === '/modifications'">Solicitação de TryOut -
+          Engenharia</h3>
+        <h3 v-else>Solicitação de TryOut - PCP</h3>
       </div>
 
       <div style="display: flex; align-items: center;">
@@ -43,19 +44,12 @@
               <p><strong>Cargo:</strong> {{ $store.state.isUser.data.user.cargo.descricao }}</p>
               <p><strong>Nível de Acesso:</strong> {{ $store.state.isUser.data.user.nivel_de_acesso.descricao }}</p>
 
-              <!-- <button style="padding: 10px; border-radius: 4px" @click="showChange">
-                Trocar Senha
-              </button> -->
             </div>
-            <ChangePassword
-              v-if="showPassword"
-              @showChangePassword="showChangePassword"
-            />
+            <ChangePassword v-if="showPassword" @showChangePassword="showChangePassword" />
           </div>
           <div class="containerExit">
             <div class="logout" @click="logout">
               <p>Sair</p>
-              <!-- <img :src="iconExit" alt="" /> -->
             </div>
           </div>
         </div>
@@ -65,7 +59,7 @@
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       transitionMenu: false,
       showPassword: false
@@ -73,18 +67,18 @@ export default {
   },
   methods: {
 
-    menu () {
+    menu() {
       this.transitionMenu = !this.transitionMenu
     },
-    showChange () {
+    showChange() {
       this.showPassword = !this.showPassword
     },
-    logout () {
+    logout() {
       document.cookie = 'auth._token.local=false'
       document.cookie = 'auth._token_expiration.local=false'
       window.location.replace('http://185.209.179.253:7800/login')
     },
-    showChangePassword () {
+    showChangePassword() {
       this.showPassword = false
     }
   }
@@ -116,6 +110,7 @@ nav {
     img {
       transition: 0.5s;
     }
+
     img:hover {
       transform: rotate(225deg);
     }
@@ -130,6 +125,7 @@ nav {
   backdrop-filter: blur(15px);
   z-index: 3;
 }
+
 .noTransitionMenu {
   display: flex;
   width: 100%;
@@ -139,13 +135,16 @@ nav {
   margin-top: -100vh;
   position: fixed;
   z-index: 3;
+
   .heightAdmin {
     height: 100vh;
     width: 100%;
+
     .cardAdmin {
       width: 100%;
       position: relative;
       background-color: var(--white);
+
       .menuAdmin {
         position: relative;
         width: 100%;
@@ -153,11 +152,15 @@ nav {
         grid-template-columns: 5fr 1fr;
         padding: 2rem;
         gap: 2rem;
+
         .adminUser {
-          p, button {
+
+          p,
+          button {
             margin-top: 10px;
           }
         }
+
         .adminReport,
         .adminOption {
           width: 100%;
@@ -166,6 +169,7 @@ nav {
           gap: 2rem;
           border-right: 1px solid var(--gray);
           padding: 0 1rem;
+
           ul {
             width: 100%;
             display: flex;
@@ -173,6 +177,7 @@ nav {
             font-size: 1.2rem;
             font-weight: 500;
             list-style: none;
+
             li {
               width: 100%;
               display: flex;
@@ -189,7 +194,7 @@ nav {
                 font-weight: 600;
               }
 
-              p{
+              p {
                 color: var(--blue_base);
                 cursor: pointer;
                 width: 100%;
@@ -199,17 +204,20 @@ nav {
 
           }
         }
+
         .adminOption {
           .icons {
             width: 100%;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 2rem;
+
             .icon {
               display: flex;
               align-items: center;
               gap: 2rem;
               color: var(--blue_base);
+
               img {
                 width: 30px;
                 height: 30px;
@@ -217,26 +225,31 @@ nav {
             }
           }
         }
+
         @media(max-width:531px) {
           grid-template-columns: 1fr;
         }
       }
+
       .containerExit {
         width: 100%;
         display: flex;
         justify-content: end;
         border-top: 1px solid var(--gray);
         padding: 1rem;
+
         .logout {
           position: relative;
           right: 6rem;
           display: flex;
           gap: 0.7rem;
           cursor: pointer;
+
           p {
             color: #18a0fb;
             font-weight: bold;
           }
+
           img {
             width: 2rem;
           }
@@ -256,16 +269,20 @@ nav {
           padding: 0.5rem;
           overflow: scroll;
           justify-items: center;
+
           .adminOption,
           .adminReport {
             align-items: center;
           }
+
           .adminUser {
             padding: 0 1rem;
           }
+
           .adminOption {
             .icons {
               grid-template-columns: 1fr;
+
               .icon {
                 gap: 0.5rem;
               }
@@ -275,5 +292,4 @@ nav {
       }
     }
   }
-}
-</style>
+}</style>

@@ -1,13 +1,16 @@
 <template>
-  <div v-if="$fetchState.pending" >
+  <div v-if="$fetchState.pending">
     <Loading />
   </div>
   <div v-else>
-    <CardPcp v-for="mold in listPcpWaiting" :key="mold.id" :dataMold="mold"/>
+    <CardPcp v-for="mold in listPcpWaiting" :key="mold.id" :dataMold="mold" />
 
     <button @click="init()" class="btn-pagination" v-if="currentPage !== 0">Inicio</button>
     <button @click="back()" class="btn-pagination" v-if="currentPage !== 0">Voltar</button>
-    <button @click="next()" class="btn-pagination" >Proximo</button>
+    <button @click="next()" class="btn-pagination" v-if="listPcpWaiting.length !== 0">Proximo</button>
+
+
+    <h3 v-if="listPcpWaiting.length === 0" style="margin-top: 3rem;">Não há novas solicitações...</h3>
 
   </div>
 </template>
@@ -27,24 +30,24 @@ export default {
     }
   },
   methods: {
-    async listAllPcpReq () {
-      await http.listAllPcp(this.currentPage, 10).then( (res) => {
-      this.listPcpWaiting = res.data
-    })
+    async listAllPcpReq() {
+      await http.listAllPcp(this.currentPage, 10).then((res) => {
+        this.listPcpWaiting = res.data
+      })
     },
 
-    async init () {
+    async init() {
       this.currentPage = 0
       await this.listAllPcpReq()
     },
 
     async next() {
-      this.currentPage +=10
+      this.currentPage += 10
       await this.listAllPcpReq()
     },
 
     async back() {
-      this.currentPage -=10
+      this.currentPage -= 10
       await this.listAllPcpReq()
     }
 
