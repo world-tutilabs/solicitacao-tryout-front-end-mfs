@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div v-if="!routePcp" class="containerCard" >
+    <div v-if="this.$nuxt.$route.path === '/'" class="containerCard" >
     <NuxtLink to="/" class="cards">
       <span>Solicitações de</span>
       <h3>Novos Moldes</h3>
@@ -13,20 +13,28 @@
       <h3>Modificação de Molde</h3>
       <h5>0</h5>
     </NuxtLink>
+
 </div>
-<div class="containerCard" v-if="routePcp" >     
-    <NuxtLink
-      
-      :to="`/${filterPcp.router}`"
-      v-for="filterPcp in filtersPcp"
-      :key="filterPcp.name"
-      :class="{ cards: true }"
-    >
-      <span>{{ filterPcp.topName }}</span>
-      <h3>{{ filterPcp.name }}</h3>
-      <h5>{{ filterPcp.count }}</h5>
+  <div class="containerCard" v-else >
+    <NuxtLink to="/pcp/waiting" class="cards">
+      <span>Solicitações</span>
+      <h3>em Espera</h3>
+      <h5>{{ qtdePcpWaiting }}</h5>
     </NuxtLink>
-    </div>
+
+    <NuxtLink to="/pcp/approveds" class="cards">
+      <span>Solicitações</span>
+      <h3>Aprovadas</h3>
+      <h5>{{ qtdeSolApproved }}</h5>
+    </NuxtLink>
+
+    <NuxtLink to="/pcp/completed" class="cards">
+      <span>Solicitações</span>
+      <h3>Concluidas</h3>
+      <h5> {{ qtdFinished }}</h5>
+    </NuxtLink>
+
+  </div>
 
   </div>
 </template>
@@ -40,12 +48,19 @@ export default {
     return {
       qtdNewModels: 'Aguardando Dados...',
       qtdeModifications: 'Aguardando Dados...',
+      qtdePcpWaiting: 'Aguardando Dados...',
+      qtdeSolApproved: 'Aguardando Dados...',
+      qtdFinished: 'Aguardando Dados...'
     };
   },
 
   async mounted() {
     if (this.$nuxt.$route.path === "/") {
       await this.reqSolicitations()
+    } else {
+      await this.reqPCPWaiting()
+      await this.reqHomologatedPCP()
+      await this.reqFinished()
     }
     
   },
@@ -57,9 +72,29 @@ export default {
       })
     },
 
-    async reqPCP() {
-      await http.homologatePCP(0,10000).then((res) => {
-        console.log(res.data)
+    // novas modificações de moldes
+
+    async reqPCPWaiting() {
+      await http.listAllPcp().then((res) => {
+        this.qtdePcpWaiting = res.data.length
+      })
+    },
+
+    async reqHomologatedPCP() {
+      let countHistoric = 0
+      await httpNewMold.listAllHistoric(0, 10000).then((res) => {
+        res.data.map((item) => {
+          if (item.homologation.status.id === 1) {
+            countHistoric = countHistoric + 1;
+          }
+        });
+        this.qtdeSolApproved = countHistoric;
+      });
+    },
+
+    async reqFinished() {
+      await httpNewMold.listAllAproveds(1000, 10, 5).then( (res) => {
+        this.qtdFinished = res.data.all
       })
     }
   },
