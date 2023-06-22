@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div v-if="this.$nuxt.$route.path === '/'" class="containerCard" >
+    <div v-if="this.$nuxt.$route.path === '/' || this.$nuxt.$route.path === '/modifications'" class="containerCard" >
     <NuxtLink to="/" class="cards">
       <span>Solicitações de</span>
       <h3>Novos Moldes</h3>
@@ -71,8 +71,6 @@ export default {
         this.qtdNewModels = res.data.length
       })
     },
-
-    // novas modificações de moldes
 
     async reqPCPWaiting() {
       await http.listAllPcp().then((res) => {

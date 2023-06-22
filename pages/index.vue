@@ -50,26 +50,25 @@ export default {
   display: flex;
   height: 5rem;
   align-items: flex-end;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
 
   button {
     width: 10rem;
     height: 3rem;
     padding: 0.7rem 0.5rem;
     font-size: 1rem;
+    border-radius: 0.25rem;
     font-weight: var(--bold);
-    border-radius: 0.5rem 0.5rem 0 0;
     background-color: var(--bg);
-    border: 2px solid var(--gray);
+    border: 1px solid var(--bgProcess);
     transition: 0.2s;
 
-    &:hover {
-      height: 3.5rem;
-    }
   }
-
   .focus {
-    background-color: var(--gray) !important;
-    height: 3.5rem;
+    // background-color: var(--gray) !important;
+    border: 1px solid var(--black_text);
+    
   }
 }
 </style>

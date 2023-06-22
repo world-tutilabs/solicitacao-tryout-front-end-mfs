@@ -1,5 +1,5 @@
 <template>
-  <div class="content" v-if="relatorio">
+  <div class="content" v-if="this.$nuxt.$route.path === '/' || this.$nuxt.$route.path === '/modifications'">
     <div
       class="container"
       v-for="subtitle in subtitlesEng"

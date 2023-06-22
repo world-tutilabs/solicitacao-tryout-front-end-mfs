@@ -80,8 +80,7 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .box {
-  background: var(--gray);
-  padding: max(0.3rem, 1vw);
+  padding: 1rem 0rem;
 
   .content {
     overflow: hidden;

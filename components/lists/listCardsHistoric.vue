@@ -4,7 +4,7 @@
     <Loading />
   </div>
   <div v-else>
-    <InputSearch v-model="valueSearch" class="InputSearch" />
+    <!-- <InputSearch v-model="valueSearch" class="InputSearch" /> -->
     
 
     <div v-if="valueSearch.length < 1">

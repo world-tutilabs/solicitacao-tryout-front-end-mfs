@@ -1,7 +1,7 @@
 <template>
   <div class="form">
     <div class="search">
-      <h4>Pesquisar</h4>
+      <h5>Pesquisar</h5>
       <input
         type="text"
         placeholder="Cód.RRIM, Molde ou Cliente.."
@@ -34,8 +34,6 @@
 <style scoped>
 .search {
   font-size: 1.2rem;
-  background-color: var(--gray) !important;
-  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -45,7 +43,7 @@ input {
   border: none;
   width: 400px;
   height: 2.4rem;
-  border: 2px solid var(--green);
+  border: 1px solid var(--green);
   padding: 5px;
   margin-bottom: 20px;
   

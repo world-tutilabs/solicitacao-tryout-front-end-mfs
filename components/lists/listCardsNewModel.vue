@@ -4,7 +4,7 @@
   </div>
 
   <div v-else>
-    <InputSearch v-model="valueSearch" class="InputSearch" />
+    <!-- <InputSearch v-model="valueSearch" class="InputSearch"/> -->
 
     <div v-if="valueSearch.length < 1">
       <CardNewModel  v-for="mold in newMolds" :key="mold.id" :dataMold="mold" />
