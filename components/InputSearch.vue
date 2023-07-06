@@ -1,7 +1,7 @@
 <template>
   <div class="form">
     <div class="search">
-      <h4>Pesquisar</h4>
+      <img src="~/static/icons/searchIcon.svg" alt="" />
       <input
         type="text"
         placeholder="Cód.RRIM, Molde ou Cliente.."
@@ -31,24 +31,27 @@
       }
     }
   </script>
-<style scoped>
+<style scoped lang="scss">
 .search {
-  font-size: 1.2rem;
-  background-color: var(--gray) !important;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-input {
-  border-radius: 4px;
-  border: none;
   width: 400px;
-  height: 2.4rem;
-  border: 2px solid var(--green);
-  padding: 5px;
-  margin-bottom: 20px;
-  
+  background-color: var(--white);
+  height: 50px;
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid var(--gray_text);
+  img {
+    position: absolute;
+    left: 2.5rem;
+  }
+  input {
+    width: 100%;
+    height: 100%;
+    padding-left: 45px;
+    border: none;
+    border-radius: 5px;
+  }
 }
 
 @media only screen and (max-width: 548px) {

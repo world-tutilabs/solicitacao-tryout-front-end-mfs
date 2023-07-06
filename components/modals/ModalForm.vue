@@ -131,10 +131,22 @@
 
                 <datalist id="machines">
                   <option
-                    v-for="(machine, index) in listAllMachines.results"
+                    v-for="(machine, index) in dataRRIM.molde_aberto"
                     :key="index"
                   >
-                    {{ machine.VisResCode }}
+                    {{ machine.MAQUINA_OP1 }}
+                  </option>
+                  <option
+                    v-for="(machine, index) in dataRRIM.molde_aberto"
+                    :key="index"
+                  >
+                    {{ machine.MAQUINA_OP2 }}
+                  </option>
+                  <option
+                    v-for="(machine, index) in dataRRIM.molde_aberto"
+                    :key="index"
+                  >
+                    {{ machine.MAQUINA_OP3 }}
                   </option>
                 </datalist>
               </div>
@@ -181,12 +193,10 @@
                   v-model="feedstocksDescription"
                   disabled
                 />
-     
               </SlotCard>
             </div>
           </div>
         </div>
-
         <div class="boxButtons">
           <button class="cancel" @click.prevent="closeModal()">Cancelar</button>
           <button class="save" @click.prevent="saveNewSolicitation()">
@@ -289,6 +299,17 @@ export default {
 
   methods: {
     async saveNewSolicitation() {
+      if (
+        !this.newSolicitation.cod_prod ||
+        !this.quantidade ||
+        !this.newData ||
+        !this.machine ||
+        !this.laborAmount
+      ) {
+        this.$toast.warning("Algum campo não foi preenchido");
+        return;
+      }
+
       this.testSolicitation.code_sap = this.newSolicitation.cod_prod;
       this.testSolicitation.product_description = this.indexProduct;
       this.testSolicitation.client = this.dataRRIM.CLIENTE;
@@ -315,29 +336,20 @@ export default {
       this.testSolicitation.InjectionProcess.machine.model = this.machine;
       this.$store.commit("setCountNewModels", this.toToggleFilter++);
 
-      if (this.machine !== "") {
-        await http
-          .createNewSolicitation(this.testSolicitation)
-          .then((res) => {
-            this.$toast.success("Solicitação realizada com sucesso!");
-            this.closeModal();
-          })
-          .catch((error) => {
-            if (error.response.status === 400) {
-              this.$toast.warning("Algum campo não foi preenchido");
-            }
-            if (error.response.status === 500) {
-              this.$toast.error("Erro no servidor");
-            }
-          });
-      } else {
-        this.$toast.warning("Algum campo não foi preenchido");
-      }
+      await http
+        .createNewSolicitation(this.testSolicitation)
+        .then((res) => {
+          this.$toast.success("Solicitação realizada com sucesso!");
+          this.closeModal();
+        })
+        .catch((error) => {
+          if (error.response.status === 500) {
+            this.$toast.error("Erro no servidores");
+          }
+        });
     },
     catchIndexProduct(event) {
       this.newSolicitation.cod_prod = event.target.value;
-      console.log(event.target.value);
-      console.log(this.productsOptions);
       const value = this.productsOptions.produto.find(
         (item) => item.COD_PRODUTO === event.target.value
       );
@@ -388,12 +400,10 @@ export default {
     },
 
     calculeCavity(cavityArray) {
-      console.log(cavityArray);
       let total = 0;
       cavityArray.map((item) => {
         total = item.N_CAVIDADE + total;
       });
-      console.log(total);
       this.moldNumber = total;
       return this.moldNumber;
     },
@@ -404,7 +414,6 @@ export default {
 
     await http.listAllMachines().then((res) => {
       this.listAllMachines = res.data;
-      console.log(this.listAllMachines);
     });
   },
   watch: {

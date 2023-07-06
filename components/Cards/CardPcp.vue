@@ -68,7 +68,6 @@
             <h4>
               {{ dataMold.solicitation.injectionProcess.labor.amount }}
             </h4>
-
           </div>
 
           <div class="processBox">
@@ -137,12 +136,6 @@ export default Vue.extend({
       return dayjs(date).add(1, "day").locale("pt-br").format("DD/MM/YYYY");
     },
 
-    toggleButton() {
-      if (this.status === "Aprovado") {
-        console.log("Teste");
-      }
-    },
-
     updateCard() {
       this.$emit("updateList");
     },
@@ -164,16 +157,14 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .box {
-  background: var(--gray);
-  padding: max(0.3rem, 1vw);
-
   .content {
     width: 100%;
     background: var(--white);
     padding: max(0.4rem, 1vw);
-    border-radius: 5px;
-    border: 0.2rem solid #e0e0e0;
+    border-radius: 7px;
+    border: 1px solid var(--gray_text);
     overflow: hidden;
+    margin-bottom: 10px;
   }
 }
 
@@ -251,7 +242,8 @@ export default Vue.extend({
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 
     .processBox {
-      background-color: var(--gray);
+      border-radius: 7px;
+      border: 1px solid var(--gray_text);
       padding: max(0.1rem, 0.5vw);
 
       .processFooter {

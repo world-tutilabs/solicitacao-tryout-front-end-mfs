@@ -2,18 +2,19 @@ import axios from "axios"
 import Cookies from 'js-cookie'
 
 const http = axios.create({
-  baseURL: `http://185.209.179.253:8400`,                                    //Adicionar Base URL
+  // baseURL: `http://185.209.179.253:8400`,                                    //Adicionar Base URL
+  baseURL: `http://192.168.137.116:3333`,                                    //Adicionar Base URL
   headers: {
     "Accept": "application/json",
     "Content": "application/json"
   }
 })
 
-console.log({ cookiee: Cookies.get('auth._token.local')});
+console.log({ cookiee: Cookies.get('auth._token.local') });
 
 http.interceptors.request.use(function (config) {
   const token = Cookies.get('auth._token.local')
-// const token = `${process.env.TOKEN_LOCAL}`
+  // const token = `${process.env.TOKEN_LOCAL}`
   if (!token) {
     token = "";
   }

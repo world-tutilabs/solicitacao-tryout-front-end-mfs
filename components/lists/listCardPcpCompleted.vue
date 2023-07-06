@@ -4,54 +4,62 @@
   </div>
   <div v-else>
     <CardModel v-for="mold in listHistoric" :key="mold.id" :dataMold="mold" />
+    <!--
+    <button @click="init()" class="btn-pagination" v-if="currentPage !== 0">
+      Inicio
+    </button>
+    <button @click="back()" class="btn-pagination" v-if="currentPage !== 0">
+      Voltar
+    </button>
+    <button @click="next()" class="btn-pagination">Proximo</button> -->
 
-    <button @click="init()" class="btn-pagination" v-if="currentPage !== 0">Inicio</button>
-    <button @click="back()" class="btn-pagination" v-if="currentPage !== 0">Voltar</button>
-    <button @click="next()" class="btn-pagination">Proximo</button>
-
+    <Pagination
+      v-if="listSearch.length > 0"
+      :list="listSearch"
+      @displayNewList="displayNewList"
+      @nextPage="nextPage"
+      @backPage="backPage"
+    />
   </div>
 </template>
 
 <script>
-import http from '../../services/newMold/mold'
+import http from "../../services/newMold/mold";
 export default {
-
   data() {
     return {
       listHistoric: [],
-      currentPage: 0
-    }
+      listSearch: [],
+      currentPage: 0,
+    };
+  },
+  async mounted() {
+    await http.listAllAproveds(this.currentPage, 1000, 5).then((res) => {
+      this.listSearch = res.data.list;
+    });
   },
   methods: {
     async listAllHistoricReq() {
-      await http.listAllAproveds(this.currentPage, 10, 5).then( (res) => {
-        this.listHistoric = res.data.list
-      })
-      
+      await http.listAllAproveds(this.currentPage, 10, 5).then((res) => {
+        this.listHistoric = res.data.list;
+      });
     },
 
-    async init () {
-      this.currentPage = 0
-      await this.listAllHistoricReq()
+    async nextPage() {
+      this.currentPage += 10;
+      await this.listAllHistoricReq();
     },
 
-    async next() {
-      this.currentPage +=10
-      await this.listAllHistoricReq()
+    async backPage() {
+      this.currentPage -= 10;
+      await this.listAllHistoricReq();
     },
-
-    async back() {
-      this.currentPage -=10
-      await this.listAllHistoricReq()
-    }
-
-
   },
 
   async fetch() {
-    await this.listAllHistoricReq()
-  }
-}
+    await this.listAllHistoricReq();
+  },
+};
 </script>
 
 <style lang="scss" scoped>

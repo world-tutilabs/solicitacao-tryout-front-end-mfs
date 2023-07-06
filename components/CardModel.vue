@@ -67,7 +67,6 @@
             <h3>Mão de Obra</h3>
             <span>Quantidade</span>
             <h4>{{ dataMold.injectionProcess.labor.amount }}</h4>
-        
           </div>
 
           <div class="processBox">
@@ -80,12 +79,10 @@
               </h4>
             </div>
           </div>
-
           <div class="processBox">
             <h3>Matéria Prima</h3>
             <span>Código - Descrição</span>
             <h4>{{ dataMold.injectionProcess.feedstock.description }}</h4>
-
           </div>
         </div>
 
@@ -95,7 +92,8 @@
         >
           <span>Último Comentário realizado pelo PCP</span>
           <h3>
-            Autor: {{dataMold.homologation.homologation_user.nome_completo}}
+            <!-- Autor: {{ dataMold.homologation.homologation_user }} -->
+            Autor: {{ dataMold.homologation.homologation_user.nome_completo }}
           </h3>
           <div class="boxText">
             <span>{{ dataMold.homologation.comment }}</span>
@@ -105,45 +103,64 @@
 
       <div class="contentContainer" v-if="isOpenInfoCard">
         <SlotBtn>
-
           <div class="containerPopUp" v-if="showPopUp">
-
-          <form>
-            <div class="popUp">
-              <div class="headPopup">
-                <div class="frameImg">
-                  <img src="@/assets/img/formH.svg" alt="">
+            <form>
+              <div class="popUp">
+                <div class="headPopup">
+                  <div class="frameImg">
+                    <img src="@/assets/img/formH.svg" alt="" />
+                  </div>
+                  <h2>Deseja realmente Cancelar?</h2>
                 </div>
-                <h2>Deseja realmente Cancelar?</h2>
+                <div class="buttons">
+                  <button class="btnPopup" @click.prevent="showPopUp = false">
+                    Não
+                  </button>
+
+                  <BtnPirula
+                    titleBtn="Sim, Cancelar"
+                    color="pcp-approveds"
+                    v-if="$route.name === 'pcp-approveds'"
+                    :dataMold="dataMold"
+                    @click="showPopUp = false"
+                  />
+                </div>
               </div>
-              <div class="buttons">
-                <button class="btnPopup" @click.prevent="showPopUp = false">Não</button>
+            </form>
+          </div>
 
-                <BtnPirula titleBtn="Sim, Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'" :dataMold="dataMold"  @click="showPopUp = false"/>
-              </div>
-            </div>
-        </form>
+          <button
+            class="btnCancel"
+            v-if="$route.name === 'pcp-approveds'"
+            @click.prevent="showPopUp = true"
+          >
+            Cancelar
+          </button>
 
-        </div>
+          <BtnPirula
+            titleBtn="Revisar"
+            color="Reprovado"
+            v-if="dataMold.homologation.status.description === 'Reprovado'"
+            :dataMold="dataMold"
+            @updateCard="updateCard"
+          />
 
-        <button class="btnCancel" v-if="$route.name === 'pcp-approveds'" @click.prevent="showPopUp = true">Cancelar</button>
-
-
-          <BtnPirula titleBtn="Revisar" color="Reprovado" v-if="dataMold.homologation.status.description === 'Reprovado' " :dataMold="dataMold" @updateCard="updateCard"/>
-
-          <BtnPirula titleBtn="Gerar Relatório" color="Aprovado" v-if="dataMold.homologation.status.description === 'Aprovado' && $route.name === 'calendar'" @click.native="relTryout()" />
-
-
+          <BtnPirula
+            titleBtn="Gerar Relatório"
+            color="Aprovado"
+            v-if="
+              dataMold.homologation.status.description === 'Aprovado' &&
+              $route.name === 'calendar'
+            "
+            @click.native="relTryout()"
+          />
         </SlotBtn>
       </div>
     </div>
-
-
   </div>
 </template>
 
 <script>
-
 import dayjs from "dayjs";
 import Vue from "vue";
 
@@ -157,16 +174,12 @@ export default Vue.extend({
     return {
       isOpenInfoCard: false,
       btnStatus: this.status,
-      showPopUp: false
+      showPopUp: false,
     };
-
   },
-  // created: async function () {
-  //   console.log(this.dataMold.homologation);
-  // },
   methods: {
-    relTryout(){
-      window.location.replace("http://185.209.179.253:9200/")
+    relTryout() {
+      window.location.replace("http://185.209.179.253:9200/");
     },
     updateCard() {
       this.$emit("updateList");
@@ -184,7 +197,6 @@ export default Vue.extend({
 
     toggleButton() {
       if (this.status === "Aprovado") {
-
       }
     },
 
@@ -204,17 +216,17 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-.btnCancel{
-    min-width: 148px;
-    height: 40px;
-    padding: var(--paddingInput);
-    border-radius: 2rem;
-    color: var(--white);
-    font-weight: var(--bold);
-    font-size: 1rem;
-    background-color: var(--blue);
+.btnCancel {
+  min-width: 148px;
+  height: 40px;
+  padding: var(--paddingInput);
+  border-radius: 2rem;
+  color: var(--white);
+  font-weight: var(--bold);
+  font-size: 1rem;
+  background-color: var(--blue);
 }
-.containerPopUp{
+.containerPopUp {
   background-color: rgba(38, 49, 141, 0.342);
   backdrop-filter: blur(2px);
   position: fixed;
@@ -226,7 +238,7 @@ export default Vue.extend({
   display: flex;
   justify-content: center;
 
-  .popUp{
+  .popUp {
     background-color: var(--white);
     width: 30rem;
     height: 21rem;
@@ -237,31 +249,31 @@ export default Vue.extend({
     flex-direction: column;
     display: flex;
     justify-content: space-between;
-    border-radius: .5rem;
-    .headPopup{
+    border-radius: 0.5rem;
+    .headPopup {
       margin-bottom: 1rem;
-      h2{
+      h2 {
         margin-top: 1rem;
         font-size: 1.7rem;
       }
-      .frameImg{
+      .frameImg {
         height: 10rem;
         background-color: var(--blue);
         display: grid;
         justify-content: center;
-        img{
+        img {
           width: 18rem;
           position: relative;
-          bottom: .5rem;
+          bottom: 0.5rem;
         }
       }
     }
-    .buttons{
+    .buttons {
       display: flex;
       gap: 1rem;
       justify-content: flex-end;
-      .btnPopup{
-        width: fit-content!important;
+      .btnPopup {
+        width: fit-content !important;
         height: 40px;
         padding: 0.5rem 0.7rem;
         border-radius: 2rem;
@@ -273,16 +285,14 @@ export default Vue.extend({
   }
 }
 .box {
-  background: var(--gray);
-  padding: max(0.3rem, 1vw);
-
   .content {
     width: 100%;
     background: var(--white);
     padding: max(0.4rem, 1vw);
-    border-radius: 0.25rem;
-    border: 0.2rem solid #e0e0e0;
+    border-radius: 7px;
+    border: 1px solid var(--gray_text);
     overflow: hidden;
+    margin-bottom: 10px;
   }
 }
 
@@ -301,7 +311,6 @@ export default Vue.extend({
 
   .flap-none {
     background-color: var(--lilac);
-
   }
 
   .flap-green {
@@ -361,8 +370,13 @@ export default Vue.extend({
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 
     .processBox {
-      background-color: var(--gray);
-      padding: max(0.1rem, 0.5vw);
+      width: 100%;
+      background: var(--white);
+      padding: max(0.4rem, 1vw);
+      border-radius: 7px;
+      border: 1px solid var(--gray_text);
+      overflow: hidden;
+      margin-bottom: 10px;
 
       .processFooter {
         margin-top: 10px;

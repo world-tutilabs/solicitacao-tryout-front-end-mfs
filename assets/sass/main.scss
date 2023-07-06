@@ -25,7 +25,7 @@ html {
   --gray: #E5E5E5;
   --gray_text: #868686;
   --black_text: #444444;
-
+  --gray_text_border: #c8d6e5;
   --green: #10b981;
   --orange: #FDA451;
   --blue: #5F9DFF;
@@ -52,12 +52,17 @@ html {
   --border_print: 2px solid var(--black_text);
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
+
 body {
   font-family: 'Poppins', sans-serif;
   background-color: var(--bg);
   color: var(--black_text);
 }
 
+h1{
+  margin: 0;
+}
 *:focus {
   outline: none;
 }
@@ -67,7 +72,7 @@ body {
 }
 
 a.nuxt-link-exact-active {
-  border: 3px solid var(--green);
+  border: 2px solid var(--green);
 }
 
 a.nuxt-link {

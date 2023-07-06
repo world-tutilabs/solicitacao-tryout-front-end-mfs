@@ -76,9 +76,9 @@
                   />
                 </div>
                 <div class="boxInput">
-                  <FormInput 
-                    label="Motivo" 
-                    v-model="dataRevisao.reason" 
+                  <FormInput
+                    label="Motivo"
+                    v-model="dataRevisao.reason"
                     readonly="readonly"
                   />
                 </div>
@@ -107,7 +107,8 @@
                 <Title title="Mão de Obra" />
                 <FormInput
                   label="Descrição"
-                  v-model="dataRevisao.injectionProcess.labor.description"
+                  v-model="dataRevisao.desc_product"
+                  readonly="readonly"
                 />
 
                 <FormInput
@@ -180,7 +181,7 @@ export default {
       //   .add(1, "day")
       //   .format("DD/MM/YYYY"),
 
-      dateProgrammed: '',
+      dateProgrammed: "",
       listAllMachines: [],
       inputTypeDate: "text",
       descriptionLabor: "",
@@ -224,7 +225,7 @@ export default {
     };
   },
   created: async function () {
-    console.log(this.dataRevisao.id);
+    console.log(this.dataRevisao);
     // // await httpNewMold.listAllMachines().then((res) => {
     // //   this.listAllMachines = res.data;
 
@@ -281,7 +282,6 @@ export default {
         .catch((error) => {
           // this.$toast.info(`Erro: ${error}`);
           this.$toast.warning("Campos não preenchidos.");
-
         });
     },
   },

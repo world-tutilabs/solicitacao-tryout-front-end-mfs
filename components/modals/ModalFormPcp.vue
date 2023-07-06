@@ -139,7 +139,7 @@
                   "
                   readonly="readonly"
                 />
-              <!--  <FormInput
+                <!--  <FormInput
                   label="Kg"
                   v-model="dataPCP.solicitation.injectionProcess.feedstock.kg"
                   readonly="readonly"
@@ -247,11 +247,11 @@ export default {
             this.$toast.warning("Solicitação Reprovada");
           }
           this.closeModal();
-          console.log(res);
         })
         .catch((error) => {
           console.log(`Erro: ${error}`);
         });
+      window.location.reload();
     },
   },
 };

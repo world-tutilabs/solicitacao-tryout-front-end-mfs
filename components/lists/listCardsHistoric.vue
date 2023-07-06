@@ -1,21 +1,27 @@
 <template>
-
   <div v-if="$fetchState.pending">
     <Loading />
   </div>
   <div v-else>
     <InputSearch v-model="valueSearch" class="InputSearch" />
-    
-
     <div v-if="valueSearch.length < 1">
-      <CardModel v-for="mold in listHistoric" :key="mold.id" :dataMold="mold" @updateList='updateList' />
+      <CardModel
+        v-for="mold in listHistoric"
+        :key="mold.id"
+        :dataMold="mold"
+        @updateList="updateList"
+      />
     </div>
     <div v-else>
-      <CardModel v-for="mold in filterSearchField" :key="mold.id" :dataMold="mold" @updateList='updateList' />
+      <CardModel
+        v-for="mold in filterSearchField"
+        :key="mold.id"
+        :dataMold="mold"
+        @updateList="updateList"
+      />
     </div>
-    
 
-    <div v-if="valueSearch.length < 1">
+    <!-- <div v-if="valueSearch.length < 1">
       <button @click="init()" class="btn-pagination" v-if="currentPage !== 0">
       Inicio
     </button>
@@ -23,78 +29,77 @@
       Voltar
     </button>
     <button @click="next()" class="btn-pagination">Proximo</button>
-    </div>
+    </div> -->
+    <Pagination
+      v-if="listSearch.length > 0"
+      :list="listSearch"
+      @displayNewList="displayNewList"
+      @nextPage="nextPage"
+      @backPage="backPage"
+    />
   </div>
 </template>
 
 <script>
-import httpLocal from '../../services/newMold/mold'
-import Pagination from '../Pagination.vue'
+import httpLocal from "../../services/newMold/mold";
+import Pagination from "../Pagination.vue";
 
 export default {
   components: { Pagination },
 
   data() {
     return {
-
       currentPage: 0,
       listHistoric: [],
       valueSearch: "",
-      listSearch: []
-    }
+      listSearch: [],
+    };
   },
-  async mounted () {
+  async mounted() {
     await httpLocal.listAllHistoric(0, 10000).then((res) => {
-      this.listSearch = res.data
-    })
+      this.listSearch = res.data;
+      console.log(this.listSearch);
+    });
   },
   computed: {
-    filterSearchField () {
-      this.valueSearch = this.valueSearch.toLowerCase()
+    filterSearchField() {
+      this.valueSearch = this.valueSearch.toLowerCase();
       let allContent = this.listSearch.filter((filter) => {
         return (
-        filter.client.toLowerCase().match(this.valueSearch)||
-        filter.injectionProcess.mold.desc_mold.toLowerCase().match(this.valueSearch)||
-        String(filter.number_tryout).toLowerCase().match(this.valueSearch)
-        
-        )
-      })
-    return allContent;
-  
-     },
-       
+          filter.client.toLowerCase().match(this.valueSearch) ||
+          filter.injectionProcess.mold.desc_mold
+            .toLowerCase()
+            .match(this.valueSearch) ||
+          String(filter.number_tryout).toLowerCase().match(this.valueSearch)
+        );
+      });
+      return allContent;
+    },
   },
   methods: {
-    async listAllHistoricReq () {
-      await httpLocal.listAllHistoric(this.currentPage, 10).then(async (res) => {
-        this.listHistoric = res.data
-
-      })
+    // endpoint que esta populando a tabela
+    async listAllHistoricReq() {
+      await httpLocal
+        .listAllHistoric(this.currentPage, 10)
+        .then(async (res) => {
+          this.listHistoric = res.data;
+        });
+    },
+    async backPage() {
+      this.currentPage -= 10;
+      await this.listAllHistoricReq();
     },
 
-    async init () {
-      this.currentPage = 0
-      await this.listAllHistoricReq()
+    async nextPage() {
+      this.currentPage += 10;
+      await this.listAllHistoricReq();
     },
-
-    async next() {
-      this.currentPage +=10
-      await this.listAllHistoricReq()
-    },
-
-    async back() {
-      this.currentPage -=10
-      await this.listAllHistoricReq()
-    }
   },
 
   async fetch() {
-    await this.listAllHistoricReq()
-
-
-  }
-
-}
+    await this.listAllHistoricReq();
+  },
+};
 </script>
 
 <style lang="scss" scoped>

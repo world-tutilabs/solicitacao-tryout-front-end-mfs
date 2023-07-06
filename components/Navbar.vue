@@ -6,10 +6,10 @@
         <h3>Solicitação de TryOut</h3>
       </div>
 
-      <div style="display: flex; align-items: center;">
-        <span style="font-size:0.6rem;">Versão 1.2.1</span>
+      <div style="display: flex; align-items: center">
+        <span style="font-size: 0.6rem">Versão 1.2.1</span>
         <button @click="menu">
-          <img src="~/static/icons/iconMenu.svg" alt="">
+          <img src="~/static/icons/iconMenu.svg" alt="" />
         </button>
       </div>
     </nav>
@@ -22,26 +22,49 @@
               <h3>Sistemas</h3>
               <ul>
                 <li>
-                  <a href="http://185.209.179.253:8300/" target="_blank">RRIM</a>
+                  <a href="http://185.209.179.253:8300/" target="_blank"
+                    >RRIM</a
+                  >
                 </li>
                 <li>
-                  <a href="http://185.209.179.253:8500/" target="_blank">Solicitação de TryOut</a>
+                  <a href="http://185.209.179.253:8500/" target="_blank"
+                    >Solicitação de TryOut</a
+                  >
                 </li>
                 <li>
-                  <a href="http://185.209.179.253:9200/" target="_blank">Relatório de TryOut</a>
+                  <a href="http://185.209.179.253:9200/" target="_blank"
+                    >Relatório de TryOut</a
+                  >
                 </li>
                 <li>
-                  <a href="http://185.209.179.253:9007/" target="_blank">FIT - Ficha de Instrução de Trabalho</a>
+                  <a href="http://185.209.179.253:9007/" target="_blank"
+                    >FIT - Ficha de Instrução de Trabalho</a
+                  >
                 </li>
               </ul>
             </div>
             <div class="adminUser">
               <h3>Informações do usuário</h3>
-              <p><strong>Nome:</strong> {{ $store.state.isUser.data.user.nome_completo }}</p>
-              <p><strong>Matricula:</strong> {{ $store.state.isUser.data.user.matricula }}</p>
-              <p><strong>Email:</strong> {{ $store.state.isUser.data.user.email }}</p>
-              <p><strong>Cargo:</strong> {{ $store.state.isUser.data.user.cargo.descricao }}</p>
-              <p><strong>Nível de Acesso:</strong> {{ $store.state.isUser.data.user.nivel_de_acesso.descricao }}</p>
+              <p>
+                <strong>Nome:</strong>
+                {{ $store.state.isUser.data.user.nome_completo }}
+              </p>
+              <p>
+                <strong>Matricula:</strong>
+                {{ $store.state.isUser.data.user.matricula }}
+              </p>
+              <p>
+                <strong>Email:</strong>
+                {{ $store.state.isUser.data.user.email }}
+              </p>
+              <p>
+                <strong>Cargo:</strong>
+                {{ $store.state.isUser.data.user.cargo.descricao }}
+              </p>
+              <p>
+                <strong>Nível de Acesso:</strong>
+                {{ $store.state.isUser.data.user.nivel_de_acesso.descricao }}
+              </p>
 
               <!-- <button style="padding: 10px; border-radius: 4px" @click="showChange">
                 Trocar Senha
@@ -65,30 +88,29 @@
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       transitionMenu: false,
-      showPassword: false
-    }
+      showPassword: false,
+    };
   },
   methods: {
-
-    menu () {
-      this.transitionMenu = !this.transitionMenu
+    menu() {
+      this.transitionMenu = !this.transitionMenu;
     },
-    showChange () {
-      this.showPassword = !this.showPassword
+    showChange() {
+      this.showPassword = !this.showPassword;
     },
-    logout () {
-      document.cookie = 'auth._token.local=false'
-      document.cookie = 'auth._token_expiration.local=false'
-      window.location.replace('http://185.209.179.253:7800/login')
+    logout() {
+      document.cookie = "auth._token.local=false";
+      document.cookie = "auth._token_expiration.local=false";
+      window.location.replace("http://185.209.179.253:7800/login");
     },
-    showChangePassword () {
-      this.showPassword = false
-    }
-  }
-}
+    showChangePassword() {
+      this.showPassword = false;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -98,21 +120,18 @@ nav {
   align-items: center;
   padding: 0 var(--negativeSpace);
   width: 100%;
-  height: 9vh;
+  height: 7vh;
   position: fixed;
   top: 0;
   z-index: 9;
   background: var(--green);
-
   div {
     display: flex;
     gap: 1rem;
     color: var(--white);
   }
-
   button {
     background: none;
-
     img {
       transition: 0.5s;
     }
@@ -121,11 +140,10 @@ nav {
     }
   }
 }
-
 .noTransitionMenu.transitionMenu {
   width: 100%;
   transition: 1.2s;
-  margin-top: 0vh;
+  margin-top: 0;
   background: rgba(149, 164, 167, 0.178);
   backdrop-filter: blur(15px);
   z-index: 3;
@@ -154,7 +172,8 @@ nav {
         padding: 2rem;
         gap: 2rem;
         .adminUser {
-          p, button {
+          p,
+          button {
             margin-top: 10px;
           }
         }
@@ -178,25 +197,20 @@ nav {
               display: flex;
               // border-bottom: 1px solid var(--gray);
               padding: 0.8rem 0;
-
               a {
                 width: 100%;
-                color: var(--blue_base);
+                color: var(--black_text);
                 transition: 0.1s;
               }
-
               a:hover {
                 font-weight: 600;
               }
-
-              p{
-                color: var(--blue_base);
+              p {
+                color: var(--black_text);
                 cursor: pointer;
                 width: 100%;
               }
-
             }
-
           }
         }
         .adminOption {
@@ -217,7 +231,7 @@ nav {
             }
           }
         }
-        @media(max-width:531px) {
+        @media (max-width: 531px) {
           grid-template-columns: 1fr;
         }
       }
@@ -245,14 +259,12 @@ nav {
     }
   }
 }
-
 @media (max-width: 425px) {
   .noTransitionMenu {
     .heightAdmin {
       .cardAdmin {
         .menuAdmin {
           gap: 0;
-
           padding: 0.5rem;
           overflow: scroll;
           justify-items: center;
