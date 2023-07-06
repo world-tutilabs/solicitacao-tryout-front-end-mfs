@@ -1,36 +1,24 @@
 <template>
   <div class="box">
     <div class="content">
-      <div class="header-content">
-        <div class="container_button" @click="openInfoCard">
-          <img src="~/static/icons/arrowClosed.svg" v-if="infoCardStatus" />
-          <img src="~/static/icons/arrowOpened.svg" v-else />
-        </div>
-      </div>
-      <div class="containerMain">
         <div class="informs">
           <div class="inform">
-            <h3>Cód.RRIM</h3>
-            <p>{{ dataMold.ID }}</p>
+            <h6>Cód.RRIM</h6>
+            <span>{{ dataMold.ID }}</span>
           </div>
           <div class="inform">
-            <h3>Cliente</h3>
-            <p>{{ dataMold.CLIENTE }}</p>
+            <h6>Molde</h6>
+            <span>{{ dataMold.MOLDE }}</span>
           </div>
           <div class="inform">
-            <h3>Molde</h3>
-            <p>{{ dataMold.MOLDE }}</p>
+            <h6>Cliente</h6>
+            <span>{{ dataMold.CLIENTE }}</span>
           </div>
           <div class="inform">
-            <h3>Cód. do Molde</h3>
-            <p>{{ dataMold.CODIGO_MOLDE }}</p>
+            <h6>Molde - Chegada</h6>
+            <span>{{ formatDate(dataMold.DT_CHEGADA_MOLDE) }}</span>
           </div>
-          <!-- <div class="inform">
-            <h3>Descrição do Molde</h3>
-            <p>XXXXXXXX</p>
-          </div> -->
-        </div>
-      </div>
+
 
       <transition name="slide-fade">
         <div class="contentContainer" v-if="infoCardStatus">
@@ -41,13 +29,15 @@
               :dataMold="dataMold"
             />
           </SlotBtn>
+
         </div>
-      </transition>
     </div>
   </div>
+
 </template>
 
 <script lang="ts">
+import dayjs from "dayjs";
 import Vue from "vue";
 
 interface IData {
@@ -71,16 +61,20 @@ export default Vue.extend({
     openInfoCard(): boolean {
       return (this.infoCardStatus = !this.infoCardStatus);
     },
+
+    formatDate(date: Date) {
+      return dayjs(date).add(1, 'day').format('DD/MM/YYYY')
+    }
   },
 });
 </script>
 
 <style lang="scss" scoped>
 .box {
-  /* background: var(--gray); */
-  /* padding: max(0.3rem, 1vw); */
 
   .content {
+    overflow: hidden;
+    font-size: 0.8rem;
     width: 100%;
     background: var(--white);
     padding: max(0.4rem, 1vw);
@@ -98,6 +92,7 @@ export default Vue.extend({
 
   .container_button {
     cursor: pointer;
+
   }
 }
 
@@ -115,13 +110,18 @@ export default Vue.extend({
   margin: 10px 0 10px 0;
 
   .inform {
-    h3 {
-      margin-bottom: 5px;
+    span {
+      font-size: 0.75rem;
+      max-width: 17ch;
+      width: 8rem;
     }
 
-    p {
-      font-size: 14px;
-    }
+h6 {
+  margin-bottom: 0;
+  font-size: 1rem;
+  width: 8rem;
+  max-width: 17ch;
+}
   }
 }
 

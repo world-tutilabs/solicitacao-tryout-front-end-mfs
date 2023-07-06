@@ -4,6 +4,7 @@
   </div>
   <div v-else>
     <InputSearch v-model="valueSearch" class="InputSearch" />
+
     <div v-if="valueSearch.length < 1">
       <CardModel
         v-for="mold in listHistoric"

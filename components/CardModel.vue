@@ -5,10 +5,6 @@
         <div
           :class="flagValidation(dataMold.homologation.status.description)"
         ></div>
-        <div class="container_button" @click="openInfoCard">
-          <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
-          <img src="~/static/icons/arrowOpened.svg" alt="" srcset="" v-else />
-        </div>
       </div>
       <div class="containerMain">
         <div class="informs">
@@ -39,7 +35,7 @@
         </div>
       </div>
 
-      <div class="containerDetails" v-if="isOpenInfoCard">
+      <div class="containerDetails">
         <div class="informs">
           <div class="inform">
             <h3>Processos</h3>
@@ -286,6 +282,8 @@ export default Vue.extend({
 }
 .box {
   .content {
+    overflow: hidden;
+    font-size: 0.8rem;
     width: 100%;
     background: var(--white);
     padding: max(0.4rem, 1vw);
@@ -293,6 +291,7 @@ export default Vue.extend({
     border: 1px solid var(--gray_text);
     overflow: hidden;
     margin-bottom: 10px;
+
   }
 }
 
@@ -305,6 +304,7 @@ export default Vue.extend({
     height: 0.2rem;
     width: 7rem;
     height: 0.5rem;
+    margin-bottom: 1rem;
     position: relative;
     background-color: transparent;
   }

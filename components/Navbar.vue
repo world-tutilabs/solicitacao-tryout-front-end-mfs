@@ -2,8 +2,9 @@
   <div>
     <nav>
       <div>
-        <!-- <img src="~/static/icons/iconMolde.svg" alt="molde" /> -->
-        <h3>Solicitação de TryOut</h3>
+        <h3 v-if="this.$nuxt.$route.path === '/' || this.$nuxt.$route.path === '/modifications'">Solicitação de TryOut -
+          Engenharia</h3>
+        <h3 v-else>Solicitação de TryOut - PCP</h3>
       </div>
 
       <div style="display: flex; align-items: center">
@@ -66,19 +67,12 @@
                 {{ $store.state.isUser.data.user.nivel_de_acesso.descricao }}
               </p>
 
-              <!-- <button style="padding: 10px; border-radius: 4px" @click="showChange">
-                Trocar Senha
-              </button> -->
             </div>
-            <ChangePassword
-              v-if="showPassword"
-              @showChangePassword="showChangePassword"
-            />
+            <ChangePassword v-if="showPassword" @showChangePassword="showChangePassword" />
           </div>
           <div class="containerExit">
             <div class="logout" @click="logout">
               <p>Sair</p>
-              <!-- <img :src="iconExit" alt="" /> -->
             </div>
           </div>
         </div>
@@ -111,6 +105,7 @@ export default {
     },
   },
 };
+
 </script>
 
 <style lang="scss" scoped>
@@ -135,6 +130,7 @@ nav {
     img {
       transition: 0.5s;
     }
+
     img:hover {
       transform: rotate(225deg);
     }
@@ -148,22 +144,26 @@ nav {
   backdrop-filter: blur(15px);
   z-index: 3;
 }
+
 .noTransitionMenu {
   display: flex;
   width: 100%;
   transition: 1.2s;
-  background: rgba(149, 164, 167, 0.178);
-  backdrop-filter: blur(15px);
+  // background: rgba(149, 164, 167, 0.178);
+  // backdrop-filter: blur(15px);
   margin-top: -100vh;
   position: fixed;
   z-index: 3;
+
   .heightAdmin {
     height: 100vh;
     width: 100%;
+
     .cardAdmin {
       width: 100%;
       position: relative;
       background-color: var(--white);
+
       .menuAdmin {
         position: relative;
         width: 100%;
@@ -171,12 +171,14 @@ nav {
         grid-template-columns: 5fr 1fr;
         padding: 2rem;
         gap: 2rem;
+
         .adminUser {
           p,
           button {
             margin-top: 10px;
           }
         }
+
         .adminReport,
         .adminOption {
           width: 100%;
@@ -185,6 +187,7 @@ nav {
           gap: 2rem;
           border-right: 1px solid var(--gray);
           padding: 0 1rem;
+
           ul {
             width: 100%;
             display: flex;
@@ -192,6 +195,7 @@ nav {
             font-size: 1.2rem;
             font-weight: 500;
             list-style: none;
+
             li {
               width: 100%;
               display: flex;
@@ -207,23 +211,27 @@ nav {
               }
               p {
                 color: var(--black_text);
+
                 cursor: pointer;
                 width: 100%;
               }
             }
           }
         }
+
         .adminOption {
           .icons {
             width: 100%;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 2rem;
+
             .icon {
               display: flex;
               align-items: center;
               gap: 2rem;
               color: var(--blue_base);
+
               img {
                 width: 30px;
                 height: 30px;
@@ -232,25 +240,30 @@ nav {
           }
         }
         @media (max-width: 531px) {
+
           grid-template-columns: 1fr;
         }
       }
+
       .containerExit {
         width: 100%;
         display: flex;
         justify-content: end;
         border-top: 1px solid var(--gray);
         padding: 1rem;
+
         .logout {
           position: relative;
           right: 6rem;
           display: flex;
           gap: 0.7rem;
           cursor: pointer;
+
           p {
             color: #18a0fb;
             font-weight: bold;
           }
+
           img {
             width: 2rem;
           }
@@ -268,16 +281,20 @@ nav {
           padding: 0.5rem;
           overflow: scroll;
           justify-items: center;
+
           .adminOption,
           .adminReport {
             align-items: center;
           }
+
           .adminUser {
             padding: 0 1rem;
           }
+
           .adminOption {
             .icons {
               grid-template-columns: 1fr;
+
               .icon {
                 gap: 0.5rem;
               }
@@ -287,5 +304,4 @@ nav {
       }
     }
   }
-}
-</style>
+}</style>

@@ -13,6 +13,7 @@
     </button>
     <button @click="next()" class="btn-pagination">Proximo</button> -->
 
+
     <Pagination
       v-if="listSearch.length > 0"
       :list="listSearch"
@@ -62,6 +63,7 @@ export default {
     displayNewList(e) {
       this.listPaginated = e;
     },
+
   },
 
   async fetch() {

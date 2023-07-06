@@ -259,7 +259,7 @@ export default {
 
 <style lang="scss" scoped>
 .containerPopUp {
-  background-color: rgba(38, 49, 141, 0.342);
+   background: rgba(32, 31, 31, 0.7);
   backdrop-filter: blur(2px);
   position: fixed;
   height: 135vh;

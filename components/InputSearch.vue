@@ -2,6 +2,7 @@
   <div class="form">
     <div class="search">
       <img src="~/static/icons/searchIcon.svg" alt="" />
+
       <input
         type="text"
         placeholder="Cód.RRIM, Molde ou Cliente.."
@@ -52,6 +53,7 @@
     border: none;
     border-radius: 5px;
   }
+
 }
 
 @media only screen and (max-width: 548px) {

@@ -35,6 +35,7 @@
         </NuxtLink>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -61,16 +62,11 @@ export default {
       countHistoric: 0,
       counter: 0,
       countMold: "",
+
     };
   },
 
-  watch: {
-    countTeste: async function (newValue) {
-      this.filters[0].count = newValue;
-    },
-  },
-
-  async fetch() {
+  async mounted() {
     if (this.$nuxt.$route.path === "/") {
       await httpNewMold.listAllRRIM(0, 10000, 2).then((res) => {
         this.filters[0].count = res.data.countTotal;
@@ -93,7 +89,9 @@ export default {
       // lista os que estao em aprovacao
       await httpNewMold.listAllAproveds(1000, 10, 1).then((res) => {
         this.filtersPcp[1].count = res.data.all;
+
       });
+    },
 
       // lista os que estao em concluido
       await httpNewMold.listAllAproveds(1000, 10, 5).then((res) => {
@@ -122,12 +120,14 @@ export default {
       }
     },
   },
+
 };
 </script>
 
 <style lang="scss" scoped>
 .container {
   display: flex;
+  justify-content: flex-start;
   gap: 1rem;
   overflow: hidden;
   padding: 2px;
@@ -144,10 +144,13 @@ export default {
     width: 300px;
     padding: max(0.3rem, 1vw);
     height: 100%;
+
     border-radius: 5px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    gap: 0.6rem;
+    height: 100%;
     justify-content: center;
     gap: 0.4rem;
     h2 {
@@ -156,15 +159,19 @@ export default {
     &:hover {
       background: var(--bg);
     }
+
     span {
-      font-size: max(0.8rem, 0.8vw);
+      font-weight: 500;
     }
     @media (max-width: 768px) {
       padding: 0.5rem;
       span {
         width: 40vw;
       }
+
     }
+
+  }
   }
   @media (max-width: 768px) {
     width: 100%;

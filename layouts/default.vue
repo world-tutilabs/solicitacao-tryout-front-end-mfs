@@ -1,5 +1,5 @@
 <template>
-  <div class="containerMain">
+  <!-- <div class="containerMain">
     <Navbar />
     <div class="frame">
       <div class="contentInform">
@@ -19,7 +19,16 @@
     </div>
     <SubtitleFooter />
     <Footer />
+  </div> -->
+
+  <div class="container-layout">
+    <Navbar />
+    <FilterCards />
+    <Nuxt class="content-page"/>
+    <SubtitleFooter />
+    <!-- <Footer /> -->
   </div>
+  
 </template>
 
 <script>
@@ -85,8 +94,10 @@ export default Vue.extend({
     margin-bottom: 0.8rem;
   }
 
-  .btnSolicitation {
-    width: 100%;
-  }
+
+    .content-page {
+        padding: 0 var(--negativeSpace) 0 var(--negativeSpace);
+    }
+    
 }
 </style>

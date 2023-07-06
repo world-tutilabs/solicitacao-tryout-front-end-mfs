@@ -13,6 +13,7 @@ export default {
     return await http.get(`/list/aprovadas?page=0&offset=100000`)
   },
 
+
   listAllMachines: async () => {
     return await httpSAP.get('/api/v1/sap/tutilabs/machines')
   },

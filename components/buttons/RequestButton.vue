@@ -19,7 +19,7 @@ export default {
     padding: 1rem;
     background: var(--green);
     color: var(--white);
-    border-radius: 1rem;
+    border-radius: 0.25rem;
     display: flex;
     justify-content: center;
     align-items: center;

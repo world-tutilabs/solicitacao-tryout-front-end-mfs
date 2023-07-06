@@ -58,7 +58,7 @@ export default {
 
   input {
     padding: var(--paddingInput);
-    border-radius: 0.4rem;
+    border-radius: 0.25rem;
     outline: 0;
     border: none;
     background-color: var(--gray);

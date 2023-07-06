@@ -13,6 +13,7 @@
     </button>
     <button @click="next()" class="btn-pagination">Proximo</button> -->
 
+
     <Pagination
       :list="listHistoric"
       @displayNewList="displayNewList"
