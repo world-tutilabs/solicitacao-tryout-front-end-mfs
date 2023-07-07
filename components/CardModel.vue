@@ -92,7 +92,6 @@
         >
           <span>Último Comentário realizado pelo PCP</span>
           <h3>
-            <!-- Autor: {{ dataMold.homologation.homologation_user }} -->
             Autor: {{ dataMold.homologation.homologation_user.nome_completo }}
           </h3>
           <div class="boxText">

@@ -12,13 +12,6 @@
       </header>
 
       <form action="">
-        <!-- modificacao e testes -->
-        <!-- <div class="rowInputs">
-          <div class="boxInput">
-            <FormInput label="Código SAPP" v-model="aa" readonly="readonly" />
-          </div>
-        </div> -->
-
         <div class="rowInputs">
           <div class="boxInput">
             <FormInput
@@ -139,11 +132,6 @@
                   v-model="dataRevisao.injectionProcess.feedstock.description"
                   readonly="readonly"
                 />
-
-                <!-- <FormInput
-                  label="Kg"
-                  v-model="dataRevisao.injectionProcess.feedstock.kg"
-                /> -->
               </SlotCardVue>
             </div>
           </div>
@@ -158,7 +146,6 @@
         <div class="boxButtons">
           <p>*Campo Obrigatório</p>
           <div>
-            <!-- <button class="cancel" @click.prevent="toHomologate(2)">Reprovar</button> -->
             <button class="save" @click.prevent="updateSoli">Atualizar</button>
           </div>
         </div>
@@ -177,9 +164,6 @@ export default {
   data() {
     return {
       dateCurrent: dayjs().format("YYYY-MM-DD"),
-      // dateProgrammed: dayjs(this.dataRevisao.programmed_date)
-      //   .add(1, "day")
-      //   .format("DD/MM/YYYY"),
 
       dateProgrammed: "",
       listAllMachines: [],
@@ -226,22 +210,12 @@ export default {
   },
   created: async function () {
     console.log(this.dataRevisao);
-    // // await httpNewMold.listAllMachines().then((res) => {
-    // //   this.listAllMachines = res.data;
-
-    // });
   },
   props: {
     displayModal: Boolean,
     dataRevisao: Object,
   },
   methods: {
-    // formatDate() {
-    //   return dayjs(this.dataRevisao.programmed_date)
-    //     .add(1, "day")
-    //     .format("DD/MM/YYYY");
-    //   // return dayjs(tete.programmed_date).add(1, "day").format("DD/MM/YYYY");
-    // },
     closeModal() {
       this.$emit("closeModal", this.displayModal);
     },
@@ -280,7 +254,6 @@ export default {
           this.closeModal();
         })
         .catch((error) => {
-          // this.$toast.info(`Erro: ${error}`);
           this.$toast.warning("Campos não preenchidos.");
         });
     },

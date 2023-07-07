@@ -5,14 +5,6 @@
   <div v-else>
     <CardPcp v-for="mold in listPcpWaiting" :key="mold.id" :dataMold="mold" />
 
-    <!-- <button @click="init()" class="btn-pagination" v-if="currentPage !== 0">
-      Inicio
-    </button>
-    <button @click="back()" class="btn-pagination" v-if="currentPage !== 0">
-      Voltar
-    </button>
-    <button @click="next()" class="btn-pagination">Proximo</button> -->
-
     <Pagination
       v-if="listSearch.length > 0"
       :list="listSearch"

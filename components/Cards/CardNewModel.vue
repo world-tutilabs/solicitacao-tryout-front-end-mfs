@@ -25,10 +25,6 @@
             <h3>Cód. do Molde</h3>
             <p>{{ dataMold.CODIGO_MOLDE }}</p>
           </div>
-          <!-- <div class="inform">
-            <h3>Descrição do Molde</h3>
-            <p>XXXXXXXX</p>
-          </div> -->
         </div>
       </div>
 
@@ -77,9 +73,6 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .box {
-  /* background: var(--gray); */
-  /* padding: max(0.3rem, 1vw); */
-
   .content {
     width: 100%;
     background: var(--white);
