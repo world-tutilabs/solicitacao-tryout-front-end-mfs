@@ -125,7 +125,6 @@
 
               <div class="boxInput inputData">
                 <p>Máquina</p>
-                <!-- <input type="text" v-model="newData" /> -->
 
                 <input type="text" list="machines" v-model="machine" />
 
@@ -155,11 +154,6 @@
             <div class="cardTryOut">
               <SlotCard>
                 <Title title="Mão de Obra" />
-                <!-- <FormInput
-                  label="Descrição"
-                  type="text"
-                  v-model="laborDescription"
-                /> -->
                 <FormInput
                   label="Quantidade"
                   type="number"
@@ -508,7 +502,6 @@ export default {
 
         input,
         select {
-          // font-size: 1rem;
           width: 100%;
         }
       }

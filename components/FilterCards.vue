@@ -40,7 +40,6 @@
 
 <script>
 import httpNewMold from "../services/newMold/mold";
-import http from "../services/pcp/pcp";
 
 export default {
   props: {
@@ -76,15 +75,6 @@ export default {
         this.filters[0].count = res.data.countTotal;
       });
     } else {
-      // await httpNewMold.listAllHistoric(0, 10000).then((res) => {
-      //   res.data.map((item) => {
-      //     if (item.homologation.status.id === 1) {
-      //       this.countHistoric = this.countHistoric + 1;
-      //     }
-      //   });
-      //   this.filtersPcp[1].count = this.countHistoric;
-      // });
-
       // lista os que estao em revisao
       await httpNewMold.listAllAproveds(1000, 10, 3).then((res) => {
         this.filtersPcp[0].count = res.data.all;
@@ -106,9 +96,6 @@ export default {
       if (event.name === "Modificações" || event.name === "Resina") {
         this.$toast.error("Funcionalidade em Desenvolvimento");
       }
-      // if (event) {
-      //   this.$toast.warning("Funcionalidade em Desenvolvimento");
-      // }
     },
   },
   computed: {

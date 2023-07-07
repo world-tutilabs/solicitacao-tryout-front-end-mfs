@@ -94,8 +94,6 @@
 
       <div class="contentContainer" v-if="isOpenInfoCard">
         <SlotBtn>
-          <!-- <BtnPirula titleBtn="Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'" /> -->
-
           <BtnPirula
             titleBtn="Revisar Solicitação"
             color="pcp-analise"

@@ -4,8 +4,6 @@
 
 <script>
 import FilterCards from "./FilterCards.vue";
-// import http from "~/services/fit/index";
-// import httpTryOut from "~/services/reportTryOut/index";
 
 export default {
   components: { FilterCards },
@@ -48,32 +46,5 @@ export default {
       ],
     };
   },
-
-  // async created () {
-  //   await this.loadCountData()
-  // },
-
-  // watch: {
-  //   '$store.state.cardListController' () {
-  //     this.$nuxt.refresh()
-  //      this.loadCountData()
-
-  //   }
-  // },
-
-  // methods: {
-  //   async loadCountData () {
-  //     await http.ApprovedList().then((res) => {
-  //       this.filters[1].count = res.data.length
-  //     })
-  //     await http.HomologatedList().then((res) => {
-  //       this.filters[2].count = res.data.length
-  //     })
-
-  //     await httpTryOut.ListAllReports().then((res) => {
-  //       this.filters[0].count = res.data.body.length
-  //     })
-  //   }
-  // }
 };
 </script>
