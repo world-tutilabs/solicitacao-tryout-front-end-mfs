@@ -25,17 +25,17 @@
             <h3>Cód. do Molde</h3>
             <p>{{ dataMold.CODIGO_MOLDE }}</p>
           </div>
-          <!-- <div class="inform">
-            <h3>Descrição do Molde</h3>
-            <p>XXXXXXXX</p>
-          </div> -->
         </div>
       </div>
 
       <transition name="slide-fade">
         <div class="contentContainer" v-if="infoCardStatus">
           <SlotBtn>
-            <BtnPirula titleBtn="Solicitar Try-Out" color="RRIM" :dataMold="dataMold"/>
+            <BtnPirula
+              titleBtn="Solicitar Try-Out"
+              color="RRIM"
+              :dataMold="dataMold"
+            />
           </SlotBtn>
         </div>
       </transition>
@@ -45,7 +45,6 @@
 
 <script lang="ts">
 import Vue from "vue";
-
 
 interface IData {
   infoCardStatus: boolean;
@@ -66,25 +65,22 @@ export default Vue.extend({
 
   methods: {
     openInfoCard(): boolean {
-      return this.infoCardStatus = !this.infoCardStatus;
+      return (this.infoCardStatus = !this.infoCardStatus);
     },
   },
-
 });
 </script>
 
 <style lang="scss" scoped>
 .box {
-  background: var(--gray);
-  padding: max(0.3rem, 1vw);
-
   .content {
     width: 100%;
     background: var(--white);
     padding: max(0.4rem, 1vw);
-    border-radius: 0.4rem;
-    border: 0.2rem solid #e0e0e0;
+    border-radius: 7px;
+    border: 1px solid var(--gray_text);
     overflow: hidden;
+    margin-bottom: 10px;
   }
 }
 

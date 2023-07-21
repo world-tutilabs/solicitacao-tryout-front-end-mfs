@@ -3,11 +3,15 @@
     <Navbar />
     <div class="frame">
       <div class="contentInform">
-        <FilterCards />
+        <CardFilters />
         <CalendarButton v-if="showCalendarButton" />
       </div>
       <div class="btnSolicitation">
-        <RequestButton :titleBtn="titleBtn" v-if="showRequestButton" @click.native="modalStatus = !modalStatus"/>
+        <RequestButton
+          :titleBtn="titleBtn"
+          v-if="showRequestButton"
+          @click.native="modalStatus = !modalStatus"
+        />
         <ModalForm :displayModal="modalStatus" @closeModal="closeModal" />
       </div>
       <SubtitleRouter />
@@ -19,7 +23,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import Vue from "vue";
 export default Vue.extend({
   data() {
     return {
@@ -28,10 +32,8 @@ export default Vue.extend({
     };
   },
 
-  
   computed: {
     showRequestButton() {
-
       if (this.$route.name === "modifications") {
         return (this.titleBtn = "Solicitar Modificação de Molde");
       }
@@ -41,17 +43,19 @@ export default Vue.extend({
     },
 
     showCalendarButton() {
-      if (this.$route.name === "modifications"
-       || this.$route.name === "resin-test" 
-       || this.$route.name === "index") {
+      if (
+        this.$route.name === "modifications" ||
+        this.$route.name === "resin-test" ||
+        this.$route.name === "index"
+      ) {
         return true;
       }
-    }
+    },
   },
   methods: {
     closeModal() {
-      this.modalStatus = !this.modalStatus
-    }
+      this.modalStatus = !this.modalStatus;
+    },
   },
   // watch:{
   //   modalStatus(newValue){
@@ -63,14 +67,14 @@ export default Vue.extend({
   //     }
   //   }
   // }
-})
+});
 </script>
 
 <style lang="scss" scoped>
 .frame {
   width: 100%;
   min-height: 80vh;
-  margin-top: 10vh;
+  margin-top: 7vh;
   padding: 1rem var(--negativeSpace);
 
   .contentInform {

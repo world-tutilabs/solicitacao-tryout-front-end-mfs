@@ -12,13 +12,6 @@
       </header>
 
       <form action="">
-        <!-- modificacao e testes -->
-        <!-- <div class="rowInputs">
-          <div class="boxInput">
-            <FormInput label="Código SAPP" v-model="aa" readonly="readonly" />
-          </div>
-        </div> -->
-
         <div class="rowInputs">
           <div class="boxInput">
             <FormInput
@@ -139,11 +132,6 @@
                   "
                   readonly="readonly"
                 />
-              <!--  <FormInput
-                  label="Kg"
-                  v-model="dataPCP.solicitation.injectionProcess.feedstock.kg"
-                  readonly="readonly"
-                /> -->
               </SlotCardVue>
             </div>
           </div>
@@ -247,11 +235,11 @@ export default {
             this.$toast.warning("Solicitação Reprovada");
           }
           this.closeModal();
-          console.log(res);
         })
         .catch((error) => {
           console.log(`Erro: ${error}`);
         });
+      window.location.reload();
     },
   },
 };

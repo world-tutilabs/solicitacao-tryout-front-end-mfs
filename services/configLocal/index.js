@@ -8,8 +8,8 @@ const httpLocal = axios.create({
   }
 })
 
-httpLocal.interceptors.request.use(function (config) { 
-    const token = Cookies.get('auth._token.local')
+httpLocal.interceptors.request.use(function (config) {
+  const token = Cookies.get('auth._token.local')
   // const token = `${process.env.TOKEN_LOCAL}`
   if (!token) {
     token = "";

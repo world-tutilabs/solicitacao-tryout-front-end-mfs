@@ -1,20 +1,17 @@
 <template>
   <div class="content-calendar">
-      <Navbar/>
-      <Nuxt/>
+    <Navbar />
+    <Nuxt />
   </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style lang="scss" scoped>
 .content-calendar {
-    position: relative;
-    margin-top: 10vh;
+  position: relative;
+  margin-top: 7vh;
 }
-
 </style>

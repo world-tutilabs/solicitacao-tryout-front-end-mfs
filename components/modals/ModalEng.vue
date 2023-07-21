@@ -12,13 +12,6 @@
       </header>
 
       <form action="">
-        <!-- modificacao e testes -->
-        <!-- <div class="rowInputs">
-          <div class="boxInput">
-            <FormInput label="Código SAPP" v-model="aa" readonly="readonly" />
-          </div>
-        </div> -->
-
         <div class="rowInputs">
           <div class="boxInput">
             <FormInput
@@ -76,9 +69,9 @@
                   />
                 </div>
                 <div class="boxInput">
-                  <FormInput 
-                    label="Motivo" 
-                    v-model="dataRevisao.reason" 
+                  <FormInput
+                    label="Motivo"
+                    v-model="dataRevisao.reason"
                     readonly="readonly"
                   />
                 </div>
@@ -107,7 +100,8 @@
                 <Title title="Mão de Obra" />
                 <FormInput
                   label="Descrição"
-                  v-model="dataRevisao.injectionProcess.labor.description"
+                  v-model="dataRevisao.desc_product"
+                  readonly="readonly"
                 />
 
                 <FormInput
@@ -138,11 +132,6 @@
                   v-model="dataRevisao.injectionProcess.feedstock.description"
                   readonly="readonly"
                 />
-
-                <!-- <FormInput
-                  label="Kg"
-                  v-model="dataRevisao.injectionProcess.feedstock.kg"
-                /> -->
               </SlotCardVue>
             </div>
           </div>
@@ -157,7 +146,6 @@
         <div class="boxButtons">
           <p>*Campo Obrigatório</p>
           <div>
-            <!-- <button class="cancel" @click.prevent="toHomologate(2)">Reprovar</button> -->
             <button class="save" @click.prevent="updateSoli">Atualizar</button>
           </div>
         </div>
@@ -176,11 +164,8 @@ export default {
   data() {
     return {
       dateCurrent: dayjs().format("YYYY-MM-DD"),
-      // dateProgrammed: dayjs(this.dataRevisao.programmed_date)
-      //   .add(1, "day")
-      //   .format("DD/MM/YYYY"),
 
-      dateProgrammed: '',
+      dateProgrammed: "",
       listAllMachines: [],
       inputTypeDate: "text",
       descriptionLabor: "",
@@ -224,23 +209,13 @@ export default {
     };
   },
   created: async function () {
-    console.log(this.dataRevisao.id);
-    // // await httpNewMold.listAllMachines().then((res) => {
-    // //   this.listAllMachines = res.data;
-
-    // });
+    console.log(this.dataRevisao);
   },
   props: {
     displayModal: Boolean,
     dataRevisao: Object,
   },
   methods: {
-    // formatDate() {
-    //   return dayjs(this.dataRevisao.programmed_date)
-    //     .add(1, "day")
-    //     .format("DD/MM/YYYY");
-    //   // return dayjs(tete.programmed_date).add(1, "day").format("DD/MM/YYYY");
-    // },
     closeModal() {
       this.$emit("closeModal", this.displayModal);
     },
@@ -279,9 +254,7 @@ export default {
           this.closeModal();
         })
         .catch((error) => {
-          // this.$toast.info(`Erro: ${error}`);
           this.$toast.warning("Campos não preenchidos.");
-
         });
     },
   },

@@ -9,11 +9,11 @@ const http = axios.create({
   }
 })
 
-console.log({ cookiee: Cookies.get('auth._token.local')});
+console.log({ cookiee: Cookies.get('auth._token.local') });
 
 http.interceptors.request.use(function (config) {
   const token = Cookies.get('auth._token.local')
-// const token = `${process.env.TOKEN_LOCAL}`
+  // const token = `${process.env.TOKEN_LOCAL}`
   if (!token) {
     token = "";
   }
