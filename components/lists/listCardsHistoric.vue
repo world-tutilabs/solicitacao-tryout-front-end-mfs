@@ -15,7 +15,11 @@
         @updateList="updateList"
       />
     </div>
-    <Pagination :list="listSearch" @displayNewList="displayNewList" />
+    <Pagination
+      v-if="listSearch.length > 0"
+      :list="listSearch"
+      @displayNewList="displayNewList"
+    />
   </div>
 </template>
 
