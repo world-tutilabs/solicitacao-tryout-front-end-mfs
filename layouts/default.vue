@@ -6,17 +6,20 @@
         <CardFilters />
         <CalendarButton v-if="showCalendarButton" />
       </div>
-      <div class="btnSolicitation">
-        <RequestButton
-          :titleBtn="titleBtn"
-          v-if="showRequestButton"
-          @click.native="modalStatus = !modalStatus"
-        />
-        <ModalForm :displayModal="modalStatus" @closeModal="closeModal" />
+      <div v-if="this.$route.name === modifications">
+        <div class="btnSolicitation">
+          <RequestButton
+            :titleBtn="titleBtn"
+            v-if="showRequestButton"
+            @click.native="modalStatus = !modalStatus"
+          />
+          <ModalForm :displayModal="modalStatus" @closeModal="closeModal" />
+        </div>
+        <SubtitleRouter />
       </div>
-      <SubtitleRouter />
       <Nuxt />
     </div>
+
     <SubtitleFooter />
     <Footer />
   </div>
