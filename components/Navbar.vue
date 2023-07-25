@@ -3,6 +3,12 @@
     <nav>
       <div>
         <!-- <img src="~/static/icons/iconMolde.svg" alt="molde" /> -->
+        <a
+          class="buttonBack"
+          value="menuSistemas"
+          href="http://185.209.179.253:7800/"
+        >
+        </a>
         <h3>Solicitação de TryOut</h3>
       </div>
 
@@ -138,6 +144,12 @@ nav {
     img:hover {
       transform: rotate(225deg);
     }
+  }
+  .buttonBack {
+    width: 2.5rem;
+    height: 2rem;
+    background: url("../static/icons/home.png");
+    background-repeat: no-repeat;
   }
 }
 .noTransitionMenu.transitionMenu {

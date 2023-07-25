@@ -3,21 +3,29 @@
     <Loading />
   </div>
   <div v-else>
-    <div v-if="!routePcp">
-      <div class="container">
-        <NuxtLink
-          v-for="filter in filters"
-          :key="filter.name"
-          :to="filter.router"
-          :class="{ cards: true }"
-        >
-          <span>{{ filter.topName }}</span>
-          <h2>
-            {{ filter.name }}
-          </h2>
-          <h3>{{ filter.count }}</h3>
-        </NuxtLink>
-      </div>
+    <div v-if="!routePcp" class="container">
+      <!-- <div
+        v-for="filter in filters"
+        :key="filter.name"
+        :class="{ cards: true }"
+        @click="greet(filter)"
+      >
+        <span>{{ filter.topName }}</span>
+        <h2>{{ filter.name }}</h2>
+        <h3>{{ filter.count }}</h3>
+      </div> -->
+      <NuxtLink
+        v-for="filter in filters"
+        :key="filter.name"
+        :to="filter.router"
+        :class="{ cards: true }"
+      >
+        <span>{{ filter.topName }}</span>
+        <h2>
+          {{ filter.name }}
+        </h2>
+        <h3>{{ filter.count }}</h3>
+      </NuxtLink>
     </div>
     <div v-if="routePcp">
       <div class="container">
