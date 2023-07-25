@@ -8,6 +8,7 @@
           value="menuSistemas"
           href="http://185.209.179.253:7800/"
         >
+
         </a>
         <h3>Solicitação de TryOut</h3>
       </div>
@@ -46,6 +47,9 @@
                   <a href="http://185.209.179.253:9007/" target="_blank"
                     >FIT - Ficha de Instrução de Trabalho</a
                   >
+                </li>
+                <li>
+                  <a href="http://185.209.179.253:7701/" target="_blank">FTI - Ficha Técnica de Injeção</a>
                 </li>
               </ul>
             </div>
@@ -145,6 +149,7 @@ nav {
       transform: rotate(225deg);
     }
   }
+
   .buttonBack {
     width: 2.5rem;
     height: 2rem;
