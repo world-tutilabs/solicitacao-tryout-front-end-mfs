@@ -1,6 +1,6 @@
 <template>
   <div class="containerBtn">
-    <button v-if="page != 1" class="nextPrev" type="button" @click="backPage">
+    <button v-if="page != 1" class="nextPrev" type="button" @click="page--">
       <img src="~/static/icons/arrowClosed.svg" class="icon-prev" />
     </button>
 
@@ -19,7 +19,7 @@
       v-if="page < pages.length"
       class="nextPrev"
       type="button"
-      @click="nextPage"
+      @click="page++"
     >
       <img src="~/static/icons/arrowClosed.svg" class="icon-next" />
     </button>
@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     setPages() {
-      const numberOfPages = Math.ceil(this.list.length / this.perPage);
+      const numberOfPages = Math.ceil(this.posts.length / this.perPage);
       for (let index = 1; index <= numberOfPages; index++) {
         this.pages.push(index);
       }

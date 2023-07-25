@@ -5,9 +5,12 @@
 
   <div v-else>
     <InputSearch v-model="valueSearch" class="InputSearch" />
-
     <div v-if="valueSearch.length < 1">
-      <CardNewModel v-for="mold in newMolds" :key="mold.id" :dataMold="mold" />
+      <CardNewModel
+        v-for="mold in listSearch"
+        :key="mold.id"
+        :dataMold="mold"
+      />
     </div>
 
     <div v-else>
@@ -21,8 +24,6 @@
       v-if="listSearch.length > 0"
       :list="listSearch"
       @displayNewList="displayNewList"
-      @nextPage="nextPage"
-      @backPage="backPage"
     />
   </div>
 </template>
@@ -43,6 +44,7 @@ export default {
       valueSearch: "",
       listSearch: [],
       countPage: "",
+      listPaginated: [],
     };
   },
 
@@ -77,26 +79,16 @@ export default {
         this.newMolds = res.data.list;
       });
     },
-
-    async backPage() {
-      this.currentPage -= 10;
-      await this.listAllRRIMReq();
-    },
-
-    async nextPage() {
-      this.currentPage += 10;
-      await this.listAllRRIMReq();
-    },
     displayNewList(e) {
-      this.listPaginated = e;
+      this.listSearch = e;
     },
   },
 
   async fetch() {
     await this.listAllRRIMReq();
-    await http.listAll().then((res) => {
-      console.log(res.data);
-    });
+    // await http.listAll().then((res) => {
+    //   console.log(res.data);
+    // });
   },
 };
 </script>

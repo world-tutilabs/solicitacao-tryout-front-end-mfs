@@ -5,12 +5,7 @@
   <div v-else>
     <InputSearch v-model="valueSearch" class="InputSearch" />
     <div v-if="valueSearch.length < 1">
-      <CardModel
-        v-for="mold in listHistoric"
-        :key="mold.id"
-        :dataMold="mold"
-        @updateList="updateList"
-      />
+      <CardModel v-for="mold in listSearch" :key="mold.id" :dataMold="mold" />
     </div>
     <div v-else>
       <CardModel
@@ -20,13 +15,7 @@
         @updateList="updateList"
       />
     </div>
-    <Pagination
-      v-if="listSearch.length > 0"
-      :list="listSearch"
-      @displayNewList="displayNewList"
-      @nextPage="nextPage"
-      @backPage="backPage"
-    />
+    <Pagination :list="listSearch" @displayNewList="displayNewList" />
   </div>
 </template>
 
@@ -75,14 +64,8 @@ export default {
           this.listHistoric = res.data;
         });
     },
-    async backPage() {
-      this.currentPage -= 10;
-      await this.listAllHistoricReq();
-    },
-
-    async nextPage() {
-      this.currentPage += 10;
-      await this.listAllHistoricReq();
+    displayNewList(e) {
+      this.listSearch = e;
     },
   },
 

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <CardModel
+    <h1>Pagina em desenvolvimento</h1>
+    <!-- <CardModel
       v-for="mold in listPaginated"
       :key="mold.id"
       :statusOrigin="mold.origin"
@@ -8,31 +9,29 @@
       :typeCard="mold.typeCard"
     />
 
-    <Pagination :list="dataNewMold" @displayNewList="displayNewList" />
+    <Pagination :list="dataNewMold" @displayNewList="displayNewList" /> -->
   </div>
 </template>
 
 <script>
-
 export default {
-
   data() {
     return {
       dataNewMold: [
-        { id: 1, origin: 'Aprovado', flag: '1', typeCard: 'resinTest' },
-        { id: 2, origin: '', flag: '2', typeCard: 'resinTest' },
-        { id: 3, origin: 'Reprovado', flag: '3', typeCard: 'resinTest' },
+        { id: 1, origin: "Aprovado", flag: "1", typeCard: "resinTest" },
+        { id: 2, origin: "", flag: "2", typeCard: "resinTest" },
+        { id: 3, origin: "Reprovado", flag: "3", typeCard: "resinTest" },
       ],
 
       listPaginated: [],
-    }
+    };
   },
   methods: {
     displayNewList(e) {
-      this.listPaginated = e
+      this.listPaginated = e;
     },
   },
-}
+};
 </script>
 
 <style>
