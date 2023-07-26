@@ -13,8 +13,7 @@ services:
     ports:
       - "8500:8500"
     networks:
-     minha_rede:
-      tutilabs:
+     tutilabs:
        config:
-         - subnet: 192.168.32.16/20
+        - subnet: 192.168.32.16/20
 
