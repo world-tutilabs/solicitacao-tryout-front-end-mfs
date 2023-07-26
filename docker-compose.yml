@@ -12,4 +12,6 @@ services:
       - TZ=America/Manaus
     ports:
       - "8500:8500"
+    networks:
+      - tutilabs
 
