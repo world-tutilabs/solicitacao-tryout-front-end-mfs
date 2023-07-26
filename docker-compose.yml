@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
   nuxt_solicitation_tryout:
@@ -12,9 +12,9 @@ services:
       - TZ=America/Manaus
     ports:
       - "8500:8500"
-    networks:
-      tutilabs:
-        ipam:
-          config:
-            - subnet: 192.168.32.16/20
+networks:
+ tutilabs:
+  ipam:
+    config:
+      - subnet: 192.168.32.16/20
 
