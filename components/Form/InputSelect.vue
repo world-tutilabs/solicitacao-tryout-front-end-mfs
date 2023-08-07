@@ -15,11 +15,19 @@ export default Vue.extend({
     data(){
 
         return{
-            selected: ""
+            selected: "",
         }
     },
 
-    methods:{}
+    methods:{ },
+    watch:{
+        selected(newValue){
+            if (newValue){
+                this.$emit('status', { newValue })
+            
+            }
+        }
+    }
 })
 </script>
 

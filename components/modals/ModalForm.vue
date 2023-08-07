@@ -15,8 +15,6 @@
       <div class="form">
         <!-- modificacao e testes -->
         <div class="rowInputs" v-if="showContainer">
-
-          
           <div class="boxInput">
             <p>Código SAPP</p>
             <input type="text" name="" id="" />
@@ -49,9 +47,6 @@
             <p>Cliente</p>
             <input type="text" v-model="dataRRIM.CLIENTE" disabled />
           </div>
-          
-              <InputSelect/>
-
           <div class="boxInput" v-if="showContainer">
             <p>Motivo</p>
             <input type="text" value="" />
@@ -60,6 +55,19 @@
           <div class="boxInput" v-else>
             <p>Motivo</p>
             <input type="text" v-model="reasonSolicitation" />
+          </div>
+        </div>
+        <div class="containerInputsModificacao">
+          <InputSelect @status="validarEmit" />
+
+          <div class="boxInput" v-if="status === 'Modificação de Molde'">
+            <h5>Cód. RGM</h5>
+            <input type="text" v-model="codRGM"/>
+          </div>
+          
+          <div class="boxInput" v-if="status === 'Novo Produto do Molde'">
+            <h5>Cód. NNP</h5>
+            <input type="text" v-model="codNNP"/>
           </div>
         </div>
 
@@ -122,7 +130,6 @@
                 <p>Motivo</p>
                 <input type="text" v-model="reasonSolicitation" disabled />
               </div>
-
 
               <div class="boxInput inputData">
                 <p>Data Programada</p>
@@ -218,6 +225,8 @@ export default {
   },
   data() {
     return {
+      status: "",
+      codRGM: "",
       toToggleFilter: 0,
       machine: "",
       dateCurrent: dayjs().format("YYYY-MM-DD"),
@@ -379,6 +388,11 @@ export default {
       this.$emit("closeModal", this.displayModal);
     },
 
+    validarEmit(payload) {
+      this.status = payload.newValue;
+      console.log(this.status);
+    },
+
     addProcess() {
       if (this.quantidade === "") {
         this.$toast.warning("Algum campo não foi preenchido");
@@ -493,7 +507,11 @@ export default {
         cursor: pointer;
       }
     }
-
+.containerInputsModificacao{
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
     .rowInputs {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
