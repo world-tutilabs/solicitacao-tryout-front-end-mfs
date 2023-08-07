@@ -59,7 +59,7 @@ export default {
 .content {
   background: var(--gray);
   width: 100%;
-  height: 10vh;
+  height: 6.5vh;
   display: flex;
   gap: 2rem;
   align-items: center;

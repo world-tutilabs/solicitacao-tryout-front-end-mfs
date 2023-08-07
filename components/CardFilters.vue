@@ -10,19 +10,17 @@ export default {
   data() {
     return {
       filters: [
-        { topName: "Novos", name: "Moldes", count: "", router: "/" },
+        { topName: "Novos",
+          name: "Moldes",
+          count: "", 
+          router: "/" 
+        },
         {
           topName: "Solicitações de",
           name: "Modificações",
           count: "000",
-          router: "/modifications",
-        },
-        {
-          topName: "Solicitações testes de",
-          name: "Resina",
-          count: "000",
-          router: "/resin-test",
-        },
+          router: "/sol-modificacao",
+        }
       ],
       filtersPcp: [
         {
