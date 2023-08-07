@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
   nuxt_solicitation_tryout:
@@ -12,4 +12,10 @@ services:
       - TZ=America/Manaus
     ports:
       - "8500:8500"
+    networks:
+      - tutilabs
+networks:
+ tutilabs:
+   external: true
+   driver: bridge
 
