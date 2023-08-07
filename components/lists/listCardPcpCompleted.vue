@@ -3,14 +3,10 @@
     <Loading />
   </div>
   <div v-else>
-    <CardModel v-for="mold in listHistoric" :key="mold.id" :dataMold="mold" />
-
+    <CardModel v-for="mold in listSearch" :key="mold.id" :dataMold="mold" />
     <Pagination
-      v-if="listSearch.length > 0"
       :list="listSearch"
       @displayNewList="displayNewList"
-      @nextPage="nextPage"
-      @backPage="backPage"
     />
   </div>
 </template>
@@ -35,6 +31,11 @@ export default {
       await http.listAllAproveds(this.currentPage, 10, 5).then((res) => {
         this.listHistoric = res.data.list;
       });
+
+    },
+
+    displayNewList(e) {
+      this.listSearch = e;
     },
 
     async nextPage() {
