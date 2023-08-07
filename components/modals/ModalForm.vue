@@ -15,6 +15,8 @@
       <div class="form">
         <!-- modificacao e testes -->
         <div class="rowInputs" v-if="showContainer">
+
+          
           <div class="boxInput">
             <p>Código SAPP</p>
             <input type="text" name="" id="" />
@@ -47,6 +49,9 @@
             <p>Cliente</p>
             <input type="text" v-model="dataRRIM.CLIENTE" disabled />
           </div>
+          
+              <InputSelect/>
+
           <div class="boxInput" v-if="showContainer">
             <p>Motivo</p>
             <input type="text" value="" />
@@ -117,6 +122,7 @@
                 <p>Motivo</p>
                 <input type="text" v-model="reasonSolicitation" disabled />
               </div>
+
 
               <div class="boxInput inputData">
                 <p>Data Programada</p>
