@@ -1,51 +1,29 @@
 <template>
-  <div>
+    <div>
     <button
       class="btn"
-      :style="{ backgroundColor: verifyColor() }"
       @click="cancelBtn"
       v-if="this.color === 'pcp-approveds'"
     >
       {{ titleBtn }}
     </button>
 
-    <!-- <button class="btn" :style="{ backgroundColor: verifyColor() }" @click="" v-if="this.color === 'Reprovado'">{{ titleBtn
-    }}</button> -->
-
     <button
       class="btn"
-      :style="{ backgroundColor: verifyColor() }"
       @click="openModal"
       v-else
     >
       {{ titleBtn }}
     </button>
-
-    <div v-if="dataMold">
-      <ModalForm
+        <ModalSolicitarModificacoes
         :displayModal="modalStatus"
         @closeModal="closeModal"
         :dataRRIM="dataMold"
-        v-if="this.color === 'RRIM'"
-      />
-
-      <ModalEng
-        :displayModal="modalStatus"
-        @closeModal="closeModal"
-        v-else-if="this.color === 'Reprovado'"
-        :dataRevisao="dataMold"
-      />
-
-      <ModalFormPcp
-        :displayModal="modalStatus"
-        @closeModal="closeModal"
-        v-else
-        :dataPCP="dataMold"
-      />
-    
+        />
     </div>
-  </div>
+
 </template>
+
 
 <script>
 import ModalFormPcp from "../modals/ModalFormPcp.vue";
@@ -94,21 +72,7 @@ export default {
       );
     },
 
-    verifyColor() {
-      if (
-        this.color === "RRIM" ||
-        this.color === "Aprovado" ||
-        this.color === "pcp-analise"
-      ) {
-        return "var(--green)";
-      } else if (this.color === "Reprovado") {
-        return "var(--orange)";
-      } else if (this.color === "cancelTryOut") {
-        return "var(--red)";
-      } else if (this.color === "pcp-approveds") {
-        return "var(--blue)";
-      }
-    },
+
     openModal() {
       this.modalStatus = true;
     },
@@ -132,5 +96,6 @@ export default {
   color: var(--white);
   font-weight: var(--bold);
   font-size: 1rem;
+  background: var(--green);
 }
 </style>

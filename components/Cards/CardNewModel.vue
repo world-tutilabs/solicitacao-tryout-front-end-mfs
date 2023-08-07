@@ -30,14 +30,22 @@
 
       <transition name="slide-fade">
         <div class="contentContainer" v-if="infoCardStatus">
-          <SlotBtn>
+          <div style="display: flex; gap: 1rem;">
             <BtnPirula
               titleBtn="Solicitar Try-Out"
               color="RRIM"
               :dataMold="dataMold"
             />
-          </SlotBtn>
+            <Button
+            titleBtn="Solicitar Modificação"
+            color="RRIM"
+            :dataMold="dataMold"
+          />
+
+          </div>
+        
         </div>
+    
       </transition>
     </div>
   </div>
