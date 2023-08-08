@@ -7,9 +7,9 @@
       :statusOrigin="mold.origin"
       :flag="mold.flag"
       :typeCard="mold.typeCard"
-    />
+    /> -->
 
-    <Pagination :list="dataNewMold" @displayNewList="displayNewList"/> -->
+    <Pagination :list="dataNewMold" @displayNewList="displayNewList"/>
   </div>
 </template>
 

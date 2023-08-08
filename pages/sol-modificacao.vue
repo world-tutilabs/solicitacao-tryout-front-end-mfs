@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <div class="tabs">
       <button @click="newModification = true" :class="{ focus: newModification }">
@@ -11,6 +10,7 @@
     </div>
 
     <div v-if="newModification">
+      <!-- <ModalSolicitacaoModificacao :displayModal="true"/> -->
       Lista 1
       <button @click="showModal">click</button>
     </div>
