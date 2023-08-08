@@ -1,16 +1,16 @@
-import { http } from '../config/index'
-import { httpLocal } from '../configLocal/index'
-import { httpSAP } from '../configSAP/index'
+import { httpRRIM } from '../config-rrim/index'
+import { httpSolTryOut } from '../config-sol-tryout/index'
+import { httpSAP } from '../config-sap/index'
 
 export default {
   listAllRRIM: async (page = 0, offset = 10, statusId) => {
-    return await http.get(`/rrim/list/aprovadas?page=${page}&offset=${offset}&statusId=${statusId}`)
+    return await httpRRIM.get(`/rrim/list/aprovadas?page=${page}&offset=${offset}&statusId=${statusId}`)
   },
   // listAllRRIM: async (page = 0, offset = 10,) => {
-  //   return await http.get(`/rrim/list/aprovadas?page=${page}&offset=${offset}`)
+  //   return await httpRRIM.get(`/rrim/list/aprovadas?page=${page}&offset=${offset}`)
   // },
   // listAll: async () => {
-  //   return await http.get(`/list/aprovadas?page=0&offset=100000`)
+  //   return await httpRRIM.get(`/list/aprovadas?page=0&offset=100000`)
   // },
 
   listAllMachines: async () => {
@@ -18,18 +18,18 @@ export default {
   },
 
   listAllHistoric: async (offset = 0, limit = 10) => {
-    return await httpLocal.get(`/list?limit=${limit}&offset=${offset}`)
+    return await httpSolTryOut.get(`/list?limit=${limit}&offset=${offset}`)
   },
 
   listAllAproveds: async (offset = 0, limit = 10, status) => {
-    return await httpLocal.get(`/listByStatus?limit=${limit}&offset=${offset}&status=${status}`)
+    return await httpSolTryOut.get(`/listByStatus?limit=${limit}&offset=${offset}&status=${status}`)
   },
 
   createNewSolicitation: async (data) => {
-    return await httpLocal.post(`/signup`, data)
+    return await httpSolTryOut.post(`/signup`, data)
   },
 
   updateSolicitation: async (id, data) => {
-    return await httpLocal.put(`/update/${id}`, data)
+    return await httpSolTryOut.put(`/update/${id}`, data)
   }
 }

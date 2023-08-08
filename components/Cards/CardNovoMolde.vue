@@ -22,10 +22,6 @@
             <p>{{ dataMold.MOLDE }}</p>
           </div>
           <div class="inform">
-            <h3>Molde</h3>
-            <p>{{ dataMold.MOLDE }}</p>
-          </div>
-          <div class="inform">
             <h3>Fabricante do Molde</h3>
             <p v-if="dataMold.FABRICANTE_MOLDE === ''">Não informado</p>
             <p>{{ dataMold.FABRICANTE_MOLDE }}</p>
