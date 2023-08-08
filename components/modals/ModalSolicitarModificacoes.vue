@@ -52,7 +52,7 @@
               <input type="text" value="" />
             </div>
           
-            <InputSelect @status="validarEmit" />
+            <InputSelect @status="validarEmit" :type="'Modificacao'" />
   
             <div class="boxInput" v-if="status === 'Modificação de Molde'">
               <h5>Cód. RGM</h5>
@@ -220,6 +220,10 @@
       return {
         status: "",
         codRGM: "",
+        legenda:{
+          option01: "Novo Molde",
+          option02: "Retroativo",
+        },
         toToggleFilter: 0,
         machine: "",
         dateCurrent: dayjs().format("YYYY-MM-DD"),
