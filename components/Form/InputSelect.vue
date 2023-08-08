@@ -3,8 +3,10 @@
         <span>Motivo:</span>
         <select v-model="selected" class="inputSelect">
             <option disabled value="">Escolha um item</option>
-            <option>Modificação de Molde</option>
-            <option>Novo Produto do Molde</option>
+            <option v-if="type === 'Modificacao'">Modificação de Molde</option>
+            <option v-if="type === 'Modificacao'">Novo Produto do Molde</option>
+            <option v-if="type === 'Tryout'">Novo Molde</option>
+            <option v-if="type === 'Tryout'">Retroativo</option>
         </select>
 </div>
 </template>
@@ -12,6 +14,9 @@
 <script lang="ts">
 import Vue from 'vue'
 export default Vue.extend({
+    props:{
+        type: String
+    },
     data(){
 
         return{

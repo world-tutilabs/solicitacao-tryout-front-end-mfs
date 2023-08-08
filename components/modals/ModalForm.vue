@@ -47,7 +47,9 @@
             <p>Cliente</p>
             <input type="text" v-model="dataRRIM.CLIENTE" disabled />
           </div>
-          <div class="boxInput" v-if="showContainer">
+          <InputSelect @status="validarEmit" :type="'Tryout'" />
+  
+          <!-- <div class="boxInput" v-if="showContainer">
             <p>Motivo</p>
             <input type="text" value="" />
           </div>
@@ -55,7 +57,7 @@
           <div class="boxInput" v-else>
             <p>Motivo</p>
             <input type="text" v-model="reasonSolicitation" />
-          </div>
+          </div> -->
         </div>
   
         <!-- selecionar processos -->
