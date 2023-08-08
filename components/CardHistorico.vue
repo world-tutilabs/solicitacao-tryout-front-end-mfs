@@ -3,7 +3,7 @@
     <div class="content">
       <div class="header-content">
         <div
-          :class="flagValidation(dataMold.homologation.status.description)"
+          :class="flagValidation(dataMold.homologation.status.id)"
         ></div>
         <div class="container_button" @click="openInfoCard">
           <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
@@ -58,7 +58,7 @@
 
           <div class="inform">
             <h3>Motivo</h3>
-            <p>{{ dataMold.reason }}</p>
+            <p>{{ dataMold.reason.description }}</p>
           </div>
         </div>
 
@@ -88,11 +88,18 @@
 
         <div
           class="info"
-          v-if="dataMold.homologation.status.description !== 'Revisao'"
+          v-if="dataMold.homologation.status.id === 3"
+        >
+          <h3><strong>Status: Aguardando Análise do PCP</strong></h3>
+        </div>
+
+        <div
+          class="info"
+          v-if="dataMold.homologation.status.id !== 3"
         >
           <span>Último Comentário realizado pelo PCP</span>
           <h3>
-            Autor: {{ dataMold.homologation.homologation_user.nome_completo }}
+            Autor: {{ dataMold.homologation.homologation_user.nome }}
           </h3>
           <div class="boxText">
             <span>{{ dataMold.homologation.comment }}</span>
@@ -139,7 +146,7 @@
           <BtnPirula
             titleBtn="Revisar"
             color="Reprovado"
-            v-if="dataMold.homologation.status.description === 'Reprovado'"
+            v-if="dataMold.homologation.status.id === 2"
             :dataMold="dataMold"
             @updateCard="updateCard"
           />
@@ -148,7 +155,7 @@
             titleBtn="Gerar Relatório"
             color="Aprovado"
             v-if="
-              dataMold.homologation.status.description === 'Aprovado' &&
+              dataMold.homologation.status.id === 1 &&
               $route.name === 'calendar'
             "
             @click.native="relTryout()"
@@ -200,13 +207,15 @@ export default Vue.extend({
     },
 
     flagValidation(data) {
-      if (data == "Aprovado") {
+      if (data == 1) {
         return "flap flap-green";
-      } else if (data == "Revisao") {
+      } else if (data == 3) {
         return "flap flap-blue";
-      } else if (data == "Reprovado") {
+      } else if (data == 2) {
         return "flap flap-orange";
-      } else {
+      } else if (data == 6) {
+        return "flap flap-red"
+      }else {
         return "flap flap-none";
       }
     },
@@ -318,6 +327,10 @@ export default Vue.extend({
 
   .flap-blue {
     background-color: var(--blue);
+  }
+
+  .flap-red {
+    background-color: var(--red);
   }
 
   .flap-orange {

@@ -1,4 +1,4 @@
-import { http } from "../config/index";
+import { http } from "../config-rrim/index";
 
 export default { 
     changePassword: async(password) =>{

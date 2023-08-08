@@ -13,7 +13,7 @@
         </header>
   
         <div class="form">
-          <!-- modificacao e testes -->
+
           <div class="rowInputs" v-if="showContainer">
             <div class="boxInput">
               <p>Código SAPP</p>
@@ -65,7 +65,7 @@
             </div>
     
         </div>
-          <!-- selecionar processos -->
+
           <div class="rowInputs contentInputs">
             <div class="boxInput">
               <p>Processo</p>
@@ -91,8 +91,7 @@
               <h3>Adicionar</h3>
             </button>
           </div>
-  
-          <!-- so aparece quando selecionar um processo -->
+
           <div class="containerProcess">
             <div class="tabs">
               <div class="tab" v-for="index in count" :key="index">
@@ -291,17 +290,17 @@
       };
     },
     computed: {
-      showContainer() {
-        if (this.$route.name === "") {
-          return (this.myRouter = false);
-        }
-        if (
-          this.$route.name === "resin-test" ||
-          this.$route.name === "modifications"
-        ) {
-          return (this.myRouter = true);
-        }
-      },
+      // showContainer() {
+      //   if (this.$route.name === "") {
+      //     return (this.myRouter = false);
+      //   }
+      //   if (
+      //     this.$route.name === "resin-test" ||
+      //     this.$route.name === "modifications"
+      //   ) {
+      //     return (this.myRouter = true);
+      //   }
+      // },
     },
   
     methods: {
@@ -424,9 +423,9 @@
     created: async function () {
       this.productsOptions = this.dataRRIM;
   
-      await http.listAllMachines().then((res) => {
-        this.listAllMachines = res.data;
-      });
+      // await http.listAllMachines().then((res) => {
+      //   this.listAllMachines = res.data;
+      // });
     },
     watch: {
       quantidade(newValue) {

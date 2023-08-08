@@ -47,6 +47,7 @@
             <p>Cliente</p>
             <input type="text" v-model="dataRRIM.CLIENTE" disabled />
           </div>
+          
           <InputSelect @status="validarEmit" :type="'Tryout'" />
   
           <!-- <div class="boxInput" v-if="showContainer">
@@ -117,7 +118,8 @@
 
               <div class="boxInput">
                 <p>Motivo</p>
-                <input type="text" v-model="reasonSolicitation" disabled />
+                <input type="text" value="Novo Molde" disabled v-if="reasonSolicitation === 1"/>
+                <input type="text" value="Retroativo" disabled v-if="reasonSolicitation === 2"/>
               </div>
 
               <div class="boxInput inputData">
@@ -288,7 +290,7 @@ export default {
       }
       if (
         this.$route.name === "resin-test" ||
-        this.$route.name === "modifications"
+        this.$route.name === "sol-modificacao"
       ) {
         return (this.myRouter = true);
       }
@@ -334,6 +336,9 @@ export default {
       this.testSolicitation.InjectionProcess.machine.model = this.machine;
       this.$store.commit("setCountNewModels", this.toToggleFilter++);
 
+
+
+      console.log(this.testSolicitation)
       await http
         .createNewSolicitation(this.testSolicitation)
         .then((res) => {
@@ -378,20 +383,28 @@ export default {
     },
 
     validarEmit(payload) {
-      this.status = payload.newValue;
-      console.log(this.status);
+      if(payload.newValue === 'Retroativo') {
+        this.reasonSolicitation = 2
+      } else {
+        this.reasonSolicitation = 1
+      }
     },
 
     addProcess() {
-      if (this.quantidade === "") {
-        this.$toast.warning("Algum campo não foi preenchido");
+      if (this.newSolicitation.cod_prod === '') {
+        this.$toast.error("Informe o código do produto");
+      } else if (this.quantidade === "") {
+        this.$toast.error("Quantidade não foi preenchida");
       } else if (this.quantidade <= 0) {
         this.$toast.error("Campo quantidade com valores impróprios");
-      } else {
+      } else if(this.reasonSolicitation !== 1 && this.reasonSolicitation !== 2) {
+        this.$toast.error("Motivo não foi preenchido");
+      } else{
         this.count++;
         this.processValidation = true;
       }
     },
+    
     removeProcess(index) {
       this.count--;
       if (index === this.count) {
@@ -412,12 +425,8 @@ export default {
     },
   },
 
-  created: async function () {
+  async created () {
     this.productsOptions = this.dataRRIM;
-
-    await http.listAllMachines().then((res) => {
-      this.listAllMachines = res.data;
-    });
   },
   watch: {
     quantidade(newValue) {

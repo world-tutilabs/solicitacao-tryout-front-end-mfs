@@ -5,15 +5,12 @@
   <div v-else>
     <InputSearch v-model="valueSearch" class="InputSearch" />
     <div v-if="valueSearch.length < 1">
-      <CardModel v-for="mold in listSearch" :key="mold.id" :dataMold="mold" />
+      <CardHistorico v-for="mold in listSearch" :key="mold.id" :dataMold="mold"/>
     </div>
     <div v-else>
-      <CardModel
-        v-for="mold in filterSearchField"
-        :key="mold.id"
+      <CardHistorico v-for="mold in filterSearchField" :key="mold.id"
         :dataMold="mold"
-        @updateList="updateList"
-      />
+        @updateList="updateList"/>
     </div>
     <Pagination
       v-if="listSearch.length > 0"

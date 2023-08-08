@@ -1,14 +1,14 @@
 import axios from "axios"
 import Cookies from 'js-cookie'
-const httpLocal = axios.create({
-  baseURL: `http://185.209.179.253:5000/api`,                                    //Adicionar Base URL
+const httpSolTryOut = axios.create({
+  baseURL: `http://192.168.1.210:3000/api`,                                    //Adicionar Base URL
   headers: {
     "Accept": "application/json",
     "Content": "application/json"
   }
 })
 
-httpLocal.interceptors.request.use(function (config) {
+httpSolTryOut.interceptors.request.use(function (config) {
   const token = Cookies.get('auth._token.local')
   // const token = `${process.env.TOKEN_LOCAL}`
   if (!token) {
@@ -25,4 +25,4 @@ httpLocal.interceptors.request.use(function (config) {
 
 
 
-export { httpLocal }
+export { httpSolTryOut }

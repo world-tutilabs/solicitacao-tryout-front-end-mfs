@@ -1,6 +1,8 @@
 <template>
   <div>
     <h1>Pagina em desenvolvimento</h1>
+    <pre>{{ listAllReportApproveds }}</pre>
+    
 
     <!-- <CardModel
       v-for="mold in listPaginated"
@@ -8,32 +10,18 @@
       :statusOrigin="mold.origin"
       :flag="mold.flag"
       :typeCard="mold.typeCard"
-    />
+    /> -->
 
-    <Pagination :list="dataNewMold" @displayNewList="displayNewList"/> -->
+    <Pagination :list="dataNewMold" @displayNewList="displayNewList"/>
   </div>
 </template>
 
 <script>
+import httpNovoMolde from '../../services/newMold/mold'
 export default {
   data() {
     return {
-      // dataNewMold: [
-      //   { id: 1, origin: "Aprovado", flag: "1", typeCard: "solicitation" },
-      //   { id: 2, origin: "Reprovado", flag: "3", typeCard: "solicitation" },
-      //   { id: 3, origin: "", flag: "2", typeCard: "solicitation" },
-      //   { id: 4, origin: "Aprovado", flag: "1", typeCard: "solicitation" },
-      //   { id: 5, origin: "Reprovado", flag: "3", typeCard: "solicitation" },
-      //   { id: 6, origin: "", flag: "2", typeCard: "solicitation" },
-      //   { id: 7, origin: "Aprovado", flag: "1", typeCard: "solicitation" },
-      //   { id: 8, origin: "Reprovado", flag: "3", typeCard: "solicitation" },
-      //   { id: 9, origin: "", flag: "2", typeCard: "solicitation" },
-      //   { id: 10, origin: "Aprovado", flag: "1", typeCard: "solicitation" },
-      //   { id: 11, origin: "Reprovado", flag: "3", typeCard: "solicitation" },
-      //   { id: 12, origin: "", flag: "2", typeCard: "solicitation" },
-      // ],
-
-      listPaginated: [],
+      listAllReportApproveds: []
     };
   },
 
@@ -42,6 +30,13 @@ export default {
       this.listPaginated = e;
     },
   },
+
+  async created () {
+
+    await httpNovoMolde.listAllAproveds(0, 10, 5).then((res) => {
+      this.listAllReportApproveds = res.data
+    })
+  }
 };
 </script>
 
