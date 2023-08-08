@@ -45,16 +45,23 @@
             <BtnPirula
               titleBtn="Solicitar Try-Out"
               color="RRIM"
-              :dataMold="dataMold"
+              :dataMold="dataMold" @click.native="openModal"
             />
-            <Button
+            <!-- <Button
             titleBtn="Solicitar Modificação"
             color="RRIM"
             :dataMold="dataMold"
-          />
+          /> -->
           </div>
         </div>
       </transition>
+
+      <ModalForm
+        :displayModal="statusModal"
+        :dataRRIM="dataMold"
+        @closeModal="closeModal"
+      />
+
     </div>
 </template>
 
@@ -64,6 +71,8 @@ import Vue from "vue";
 
 interface IData {
   infoCardStatus: boolean;
+  statusModal: boolean,
+  modalStatus: boolean
 }
 
 export default Vue.extend({
@@ -71,15 +80,38 @@ export default Vue.extend({
 
   props: {
     dataMold: Object,
+    
   },
 
   data(): IData {
     return {
       infoCardStatus: false,
+      statusModal: false,
+      modalStatus: false
+      
     };
   },
 
+  watch: {
+    modalStatus(newValue) {
+      let scrollBody = document.body;
+      if (newValue == true) {
+        scrollBody.style.overflowY = "hidden";
+      } else {
+        scrollBody.style.overflowY = "scroll";
+      }
+    }
+
+  },
+
   methods: {
+    openModal(): void{
+      this.statusModal = true
+    },
+
+    closeModal():void {
+      this.statusModal = false
+    },
     openInfoCard(): boolean {
       return (this.infoCardStatus = !this.infoCardStatus);
     },

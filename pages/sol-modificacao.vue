@@ -2,7 +2,7 @@
   <div>
     <div class="tabs">
       <button @click="newModification = true" :class="{ focus: newModification }">
-        Solicitações Disponíveis
+        Sol. Disponíveis
       </button>
       <button @click="newModification = false" :class="{ focus: !newModification }">
         Histórico
@@ -10,7 +10,7 @@
     </div>
 
     <div v-if="newModification">
-      <ModalSolicitarModificacoes />
+      <ListCardsModifiedMolds />
     </div>
 
     <div v-else>
@@ -38,12 +38,6 @@ export default {
       title: 'TryOut - Moldes Modificados',
     }
   },
-
-  methods: {
-    showModal()  {
-      window.alert('oi')
-    }
-  }
 }
 </script>
 

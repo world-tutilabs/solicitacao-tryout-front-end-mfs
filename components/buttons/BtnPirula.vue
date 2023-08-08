@@ -22,7 +22,7 @@
     </button>
 
     <div v-if="dataMold">
-      <ModalForm
+      <!-- <ModalForm
         :displayModal="modalStatus"
         @closeModal="closeModal"
         :dataRRIM="dataMold"
@@ -42,7 +42,7 @@
         v-else
         :dataPCP="dataMold"
       />
-    
+     -->
     </div>
   </div>
 </template>
@@ -60,16 +60,6 @@ export default {
     dataMold: Object,
   },
 
-  watch: {
-    modalStatus(newValue) {
-      let scrollBody = document.body;
-      if (newValue == true) {
-        scrollBody.style.overflowY = "hidden";
-      } else {
-        scrollBody.style.overflowY = "scroll";
-      }
-    },
-  },
   data() {
     return {
       colorBtn: "",

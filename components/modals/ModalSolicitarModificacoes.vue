@@ -290,17 +290,17 @@
       };
     },
     computed: {
-      showContainer() {
-        if (this.$route.name === "") {
-          return (this.myRouter = false);
-        }
-        if (
-          this.$route.name === "resin-test" ||
-          this.$route.name === "modifications"
-        ) {
-          return (this.myRouter = true);
-        }
-      },
+      // showContainer() {
+      //   if (this.$route.name === "") {
+      //     return (this.myRouter = false);
+      //   }
+      //   if (
+      //     this.$route.name === "resin-test" ||
+      //     this.$route.name === "modifications"
+      //   ) {
+      //     return (this.myRouter = true);
+      //   }
+      // },
     },
   
     methods: {
@@ -423,9 +423,9 @@
     created: async function () {
       this.productsOptions = this.dataRRIM;
   
-      await http.listAllMachines().then((res) => {
-        this.listAllMachines = res.data;
-      });
+      // await http.listAllMachines().then((res) => {
+      //   this.listAllMachines = res.data;
+      // });
     },
     watch: {
       quantidade(newValue) {

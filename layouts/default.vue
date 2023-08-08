@@ -6,17 +6,6 @@
         <CardFilters />
         <CalendarButton v-if="showCalendarButton" />
       </div>
-      <div v-if="this.$route.name === modifications">
-        <div class="btnSolicitation">
-          <RequestButton
-            :titleBtn="titleBtn"
-            v-if="showRequestButton"
-            @click.native="modalStatus = !modalStatus"
-          />
-          <ModalForm :displayModal="modalStatus" @closeModal="closeModal" />
-        </div>
-        <SubtitleRouter />
-      </div>
       <Nuxt />
     </div>
 
@@ -37,7 +26,7 @@ export default Vue.extend({
 
   computed: {
     showRequestButton() {
-      if (this.$route.name === "modifications") {
+      if (this.$route.name === "sol-modificacao") {
         return (this.titleBtn = "Solicitar Modificação de Molde");
       }
       if (this.$route.name === "resin-test") {
@@ -47,7 +36,7 @@ export default Vue.extend({
 
     showCalendarButton() {
       if (
-        this.$route.name === "modifications" ||
+        this.$route.name === "sol-modificacao" ||
         this.$route.name === "resin-test" ||
         this.$route.name === "index"
       ) {
