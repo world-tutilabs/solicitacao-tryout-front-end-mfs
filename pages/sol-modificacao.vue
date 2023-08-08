@@ -10,9 +10,7 @@
     </div>
 
     <div v-if="newModification">
-      <!-- <ModalSolicitacaoModificacao :displayModal="true"/> -->
-      Lista 1
-      <button @click="showModal">click</button>
+      <ModalSolicitarModificacoes />
     </div>
 
     <div v-else>
