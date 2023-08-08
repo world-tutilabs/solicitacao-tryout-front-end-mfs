@@ -1,9 +1,9 @@
-## Describe your changes
+## Descreva as mudanças que você realizou
 
 ## Issue ticket number and link
 
 ## Checklist before requesting a review
-- [ ] I have performed a self-review of my code
-- [ ] If it is a core feature, I have added thorough tests.
-- [ ] Do we need to implement analytics?
-- [ ] Will this be part of a product update? If yes, please write one phrase about this update.
+- [ ] Testei exaustivamente a funcionalidade na qual trabalhei
+- [ ] Estou abrindo um Pull Request para a Developer
+- [ ] Atualizei o Taiga informando que a tarefa ou história foi concluída
+- [ ] Atualizei os Middlewares corretamente
