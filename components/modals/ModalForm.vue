@@ -57,20 +57,7 @@
             <input type="text" v-model="reasonSolicitation" />
           </div>
         </div>
-        <div class="containerInputsModificacao">
-          <InputSelect @status="validarEmit" />
-
-          <div class="boxInput" v-if="status === 'Modificação de Molde'">
-            <h5>Cód. RGM</h5>
-            <input type="text" v-model="codRGM"/>
-          </div>
-          
-          <div class="boxInput" v-if="status === 'Novo Produto do Molde'">
-            <h5>Cód. NNP</h5>
-            <input type="text" v-model="codNNP"/>
-          </div>
-        </div>
-
+  
         <!-- selecionar processos -->
         <div class="rowInputs contentInputs">
           <div class="boxInput">
