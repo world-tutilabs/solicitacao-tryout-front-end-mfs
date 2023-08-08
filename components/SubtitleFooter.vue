@@ -27,9 +27,9 @@ export default {
   data() {
     return {
       subtitlesEng: [
-        { title: 'Análise', background: 'background: var(--blue)' },
-        { title: 'Aprovado', background: 'background: var(--green)' },
-        { title: 'Reprovado', background: 'background: var(--orange)' },
+        { title: 'Em Análise', background: 'background: var(--blue)' },
+        { title: 'Aprovado pelo PCP', background: 'background: var(--green)' },
+        { title: 'Reprovado pelo PCP', background: 'background: var(--orange)' },
         { title: 'Concluído', background: 'background: var(--lilac)' }
       ],
       subtitlesPCP: [
