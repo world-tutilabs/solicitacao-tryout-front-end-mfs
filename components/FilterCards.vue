@@ -4,16 +4,6 @@
   </div>
   <div v-else>
     <div v-if="!routePcp" class="container">
-      <!-- <div
-        v-for="filter in filters"
-        :key="filter.name"
-        :class="{ cards: true }"
-        @click="greet(filter)"
-      >
-        <span>{{ filter.topName }}</span>
-        <h2>{{ filter.name }}</h2>
-        <h3>{{ filter.count }}</h3>
-      </div> -->
       <NuxtLink
         v-for="filter in filters"
         :key="filter.name"
@@ -21,9 +11,9 @@
         :class="{ cards: true }"
       >
         <span>{{ filter.topName }}</span>
-        <h2>
+        <h3>
           {{ filter.name }}
-        </h2>
+        </h3>
         <h3>{{ filter.count }}</h3>
       </NuxtLink>
     </div>
@@ -36,9 +26,9 @@
           :class="{ cards: true }"
         >
           <span>{{ filter.topName }}</span>
-          <h2>
+          <span>
             {{ filter.name }}
-          </h2>
+          </span>
           <h3>{{ filter.count }}</h3>
         </NuxtLink>
       </div>
@@ -135,25 +125,34 @@ export default {
 
   .cards {
     background: var(--white);
-    border: 1px solid var(--gray_text_border);
+    border: 1px solid var(--gray);
     width: 300px;
-    padding: max(0.3rem, 1vw);
+    padding: max(.3rem,1vw);
     height: 100%;
+    max-height: 6rem;
     border-radius: 5px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 0.4rem;
-    h2 {
-      font-size: max(0.9rem, 1.3vw);
+    grid-gap: .4rem;
+    gap: 0.2rem;
+    transition: 0.1s;
+
+    span {
+      font-size: 0.9rem;
+      font-weight: 600;
+      
     }
     &:hover {
       background: var(--bg);
     }
-    span {
-      font-size: max(0.8rem, 0.8vw);
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 500;
     }
+
     @media (max-width: 768px) {
       padding: 0.5rem;
       span {
