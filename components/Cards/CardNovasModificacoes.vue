@@ -1,42 +1,78 @@
 <template>
   <div class="containerCard">
-    <div v-for="(data, index) in dataListAllAprov" :key="index" class="cardInformacoes">
-      <!-- <pre>{{ data }}</pre> -->
+    <div class="cardInformacoes">
       <label for="">
         <h4>N. Tryout</h4>
-        <span>{{ data.number_tryout }}</span>
+        <span>{{ dataListAllAprov.number_tryout }}</span>
       </label>
 
       <label for="">
         <h4>Cód. SAP</h4>
-        <span>{{ data.code_sap }}</span>
+        <span>{{ dataListAllAprov.code_sap }}</span>
       </label>
 
       <label for="">
         <h4>Cliente</h4>
-        <span>{{ data.client }}</span>
+        <span>{{ dataListAllAprov.client }}</span>
       </label>
 
       <label for="">
-        <h4>Data Programada</h4>
-        <span>{{ data.programmed_date }}</span>
+        <h4>Homologado em</h4>
+        <span>{{ dataListAllAprov.homologation.homologation_at }}</span>
       </label>
 
       <label for="">
         <h4>Descrição</h4>
-        <span>{{ data.reason.description }}</span>
+        <span>{{ dataListAllAprov.reason.description }}</span>
       </label>
+      <label for="">
+        <h4>Homologado por</h4>
+        <pre>{{ dataListAllAprov.homologation.homologation_user.nome }}</pre>
+      </label>
+    </div>
+
+    <div>
+      <Button titleBtn="Solicitar Modificação" @click.native="showModal" />
+    </div>
+    <div v-if="modal">
+      <ModalSolicitarModificacoes
+        :modalData="dataListAllAprov"
+        @modalEmitStatus="closeModal"
+        :dataRRIM="dataRRIM"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import http from "~/services/newMold/mold";
 export default Vue.extend({
   props: {
     dataListAllAprov: Array,
+    modalEmitStatus: Boolean,
   },
-  data() {},
+  data() {
+    return {
+      modal: false,
+      dataRRIM: {},
+    };
+  },
+
+  methods: {
+    async showModal() {
+      this.modal = true;
+      document.body.style.overflow = "hidden";
+      await http.listAll(5).then((res) => {
+        this.dataRRIM = res.data;
+        // console.log('teste', res.data);
+      });
+    },
+    closeModal(e: boolean): void {
+      this.modal = !this.modal;
+      document.body.style.overflow = "auto";
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>
@@ -47,9 +83,9 @@ export default Vue.extend({
   border-radius: 7px;
   border: 1px solid var(--gray_text);
   overflow: hidden;
-  margin-bottom: 10px;
+  margin-top: 20px;
 
-  .cardInformacoes{
+  .cardInformacoes {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, 1fr);

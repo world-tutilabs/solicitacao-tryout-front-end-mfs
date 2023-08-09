@@ -27,6 +27,7 @@ export default {
     async listAllHistoricReq() {
       await http.listAllAproveds(this.currentPage, 10, 1).then((res) => {
         this.listHistoric = res.data.list;
+        console.log('aqki', this.listHistoric);
       });
     },
 

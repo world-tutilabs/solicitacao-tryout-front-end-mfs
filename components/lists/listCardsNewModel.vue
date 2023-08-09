@@ -56,6 +56,7 @@ export default {
     // lista que passa para componente pagination para calcular a qtd pages
     await http.listAllRRIM(0, this.countPage, 2).then((res) => {
       this.listSearch = res.data.list;
+      console.log(this.listSearch);
     });
   },
 

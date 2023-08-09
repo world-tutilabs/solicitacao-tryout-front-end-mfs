@@ -63,6 +63,7 @@ export default {
         .listAllHistoric(this.currentPage, 10)
         .then(async (res) => {
           this.listHistoric = res.data;
+          console.log(this.listHistoric );
         });
     },
     displayNewList(e) {
