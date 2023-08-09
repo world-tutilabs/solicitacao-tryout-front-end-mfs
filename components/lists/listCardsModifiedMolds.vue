@@ -1,7 +1,9 @@
 <template>
   <div>
     <h1>Pagina em desenvolvimento</h1>
-    <pre>{{ listAllReportApproveds }}</pre>
+    <!-- <CardNovasModificacoes v-for="(data, index) in listAllReportApproveds" :key="index" :dataListAllAprov="data[0]" /> -->
+    <CardNovasModificacoes :dataListAllAprov="listAllReportApproveds.list" />
+    <!-- <pre>{{ listAllReportApproveds }}</pre> -->
     
 
     <!-- <CardModel
@@ -21,7 +23,7 @@ import httpNovoMolde from '../../services/newMold/mold'
 export default {
   data() {
     return {
-      listAllReportApproveds: []
+      listAllReportApproveds: {}
     };
   },
 
