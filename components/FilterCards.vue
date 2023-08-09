@@ -67,11 +67,28 @@ export default {
     },
   },
 
-  async fetch() {
-    if (this.$nuxt.$route.path === "/") {
-      await httpNewMold.listAllRRIM(0, 10000, 2).then((res) => {
+  methods: {
+    async countSetAllRRIM () {
+      await httpNewMold.listAllRRIM(0, 10, 2).then((res) => {
+        
         this.filters[0].count = res.data.countTotal;
       });
+    }
+  },
+
+  
+
+  async fetch() {
+    if (this.$nuxt.$route.path === "/" || this.$nuxt.$route.path === 'sol-modificacao') {
+      await httpNewMold.listAllRRIM(0, 10, 2).then((res) => {
+        
+        this.filters[0].count = res.data.countTotal;
+      });
+
+      await httpNewMold.listAllAproveds(0, 0, 5).then((res) => {
+        console.log(res.data)
+        this.filters[1].count = res.data.all
+    })
     } else {
       // lista os que estao em revisao
       await httpNewMold.listAllAproveds(1000, 10, 3).then((res) => {
