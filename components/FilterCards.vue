@@ -1,8 +1,5 @@
 <template>
-  <div v-if="$fetchState.pending">
-    <Loading />
-  </div>
-  <div v-else>
+  <div>
     <div v-if="!routePcp" class="container">
       <NuxtLink
         v-for="filter in filters"
@@ -50,46 +47,20 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      countTeste: 0,
-      listAllApproveds: [],
-      listHistoric: [],
-      countHistoric: 0,
-      counter: 0,
-      countMold: "",
-    };
-  },
 
-  watch: {
-    countTeste: async function (newValue) {
-      this.filters[0].count = newValue;
-    },
-  },
 
-  methods: {
-    async countSetAllRRIM () {
-      await httpNewMold.listAllRRIM(0, 10, 2).then((res) => {
-        
-        this.filters[0].count = res.data.countTotal;
-      });
-    }
-  },
-
-  
-
-  async fetch() {
+  async mounted () {
     if (this.$nuxt.$route.path === "/" || this.$nuxt.$route.path === 'sol-modificacao') {
       await httpNewMold.listAllRRIM(0, 10, 2).then((res) => {
-        
         this.filters[0].count = res.data.countTotal;
       });
 
       await httpNewMold.listAllAproveds(0, 0, 5).then((res) => {
         console.log(res.data)
         this.filters[1].count = res.data.all
-    })
-    } else {
+      })
+    } 
+    else {
       // lista os que estao em revisao
       await httpNewMold.listAllAproveds(1000, 10, 3).then((res) => {
         this.filtersPcp[0].count = res.data.all;
@@ -106,6 +77,7 @@ export default {
       });
     }
   },
+
   methods: {
     greet(event) {
       if (event.name === "Modificações" || event.name === "Resina") {
