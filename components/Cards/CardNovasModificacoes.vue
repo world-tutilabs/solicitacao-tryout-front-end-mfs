@@ -58,15 +58,17 @@ export default Vue.extend({
       dataRRIM: {},
     };
   },
-
+  created: async function () {
+  await http.listAll(5).then((res) => {
+        this.dataRRIM = res.data;
+        // console.log('teste', res.data);
+      });
+},
   methods: {
     async showModal() {
       this.modal = true;
       document.body.style.overflow = "hidden";
-      await http.listAll(5).then((res) => {
-        this.dataRRIM = res.data;
-        // console.log('teste', res.data);
-      });
+    
     },
     closeModal(e: boolean): void {
       this.modal = !this.modal;
