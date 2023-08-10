@@ -65,5 +65,6 @@ export default {
   font-weight: var(--bold);
   font-size: 1rem;
   background: var(--green);
+  margin-top: 15px;
 }
 </style>
