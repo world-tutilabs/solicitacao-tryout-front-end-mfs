@@ -12,13 +12,13 @@ export default {
       filters: [
         { topName: "Novos",
           name: "Moldes",
-          count: "", 
+          count: "Aguardando Dados...", 
           router: "/" 
         },
         {
           topName: "Solicitações de",
           name: "Modificações",
-          count: "000",
+          count: "Aguardando Dados...",
           router: "/sol-modificacao",
         }
       ],

@@ -6,13 +6,7 @@ export default {
   listAllRRIM: async (page = 0, offset = 10, statusId) => {
     return await httpRRIM.get(`/rrim/list/aprovadas?page=${page}&offset=${offset}&statusId=${statusId}`)
   },
-  // listAllRRIM: async (page = 0, offset = 10,) => {
-  //   return await httpRRIM.get(`/rrim/list/aprovadas?page=${page}&offset=${offset}`)
-  // },
-  // listAll: async () => {
-  //   return await httpRRIM.get(`/list/aprovadas?page=0&offset=100000`)
-  // },
-
+  
   listAllMachines: async () => {
     return await httpSAP.get('/api/v1/sap/tutilabs/machines')
   },
