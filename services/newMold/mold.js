@@ -6,30 +6,29 @@ export default {
   listAllRRIM: async (page = 0, offset = 10, statusId) => {
     return await httpRRIM.get(`/rrim/list/aprovadas?page=${page}&offset=${offset}&statusId=${statusId}`)
   },
-  // listAllRRIM: async (page = 0, offset = 10,) => {
-  //   return await httpRRIM.get(`/rrim/list/aprovadas?page=${page}&offset=${offset}`)
-  // },
-  // listAll: async () => {
-  //   return await httpRRIM.get(`/list/aprovadas?page=0&offset=100000`)
-  // },
+
   listCodProducts: async (id) => {
     return await httpSAP.get(`/api/v1/sap/tutilabs/boms/${id}`)
-    
   },
+
   listAll: async (id) => {
     return await httpRRIM.get(`/rrim/find/${id}`)
-    
   },
+
   listAllMachines: async () => {
     return await httpSAP.get('/api/v1/sap/tutilabs/machines')
   },
 
   listAllHistoric: async (offset = 0, limit = 10) => {
-    return await httpSolTryOut.get(`/list?limit=${limit}&offset=${offset}`)
+    return await httpSolTryOut.get(`/solicitation/historic?limit=${limit}&offset=${offset}`)
   },
 
   listAllAproveds: async (offset = 0, limit = 10, status) => {
-    return await httpSolTryOut.get(`/listByStatus?limit=${limit}&offset=${offset}&status=${status}`)
+    return await httpSolTryOut.get(`/solicitation/listByStatus?limit=${limit}&offset=${offset}&status=${status}`)
+  },
+
+  listAllHistoricModification: async (offset = 5, limit = 5) => {
+    return await httpSolTryOut.get(`/modification/historic?offset=${offset}&limit=${limit}`)
   },
 
   createNewSolicitation: async (data) => {
