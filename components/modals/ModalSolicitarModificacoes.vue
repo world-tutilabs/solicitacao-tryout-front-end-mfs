@@ -16,20 +16,14 @@
         <div class="rowInputs">
           <label class="boxInput">
             <h5>Código do Produto:</h5>
-            <!-- <pre>{{ productsOptions }}</pre> -->
-            <input type="text" list="products" @change="catchIndexProduct" />
-            <datalist id="products">
-              <option
-                v-for="(products, index) in productsOptions.Produtos"
-                :key="index"
-              >
-                {{ products.COD_PRODUTO }}
-              </option>
-            </datalist>
+            <input type="text" list="products" v-model="numberCodigo"  />
+  
           </label>
+  {{ numberCodigo }}
+  <!-- <button @click=" validarCodProd()"> ++</button> -->
           <label class="boxInput">
             <p>Descrição do Produto</p>
-            <input type="text" v-model="indexProduct" disabled />
+            <input type="text" :value="modalData.desc_product" disabled />
           </label>
           <label class="boxInput">
             <h5>Cliente:</h5>
@@ -37,17 +31,17 @@
           </label>
 
           <InputSelect @status="validarEmit" :type="'Modificacao'" />
+          <section>
+            <div class="boxInput" v-if="status === 'Modificação de Molde'">
+              <h5>Cód. RGM</h5>
+              <input type="text" v-model="codRGM" />
+            </div>
 
-          <div class="boxInput" v-if="status === 'Modificação de Molde'">
-            <h5>Cód. RGM</h5>
-            <input type="text" v-model="codRGM" />
-          </div>
-
-          <div class="boxInput" v-if="status === 'Novo Produto do Molde'">
-            <h5>Cód. NNP</h5>
-            <input type="text" v-model="codNNP" />
-          </div>
-
+            <div class="boxInput" v-if="status === 'Novo Produto do Molde'">
+              <h5>Cód. NNP</h5>
+              <input type="text" v-model="codNNP" />
+            </div>
+          </section>
           <div class="boxInput">
             <p>Processo:</p>
             <select>
@@ -182,19 +176,17 @@
 
               <SlotCard>
                 <Title title="Matéria Prima" />
-                <FormInput
-                  label="Cód + Descrição"
-                  type="text"
-                  v-model="feedstocksDescription"
-                  disabled
-                />
+                <FormInput label="Cód + Descrição" :value="valueInput" disabled />
+    
               </SlotCard>
+
+          
             </div>
           </div>
         </div>
 
-        <!-- <pre>        {{ productsOptions }}</pre> -->
-        <!-- <pre>{{ modalData }}</pre> -->
+        <pre>{{ dataRRIM.InforGeral.produto[0].COD_MATERIA_PRIMA }}</pre>
+        <pre>{{ dataRRIM.InforGeral.produto[0].DESC_MATERIA_PRIMA }}</pre>
 
         <div class="boxButtons">
           <button class="cancel" @click="closeModal">Cancelar</button>
@@ -218,6 +210,8 @@ export default {
   },
   data() {
     return {
+      numberCodigo:"",
+      valueInput:"",
       status: "",
       codRGM: "",
       legenda: {
@@ -290,20 +284,26 @@ export default {
     };
   },
   computed: {
-    // showContainer() {
-    //   if (this.$route.name === "") {
-    //     return (this.myRouter = false);
-    //   }
-    //   if (
-    //     this.$route.name === "resin-test" ||
-    //     this.$route.name === "modifications"
-    //   ) {
-    //     return (this.myRouter = true);
-    //   }
-    // },
+
   },
 
   methods: {
+    async validarCodProd(){
+      await http
+        .listCodProducts(this.numberCodigo)
+        .then((res) => {
+          console.log(res.result);
+          if(res.result === undefined){
+            alert('codigo invalido')
+          }
+        })
+        .catch((error) => {
+          alert('codigo invalido')
+          if (error.response.status === 500) {
+            this.$toast.error("Erro no servidores");
+          }
+        });
+    },
     async saveNewSolicitation() {
       if (
         !this.newSolicitation.cod_prod ||
@@ -355,16 +355,6 @@ export default {
         });
     },
 
-    catchIndexProduct(event) {
-      this.newSolicitation.cod_prod = event.target.value;
-
-      const value = this.productsOptions.Produtos.find(
-        (item) => item.COD_PRODUTO === event.target.value
-      );
-      this.indexProduct = value.DESC_PRODUTO;
-      this.feedstocksDescription = `${value.COD_MATERIA_PRIMA} - ${value.DESC_MATERIA_PRIMA}`;
-    },
-
     closeModal() {
       this.indexProduct = null;
 
@@ -394,6 +384,8 @@ export default {
     },
 
     addProcess() {
+      this.valueInput = (this.dataRRIM.InforGeral.produto[0].COD_MATERIA_PRIMA) + ( this.dataRRIM.InforGeral.produto[0].DESC_MATERIA_PRIMA) 
+      this. validarCodProd()
       if (this.quantidade === "") {
         this.$toast.warning("Algum campo não foi preenchido");
       } else if (this.quantidade <= 0) {
@@ -428,6 +420,8 @@ export default {
     // await http.listAllMachines().then((res) => {
     //   this.listAllMachines = res.data;
     // });
+
+    
   },
   watch: {
     quantidade(newValue) {

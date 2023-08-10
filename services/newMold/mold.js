@@ -12,6 +12,10 @@ export default {
   // listAll: async () => {
   //   return await httpRRIM.get(`/list/aprovadas?page=0&offset=100000`)
   // },
+  listCodProducts: async (id) => {
+    return await httpSAP.get(`/api/v1/sap/tutilabs/boms/${id}`)
+    
+  },
   listAll: async (id) => {
     return await httpRRIM.get(`/rrim/find/${id}`)
     
