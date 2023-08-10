@@ -16,6 +16,7 @@
         <div class="rowInputs">
           <label class="boxInput">
             <h5>Código do Produto:</h5>
+            <!-- <pre>{{ productsOptions }}</pre> -->
             <input type="text" list="products" @change="catchIndexProduct" />
             <datalist id="products">
               <option
@@ -106,15 +107,15 @@
                 <p>Motivo</p>
                 <input
                   type="text"
-                  value="Novo Molde"
+                  :value="codRGM"
                   disabled
-                  v-if="reasonSolicitation === 1"
+                  v-if="status === 'Modificação de Molde'"
                 />
                 <input
                   type="text"
-                  value="Retroativo"
+                  :value="codNNP"
                   disabled
-                  v-if="reasonSolicitation === 2"
+                  v-if="status === 'Novo Produto do Molde'"
                 />
               </div>
 
@@ -424,8 +425,6 @@ export default {
 
   created: async function () {
     this.productsOptions = this.dataRRIM;
-    console.log(this.dataRRIM, "sss");
-    console.log(this.productsOptions, "ssssas");
     // await http.listAllMachines().then((res) => {
     //   this.listAllMachines = res.data;
     // });

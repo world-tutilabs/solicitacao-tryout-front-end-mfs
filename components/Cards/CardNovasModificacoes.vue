@@ -59,7 +59,7 @@ export default Vue.extend({
     };
   },
   created: async function () {
-  await http.listAll(5).then((res) => {
+    await http.listAll(5).then((res) => {
         this.dataRRIM = res.data;
         // console.log('teste', res.data);
       });
