@@ -25,12 +25,13 @@ export default {
   },
 
   listAllHistoric: async (offset = 0, limit = 10) => {
-    return await httpSolTryOut.get(`/list?limit=${limit}&offset=${offset}`)
+    return await httpSolTryOut.get(`/solicitation/historic?limit=${limit}&offset=${offset}`)
   },
 
   listAllAproveds: async (offset = 0, limit = 10, status) => {
-    return await httpSolTryOut.get(`/listByStatus?limit=${limit}&offset=${offset}&status=${status}`)
+    return await httpSolTryOut.get(`/solicitation/listByStatus?limit=${limit}&offset=${offset}&status=${status}`)
   },
+  
 
   createNewSolicitation: async (data) => {
     return await httpSolTryOut.post(`/signup`, data)

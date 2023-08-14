@@ -2,25 +2,29 @@
   <div class="containerFilter">
     <div class="containerModal">
       <header>
-        <div>
+        <section class="content_HeaderLeft">
           <h1>Solicitação de Modificação</h1>
           <p>Informações Gerais</p>
-        </div>
+        </section>
 
-        <div @click="closeModal" class="btn-closed">
+        <section @click="closeModal" class="btn-closed">
           <img src="~/static/icons/x.svg" />
-        </div>
+        </section>
       </header>
 
       <div class="form">
         <div class="rowInputs">
           <label class="boxInput">
             <h5>Código do Produto:</h5>
-            <input type="text" list="products" v-model="numberCodigo"  />
-  
+            <the-mask
+              :mask="['##.###.######.##-##', '##.###.######.##-##']"
+              :masked="true"
+              v-model="numberCodigo"
+              :class="{ 'text-red': isTelefoneInvalido }"
+              class="inputMask"
+              placeholder="Campo Obrigatorio..."
+            />
           </label>
-  {{ numberCodigo }}
-  <!-- <button @click=" validarCodProd()"> ++</button> -->
           <label class="boxInput">
             <p>Descrição do Produto</p>
             <input type="text" :value="modalData.desc_product" disabled />
@@ -48,7 +52,7 @@
               <option value="">Processo de Injeção</option>
             </select>
           </div>
-          <div class="boxInput">
+          <div class="boxInput"> 
             <p>Quantidade:</p>
             <input type="number" min="1" v-model="quantidade" />
           </div>
@@ -63,7 +67,7 @@
 
           <button
             class="buttonAdd"
-            @click.prevent="addProcess"
+            @click.once="addProcess"
             v-if="!processValidation"
           >
             <img src="~/static/icons/plus.svg" alt="" />
@@ -101,13 +105,13 @@
                 <p>Motivo</p>
                 <input
                   type="text"
-                  :value="codRGM"
+                  :value="status"
                   disabled
                   v-if="status === 'Modificação de Molde'"
                 />
                 <input
                   type="text"
-                  :value="codNNP"
+                  :value="status"
                   disabled
                   v-if="status === 'Novo Produto do Molde'"
                 />
@@ -176,18 +180,15 @@
 
               <SlotCard>
                 <Title title="Matéria Prima" />
-                <FormInput label="Cód + Descrição" :value="valueInput" disabled />
-    
+                <FormInput
+                  label="Cód + Descrição"
+                  :value="valueInput"
+                  disabled
+                />
               </SlotCard>
-
-          
             </div>
           </div>
         </div>
-
-        <pre>{{ dataRRIM.InforGeral.produto[0].COD_MATERIA_PRIMA }}</pre>
-        <pre>{{ dataRRIM.InforGeral.produto[0].DESC_MATERIA_PRIMA }}</pre>
-
         <div class="boxButtons">
           <button class="cancel" @click="closeModal">Cancelar</button>
           <button class="save" @click.prevent="saveNewSolicitation()">
@@ -201,23 +202,25 @@
   <script>
 import http from "~/services/newMold/mold";
 import dayjs from "dayjs";
-
+import { TheMask } from "vue-the-mask";
 export default {
   props: {
     displayModal: Boolean,
     dataRRIM: Object,
     modalData: Object,
+    // status: {
+    //   type: String,
+    // }
   },
+  components: { TheMask },
   data() {
     return {
-      numberCodigo:"",
-      valueInput:"",
+      codigoValido: false,
+      numberCodigo: "",
+      valueInput: "",
       status: "",
       codRGM: "",
-      legenda: {
-        option01: "Novo Molde",
-        option02: "Retroativo",
-      },
+      codNNP: "",
       toToggleFilter: 0,
       machine: "",
       dateCurrent: dayjs().format("YYYY-MM-DD"),
@@ -284,29 +287,27 @@ export default {
     };
   },
   computed: {
-
+    isTelefoneInvalido() {
+      return this.numberCodigo.length < 19;
+    },
   },
-
   methods: {
-    async validarCodProd(){
-      await http
-        .listCodProducts(this.numberCodigo)
-        .then((res) => {
-          console.log(res.result);
-          if(res.result === undefined){
-            alert('codigo invalido')
-          }
-        })
-        .catch((error) => {
-          alert('codigo invalido')
-          if (error.response.status === 500) {
-            this.$toast.error("Erro no servidores");
-          }
-        });
+    async validarCodProd() {
+      try {
+        const response = await http.listCodProducts(this.numberCodigo);
+
+        if (response.data.result === undefined) {
+          this.$toast.error("Código do Produto inválido");
+          return (this.codigoValido = false);
+        }
+
+        this.codigoValido = !!response.data.result.Code;
+      } catch (error) {
+        console.error("Erro ao validar código de produto:", error);
+      }
     },
     async saveNewSolicitation() {
       if (
-        !this.newSolicitation.cod_prod ||
         !this.quantidade ||
         !this.newData ||
         !this.machine ||
@@ -315,44 +316,44 @@ export default {
         this.$toast.warning("Algum campo não foi preenchido");
         return;
       }
+      console.log(this.testSolicitation);
+      // this.testSolicitation.code_sap = this.numberCodigo;
+      // this.testSolicitation.product_description = this.modalData.desc_product;
+      // this.testSolicitation.client = this.dataRRIM.CLIENTE;
+      // this.testSolicitation.reason = this.reasonSolicitation;
+      // this.testSolicitation.InjectionProcess.proc_technician =
+      //   this.dataRRIM.homologacao[0].created_user.nome;
+      // this.testSolicitation.InjectionProcess.quantity = parseInt(
+      //   this.quantidade
+      // );
+      // this.testSolicitation.date = this.newData;
+      // this.testSolicitation.InjectionProcess.feedstocks.kg = 0;
+      // this.testSolicitation.InjectionProcess.feedstocks.description =
+      //   this.feedstocksDescription;
+      // this.testSolicitation.InjectionProcess.labor.amount = parseInt(
+      //   this.laborAmount
+      // );
+      // this.testSolicitation.InjectionProcess.labor.description =
+      //   this.laborDescription;
+      // this.testSolicitation.InjectionProcess.mold.mold = this.dataRRIM.MOLDE;
+      // this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(
+      //   this.moldNumber
+      // );
 
-      this.testSolicitation.code_sap = this.newSolicitation.cod_prod;
-      this.testSolicitation.product_description = this.indexProduct;
-      this.testSolicitation.client = this.dataRRIM.CLIENTE;
-      this.testSolicitation.reason = this.reasonSolicitation;
-      this.testSolicitation.InjectionProcess.proc_technician =
-        this.dataRRIM.homologacao[0].created_user.nome;
-      this.testSolicitation.InjectionProcess.quantity = parseInt(
-        this.quantidade
-      );
-      this.testSolicitation.date = this.newData;
-      this.testSolicitation.InjectionProcess.feedstocks.kg = 0;
-      this.testSolicitation.InjectionProcess.feedstocks.description =
-        this.feedstocksDescription;
-      this.testSolicitation.InjectionProcess.labor.amount = parseInt(
-        this.laborAmount
-      );
-      this.testSolicitation.InjectionProcess.labor.description =
-        this.laborDescription;
-      this.testSolicitation.InjectionProcess.mold.mold = this.dataRRIM.MOLDE;
-      this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(
-        this.moldNumber
-      );
+      // this.testSolicitation.InjectionProcess.machine.model = this.machine;
+      // this.$store.commit("setCountNewModels", this.toToggleFilter++);
 
-      this.testSolicitation.InjectionProcess.machine.model = this.machine;
-      this.$store.commit("setCountNewModels", this.toToggleFilter++);
-
-      await http
-        .createNewSolicitation(this.testSolicitation)
-        .then((res) => {
-          this.$toast.success("Solicitação realizada com sucesso!");
-          this.closeModal();
-        })
-        .catch((error) => {
-          if (error.response.status === 500) {
-            this.$toast.error("Erro no servidores");
-          }
-        });
+      // await http
+      //   .createNewSolicitation(this.testSolicitation)
+      //   .then((res) => {
+      //     this.$toast.success("Solicitação realizada com sucesso!");
+      //     this.closeModal();
+      //   })
+      //   .catch((error) => {
+      //     if (error.response.status === 500) {
+      //       this.$toast.error("Erro no servidores");
+      //     }
+      //   });
     },
 
     closeModal() {
@@ -380,17 +381,23 @@ export default {
 
     validarEmit(payload) {
       this.status = payload.newValue;
-      console.log(this.status);
+  
     },
 
-    addProcess() {
-      this.valueInput = (this.dataRRIM.InforGeral.produto[0].COD_MATERIA_PRIMA) + ( this.dataRRIM.InforGeral.produto[0].DESC_MATERIA_PRIMA) 
-      this. validarCodProd()
-      if (this.quantidade === "") {
-        this.$toast.warning("Algum campo não foi preenchido");
-      } else if (this.quantidade <= 0) {
+    async  addProcess() {
+      await  this.validarCodProd();
+    
+      this.valueInput =
+        this.dataRRIM.InforGeral.produto[0].COD_MATERIA_PRIMA +
+        this.dataRRIM.InforGeral.produto[0].DESC_MATERIA_PRIMA;
+
+      if (this.status === "") {
+        this.$toast.error("Campo Motivo não foi preenchido");
+      }
+      
+      if (this.quantidade <= 0) {
         this.$toast.error("Campo quantidade com valores impróprios");
-      } else {
+      } else if (this.codigoValido === true) {
         this.count++;
         this.processValidation = true;
       }
@@ -420,8 +427,6 @@ export default {
     // await http.listAllMachines().then((res) => {
     //   this.listAllMachines = res.data;
     // });
-
-    
   },
   watch: {
     quantidade(newValue) {
@@ -586,7 +591,11 @@ export default {
         }
       }
     }
-
+    .text-red {
+      color: #c84a4a;
+      font-weight: bold;
+      border: solid 1px #c84a4a;
+    }
     .containerProcess {
       .tabs {
         display: flex;
