@@ -2,7 +2,10 @@
   <div class="box">
     <div class="content">
       <div class="header-content">
-        <div :class="flagValidation(dataMold.status.description)"></div>
+      
+        <div :class="flagValidation(description)"> 
+     <!-- {{ description }} -->
+      </div>
         <div class="container_button" @click="openInfoCard">
           <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
           <img src="~/static/icons/arrowOpened.svg" alt="" srcset="" v-else />
@@ -87,21 +90,20 @@
             <span>Código - Descrição</span>
             <h4>
               {{ dataMold.solicitation.injectionProcess.feedstock.description }}
+
+          
             </h4>
           </div>
         </div>
+    <pre>
+      {{ dataMold }}
+    </pre>    
       </div>
 
       <div class="contentContainer" v-if="isOpenInfoCard">
-        <SlotBtn>
-          <BtnPirula
-            titleBtn="Revisar Solicitação"
-            color="pcp-analise"
-            v-if="$route.name === 'pcp-waiting'"
-            :dataMold="dataMold"
-            @updateCard="updateCard"
-          />
-        </SlotBtn>
+          <Button titleBtn="Revisar Solicitação" @click.native="ShowModal"/>
+
+        <ModalFormPcp v-if="this.modal == true" @closeModal="closeModal" :displayModal="modalStatus" />
       </div>
     </div>
   </div>
@@ -115,17 +117,25 @@ export default Vue.extend({
 
   props: {
     dataMold: Object,
+    description: String
   },
   data() {
     return {
       isOpenInfoCard: false,
       btnStatus: this.status,
-
+      modal: false,
       typeHomologar: "",
       showPopUp: true,
+      
     };
   },
   methods: {
+    ShowModal(){
+      this.modal = true
+    },
+    closeModal(){
+      this.modal = false
+    },
     openInfoCard() {
       return (this.isOpenInfoCard = !this.isOpenInfoCard);
     },
@@ -139,9 +149,9 @@ export default Vue.extend({
     },
 
     flagValidation(data) {
-      if (data == "Aprovado") {
+      if (data == "Novo Produto") {
         return "flap flap-green";
-      } else if (data == "Revisao") {
+      } else if (data == "Novo") {
         return "flap flap-blue";
       } else if (data == "Reprovado") {
         return "flap flap-orange";

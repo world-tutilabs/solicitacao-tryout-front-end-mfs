@@ -29,29 +29,6 @@ export default {
     };
   },
 
-  // methods: {
-  //   cancelBtn: async function () {
-  //     this.$toast.info("Solicitação Cancelada");
-  //     this.homologate.status = 4;
-  //     this.homologate.comment = "aaa";
-  //     await http.deleteSolicitation(
-  //       this.dataMold.homologation.id,
-  //       this.homologate
-  //     );
-  //   },
-
-
-  //   openModal() {
-  //     this.modalStatus = true;
-  //   },
-  //   closeModal() {
-  //     this.modalStatus = false;
-  //     setTimeout(() => {
-  //       this.$emit("updateCard");
-  //     }, 1000);
-  //   },
-  // },
-  // components: { ModalFormPcp, ModalCancelSolicitation },
 };
 </script>
 

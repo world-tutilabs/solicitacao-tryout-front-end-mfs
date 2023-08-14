@@ -34,12 +34,12 @@ export default {
         { title: 'Relatório Reprovado', background: 'background: var(--red)' }
       ],
       subtitlesPCP: [
-        { title: 'Solicitação TryOut', background: 'background: var(--blue)' },
+        { title: 'Novos TryOuts', background: 'background: var(--blue)' },
         {
-          title: 'Modificação de Molde',
+          title: 'Solicitação de Modificação',
           background: 'background: var(--green)',
         },
-        { title: 'Teste de Resina', background: 'background: var(--orange)' },
+        { title: 'Solicitação de NP', background: 'background: var(--orange)' },
       ],
     }
   },

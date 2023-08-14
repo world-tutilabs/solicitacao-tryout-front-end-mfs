@@ -9,9 +9,6 @@
       {{ titleBtn }}
     </button>
 
-    <!-- <button class="btn" :style="{ backgroundColor: verifyColor() }" @click="" v-if="this.color === 'Reprovado'">{{ titleBtn
-    }}</button> -->
-
     <button
       class="btn"
       :style="{ backgroundColor: verifyColor() }"
