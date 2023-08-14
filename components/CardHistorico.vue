@@ -10,6 +10,8 @@
           <img src="~/static/icons/arrowOpened.svg" alt="" srcset="" v-else />
         </div>
       </div>
+
+      
       <div class="containerMain">
         <div class="informs">
           <div class="inform">
