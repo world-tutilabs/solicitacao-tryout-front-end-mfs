@@ -30,6 +30,7 @@ export default {
   listAllHistoricModification: async (offset = 5, limit = 5) => {
     return await httpSolTryOut.get(`/modification/historic?offset=${offset}&limit=${limit}`)
   },
+  
 
   createNewSolicitation: async (data) => {
     return await httpSolTryOut.post(`/signup`, data)
