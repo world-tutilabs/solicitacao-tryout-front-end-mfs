@@ -1,34 +1,12 @@
 <template>
-    <div>
-    <button
-      class="btn"
-      @click="cancelBtn"
-      v-if="this.color === 'pcp-approveds'"
-    >
+    <button class="btn">
       {{ titleBtn }}
     </button>
-
-    <button
-      class="btn"
-      @click="openModal"
-      v-else
-    >
-      {{ titleBtn }}
-    </button>
-        <ModalSolicitarModificacoes
-        :displayModal="modalStatus"
-        @closeModal="closeModal"
-        :dataRRIM="dataMold"
-        />
-    </div>
-
 </template>
 
 
 <script>
-import ModalFormPcp from "../modals/ModalFormPcp.vue";
-import http from "../../services/pcp/pcp";
-import ModalCancelSolicitation from "../modals/ModalEng.vue";
+// import http from "../../services/pcp/pcp";
 
 export default {
   name: "BtnPirula",
@@ -38,16 +16,6 @@ export default {
     dataMold: Object,
   },
 
-  watch: {
-    modalStatus(newValue) {
-      let scrollBody = document.body;
-      if (newValue == true) {
-        scrollBody.style.overflowY = "hidden";
-      } else {
-        scrollBody.style.overflowY = "scroll";
-      }
-    },
-  },
   data() {
     return {
       colorBtn: "",
@@ -61,29 +29,29 @@ export default {
     };
   },
 
-  methods: {
-    cancelBtn: async function () {
-      this.$toast.info("Solicitação Cancelada");
-      this.homologate.status = 4;
-      this.homologate.comment = "aaa";
-      await http.deleteSolicitation(
-        this.dataMold.homologation.id,
-        this.homologate
-      );
-    },
+  // methods: {
+  //   cancelBtn: async function () {
+  //     this.$toast.info("Solicitação Cancelada");
+  //     this.homologate.status = 4;
+  //     this.homologate.comment = "aaa";
+  //     await http.deleteSolicitation(
+  //       this.dataMold.homologation.id,
+  //       this.homologate
+  //     );
+  //   },
 
 
-    openModal() {
-      this.modalStatus = true;
-    },
-    closeModal() {
-      this.modalStatus = false;
-      setTimeout(() => {
-        this.$emit("updateCard");
-      }, 1000);
-    },
-  },
-  components: { ModalFormPcp, ModalCancelSolicitation },
+  //   openModal() {
+  //     this.modalStatus = true;
+  //   },
+  //   closeModal() {
+  //     this.modalStatus = false;
+  //     setTimeout(() => {
+  //       this.$emit("updateCard");
+  //     }, 1000);
+  //   },
+  // },
+  // components: { ModalFormPcp, ModalCancelSolicitation },
 };
 </script>
 
@@ -97,5 +65,6 @@ export default {
   font-weight: var(--bold);
   font-size: 1rem;
   background: var(--green);
+  margin-top: 15px;
 }
 </style>

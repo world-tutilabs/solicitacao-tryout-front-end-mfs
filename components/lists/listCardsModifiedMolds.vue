@@ -1,16 +1,8 @@
 <template>
   <div>
-    <h1>Pagina em desenvolvimento</h1>
-    <pre>{{ listAllReportApproveds }}</pre>
-    
 
-    <!-- <CardModel
-      v-for="mold in listPaginated"
-      :key="mold.id"
-      :statusOrigin="mold.origin"
-      :flag="mold.flag"
-      :typeCard="mold.typeCard"
-    /> -->
+    <CardNovasModificacoes v-for="(data, index) in listAllReportApproveds.list" :key="index" :dataListAllAprov="data" />
+
 
     <Pagination :list="dataNewMold" @displayNewList="displayNewList"/>
   </div>
@@ -18,10 +10,11 @@
 
 <script>
 import httpNovoMolde from '../../services/newMold/mold'
+import http from "~/services/newMold/mold";
 export default {
   data() {
     return {
-      listAllReportApproveds: []
+      listAllReportApproveds: {}
     };
   },
 
@@ -35,7 +28,13 @@ export default {
 
     await httpNovoMolde.listAllAproveds(0, 10, 5).then((res) => {
       this.listAllReportApproveds = res.data
-    })
+      console.log('aki', res.data);
+    });
+    await http.listAllRRIM(0, this.countPage, 2).then((res) => {
+      this.listSearch = res.data.list;
+      console.log(this.listSearch);
+    });
+
   }
 };
 </script>

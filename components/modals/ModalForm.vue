@@ -194,12 +194,14 @@
               </SlotCard>
             </div>
           </div>
+          <pre>        {{ productsOptions }}</pre>
         </div>
         <div class="boxButtons">
           <button class="cancel" @click.prevent="closeModal()">Cancelar</button>
           <button class="save" @click.prevent="saveNewSolicitation()">
             Salvar
           </button>
+
         </div>
       </div>
     </div>

@@ -37,7 +37,7 @@ export default {
   },
   async mounted() {
     await httpLocal.listAllHistoric(0, 10000).then((res) => {
-      this.listSearch = res.data;
+      this.listSearch = res.data.result;
       console.log(this.listSearch);
     });
   },
@@ -63,6 +63,7 @@ export default {
         .listAllHistoric(this.currentPage, 10)
         .then(async (res) => {
           this.listHistoric = res.data;
+          console.log(this.listHistoric );
         });
     },
     displayNewList(e) {
