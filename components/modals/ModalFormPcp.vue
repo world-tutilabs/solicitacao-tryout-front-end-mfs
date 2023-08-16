@@ -16,28 +16,42 @@
           <div class="boxInput">
             <FormInput
               label="Código do Produto"
-          
+              v-model="dataPCP.solicitation.code_sap"
               readonly="readonly"
             />
           </div>
           <div class="boxInput">
             <FormInput
               label="Descrição do Produto"
-              
+              v-model="dataPCP.solicitation.desc_product"
               readonly="readonly"
             />
           </div>
           <div class="boxInput">
             <FormInput
               label="Cliente"
-          
+              v-model="dataPCP.solicitation.client"
               readonly="readonly"
             />
           </div>
           <div class="boxInput">
             <FormInput
               label="Motivo"
-          
+              v-model="dataPCP.solicitation.reason.description"
+              readonly="readonly"
+            />
+          </div>
+          <div class="boxInput">
+            <FormInput
+              v-if="dataPCP.solicitation.reason.description ==='Modificação de Molde'"
+              label=" Cód.RGM"
+              v-model="dataPCP.solicitation.code"
+              readonly="readonly"
+            />
+            <FormInput
+              v-if="dataPCP.solicitation.reason.description ==='Novo Produto'"
+              label="Cód. NNP"
+              v-model="dataPCP.solicitation.code"
               readonly="readonly"
             />
           </div>
@@ -58,35 +72,39 @@
                 <div class="boxInput">
                   <FormInput
                     label="Técnico"
-                   
+                    v-model="
+                      dataPCP.solicitation.injectionProcess.proc_technician
+                    "
                     readonly="readonly"
                   />
                 </div>
                 <div class="boxInput">
                   <FormInput
                     label="Quantidade"
-                  
+                    v-model="dataPCP.solicitation.injectionProcess.quantity"
                     readonly="readonly"
                   />
                 </div>
                 <div class="boxInput">
                   <FormInput
                     label="Motivo"
-                  
+                    v-model="dataPCP.solicitation.reason.description"
                     readonly="readonly"
                   />
                 </div>
                 <div class="boxInput">
                   <FormInput
                     label="Data Programada"
-                  
+                    :value="formatDate(dataPCP.solicitation.programmed_date)"
                     readonly="readonly"
                   />
                 </div>
                 <div class="boxInput">
                   <FormInput
                     label="Máquina"
-                  
+                    v-model="
+                      dataPCP.solicitation.injectionProcess.machine.model
+                    "
                     readonly="readonly"
                   />
                 </div>
@@ -98,7 +116,7 @@
                 <Title title="Mão de Obra" />
                 <FormInput
                   label="Quantidade"
-              
+                  v-model="dataPCP.solicitation.injectionProcess.labor.amount"
                   readonly="readonly"
                 />
               </SlotCardVue>
@@ -107,12 +125,14 @@
                 <Title title="Molde" />
                 <FormInput
                   label="Descrição"
-                  
+                  v-model="dataPCP.solicitation.injectionProcess.mold.desc_mold"
                   readonly="readonly"
                 />
                 <FormInput
                   label="N° Cavidade"
-                  
+                  v-model="
+                    dataPCP.solicitation.injectionProcess.mold.number_cavity
+                  "
                   readonly="readonly"
                 />
               </SlotCardVue>
@@ -121,7 +141,9 @@
                 <Title title="Matéria Prima" />
                 <FormInput
                   label="Descrição"
-              
+                  v-model="
+                    dataPCP.solicitation.injectionProcess.feedstock.description
+                  "
                   readonly="readonly"
                 />
               </SlotCardVue>
@@ -234,6 +256,7 @@ export default {
       window.location.reload();
     },
   },
+  
 };
 </script>
 

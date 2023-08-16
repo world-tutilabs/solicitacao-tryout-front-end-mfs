@@ -3,8 +3,8 @@
     <Loading />
   </div>
   <div v-else>
-    <CardModel v-for="mold in listHistoric" :key="mold.id" :dataMold="mold" />
-
+    <CardModal v-for="mold in listHistoric" :key="mold.id" :dataMold="mold" :description="listHistoric[0].reason.description" />
+<!-- {{ mold.solicitation.reason.description }} -->
     <Pagination
       :list="listHistoric"
       @displayNewList="displayNewList"

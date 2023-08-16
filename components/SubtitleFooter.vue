@@ -40,6 +40,7 @@ export default {
           background: 'background: var(--green)',
         },
         { title: 'Solicitação de NP', background: 'background: var(--orange)' },
+        { title: 'Retroativo', background: 'background: #fa2e59' },
       ],
     }
   },

@@ -60,7 +60,7 @@
 
           <div class="inform">
             <h3>Motivo</h3>
-            <p>{{ dataMold.solicitation.reason }}</p>
+            <p>{{ dataMold.solicitation.reason.description }}</p>
           </div>
         </div>
 
@@ -90,20 +90,18 @@
             <span>Código - Descrição</span>
             <h4>
               {{ dataMold.solicitation.injectionProcess.feedstock.description }}
-
-          
             </h4>
           </div>
         </div>
     <pre>
-      {{ dataMold }}
+      <!-- {{ dataMold }} -->
     </pre>    
       </div>
 
       <div class="contentContainer" v-if="isOpenInfoCard">
           <Button titleBtn="Revisar Solicitação" @click.native="ShowModal"/>
 
-        <ModalFormPcp v-if="this.modal == true" @closeModal="closeModal" :displayModal="modalStatus" />
+        <ModalFormPcp v-if="this.modal == true" @closeModal="closeModal" :dataPCP="dataMold" />
       </div>
     </div>
   </div>
@@ -153,9 +151,12 @@ export default Vue.extend({
         return "flap flap-green";
       } else if (data == "Novo") {
         return "flap flap-blue";
-      } else if (data == "Reprovado") {
+      } else if (data == "Modificação de Molde") {
         return "flap flap-orange";
-      } else {
+      } else if (data == "Retroativo") {
+        return "flap flap-blueSkye";
+      }
+       else {
         return "flap flap-none";
       }
     },
@@ -203,6 +204,9 @@ export default Vue.extend({
 
   .flap-orange {
     background-color: var(--orange);
+  }
+  .flap-blueSkye {
+    background-color: #fa2e59;
   }
 
   .container_button {

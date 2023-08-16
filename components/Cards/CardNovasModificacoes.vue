@@ -55,6 +55,7 @@
 import Vue from "vue";
 import dayjs  from "dayjs"
 import http from "~/services/newMold/mold";
+import { Aprovados } from "~/types/solicitacao";
 export default Vue.extend({
   props: {
     dataListAllAprov: Array,
@@ -70,7 +71,6 @@ export default Vue.extend({
   created: async function () {
     await http.listAll(5).then((res) => {
         this.dataRRIM = res.data;
-        // console.log('teste', res.data);
       });
 },
   methods: {
