@@ -3,7 +3,7 @@
     <Loading />
   </div>
   <div v-else>
-    <CardModel v-for="mold in listSearch" :key="mold.id" :dataMold="mold" />
+    <CardModal v-for="mold in listSearch" :key="mold.id" :dataMold="mold" />
     <Pagination
       :list="listSearch"
       @displayNewList="displayNewList"

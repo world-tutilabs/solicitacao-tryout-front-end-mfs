@@ -194,7 +194,7 @@
               </SlotCard>
             </div>
           </div>
-          <pre>        {{ productsOptions }}</pre>
+          <!-- <pre>        {{ productsOptions }}</pre> -->
         </div>
         <div class="boxButtons">
           <button class="cancel" @click.prevent="closeModal()">Cancelar</button>

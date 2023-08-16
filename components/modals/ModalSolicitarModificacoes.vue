@@ -208,9 +208,6 @@ export default {
     displayModal: Boolean,
     dataRRIM: Object,
     modalData: Object,
-    // status: {
-    //   type: String,
-    // }
   },
   components: { TheMask },
   data() {

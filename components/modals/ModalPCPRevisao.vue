@@ -1,5 +1,5 @@
 <template>
-  <div class="containerFilter">
+  <div class="containerFilter" v-if="displayModal">
     <div class="containerModal">
       <header>
         <div>
@@ -37,21 +37,7 @@
           <div class="boxInput">
             <FormInput
               label="Motivo"
-              v-model="dataPCP.solicitation.reason.description"
-              readonly="readonly"
-            />
-          </div>
-          <div class="boxInput">
-            <FormInput
-              v-if="dataPCP.solicitation.reason.description ==='Modificação de Molde'"
-              label=" Cód.RGM"
-              v-model="dataPCP.solicitation.code"
-              readonly="readonly"
-            />
-            <FormInput
-              v-if="dataPCP.solicitation.reason.description ==='Novo Produto'"
-              label="Cód. NNP"
-              v-model="dataPCP.solicitation.code"
+              v-model="dataPCP.solicitation.reason"
               readonly="readonly"
             />
           </div>
@@ -88,7 +74,7 @@
                 <div class="boxInput">
                   <FormInput
                     label="Motivo"
-                    v-model="dataPCP.solicitation.reason.description"
+                    v-model="dataPCP.solicitation.reason"
                     readonly="readonly"
                   />
                 </div>
@@ -216,7 +202,7 @@ export default {
   },
   methods: {
     closeModal() {
-      this.$emit("closeModal", this.closeModal);
+      this.$emit("closeModal", this.displayModal);
     },
 
     formatDate(date) {
@@ -256,7 +242,6 @@ export default {
       window.location.reload();
     },
   },
-  
 };
 </script>
 

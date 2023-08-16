@@ -3,7 +3,7 @@
     <Loading />
   </div>
   <div v-else>
-    <CardPcp v-for="mold in listPcpWaiting" :key="mold.id" :dataMold="mold" />
+    <CardPcp v-for="mold in listPcpWaiting" :key="mold.id" :dataMold="mold" :description="mold.solicitation.reason.description"/>
 
     <Pagination
       v-if="listSearch.length > 0"
@@ -27,6 +27,7 @@ export default {
       listPcpWaiting: [],
       listSearch: [],
       currentPage: 0,
+      status: "",
     };
   },
   async mounted() {
@@ -39,6 +40,8 @@ export default {
     async listAllPcpReq() {
       await http.listAllPcp(this.currentPage, 10).then((res) => {
         this.listPcpWaiting = res.data;
+
+
       });
     },
 
