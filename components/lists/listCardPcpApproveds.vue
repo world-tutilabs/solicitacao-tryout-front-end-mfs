@@ -3,8 +3,12 @@
     <Loading />
   </div>
   <div v-else>
-    <CardModal v-for="mold in listHistoric" :key="mold.id" :dataMold="mold" :description="listHistoric[0].reason.description" />
-<!-- {{ mold.solicitation.reason.description }} -->
+    <CardModal
+      v-for="mold in listHistoric"
+      :key="mold.id"
+      :dataMold="mold"
+      :description="mold.reason.description"
+    />
     <Pagination
       :list="listHistoric"
       @displayNewList="displayNewList"
@@ -21,13 +25,13 @@ export default {
     return {
       listHistoric: [],
       currentPage: 0,
+      localValue: "",
     };
   },
   methods: {
     async listAllHistoricReq() {
       await http.listAllAproveds(this.currentPage, 10, 1).then((res) => {
         this.listHistoric = res.data.list;
-        console.log('aqki', this.listHistoric);
       });
     },
 
@@ -44,7 +48,11 @@ export default {
       this.listPaginated = e;
     },
   },
-
+  watch: {
+    value(value) {
+      this.localValue = value;
+    },
+  },
   async fetch() {
     await this.listAllHistoricReq();
   },
