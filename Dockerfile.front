@@ -5,6 +5,6 @@ WORKDIR /usr/app
 
 COPY . .
 
-RUN yarn
+RUN yarn && yarn add node-sass && yarn add sass && yarn add sass-loader
 
 
