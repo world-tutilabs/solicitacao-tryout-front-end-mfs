@@ -58,6 +58,7 @@ export default {
   display: flex;
   height: 5rem;
   align-items: flex-end;
+  margin-bottom: 0.5rem;
 
   button {
     width: 10rem;

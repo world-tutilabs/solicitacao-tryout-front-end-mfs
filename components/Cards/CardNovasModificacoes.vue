@@ -100,7 +100,7 @@ export default Vue.extend({
   border-radius: 7px;
   border: 1px solid var(--gray_text);
   overflow: hidden;
-  margin-top: 20px;
+  margin-top: 10px;
 
   .cardInformacoes {
     display: grid;

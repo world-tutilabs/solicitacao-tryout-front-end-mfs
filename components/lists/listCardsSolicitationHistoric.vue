@@ -1,5 +1,6 @@
 <template>
     <div>
+      {{ listAllHistoricSolicitations[0] }}
       <CardHistoricoSolicitacoes v-for="(item, index) in listAllHistoricSolicitations" :key="index" :data="item"/>
       <Pagination :list="dataNewMold" @displayNewList="displayNewList"/>
     </div>

@@ -2,7 +2,9 @@
     <div class="box">
       <div class="content">
         <div class="header-content">
-            <div></div>
+          <!-- <div
+          :class="flagValidation(data.homologation.status.id)"
+        ></div> -->
             <div class="container_button" @click="openInfoCard">
                 <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
                 <img src="~/static/icons/arrowOpened.svg" alt="" srcset="" v-else />
