@@ -4,7 +4,7 @@
   </div>
   <div v-else>
     <select v-model="selected" class="filterStatus" @click="filter">
-      <option value="">Escolha um item</option>
+      <option value="">Todos</option>
       <option value="Novo">Novos TryOuts</option>
       <option value="Novo Produto">Solicitação de Modificação</option>
       <option value="Modificação de Molde">Solicitação de NP</option>
