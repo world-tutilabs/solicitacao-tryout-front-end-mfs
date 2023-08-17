@@ -30,8 +30,8 @@ export default {
   },
   methods: {
     async listAllHistoricReq() {
-      await http.listAllAproveds(this.currentPage, 10, 1).then((res) => {
-        this.listHistoric = res.data.list;
+      await http.listAllAproveds(this.currentPage, 10, 1, 2).then((res) => {
+        this.listHistoric = res.data.result;
       });
     },
 

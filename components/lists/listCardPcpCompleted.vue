@@ -3,7 +3,7 @@
     <Loading />
   </div>
   <div v-else>
-    <CardModal v-for="mold in listSearch" :key="mold.id" :dataMold="mold" />
+    <CardModal v-for="mold in listHistoric" :key="mold.id" :dataMold="mold" />
     <Pagination
       :list="listSearch"
       @displayNewList="displayNewList"
@@ -21,15 +21,16 @@ export default {
       currentPage: 0,
     };
   },
-  async mounted() {
-    await http.listAllAproveds(this.currentPage, 1000, 5).then((res) => {
-      this.listSearch = res.data.list;
-    });
-  },
+  // async mounted() {
+  //   await http.listAllAproveds(this.currentPage, 1000, 5, 2).then((res) => {
+  //     this.listSearch = res.data.result;
+  //   });
+  // },
   methods: {
     async listAllHistoricReq() {
-      await http.listAllAproveds(this.currentPage, 10, 5).then((res) => {
-        this.listHistoric = res.data.list;
+      await http.listAllAproveds(this.currentPage, 10, 5, 2).then((res) => {
+        this.listHistoric = res.data.result;
+        console.log(res.data)
       });
 
     },

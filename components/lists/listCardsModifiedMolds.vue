@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <CardNovasModificacoes v-for="(data, index) in listAllReportApproveds.list" :key="index" :dataListAllAprov="data" />
+    <CardNovasModificacoes v-for="(data, index) in listAllReportApproveds" :key="index" :dataListAllAprov="data" />
 
 
     <Pagination :list="dataNewMold" @displayNewList="displayNewList"/>
@@ -27,7 +27,8 @@ export default {
   async created () {
 
     await httpNovoMolde.listAllAproveds(0, 10, 5).then((res) => {
-      this.listAllReportApproveds = res.data
+      this.listAllReportApproveds = res.data.result
+      console.log(this.listAllReportApproveds)
     });
     await http.listAllRRIM(0, this.countPage, 2).then((res) => {
       this.listSearch = res.data.list;

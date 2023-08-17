@@ -1,6 +1,5 @@
 <template>
     <div>
-      {{ listAllHistoricSolicitations[0] }}
       <CardHistoricoSolicitacoes v-for="(item, index) in listAllHistoricSolicitations" :key="index" :data="item"/>
       <Pagination :list="dataNewMold" @displayNewList="displayNewList"/>
     </div>
@@ -23,7 +22,8 @@
   
     async created () {
         await httpNovoMolde.listAllHistoricModification(0, 10).then( (res) => {
-            this.listAllHistoricSolicitations = res.data.list
+            this.listAllHistoricSolicitations = res.data.result
+            console.log(res)
         })
   
     }
