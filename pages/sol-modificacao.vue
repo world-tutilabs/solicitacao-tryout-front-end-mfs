@@ -27,6 +27,7 @@ export default {
   middleware: 'auth_eng',
   created() {
     this.$store.commit('change_my_router', 'Solicitações de Modificação')
+    this.$store.commit('setFooterByRouter', 'solicitacoes-disponiveis')
   },
   data() {
     return {
@@ -37,6 +38,16 @@ export default {
   head() {
     return {
       title: 'TryOut - Moldes Modificados',
+    }
+  },
+
+  watch: {
+    newModification (newValue) {
+      if(newValue) {
+        this.$store.commit('setFooterByRouter', 'solicitacoes-disponiveis')
+      } else {
+        this.$store.commit('setFooterByRouter', 'solicitacoes-historico')
+      }
     }
   },
 }

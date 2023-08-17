@@ -208,9 +208,6 @@ export default {
       },
     };
   },
-  created: async function () {
-    console.log(this.dataRevisao);
-  },
   props: {
     displayModal: Boolean,
     dataRevisao: Object,

@@ -33,7 +33,6 @@ export default {
   async mounted() {
     await http.listAllPcp(this.currentPage, 1000).then((res) => {
       this.listSearch = res.data;
-      console.log(this.listSearch);
     });
   },
   methods: {

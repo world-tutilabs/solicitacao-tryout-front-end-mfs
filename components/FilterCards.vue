@@ -56,7 +56,6 @@ export default {
       });
 
       await httpNewMold.listAllAproveds(0, 0, 5).then((res) => {
-        console.log(res.data)
         this.filters[1].count = res.data.all
       })
     } 

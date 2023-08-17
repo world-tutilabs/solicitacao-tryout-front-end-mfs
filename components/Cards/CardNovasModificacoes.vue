@@ -34,7 +34,7 @@
       </label>
       <label for="">
         <h4>Homologado por</h4>
-        <pre>{{ dataListAllAprov.homologation.homologation_user.nome }}</pre>
+        <span>{{ dataListAllAprov.homologation.homologation_user.nome }}</span>
       </label>
     </div>
 
@@ -55,7 +55,6 @@
 import Vue from "vue";
 import dayjs  from "dayjs"
 import http from "~/services/newMold/mold";
-import { Aprovados } from "~/types/solicitacao";
 export default Vue.extend({
   props: {
     dataListAllAprov: Array,
