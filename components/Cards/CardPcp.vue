@@ -5,6 +5,7 @@
       
         <div :class="flagValidation(description)"> 
      <!-- {{ description }} -->
+     <!-- {{ dataMold }} -->
       </div>
         <div class="container_button" @click="openInfoCard">
           <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />

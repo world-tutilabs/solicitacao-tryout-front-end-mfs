@@ -3,7 +3,21 @@
     <Loading />
   </div>
   <div v-else>
-    <CardPcp v-for="mold in listPcpWaiting" :key="mold.id" :dataMold="mold" :description="mold.solicitation.reason.description"/>
+    <select v-model="selected" class="filterStatus" @click="filter">
+      <option value="">Todos</option>
+      <option value="Novo">Novos TryOuts</option>
+      <option value="Novo Produto">Solicitação de Modificação</option>
+      <option value="Modificação de Molde">Solicitação de NP</option>
+      <option value="Retroativo">Retroativo</option>
+    </select>
+    <!-- <button >click</button> -->
+
+    <CardPcp
+      v-for="(mold, id) in itemsToShow"
+      :key="id"
+      :dataMold="mold"
+      :description="mold.solicitation.reason.description"
+    />
 
     <Pagination
       v-if="listSearch.length > 0"
@@ -28,6 +42,8 @@ export default {
       listSearch: [],
       currentPage: 0,
       status: "",
+      selected: "",
+      itemsFiltrados: [],
     };
   },
   async mounted() {
@@ -39,11 +55,16 @@ export default {
     async listAllPcpReq() {
       await http.listAllPcp(this.currentPage, 10).then((res) => {
         this.listPcpWaiting = res.data;
-
-
       });
     },
 
+    filter() {
+      const filteredItems = this.listPcpWaiting.filter((item) => {
+        return item.solicitation.reason.description === this.selected;
+      });
+      this.itemsFiltrados = filteredItems;
+      console.log(this.listPcpWaiting);
+    },
     async backPage() {
       this.currentPage -= 10;
       await this.listAllPcpReq();
@@ -57,7 +78,11 @@ export default {
       this.listPaginated = e;
     },
   },
-
+  computed: {
+    itemsToShow() {
+      return this.selected === "" ? this.listPcpWaiting : this.itemsFiltrados;
+    },
+  },
   async fetch() {
     await this.listAllPcpReq();
   },
@@ -74,5 +99,10 @@ export default {
   border-radius: 0.25rem;
   background-color: var(--green);
   color: #fff;
+}
+.filterStatus {
+  height: 3rem;
+  margin-bottom: 10px;
+  padding: 0.5rem;
 }
 </style>
