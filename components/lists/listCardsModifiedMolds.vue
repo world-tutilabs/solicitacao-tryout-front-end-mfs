@@ -28,11 +28,9 @@ export default {
 
     await httpNovoMolde.listAllAproveds(0, 10, 5).then((res) => {
       this.listAllReportApproveds = res.data
-      console.log('aki', res.data);
     });
     await http.listAllRRIM(0, this.countPage, 2).then((res) => {
       this.listSearch = res.data.list;
-      console.log(this.listSearch);
     });
 
   }

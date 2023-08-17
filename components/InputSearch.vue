@@ -32,31 +32,30 @@
     }
   </script>
 <style scoped lang="scss">
-.search {
-  width: 400px;
-  background-color: var(--white);
-  height: 50px;
-  display: flex;
-  align-items: center;
-  margin: 10px 0;
-  border-radius: 5px;
-  border: 1px solid var(--gray_text);
-  img {
-    position: absolute;
-    left: 2.5rem;
-  }
-  input {
-    width: 100%;
-    height: 100%;
-    padding-left: 45px;
-    border: none;
+
+.form {
+
+  .search {
+    width: 400px;
+    height: 2rem;
+    background-color: var(--white);
+    height: auto;
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    gap: 0.5rem;
     border-radius: 5px;
+    border: 1px solid var(--gray_text);
+    padding: 0.5rem;
+
+    .inputSearch {
+      width: 100%;
+      height: 1.5rem;
+      border: none;
+    }
   }
+
 }
 
-@media only screen and (max-width: 548px) {
-  input {
-    width: auto;
-  }
-}
+
 </style>

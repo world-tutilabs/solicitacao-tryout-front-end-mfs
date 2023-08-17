@@ -313,7 +313,6 @@ export default {
         this.$toast.warning("Algum campo não foi preenchido");
         return;
       }
-      console.log(this.testSolicitation);
       // this.testSolicitation.code_sap = this.numberCodigo;
       // this.testSolicitation.product_description = this.modalData.desc_product;
       // this.testSolicitation.client = this.dataRRIM.CLIENTE;

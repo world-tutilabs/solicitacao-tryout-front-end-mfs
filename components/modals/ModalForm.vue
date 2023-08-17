@@ -338,9 +338,6 @@ export default {
       this.testSolicitation.InjectionProcess.machine.model = this.machine;
       this.$store.commit("setCountNewModels", this.toToggleFilter++);
 
-
-
-      console.log(this.testSolicitation)
       await http
         .createNewSolicitation(this.testSolicitation)
         .then((res) => {

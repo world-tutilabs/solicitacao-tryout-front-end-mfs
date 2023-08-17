@@ -23,6 +23,7 @@
 export default {
   name: "IndexPage",
   middleware: "auth_eng",
+
   head() {
     return {
       title: "TryOut - Novos Moldes",
@@ -30,6 +31,17 @@ export default {
   },
   created: async function () {
     this.$store.commit("change_my_router", "Solicitações de TryOut");
+    this.$store.commit('setFooterByRouter', 'novos-moldes')
+  },
+
+  watch: {
+    newMoldes (newValue) {
+      if(newValue) {
+        this.$store.commit('setFooterByRouter', 'novos-moldes')
+      } else {
+        this.$store.commit('setFooterByRouter', 'novos-moldes-historico')
+      }
+    }
   },
 
   data() {
