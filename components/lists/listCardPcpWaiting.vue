@@ -47,13 +47,13 @@ export default {
     };
   },
   async mounted() {
-    await http.listAllPcp(this.currentPage, 1000).then((res) => {
+    await http.listAllPcp(this.currentPage, 10, 3).then((res) => {
       this.listSearch = res.data;
     });
   },
   methods: {
     async listAllPcpReq() {
-      await http.listAllPcp(this.currentPage, 10).then((res) => {
+      await http.listAllPcp(this.currentPage, 10, 3).then((res) => {
         this.listPcpWaiting = res.data;
       });
     },

@@ -304,6 +304,7 @@ export default {
       }
     },
     async saveNewSolicitation() {
+      console.log(this.dataRRIM)
       if (
         !this.quantidade ||
         !this.newData ||
@@ -313,43 +314,43 @@ export default {
         this.$toast.warning("Algum campo não foi preenchido");
         return;
       }
-      // this.testSolicitation.code_sap = this.numberCodigo;
-      // this.testSolicitation.product_description = this.modalData.desc_product;
-      // this.testSolicitation.client = this.dataRRIM.CLIENTE;
-      // this.testSolicitation.reason = this.reasonSolicitation;
-      // this.testSolicitation.InjectionProcess.proc_technician =
-      //   this.dataRRIM.homologacao[0].created_user.nome;
-      // this.testSolicitation.InjectionProcess.quantity = parseInt(
-      //   this.quantidade
-      // );
-      // this.testSolicitation.date = this.newData;
-      // this.testSolicitation.InjectionProcess.feedstocks.kg = 0;
-      // this.testSolicitation.InjectionProcess.feedstocks.description =
-      //   this.feedstocksDescription;
-      // this.testSolicitation.InjectionProcess.labor.amount = parseInt(
-      //   this.laborAmount
-      // );
-      // this.testSolicitation.InjectionProcess.labor.description =
-      //   this.laborDescription;
-      // this.testSolicitation.InjectionProcess.mold.mold = this.dataRRIM.MOLDE;
-      // this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(
-      //   this.moldNumber
-      // );
+      this.testSolicitation.code_sap = this.numberCodigo;
+      this.testSolicitation.product_description = this.modalData.desc_product;
+      this.testSolicitation.client = this.dataRRIM.CLIENTE;
+      this.testSolicitation.reason = this.reasonSolicitation;
+      this.testSolicitation.InjectionProcess.proc_technician =
+        this.dataRRIM.homologacao[0].created_user.nome;
+      this.testSolicitation.InjectionProcess.quantity = parseInt(
+        this.quantidade
+      );
+      this.testSolicitation.date = this.newData;
+      this.testSolicitation.InjectionProcess.feedstocks.kg = 0;
+      this.testSolicitation.InjectionProcess.feedstocks.description =
+        this.feedstocksDescription;
+      this.testSolicitation.InjectionProcess.labor.amount = parseInt(
+        this.laborAmount
+      );
+      this.testSolicitation.InjectionProcess.labor.description =
+        this.laborDescription;
+      this.testSolicitation.InjectionProcess.mold.mold = this.dataRRIM.MOLDE;
+      this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(
+        this.moldNumber
+      );
 
-      // this.testSolicitation.InjectionProcess.machine.model = this.machine;
-      // this.$store.commit("setCountNewModels", this.toToggleFilter++);
+      this.testSolicitation.InjectionProcess.machine.model = this.machine;
+      this.$store.commit("setCountNewModels", this.toToggleFilter++);
 
-      // await http
-      //   .createNewSolicitation(this.testSolicitation)
-      //   .then((res) => {
-      //     this.$toast.success("Solicitação realizada com sucesso!");
-      //     this.closeModal();
-      //   })
-      //   .catch((error) => {
-      //     if (error.response.status === 500) {
-      //       this.$toast.error("Erro no servidores");
-      //     }
-      //   });
+      await http
+        .createNewSolicitation(this.testSolicitation)
+        .then((res) => {
+          this.$toast.success("Solicitação realizada com sucesso!");
+          this.closeModal();
+        })
+        .catch((error) => {
+          if (error.response.status === 500) {
+            this.$toast.error("Erro no servidores");
+          }
+        });
     },
 
     closeModal() {
