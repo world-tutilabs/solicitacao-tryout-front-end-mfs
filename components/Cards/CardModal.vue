@@ -36,6 +36,14 @@
             <h3>Máquina</h3>
             <p>{{ dataMold.injectionProcess.machine.model }}</p>
           </div>
+
+
+          <div class="inform" v-if="dataMold.reason.description !== 'Novo' || dataMold.reason.description !== 'Retroativo'">
+            <h3 v-if="dataMold.reason.description === 'Novo Produto'">Código NNP</h3>
+            <h3 v-if="dataMold.reason.description === 'Modificação de Molde'">Código RGM</h3>
+            <p>{{ dataMold.code }}</p>
+          </div>
+
         </div>
       </div>
 

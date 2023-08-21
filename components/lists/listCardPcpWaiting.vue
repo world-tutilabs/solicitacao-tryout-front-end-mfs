@@ -6,12 +6,11 @@
     <select v-model="selected" class="filterStatus" @click="filter">
       <option value="">Todos</option>
       <option value="Novo">Novos TryOuts</option>
-      <option value="Novo Produto">Solicitação de Modificação</option>
-      <option value="Modificação de Molde">Solicitação de NP</option>
+      <option value="Novo Produto">Novo Produto</option>
+      <option value="Modificação de Molde">Modificação de Molde</option>
       <option value="Retroativo">Retroativo</option>
     </select>
-    <!-- <button >click</button> -->
-
+    
     <CardPcp
       v-for="(mold, id) in itemsToShow"
       :key="id"
