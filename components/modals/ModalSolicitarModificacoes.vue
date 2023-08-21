@@ -13,6 +13,7 @@
       </header>
 
       <div class="form">
+  
         <div class="rowInputs">
           <label class="boxInput">
             <h5>Código do Produto:</h5>
@@ -60,8 +61,7 @@
             <p>Técnico:</p>
             <input
               type="text"
-              :value="modalData.homologation.homologation_user.nome"
-              disabled
+              v-model="nome"
             />
           </div>
 
@@ -194,7 +194,9 @@
           <button class="save" @click.prevent="saveNewSolicitation()">
             Salvar
           </button>
+
         </div>
+        <pre>{{ itemsFiltrados }}</pre>
       </div>
     </div>
   </div>
@@ -212,6 +214,7 @@ export default {
   components: { TheMask },
   data() {
     return {
+      itemsFiltrados: [],
       codigoValido: false,
       numberCodigo: "",
       valueInput: "",
@@ -227,7 +230,7 @@ export default {
 
       productsOptions: [],
       indexProduct: "",
-      reasonSolicitation: "Novo",
+      reasonSolicitation: "",
 
       quantidade: "",
       tecnico: "",
@@ -287,6 +290,11 @@ export default {
     isTelefoneInvalido() {
       return this.numberCodigo.length < 19;
     },
+    filterMP() {
+      const teste = this.filteredItems.filter((item) => {
+        return item
+      });
+    },
   },
   methods: {
     async validarCodProd() {
@@ -297,14 +305,16 @@ export default {
           this.$toast.error("Código do Produto inválido");
           return (this.codigoValido = false);
         }
-
+    
         this.codigoValido = !!response.data.result.Code;
+        this.itemsFiltrados = response.data.result.itens
       } catch (error) {
         console.error("Erro ao validar código de produto:", error);
       }
     },
     async saveNewSolicitation() {
       console.log(this.dataRRIM)
+      console.log(this.dataRRIM.InforGeral.CLIENTE, 'ss');
       if (
         !this.quantidade ||
         !this.newData ||
@@ -316,41 +326,41 @@ export default {
       }
       this.testSolicitation.code_sap = this.numberCodigo;
       this.testSolicitation.product_description = this.modalData.desc_product;
-      this.testSolicitation.client = this.dataRRIM.CLIENTE;
-      this.testSolicitation.reason = this.reasonSolicitation;
-      this.testSolicitation.InjectionProcess.proc_technician =
-        this.dataRRIM.homologacao[0].created_user.nome;
-      this.testSolicitation.InjectionProcess.quantity = parseInt(
-        this.quantidade
-      );
-      this.testSolicitation.date = this.newData;
-      this.testSolicitation.InjectionProcess.feedstocks.kg = 0;
-      this.testSolicitation.InjectionProcess.feedstocks.description =
-        this.feedstocksDescription;
-      this.testSolicitation.InjectionProcess.labor.amount = parseInt(
-        this.laborAmount
-      );
-      this.testSolicitation.InjectionProcess.labor.description =
-        this.laborDescription;
-      this.testSolicitation.InjectionProcess.mold.mold = this.dataRRIM.MOLDE;
-      this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(
-        this.moldNumber
-      );
+      this.testSolicitation.client = this.dataRRIM.InforGeral.CLIENTE;
+      this.testSolicitation.reason = this.status;
+      // this.testSolicitation.InjectionProcess.proc_technician =
+      //   this.dataRRIM.homologacao[0].created_user.nome;
+      // this.testSolicitation.InjectionProcess.quantity = parseInt(
+      //   this.quantidade
+      // );
+      // this.testSolicitation.date = this.newData;
+      // this.testSolicitation.InjectionProcess.feedstocks.kg = 0;
+      // this.testSolicitation.InjectionProcess.feedstocks.description =
+      //   this.feedstocksDescription;
+      // this.testSolicitation.InjectionProcess.labor.amount = parseInt(
+      //   this.laborAmount
+      // );
+      // this.testSolicitation.InjectionProcess.labor.description =
+      //   this.laborDescription;
+      // this.testSolicitation.InjectionProcess.mold.mold = this.dataRRIM.MOLDE;
+      // this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(
+      //   this.moldNumber
+      // );
 
-      this.testSolicitation.InjectionProcess.machine.model = this.machine;
-      this.$store.commit("setCountNewModels", this.toToggleFilter++);
+      // this.testSolicitation.InjectionProcess.machine.model = this.machine;
+      // this.$store.commit("setCountNewModels", this.toToggleFilter++);
 
-      await http
-        .createNewSolicitation(this.testSolicitation)
-        .then((res) => {
-          this.$toast.success("Solicitação realizada com sucesso!");
-          this.closeModal();
-        })
-        .catch((error) => {
-          if (error.response.status === 500) {
-            this.$toast.error("Erro no servidores");
-          }
-        });
+      // await http
+      //   .createNewSolicitation(this.testSolicitation)
+      //   .then((res) => {
+      //     this.$toast.success("Solicitação realizada com sucesso!");
+      //     this.closeModal();
+      //   })
+      //   .catch((error) => {
+      //     if (error.response.status === 500) {
+      //       this.$toast.error("Erro no servidores");
+      //     }
+      //   });
     },
 
     closeModal() {
@@ -378,6 +388,7 @@ export default {
 
     validarEmit(payload) {
       this.status = payload.newValue;
+      this.reasonSolicitation = payload.newValue;
   
     },
 

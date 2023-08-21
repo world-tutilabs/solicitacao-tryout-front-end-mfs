@@ -10,7 +10,7 @@
       <option value="Modificação de Molde">Solicitação de NP</option>
       <option value="Retroativo">Retroativo</option>
     </select>
-    <!-- <button >click</button> -->
+    <button @click="filter"> click </button>
 
     <CardPcp
       v-for="(mold, id) in itemsToShow"
