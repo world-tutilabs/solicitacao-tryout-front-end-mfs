@@ -13,15 +13,14 @@
       </header>
 
       <div class="form">
-  
         <div class="rowInputs">
           <label class="boxInput">
             <h5>Código do Produto:</h5>
             <the-mask
               :mask="['##.###.######.##-##', '##.###.######.##-##']"
               :masked="true"
-              v-model="numberCodigo"
-              :class="{ 'text-red': isTelefoneInvalido }"
+              v-model="sapCodDescricao"
+              :class="{ 'text-red': maskValidacao }"
               class="inputMask"
               placeholder="Campo Obrigatorio..."
             />
@@ -53,16 +52,13 @@
               <option value="">Processo de Injeção</option>
             </select>
           </div>
-          <div class="boxInput"> 
+          <div class="boxInput">
             <p>Quantidade:</p>
             <input type="number" min="1" v-model="quantidade" />
           </div>
           <div class="boxInput">
             <p>Técnico:</p>
-            <input
-              type="text"
-              v-model="nome"
-            />
+            <input type="text" v-model="tecnico" />
           </div>
 
           <button
@@ -89,7 +85,7 @@
             <div class="rowInputs divisor">
               <div class="boxInput">
                 <p>Quantidade</p>
-                <input type="text" v-model="quantidade" disabled />
+                <input type="text" :value="quantidade" disabled />
               </div>
 
               <div class="boxInput">
@@ -129,22 +125,10 @@
 
                 <datalist id="machines">
                   <option
-                    v-for="(machine, index) in dataRRIM.MoldeAberto"
+                    v-for="(machine, index) in listAllMachines"
                     :key="index"
                   >
-                    {{ machine.MAQUINA_OP1 }}
-                  </option>
-                  <option
-                    v-for="(machine, index) in dataRRIM.MoldeAberto"
-                    :key="index"
-                  >
-                    {{ machine.MAQUINA_OP2 }}
-                  </option>
-                  <option
-                    v-for="(machine, index) in dataRRIM.MoldeAberto"
-                    :key="index"
-                  >
-                    {{ machine.MAQUINA_OP3 }}
+                    {{ machine.ResName }}
                   </option>
                 </datalist>
               </div>
@@ -166,7 +150,7 @@
                 <FormInput
                   label="Descrição"
                   type="text"
-                  v-model="modalData.injectionProcess.mold.desc_mold"
+                  :value="modalData.desc_product"
                   disabled
                 />
                 <FormInput
@@ -180,11 +164,7 @@
 
               <SlotCard>
                 <Title title="Matéria Prima" />
-                <FormInput
-                  label="Cód + Descrição"
-                  :value="valueInput"
-                  disabled
-                />
+                <FormInput label="Cód + Descrição" :value="codMP" disabled />
               </SlotCard>
             </div>
           </div>
@@ -194,9 +174,7 @@
           <button class="save" @click.prevent="saveNewSolicitation()">
             Salvar
           </button>
-
         </div>
-        <pre>{{ itemsFiltrados }}</pre>
       </div>
     </div>
   </div>
@@ -215,8 +193,10 @@ export default {
   data() {
     return {
       itemsFiltrados: [],
+      codMP: "",
+      tecnico:"",
       codigoValido: false,
-      numberCodigo: "",
+      sapCodDescricao: "",
       valueInput: "",
       status: "",
       codRGM: "",
@@ -287,34 +267,37 @@ export default {
     };
   },
   computed: {
-    isTelefoneInvalido() {
-      return this.numberCodigo.length < 19;
-    },
-    filterMP() {
-      const teste = this.filteredItems.filter((item) => {
-        return item
-      });
+    maskValidacao() {
+      return this.sapCodDescricao.length < 19;
     },
   },
   methods: {
-    async validarCodProd() {
+    async validarCodProduto() {
       try {
-        const response = await http.listCodProducts(this.numberCodigo);
+        const response = await http.listCodProducts(this.sapCodDescricao);
 
         if (response.data.result === undefined) {
           this.$toast.error("Código do Produto inválido");
           return (this.codigoValido = false);
         }
-    
+
         this.codigoValido = !!response.data.result.Code;
-        this.itemsFiltrados = response.data.result.itens
+        this.itemsFiltrados = response.data.result.itens;
+
+        const materiaPrimaItens = this.itemsFiltrados.filter((item) => {
+          return (
+            item.ItmsGrpNam === "MATERIA PRIMA" ||
+            item.ItmsGrpNam === "MP - MISTURA"
+          );
+        });
+
+        this.concatenarMPeDescricao(materiaPrimaItens);
       } catch (error) {
         console.error("Erro ao validar código de produto:", error);
       }
     },
     async saveNewSolicitation() {
-      console.log(this.dataRRIM)
-      console.log(this.dataRRIM.InforGeral.CLIENTE, 'ss');
+
       if (
         !this.quantidade ||
         !this.newData ||
@@ -324,12 +307,20 @@ export default {
         this.$toast.warning("Algum campo não foi preenchido");
         return;
       }
-      this.testSolicitation.code_sap = this.numberCodigo;
-      this.testSolicitation.product_description = this.modalData.desc_product;
-      this.testSolicitation.client = this.dataRRIM.InforGeral.CLIENTE;
-      this.testSolicitation.reason = this.status;
+
+      this.$store.state.testSolicitation.code_sap = "01"
+      this.testSolicitation.product_description =  this.modalData.desc_product;
+      this.testSolicitation.client= this.modalData.client;
+      this.testSolicitation.date= this.newData;
+
+
+      // this.testSolicitation.code_sap = this.sapCodDescricao;
+      // this.testSolicitation.product_description = this.modalData.desc_product;
+      // this.testSolicitation.client = this.dataRRIM.InforGeral.CLIENTE;
+      // this.testSolicitation.reason = this.status;
+
       // this.testSolicitation.InjectionProcess.proc_technician =
-      //   this.dataRRIM.homologacao[0].created_user.nome;
+      //   this.tecnico
       // this.testSolicitation.InjectionProcess.quantity = parseInt(
       //   this.quantidade
       // );
@@ -361,8 +352,13 @@ export default {
       //       this.$toast.error("Erro no servidores");
       //     }
       //   });
-    },
 
+      console.log(this.testSolicitation);
+    },
+    async concatenarMPeDescricao(materiaPrimaItens) {
+      await materiaPrimaItens;
+      this.codMP = materiaPrimaItens[0].Code + materiaPrimaItens[0].ItmsGrpNam;
+    },
     closeModal() {
       this.indexProduct = null;
 
@@ -389,12 +385,11 @@ export default {
     validarEmit(payload) {
       this.status = payload.newValue;
       this.reasonSolicitation = payload.newValue;
-  
     },
 
-    async  addProcess() {
-      await  this.validarCodProd();
-    
+    async addProcess() {
+      await this.validarCodProduto();
+
       this.valueInput =
         this.dataRRIM.InforGeral.produto[0].COD_MATERIA_PRIMA +
         this.dataRRIM.InforGeral.produto[0].DESC_MATERIA_PRIMA;
@@ -402,7 +397,7 @@ export default {
       if (this.status === "") {
         this.$toast.error("Campo Motivo não foi preenchido");
       }
-      
+
       if (this.quantidade <= 0) {
         this.$toast.error("Campo quantidade com valores impróprios");
       } else if (this.codigoValido === true) {
@@ -432,9 +427,13 @@ export default {
 
   created: async function () {
     this.productsOptions = this.dataRRIM;
-    // await http.listAllMachines().then((res) => {
-    //   this.listAllMachines = res.data;
-    // });
+    try {
+      const res = await http.listAllMachines();
+      this.listAllMachines = res.data.results;
+    } 
+    catch (error) {
+      console.error("Erro ao validar código de produto:", error);
+    }
   },
   watch: {
     quantidade(newValue) {
