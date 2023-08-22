@@ -194,12 +194,11 @@ export default {
   components: { TheMask },
   data() {
     return {
-      itemsFiltrados: [],
+      mpFiltradasSAP: [],
       codMP: "",
       tecnico:"",
-      codigoValido: false,
+      validacaoCodDescricao: false,
       sapCodDescricao: "",
-      valueInput: "",
       status: "",
       codRGM: "",
       codNNP: "",
@@ -209,10 +208,8 @@ export default {
       myRouter: false,
       count: 0,
       processValidation: false,
-
-      productsOptions: [],
       indexProduct: "",
-      reasonSolicitation: Number,
+      reasonIdSolicitation: Number,
 
       quantidade: "",
       tecnico: "",
@@ -281,13 +278,13 @@ export default {
 
         if (response.data.result === undefined) {
           this.$toast.error("Código do Produto inválido");
-          return (this.codigoValido = false);
+          return (this.validacaoCodDescricao = false);
         }
 
-        this.codigoValido = !!response.data.result.Code;
-        this.itemsFiltrados = response.data.result.itens;
+        this.validacaoCodDescricao = !!response.data.result.Code;
+        this.mpFiltradasSAP = response.data.result.itens;
 
-        const materiaPrimaItens = this.itemsFiltrados.filter((item) => {
+        const materiaPrimaItens = this.mpFiltradasSAP.filter((item) => {
           return (
             item.ItmsGrpNam === "MATERIA PRIMA" ||
             item.ItmsGrpNam === "MP - MISTURA"
@@ -314,7 +311,7 @@ export default {
       this.testSolicitation.product_description = this.modalData.desc_product
       this.testSolicitation.client = this.modalData.client;
       this.testSolicitation.date   =  this.newData
-      this.testSolicitation.reason = this.reasonSolicitation
+      this.testSolicitation.reason = this.reasonIdSolicitation
       this.testSolicitation.homologation
       this.testSolicitation.InjectionProcess.feedstocks.kg = 0;
       this.testSolicitation.InjectionProcess.feedstocks.description =
@@ -323,6 +320,7 @@ export default {
       this.testSolicitation.InjectionProcess.labor.amount = parseInt(
         this.laborAmount
       );
+      this.testSolicitation.InjectionProcess.quantity = parseInt(this.quantidade)
       this.testSolicitation.InjectionProcess.mold.mold = this.modalData.injectionProcess.mold.desc_mold
       this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(
         this.modalData.injectionProcess.mold.number_cavity
@@ -371,18 +369,14 @@ export default {
     validarEmit(payload) {
       this.status = payload.newValue;
       if ( this.status === 'Modificação de Molde'){
-        this.reasonSolicitation = 4
+        this.reasonIdSolicitation = 4
       }
       else if (this.status === 'Novo Produto do Molde')
-      this.reasonSolicitation = 3
+      this.reasonIdSolicitation = 3
     },
 
     async addProcess() {
       await this.validarCodProduto();
-
-      this.valueInput =
-        this.dataRRIM.InforGeral.produto[0].COD_MATERIA_PRIMA +
-        this.dataRRIM.InforGeral.produto[0].DESC_MATERIA_PRIMA;
 
       if (this.status === "") {
         this.$toast.error("Campo Motivo não foi preenchido");
@@ -390,7 +384,7 @@ export default {
 
       if (this.quantidade <= 0) {
         this.$toast.error("Campo quantidade com valores impróprios");
-      } else if (this.codigoValido === true) {
+      } else if (this.validacaoCodDescricao === true) {
         this.count++;
         this.processValidation = true;
       }
@@ -416,8 +410,6 @@ export default {
   },
 
   created: async function () {
-    
-    this.productsOptions = this.dataRRIM;
     try {
       const res = await http.listAllMachines();
       this.listAllMachines = res.data.results;
