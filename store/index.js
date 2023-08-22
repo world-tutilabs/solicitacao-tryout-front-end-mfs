@@ -1,39 +1,6 @@
 import httpLocal from '../services/newMold/mold'
 
 export const state = () => ({
-  
-  testSolicitation: {
-    code_sap: "",
-    product_description: "",
-    client: "",
-    date: "",
-    reason: "",
-    homologation: {
-      created_user: {
-        tecnico: "Rafael",
-        role: "Eng_Analista",
-      },
-    },
-    InjectionProcess: {
-      proc_technician: "",
-      quantity: 0,
-      feedstocks: {
-        kg: "",
-        description: "",
-      },
-      labor: {
-        description: "",
-        amount: 0,
-      },
-      mold: {
-        number_cavity: 0,
-        mold: "",
-      },
-      machine: {
-        model: "",
-      },
-    },
-  },
   myRouter: {
     status: "",
     router: ""

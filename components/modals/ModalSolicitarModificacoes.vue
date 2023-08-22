@@ -25,6 +25,7 @@
               placeholder="Campo Obrigatorio..."
             />
           </label>
+
           <label class="boxInput">
             <p>Descrição do Produto</p>
             <input type="text" :value="modalData.desc_product" disabled />
@@ -150,14 +151,14 @@
                 <FormInput
                   label="Descrição"
                   type="text"
-                  :value="modalData.desc_product"
+                  :value="modalData.injectionProcess.mold.desc_mold"
                   disabled
                 />
                 <FormInput
                   label="N° Cavidade"
                   type="number"
                   min="1"
-                  :value="calculeCavity(dataRRIM.MoldeAberto[0].cavidade)"
+                  :value="this.modalData.injectionProcess.mold.number_cavity"
                   disabled
                 />
               </SlotCard>
@@ -168,6 +169,7 @@
               </SlotCard>
             </div>
           </div>
+  
         </div>
         <div class="boxButtons">
           <button class="cancel" @click="closeModal">Cancelar</button>
@@ -210,7 +212,7 @@ export default {
 
       productsOptions: [],
       indexProduct: "",
-      reasonSolicitation: "",
+      reasonSolicitation: Number,
 
       quantidade: "",
       tecnico: "",
@@ -270,6 +272,7 @@ export default {
     maskValidacao() {
       return this.sapCodDescricao.length < 19;
     },
+    
   },
   methods: {
     async validarCodProduto() {
@@ -307,51 +310,39 @@ export default {
         this.$toast.warning("Algum campo não foi preenchido");
         return;
       }
+      this.testSolicitation.code_sap = this.sapCodDescricao
+      this.testSolicitation.product_description = this.modalData.desc_product
+      this.testSolicitation.client = this.modalData.client;
+      this.testSolicitation.date   =  this.newData
+      this.testSolicitation.reason = this.reasonSolicitation
+      this.testSolicitation.homologation
+      this.testSolicitation.InjectionProcess.feedstocks.kg = 0;
+      this.testSolicitation.InjectionProcess.feedstocks.description =
+      this.modalData.injectionProcess.feedstock.description
 
-      this.$store.state.testSolicitation.code_sap = "01"
-      this.testSolicitation.product_description =  this.modalData.desc_product;
-      this.testSolicitation.client= this.modalData.client;
-      this.testSolicitation.date= this.newData;
+      this.testSolicitation.InjectionProcess.labor.amount = parseInt(
+        this.laborAmount
+      );
+      this.testSolicitation.InjectionProcess.mold.mold = this.modalData.injectionProcess.mold.desc_mold
+      this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(
+        this.modalData.injectionProcess.mold.number_cavity
+      );
 
+      this.testSolicitation.InjectionProcess.machine.model = this.machine;
+    
+      this.$store.commit("setCountNewModels", this.toToggleFilter++);
 
-      // this.testSolicitation.code_sap = this.sapCodDescricao;
-      // this.testSolicitation.product_description = this.modalData.desc_product;
-      // this.testSolicitation.client = this.dataRRIM.InforGeral.CLIENTE;
-      // this.testSolicitation.reason = this.status;
-
-      // this.testSolicitation.InjectionProcess.proc_technician =
-      //   this.tecnico
-      // this.testSolicitation.InjectionProcess.quantity = parseInt(
-      //   this.quantidade
-      // );
-      // this.testSolicitation.date = this.newData;
-      // this.testSolicitation.InjectionProcess.feedstocks.kg = 0;
-      // this.testSolicitation.InjectionProcess.feedstocks.description =
-      //   this.feedstocksDescription;
-      // this.testSolicitation.InjectionProcess.labor.amount = parseInt(
-      //   this.laborAmount
-      // );
-      // this.testSolicitation.InjectionProcess.labor.description =
-      //   this.laborDescription;
-      // this.testSolicitation.InjectionProcess.mold.mold = this.dataRRIM.MOLDE;
-      // this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(
-      //   this.moldNumber
-      // );
-
-      // this.testSolicitation.InjectionProcess.machine.model = this.machine;
-      // this.$store.commit("setCountNewModels", this.toToggleFilter++);
-
-      // await http
-      //   .createNewSolicitation(this.testSolicitation)
-      //   .then((res) => {
-      //     this.$toast.success("Solicitação realizada com sucesso!");
-      //     this.closeModal();
-      //   })
-      //   .catch((error) => {
-      //     if (error.response.status === 500) {
-      //       this.$toast.error("Erro no servidores");
-      //     }
-      //   });
+      await http
+        .createNewSolicitation(this.testSolicitation)
+        .then((res) => {
+          this.$toast.success("Solicitação de Modificação enviada com sucesso!");
+          this.closeModal();
+        })
+        .catch((error) => {
+          if (error.response.status === 500) {
+            this.$toast.error("Erro no servidores");
+          }
+        });
 
       console.log(this.testSolicitation);
     },
@@ -361,19 +352,14 @@ export default {
     },
     closeModal() {
       this.indexProduct = null;
-
       this.quantidade = null;
       this.tecnico = null;
-
       this.laborDescription = null;
       this.laborAmount = null;
-
       this.moldMold = null;
       this.moldNumber = null;
-
       this.feedstocksDescription = null;
       this.feedstocksCode = null;
-
       this.count = 0;
       this.processValidation = false;
       this.machine = "";
@@ -384,7 +370,11 @@ export default {
 
     validarEmit(payload) {
       this.status = payload.newValue;
-      this.reasonSolicitation = payload.newValue;
+      if ( this.status === 'Modificação de Molde'){
+        this.reasonSolicitation = 4
+      }
+      else if (this.status === 'Novo Produto do Molde')
+      this.reasonSolicitation = 3
     },
 
     async addProcess() {
@@ -426,6 +416,7 @@ export default {
   },
 
   created: async function () {
+    
     this.productsOptions = this.dataRRIM;
     try {
       const res = await http.listAllMachines();
