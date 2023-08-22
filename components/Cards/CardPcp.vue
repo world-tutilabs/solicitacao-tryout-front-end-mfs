@@ -2,10 +2,7 @@
   <div class="box">
     <div class="content">
       <div class="header-content">
-      
         <div :class="flagValidation(description)"> 
-     <!-- {{ description }} -->
-     <!-- {{ dataMold }} -->
       </div>
         <div class="container_button" @click="openInfoCard">
           <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
@@ -38,6 +35,12 @@
           <div class="inform">
             <h3>Máquina</h3>
             <p>{{ dataMold.solicitation.injectionProcess.machine.model }}</p>
+          </div>
+
+          <div class="inform" v-if="dataMold.solicitation.reason.description !== 'Novo' || dataMold.solicitation.reason.description !== 'Retroativo'">
+            <h3 v-if="dataMold.solicitation.reason.description === 'Novo Produto'">Código NNP</h3>
+            <h3 v-if="dataMold.solicitation.reason.description === 'Modificação de Molde'">Código RGM</h3>
+            <p>{{ dataMold.solicitation.code }}</p>
           </div>
         </div>
       </div>

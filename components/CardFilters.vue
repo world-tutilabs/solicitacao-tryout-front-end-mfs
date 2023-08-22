@@ -26,19 +26,19 @@ export default {
         {
           topName: "Solicitações",
           name: "Espera",
-          count: "000",
+          count: "Aguardando Dados...",
           router: "waiting",
         },
         {
           topName: "Solicitações",
           name: "Aprovados",
-          count: "000",
+          count: "Aguardando Dados...",
           router: "approveds",
         },
         {
           topName: "Solicitações",
           name: "Concluidas",
-          count: "000",
+          count: "Aguardando Dados...",
           router: "completed",
         },
       ],

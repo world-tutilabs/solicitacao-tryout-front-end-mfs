@@ -15,6 +15,7 @@
       </NuxtLink>
     </div>
     <div v-if="routePcp">
+
       <div class="container">
         <NuxtLink
           v-for="filter in filtersPcp"
@@ -35,6 +36,7 @@
 
 <script>
 import httpNewMold from "../services/newMold/mold";
+import httpPcp from "../services/pcp/pcp";
 
 export default {
   props: {
@@ -60,19 +62,21 @@ export default {
       })
     } 
     else {
-      // lista os que estao em revisao
-      await httpNewMold.listAllAproveds(1000, 10, 3).then((res) => {
-        this.filtersPcp[0].count = res.data.all;
-      });
+
+      await httpPcp.listAllPcp(0, 100000, 3).then((res) => {
+        this.filtersPcp[0].count = res.data.length;
+      })
 
       // lista os que estao em aprovacao
-      await httpNewMold.listAllAproveds(1000, 10, 1).then((res) => {
+      await httpNewMold.listAllAproveds(0, 10, 3, 2).then((res) => {
         this.filtersPcp[1].count = res.data.all;
+        
       });
 
       // lista os que estao em concluido
-      await httpNewMold.listAllAproveds(1000, 10, 5).then((res) => {
+      await httpNewMold.listAllAproveds(0, 10, 5, 2).then((res) => {
         this.filtersPcp[2].count = res.data.all;
+
       });
     }
   },

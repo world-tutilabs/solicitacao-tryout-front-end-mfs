@@ -5,7 +5,7 @@
       <h5>{{ subtitle.title }}</h5>
     </div>
 
-    <div class="container" v-for="subtitle in legenda_modificacoes" :key="subtitle.title"  v-if="$store.state.showFooter === 'solicitacoes-historico'">
+    <div class="container" v-for="subtitle in legenda_modificacoes" :key="subtitle.title"  v-if="$store.state.showFooter === 'solicitacoes-historico' || $store.state.showFooter === 'solicitacoes-disponiveis'">
       <div class="circle" :style="subtitle.background"></div>
       <h5>{{ subtitle.title }}</h5>
     </div>
@@ -33,6 +33,9 @@ export default {
       legenda_modificacoes: [
         { title: 'Sol. em Análise', background: 'background: var(--blue)' },
         { title: 'Sol. Aprovada', background: 'background: var(--green)' },
+        { title: 'Sol. Reprovada', background: 'background: var(--orange)' },
+        { title: 'Relatório Aprovado', background: 'background: var(--lilac)' },
+        { title: 'Relatório Reprovado', background: 'background: var(--red)' }
       ],
       legenda_pcp: [
         { title: 'Novos TryOuts', background: 'background: var(--blue)' },

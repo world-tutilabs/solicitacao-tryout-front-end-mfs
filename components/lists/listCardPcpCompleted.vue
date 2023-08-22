@@ -21,11 +21,6 @@ export default {
       currentPage: 0,
     };
   },
-  // async mounted() {
-  //   await http.listAllAproveds(this.currentPage, 1000, 5, 2).then((res) => {
-  //     this.listSearch = res.data.result;
-  //   });
-  // },
   methods: {
     async listAllHistoricReq() {
       await http.listAllAproveds(this.currentPage, 10, 5, 2).then((res) => {

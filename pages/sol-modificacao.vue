@@ -15,7 +15,6 @@
 
     <div v-else>
       <ListCardsSolicitationHistoric />
-      Lista de Historico
     </div>
   </div>
 </template>
