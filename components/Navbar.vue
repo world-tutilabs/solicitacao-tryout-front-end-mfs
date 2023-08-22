@@ -10,7 +10,8 @@
         >
 
         </a>
-        <h3>Solicitação de TryOut</h3>
+        <h3 v-if="$route.name === 'pcp-waiting' || $route.name === 'pcp-approveds' || $route.name === 'pcp-completed'">PCP - Solicitação de TryOut</h3>
+        <h3 v-else>Solicitação de TryOut</h3>
       </div>
 
       <div style="display: flex; align-items: center">
