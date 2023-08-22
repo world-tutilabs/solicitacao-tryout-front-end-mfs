@@ -7,33 +7,29 @@ export default async function ({ redirect }) {
 
   await axios
     .post(
-      `${process.env.ROUTER_VERIFY_USER}`,
+      `http://185.209.179.253:7900/session/verify`,
       {},
       { headers: { Authorization: `${Cookies.get("auth._token.local")}` } }
     )
     .then((res) => {
-      user = res.data.user;
+      user = res.data.user.nivel_de_acesso.descricao
       if (
-        user.nivel_de_acesso.descricao === "pcp_acabamento" ||
-        user.nivel_de_acesso.descricao === "pcp_injecao" ||
-        user.nivel_de_acesso.descricao === "pcp"
+        user === "pcp_acabamento" ||
+        user === "pcp_injecao" ||
+        user === "pcp"
       ) {
         return user;
       } else if (
-        user.nivel_de_acesso.descricao === "eng_analista" ||
-        user.nivel_de_acesso.descricao === "eng_admin" ||
-        user.nivel_de_acesso.descricao === "eng"
+        user === "eng_analista" ||
+        user === "eng_admin" ||
+        user === "eng"
       ) {
-        return redirect(`${process.env.ROUTER_SYSTEM_ENG}`);
-      } else {
-        return redirect(`${process.env.ROUTER_REDIRECT_SYSTEM_USER}`);
-      }
+        return redirect('/')
+      } 
     })
     .catch((e) => {
-        // Cookies.set('auth._token.local', false);
-        // Cookies.set('auth._token_expiration.local', false);
-      // return redirect(`http://192.168.2.9:8500/`)
-      console.log(e);
-      // return redirect(`${process.env.ROUTER_REDIRECT_SYSTEM_USER}`);
+      console.log(e)
+      return redirect('http://185.209.179.253:7800/login')
+      
     });
 }

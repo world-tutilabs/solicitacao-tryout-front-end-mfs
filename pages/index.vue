@@ -29,8 +29,7 @@ export default {
       title: "TryOut - Novos Moldes",
     };
   },
-  created: async function () {
-    this.$store.commit("change_my_router", "Solicitações de TryOut");
+  created () {
     this.$store.commit('setFooterByRouter', 'novos-moldes')
   },
 

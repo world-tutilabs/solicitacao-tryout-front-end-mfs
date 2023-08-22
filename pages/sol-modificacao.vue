@@ -25,7 +25,6 @@ export default {
   name: 'IndexPage',
   middleware: 'auth_eng',
   created() {
-    this.$store.commit('change_my_router', 'Solicitações de Modificação')
     this.$store.commit('setFooterByRouter', 'solicitacoes-disponiveis')
   },
   data() {

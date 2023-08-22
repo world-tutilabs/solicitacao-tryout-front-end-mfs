@@ -50,9 +50,8 @@ export default {
     },
   },
 
-
   async mounted () {
-    if (this.$nuxt.$route.path === "/" || this.$nuxt.$route.path === 'sol-modificacao') {
+    if (this.$nuxt.$route.path === "/" || this.$nuxt.$route.path === '/sol-modificacao') {
       await httpNewMold.listAllRRIM(0, 10, 2).then((res) => {
         this.filters[0].count = res.data.countTotal;
       });
@@ -88,6 +87,7 @@ export default {
         this.$toast.error("Funcionalidade em Desenvolvimento");
       }
     },
+
   },
   computed: {
     routePcp() {

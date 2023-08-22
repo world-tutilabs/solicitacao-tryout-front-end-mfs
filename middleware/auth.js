@@ -8,7 +8,8 @@ export default async function ({ redirect, app, store }) {
 
   try {
 
-     await axios.post(`${process.env.ROUTER_VERIFY_USER}`,
+     await axios.post(`
+     http://185.209.179.253:7900/session/verify`,
       {},
       { headers: { Authorization: `${Cookies.get('auth._token.local')}` } });
 

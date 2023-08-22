@@ -26,9 +26,8 @@ export const mutations = {
   },
 
   setFooterByRouter(state, payload) {
-    console.log(payload)
     state.showFooter = payload
-  }
+  },
 
 }
 
