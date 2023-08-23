@@ -24,8 +24,8 @@ export default async function ({ redirect, app, store }) {
 
   } catch (e) {
     console.log(e);
-     Cookies.set('auth._token.local', false);
-     Cookies.set('auth._token_expiration.local', false);
+    //  Cookies.set('auth._token.local', false);
+    //  Cookies.set('auth._token_expiration.local', false);
     //  return  redirect(`http://185.209.179.253:7800/login`)
 
   }

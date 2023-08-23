@@ -74,7 +74,7 @@
             <input type="number" min="1" v-model="quantidade" />
           </div>
           <div class="boxInput">
-            <p>Técnico</p>
+            <p>Técnico a </p>
             <input
               type="text"
               v-model="dataRRIM.homologacao[0].created_user.nome"
@@ -257,12 +257,12 @@ export default {
         client: "",
         date: "",
         reason: "",
-        homologation: {
-          created_user: {
-            tecnico: "Rafael",
-            role: "Eng_Analista",
-          },
-        },
+        // homologation: {
+        //   created_user: {
+        //     tecnico: "Rafael",
+        //     role: "Eng_Analista",
+        //   },
+        // },
         InjectionProcess: {
           proc_technician: "",
           quantity: 0,
@@ -349,6 +349,8 @@ export default {
             this.$toast.error("Erro no servidores");
           }
         });
+
+        console.log(this.testSolicitation)
     },
     catchIndexProduct(event) {
       this.newSolicitation.cod_prod = event.target.value;

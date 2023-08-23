@@ -34,7 +34,7 @@
       </label>
       <label for="">
         <h4>Homologado por</h4>
-        <span>{{ dataListAllAprov.homologation.homologation_user.nome }}</span>
+        <span>{{ dataListAllAprov.homologation.homologation_user.nome_completo }}</span>
       </label>
     </div>
 

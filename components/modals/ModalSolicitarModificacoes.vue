@@ -57,10 +57,10 @@
             <p>Quantidade:</p>
             <input type="number" min="1" v-model="quantidade" />
           </div>
-          <div class="boxInput">
+          <!-- <div class="boxInput">
             <p>Técnico:</p>
             <input type="text" v-model="tecnico" />
-          </div>
+          </div> -->
 
           <button
             class="buttonAdd"
@@ -93,7 +93,7 @@
                 <p>Técnico</p>
                 <input
                   type="text"
-                  :value="modalData.homologation.homologation_user.nome"
+                  :value="modalData.injectionProcess.proc_technician"
                   disabled
                 />
               </div>
@@ -212,7 +212,6 @@ export default {
       reasonIdSolicitation: Number,
 
       quantidade: "",
-      tecnico: "",
       newData: "",
 
       listAllMachines: [],
@@ -237,12 +236,6 @@ export default {
         client: "",
         date: "",
         reason: "",
-        homologation: {
-          created_user: {
-            tecnico: "Rafael",
-            role: "Eng_Analista",
-          },
-        },
         InjectionProcess: {
           proc_technician: "",
           quantity: 0,
@@ -314,7 +307,8 @@ export default {
       this.testSolicitation.reason = this.reasonIdSolicitation
       this.testSolicitation.homologation
       this.testSolicitation.InjectionProcess.feedstocks.kg = 0;
-      this.testSolicitation.InjectionProcess.feedstocks.description =
+      this.testSolicitation.InjectionProcess.feedstocks.description = this.codMP
+      this.testSolicitation.InjectionProcess.proc_technician = this.modalData.injectionProcess.proc_technician
       this.modalData.injectionProcess.feedstock.description
 
       this.testSolicitation.InjectionProcess.labor.amount = parseInt(
