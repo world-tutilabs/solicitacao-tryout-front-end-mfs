@@ -18,6 +18,7 @@
       @displayNewList="displayNewList"
     />
   </div>
+
 </template>
 
 <script>

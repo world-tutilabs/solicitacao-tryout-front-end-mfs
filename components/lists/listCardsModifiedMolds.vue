@@ -28,7 +28,7 @@ export default {
 
     await httpNovoMolde.listAllAproveds(0, 10, 5).then((res) => {
       this.listAllReportApproveds = res.data.result
-      console.log(this.listAllReportApproveds)
+      // console.log(this.listAllReportApproveds)
     });
     await http.listAllRRIM(0, this.countPage, 2).then((res) => {
       this.listSearch = res.data.list;

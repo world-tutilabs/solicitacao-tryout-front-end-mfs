@@ -48,6 +48,7 @@
         :dataRRIM="dataRRIM"
       />
     </div>
+  <!-- <pre>  {{ dataListAllAprov }}</pre> -->
   </div>
 </template>
 
@@ -68,7 +69,7 @@ export default Vue.extend({
     };
   },
   created: async function () {
-    await http.listAll(5).then((res) => {
+    await http.listAll(1).then((res) => {
         this.dataRRIM = res.data;
       });
 },

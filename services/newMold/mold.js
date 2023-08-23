@@ -19,9 +19,9 @@ export default {
     return await httpSAP.get('/api/v1/sap/tutilabs/machines')
   },
 
-  listAllHistoric: async (offset = 0, limit = 10, reason = 1) => {
-    return await httpSolTryOut.get(`/list?limit=${limit}&offset=${offset}&reason=${reason}`)
-  },
+  // listAllHistoric: async (offset = 0, limit = 10, reason = 1) => {
+  //   return await httpSolTryOut.get(`/list?limit=${limit}&offset=${offset}&reason=${reason}`)
+  // },
 
   listAllAproveds: async (offset = 0, limit = 10, status, reason = 1) => {
     return await httpSolTryOut.get(`/list?limit=${limit}&offset=${offset}&status=${status}&reason=${reason}`)
