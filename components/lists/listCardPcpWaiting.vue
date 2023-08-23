@@ -3,14 +3,16 @@
     <Loading />
   </div>
   <div v-else>
-    <select v-model="selected" class="filterStatus" @click="filter">
+    <section class="header">
+      <select v-model="selected" class="filterStatus" @click="filter">
       <option value="">Todos</option>
-      <option value="Novo">Novos TryOuts</option>
+      <option value="Novo"> Novos TryOuts</option>
       <option value="Novo Produto">Novo Produto</option>
       <option value="Modificação de Molde">Modificação de Molde</option>
       <option value="Retroativo">Retroativo</option>
     </select>
-    
+
+  </section> 
     <CardPcp
       v-for="(mold, id) in itemsToShow"
       :key="id"
@@ -99,9 +101,52 @@ export default {
   background-color: var(--green);
   color: #fff;
 }
-.filterStatus {
-  height: 3rem;
-  margin-bottom: 10px;
-  padding: 0.5rem;
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  .filterStatus {
+    height: 2.5rem;
+    margin-bottom: 10px;
+    padding: 0.5rem;
+  }
+}
+select {
+  
+  /* styling */
+  background-color: white;
+  border-radius: 4px;
+  display: inline-block;
+  font: inherit;
+  line-height: 1em;
+  padding: 0.5em 3.5em 0.5em 1em;
+  
+  
+
+  /* reset */
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+select.filterStatus:focus {
+  background-image: linear-gradient(45deg, green 50%, transparent 50%),
+    linear-gradient(135deg, transparent 50%, green 50%),
+    linear-gradient(to right, #ccc, #ccc);
+  background-position: calc(100% - 15px) 1em, calc(100% - 20px) 1em,
+    calc(100% - 2.5em) 0.5em;
+  background-size: 5px 5px, 5px 5px, 1px 1.5em;
+  background-repeat: no-repeat;
+  border-color: green;
+  outline: 0;
+
+}
+
+select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
 }
 </style>
