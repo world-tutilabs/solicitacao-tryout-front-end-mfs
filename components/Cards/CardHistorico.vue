@@ -13,7 +13,6 @@
 
       
       <div class="containerMain">
-        aa
         <div class="informs">
           <div class="inform">
             <h3>Cód. de TryOut</h3>

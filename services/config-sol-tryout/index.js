@@ -1,7 +1,7 @@
 import axios from "axios"
 import Cookies from 'js-cookie'
 const httpSolTryOut = axios.create({
-  baseURL: `http://192.168.137.230:3000/api`, //Adicionar Base URL
+  baseURL: `http://185.209.179.253:5000/api`,     //Adicionar Base URL
   headers: {
     "Accept": "application/json",
     "Content": "application/json"

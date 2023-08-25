@@ -5,14 +5,13 @@
   <div v-else>
     <section class="header">
       <select v-model="selected" class="filterStatus" @click="filter">
-      <option value="">Todos</option>
-      <option value="Novo"> Novos TryOuts</option>
-      <option value="Novo Produto">Novo Produto</option>
-      <option value="Modificação de Molde">Modificação de Molde</option>
-      <option value="Retroativo">Retroativo</option>
-    </select>
-
-  </section> 
+        <option value="">Todos</option>
+        <option value="Novo">Novos TryOuts</option>
+        <option value="Novo Produto">Novo Produto</option>
+        <option value="Modificação de Molde">Mod. de Molde</option>
+        <option value="Retroativo">Retroativo</option>
+      </select>
+    </section>
     <CardPcp
       v-for="(mold, id) in itemsToShow"
       :key="id"
@@ -107,13 +106,23 @@ export default {
   justify-content: flex-end;
 
   .filterStatus {
+    width: 11rem;
     height: 2.5rem;
     margin-bottom: 10px;
     padding: 0.5rem;
   }
 }
 select {
-  
+  background-image: linear-gradient(120deg, green 50%, transparent 56%),
+    linear-gradient(60deg, transparent 50%, green 56%),
+    linear-gradient(to right, #ccc, #ccc);
+  background-position: calc(100% - 15px) 1em, calc(100% - 20px) 1em,
+    calc(100% - 2.5em) 0.5em;
+  background-size: 6px 6px, 6px 6px, 1px 1.5em;
+  background-repeat: no-repeat;
+  border-color: #868686;
+  outline: 0;
+
   /* styling */
   background-color: white;
   border-radius: 4px;
@@ -121,8 +130,6 @@ select {
   font: inherit;
   line-height: 1em;
   padding: 0.5em 3.5em 0.5em 1em;
-  
-  
 
   /* reset */
   margin: 0;
@@ -142,7 +149,6 @@ select.filterStatus:focus {
   background-repeat: no-repeat;
   border-color: green;
   outline: 0;
-
 }
 
 select:-moz-focusring {
