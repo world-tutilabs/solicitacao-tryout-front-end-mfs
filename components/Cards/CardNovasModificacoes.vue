@@ -1,13 +1,13 @@
 <template>
   <div class="containerCard">
     <div class="header-content">
-        <div class="container_button" @click="openInfoCard">
-          <img src="~/static/icons/arrowClosed.svg" v-if="infoCardStatus" />
-          <img src="~/static/icons/arrowOpened.svg" v-else />
-        </div>
+      <div class="container_button" @click="openInfoCard">
+        <img src="~/static/icons/arrowClosed.svg" v-if="infoCardStatus" />
+        <img src="~/static/icons/arrowOpened.svg" v-else />
       </div>
-    
+    </div>
 
+    <pre>{{ dataListAllAprov}}</pre>
     <div class="cardInformacoes">
       <label for="">
         <h4>N. Tryout</h4>
@@ -26,7 +26,9 @@
 
       <label for="">
         <h4>Homologado em</h4>
-        <span>{{ formatDate(dataListAllAprov.homologation.homologation_at, 1) }}</span>
+        <span>{{
+          formatDate(dataListAllAprov.homologation.homologation_at)
+        }}</span>
       </label>
 
       <label for="">
@@ -49,14 +51,14 @@
         :dataRRIM="dataRRIM"
       />
     </div>
-  <!-- <pre>  {{ dataListAllAprov }}</pre> -->
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import dayjs  from "dayjs"
+import dayjs from "dayjs";
 import http from "~/services/newMold/mold";
+import { Aprovados } from "@/types/solicitacao";
 export default Vue.extend({
   props: {
     dataListAllAprov: Array,
@@ -66,23 +68,62 @@ export default Vue.extend({
     return {
       modal: false,
       dataRRIM: {},
-      infoCardStatus:false,
+      infoCardStatus: false,
       userHomologation: "",
+      dataListAllAprov: {
+        number_tryout: "",
+        code_sap: "",
+        client: "",
+        desc_product: "",
+
+        reason: {
+          id: 0,
+          description: "",
+        },
+        homologation_user: {
+          id: "",
+          cargo: {
+            id: "",
+            descricao: "",
+          },
+          email: "",
+          status: "",
+          criado_em: "",
+          matricula: "",
+          User_Sistema: [
+            {
+              sistema: {
+                id: "",
+                descricao: "",
+              },
+            },
+          ],
+          atualizado_em: "",
+          nome_completo: "",
+          nivel_de_acesso: {
+            id: "",
+            descricao: "",
+          },
+        },
+        homologation_at: "",
+        comment: "",
+        status: {
+          id: 0,
+          description: "",
+        },
+      } as Aprovados,
     };
   },
   created: async function () {
     await http.listAll(1).then((res) => {
-        this.dataRRIM = res.data;
-      });
-      // const nome_completo = this.dataListAllAprov.homologation.homologation_user.nome_completo;
-      // console.log(nome_completo);
-      // this.userHomologation = nome_completo
-},
+      this.dataRRIM = res.data;
+    });
+  },
+
   methods: {
     async showModal() {
       this.modal = true;
       document.body.style.overflow = "hidden";
-    
     },
     closeModal(e: boolean): void {
       this.modal = !this.modal;
@@ -91,10 +132,10 @@ export default Vue.extend({
     openInfoCard(): boolean {
       return (this.infoCardStatus = !this.infoCardStatus);
     },
-    
+
     formatDate(date: string, plusDay: number) {
-      return dayjs(date).add(plusDay, 'day').format('DD/MM/YY')
-    }
+      return dayjs(date).format("DD/MM/YY");
+    },
   },
 });
 </script>
@@ -116,17 +157,15 @@ export default Vue.extend({
     grid-row-gap: 0px;
   }
   .header-content {
-  display: flex;
-  justify-content: flex-end;
-  height: auto;
+    display: flex;
+    justify-content: flex-end;
+    height: auto;
 
-  .container_button {
-    cursor: pointer;
+    .container_button {
+      cursor: pointer;
+    }
   }
-
-  
-}
-.cardButton{
+  .cardButton {
     border-top: 0.1rem solid #e0e0e0;
   }
 }
