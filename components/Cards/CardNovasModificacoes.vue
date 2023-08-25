@@ -6,7 +6,7 @@
           <img src="~/static/icons/arrowOpened.svg" v-else />
         </div>
       </div>
-      <!-- <pre>{{ dataListAllAprov.homologation.homologation_user }}</pre> -->
+      <pre>{{ dataListAllAprov.homologation.homologation_user }}</pre>
 <!-- 
     <div class="cardInformacoes">
       <label for="">
