@@ -257,12 +257,6 @@ export default {
         client: "",
         date: "",
         reason: "",
-        // homologation: {
-        //   created_user: {
-        //     tecnico: "Rafael",
-        //     role: "Eng_Analista",
-        //   },
-        // },
         InjectionProcess: {
           proc_technician: "",
           quantity: 0,
@@ -576,7 +570,7 @@ export default {
       .boxButtons {
         display: flex;
         gap: 1rem;
-        justify-content: end;
+        justify-content: flex-end;
 
         button {
           font-size: 1rem;

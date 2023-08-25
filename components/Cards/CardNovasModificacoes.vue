@@ -6,7 +6,7 @@
           <img src="~/static/icons/arrowOpened.svg" v-else />
         </div>
       </div>
-      <pre>{{ dataListAllAprov.homologation.homologation_user }}</pre>
+      <!-- <pre>{{ dataListAllAprov }}</pre> -->
 <!-- 
     <div class="cardInformacoes">
       <label for="">
@@ -66,13 +66,17 @@ export default Vue.extend({
     return {
       modal: false,
       dataRRIM: {},
-      infoCardStatus:false
+      infoCardStatus:false,
+      userHomologation: "",
     };
   },
   created: async function () {
     await http.listAll(1).then((res) => {
         this.dataRRIM = res.data;
       });
+      // const nome_completo = this.dataListAllAprov.homologation.homologation_user.nome_completo;
+      // console.log(nome_completo);
+      // this.userHomologation = nome_completo
 },
   methods: {
     async showModal() {
