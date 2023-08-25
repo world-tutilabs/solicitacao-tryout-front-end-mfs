@@ -553,7 +553,7 @@ export default {
       .boxButtons {
         display: flex;
         gap: 1rem;
-        justify-content: end;
+        justify-content: flex-end;
 
         button {
           font-size: 1rem;

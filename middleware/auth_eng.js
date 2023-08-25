@@ -2,8 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 export default async function ({ redirect }) {
-  const tokenCookie =
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYXRyaWN1bGEiOiIzODMxIiwiaWF0IjoxNjkyOTY3MDQyLCJleHAiOjE2OTI5OTU4NDIsInN1YiI6ImM3NTA5YTkxLWVmY2UtNGQ2MS1hOGE5LWIzNmVhNDQyNGEzYSJ9.-v1_xVyd24Thf__xNp22YaX6QkXY-mzidGKyrcD7yJE";
+  const tokenCookie = Cookies.get("auth._token.local");
   let user;
 
   await axios

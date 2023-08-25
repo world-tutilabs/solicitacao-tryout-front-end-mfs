@@ -6,8 +6,8 @@
           <img src="~/static/icons/arrowOpened.svg" v-else />
         </div>
       </div>
-      <pre>{{ dataListAllAprov.homologation.homologation_user }}</pre>
-<!-- 
+    
+
     <div class="cardInformacoes">
       <label for="">
         <h4>N. Tryout</h4>
@@ -33,11 +33,11 @@
         <h4>Descrição</h4>
         <span>{{ dataListAllAprov.reason.description }}</span>
       </label>
-      <label for="">
+      <!-- <label for="">
         <h4>Homologado por</h4>
         <span>{{ dataListAllAprov.homologation.nome_completo }}</span>
-      </label>
-    </div> -->
+      </label> -->
+    </div>
 
     <div v-if="infoCardStatus" class="cardButton">
       <Button titleBtn="Solicitar Modificação" @click.native="showModal" />
@@ -66,13 +66,17 @@ export default Vue.extend({
     return {
       modal: false,
       dataRRIM: {},
-      infoCardStatus:false
+      infoCardStatus:false,
+      userHomologation: "",
     };
   },
   created: async function () {
     await http.listAll(1).then((res) => {
         this.dataRRIM = res.data;
       });
+      // const nome_completo = this.dataListAllAprov.homologation.homologation_user.nome_completo;
+      // console.log(nome_completo);
+      // this.userHomologation = nome_completo
 },
   methods: {
     async showModal() {
