@@ -6,8 +6,8 @@
           <img src="~/static/icons/arrowOpened.svg" v-else />
         </div>
       </div>
-      <!-- <pre>{{ dataListAllAprov }}</pre> -->
-<!-- 
+    
+
     <div class="cardInformacoes">
       <label for="">
         <h4>N. Tryout</h4>
@@ -33,11 +33,11 @@
         <h4>Descrição</h4>
         <span>{{ dataListAllAprov.reason.description }}</span>
       </label>
-      <label for="">
+      <!-- <label for="">
         <h4>Homologado por</h4>
         <span>{{ dataListAllAprov.homologation.nome_completo }}</span>
-      </label>
-    </div> -->
+      </label> -->
+    </div>
 
     <div v-if="infoCardStatus" class="cardButton">
       <Button titleBtn="Solicitar Modificação" @click.native="showModal" />
