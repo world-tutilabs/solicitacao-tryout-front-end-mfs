@@ -2,7 +2,7 @@ import axios from "axios"
 import Cookies from 'js-cookie'
 
 const httpRRIM = axios.create({
-  baseURL: `http://185.209.179.253:8400`,                                    //Adicionar Base URL
+  baseURL: `http://185.209.179.253:8400`,                                           //Adicionar Base URL
   headers: {
     "Accept": "application/json",
     "Content": "application/json"
