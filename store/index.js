@@ -8,6 +8,8 @@ export const state = () => ({
   isUser: "",
   countNewModels: 0,
 
+  showFooter: 'none'
+
 })
 
 export const mutations = {
@@ -21,7 +23,11 @@ export const mutations = {
   },
   setIsUser(state, payload) {
     state.isUser = payload
-  }
+  },
+
+  setFooterByRouter(state, payload) {
+    state.showFooter = payload
+  },
 
 }
 

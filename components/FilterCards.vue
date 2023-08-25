@@ -1,19 +1,6 @@
 <template>
-  <div v-if="$fetchState.pending">
-    <Loading />
-  </div>
-  <div v-else>
+  <div>
     <div v-if="!routePcp" class="container">
-      <!-- <div
-        v-for="filter in filters"
-        :key="filter.name"
-        :class="{ cards: true }"
-        @click="greet(filter)"
-      >
-        <span>{{ filter.topName }}</span>
-        <h2>{{ filter.name }}</h2>
-        <h3>{{ filter.count }}</h3>
-      </div> -->
       <NuxtLink
         v-for="filter in filters"
         :key="filter.name"
@@ -21,13 +8,14 @@
         :class="{ cards: true }"
       >
         <span>{{ filter.topName }}</span>
-        <h2>
+        <h3>
           {{ filter.name }}
-        </h2>
+        </h3>
         <h3>{{ filter.count }}</h3>
       </NuxtLink>
     </div>
     <div v-if="routePcp">
+
       <div class="container">
         <NuxtLink
           v-for="filter in filtersPcp"
@@ -36,9 +24,9 @@
           :class="{ cards: true }"
         >
           <span>{{ filter.topName }}</span>
-          <h2>
+          <span>
             {{ filter.name }}
-          </h2>
+          </span>
           <h3>{{ filter.count }}</h3>
         </NuxtLink>
       </div>
@@ -48,6 +36,7 @@
 
 <script>
 import httpNewMold from "../services/newMold/mold";
+import httpPcp from "../services/pcp/pcp";
 
 export default {
   props: {
@@ -60,51 +49,45 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      countTeste: 0,
-      listAllApproveds: [],
-      listHistoric: [],
-      countHistoric: 0,
-      counter: 0,
-      countMold: "",
-    };
-  },
 
-  watch: {
-    countTeste: async function (newValue) {
-      this.filters[0].count = newValue;
-    },
-  },
-
-  async fetch() {
-    if (this.$nuxt.$route.path === "/") {
-      await httpNewMold.listAllRRIM(0, 10000, 2).then((res) => {
+  async mounted () {
+    if (this.$nuxt.$route.path === "/" || this.$nuxt.$route.path === '/sol-modificacao') {
+      await httpNewMold.listAllRRIM(0, 10, 2).then((res) => {
         this.filters[0].count = res.data.countTotal;
       });
-    } else {
-      // lista os que estao em revisao
-      await httpNewMold.listAllAproveds(1000, 10, 3).then((res) => {
-        this.filtersPcp[0].count = res.data.all;
-      });
+
+      await httpNewMold.listAllAproveds(0, 0, 5).then((res) => {
+        this.filters[1].count = res.data.all
+      })
+    } 
+    else {
+      await httpPcp.listAllPcp(0, 100000, 3).then((res) => {
+        this.filtersPcp[0].count = res.data.length;
+      })
 
       // lista os que estao em aprovacao
-      await httpNewMold.listAllAproveds(1000, 10, 1).then((res) => {
+      await httpNewMold.listAllAproveds(0, 0, 3, 2).then((res) => {
         this.filtersPcp[1].count = res.data.all;
+        
       });
 
       // lista os que estao em concluido
-      await httpNewMold.listAllAproveds(1000, 10, 5).then((res) => {
+      await httpNewMold.listAllAproveds(0, 10, 5, 2).then((res) => {
         this.filtersPcp[2].count = res.data.all;
+
       });
+
+     
     }
   },
+
   methods: {
     greet(event) {
       if (event.name === "Modificações" || event.name === "Resina") {
         this.$toast.error("Funcionalidade em Desenvolvimento");
       }
     },
+
   },
   computed: {
     routePcp() {
@@ -135,25 +118,34 @@ export default {
 
   .cards {
     background: var(--white);
-    border: 1px solid var(--gray_text_border);
+    border: 1px solid var(--gray);
     width: 300px;
-    padding: max(0.3rem, 1vw);
+    padding: max(.3rem,1vw);
     height: 100%;
+    max-height: 6rem;
     border-radius: 5px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 0.4rem;
-    h2 {
-      font-size: max(0.9rem, 1.3vw);
+    grid-gap: .4rem;
+    gap: 0.2rem;
+    transition: 0.1s;
+
+    span {
+      font-size: 0.9rem;
+      font-weight: 600;
+      
     }
     &:hover {
       background: var(--bg);
     }
-    span {
-      font-size: max(0.8rem, 0.8vw);
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 500;
     }
+
     @media (max-width: 768px) {
       padding: 0.5rem;
       span {

@@ -1,94 +1,76 @@
 <template>
-  <div class="containerFilter" v-if="displayModal">
+  <div class="containerFilter">
     <div class="containerModal">
       <header>
-        <div>
-          <h1>Solicitar de TryOut</h1>
+        <section class="content_HeaderLeft">
+          <h1>Solicitação de Modificação</h1>
           <p>Informações Gerais</p>
-        </div>
+        </section>
 
-        <div @click="closeModal()" class="btn-closed">
+        <section @click="closeModal" class="btn-closed">
           <img src="~/static/icons/x.svg" />
-        </div>
+        </section>
       </header>
 
       <div class="form">
-        <!-- modificacao e testes -->
-        <div class="rowInputs" v-if="showContainer">
-          <div class="boxInput">
-            <p>Código SAPP</p>
-            <input type="text" name="" id="" />
-          </div>
-          <div class="boxInput">
-            <p>Molde</p>
-            <input type="text" name="" id="" />
-          </div>
-        </div>
-
         <div class="rowInputs">
-          <div class="boxInput">
-            <p>Código do Produto:</p>
-            <input type="text" list="products" @change="catchIndexProduct" />
+          <label class="boxInput">
+            <h5>Código do Produto:</h5>
+            <the-mask
+              :mask="['##.###.######.##-##', '##.###.######.##-##']"
+              :masked="true"
+              v-model="sapCodDescricao"
+              :class="{ 'text-red': maskValidacao }"
+              class="inputMask"
+              placeholder="Campo Obrigatorio..."
+            />
+          </label>
 
-            <datalist id="products">
-              <option
-                v-for="(products, index) in productsOptions.produto"
-                :key="index"
-              >
-                {{ products.COD_PRODUTO }}
-              </option>
-            </datalist>
-          </div>
-          <div class="boxInput">
+          <label class="boxInput">
             <p>Descrição do Produto</p>
-            <input type="text" v-model="indexProduct" disabled />
-          </div>
-          <div class="boxInput">
-            <p>Cliente</p>
-            <input type="text" v-model="dataRRIM.CLIENTE" disabled />
-          </div>
-          
-          <InputSelect @status="validarEmit" :type="'Tryout'" />
-  
-          <!-- <div class="boxInput" v-if="showContainer">
-            <p>Motivo</p>
-            <input type="text" value="" />
-          </div>
+            <input type="text" :value="modalData.desc_product" disabled />
+          </label>
+          <label class="boxInput">
+            <h5>Cliente:</h5>
+            <input type="text" :value="modalData.client" disabled />
+          </label>
 
-          <div class="boxInput" v-else>
-            <p>Motivo</p>
-            <input type="text" v-model="reasonSolicitation" />
-          </div> -->
-        </div>
-  
-        <!-- selecionar processos -->
-        <div class="rowInputs contentInputs">
+          <InputSelect @status="validarEmit" :type="'Modificacao'" />
+          <section>
+            <div class="boxInput" v-if="status === 'Modificação de Molde'">
+              <h5>Cód. RGM</h5>
+              <input type="text" v-model="codRGM" />
+            </div>
+
+            <div class="boxInput" v-if="status === 'Novo Produto do Molde'">
+              <h5>Cód. NNP</h5>
+              <input type="text" v-model="codNNP" />
+            </div>
+          </section>
           <div class="boxInput">
-            <p>Processo</p>
+            <p>Processo:</p>
             <select>
               <option value="">Processo de Injeção</option>
             </select>
           </div>
           <div class="boxInput">
-            <p>Quantidade</p>
+            <p>Quantidade:</p>
             <input type="number" min="1" v-model="quantidade" />
           </div>
-          <div class="boxInput">
-            <p>Técnico a </p>
-            <input
-              type="text"
-              v-model="dataRRIM.homologacao[0].created_user.nome"
-              disabled
-            />
-          </div>
+          <!-- <div class="boxInput">
+            <p>Técnico:</p>
+            <input type="text" v-model="tecnico" />
+          </div> -->
 
-          <button @click.prevent="addProcess" v-if="!processValidation">
+          <button
+            class="buttonAdd"
+            @click.once="addProcess"
+            v-if="!processValidation"
+          >
             <img src="~/static/icons/plus.svg" alt="" />
             <h3>Adicionar</h3>
           </button>
         </div>
-
-        <!-- so aparece quando selecionar um processo -->
         <div class="containerProcess">
           <div class="tabs">
             <div class="tab" v-for="index in count" :key="index">
@@ -104,22 +86,32 @@
             <div class="rowInputs divisor">
               <div class="boxInput">
                 <p>Quantidade</p>
-                <input type="text" v-model="quantidade" disabled />
+                <input type="text" :value="quantidade" disabled />
               </div>
 
               <div class="boxInput">
                 <p>Técnico</p>
                 <input
                   type="text"
-                  v-model="dataRRIM.homologacao[0].created_user.nome"
+                  :value="modalData.injectionProcess.proc_technician"
                   disabled
                 />
               </div>
 
               <div class="boxInput">
                 <p>Motivo</p>
-                <input type="text" value="Novo Molde" disabled v-if="reasonSolicitation === 1"/>
-                <input type="text" value="Retroativo" disabled v-if="reasonSolicitation === 2"/>
+                <input
+                  type="text"
+                  :value="status"
+                  disabled
+                  v-if="status === 'Modificação de Molde'"
+                />
+                <input
+                  type="text"
+                  :value="status"
+                  disabled
+                  v-if="status === 'Novo Produto do Molde'"
+                />
               </div>
 
               <div class="boxInput inputData">
@@ -134,22 +126,10 @@
 
                 <datalist id="machines">
                   <option
-                    v-for="(machine, index) in dataRRIM.molde_aberto"
+                    v-for="(machine, index) in listAllMachines"
                     :key="index"
                   >
-                    {{ machine.MAQUINA_OP1 }}
-                  </option>
-                  <option
-                    v-for="(machine, index) in dataRRIM.molde_aberto"
-                    :key="index"
-                  >
-                    {{ machine.MAQUINA_OP2 }}
-                  </option>
-                  <option
-                    v-for="(machine, index) in dataRRIM.molde_aberto"
-                    :key="index"
-                  >
-                    {{ machine.MAQUINA_OP3 }}
+                    {{ machine.ResName }}
                   </option>
                 </datalist>
               </div>
@@ -171,68 +151,67 @@
                 <FormInput
                   label="Descrição"
                   type="text"
-                  v-model="dataRRIM.MOLDE"
+                  :value="modalData.injectionProcess.mold.desc_mold"
                   disabled
                 />
                 <FormInput
                   label="N° Cavidade"
                   type="number"
                   min="1"
-                  :value="calculeCavity(dataRRIM.molde_aberto[0].cavidade)"
+                  :value="this.modalData.injectionProcess.mold.number_cavity"
                   disabled
                 />
               </SlotCard>
 
               <SlotCard>
                 <Title title="Matéria Prima" />
-                <FormInput
-                  label="Cód + Descrição"
-                  type="text"
-                  v-model="feedstocksDescription"
-                  disabled
-                />
+                <FormInput label="Cód + Descrição" :value="codMP" disabled />
               </SlotCard>
             </div>
           </div>
-          <!-- <pre>        {{ productsOptions }}</pre> -->
+  
         </div>
         <div class="boxButtons">
-          <button class="cancel" @click.prevent="closeModal()">Cancelar</button>
+          <button class="cancel" @click="closeModal">Cancelar</button>
           <button class="save" @click.prevent="saveNewSolicitation()">
             Salvar
           </button>
-
         </div>
       </div>
     </div>
   </div>
 </template>
-<script>
+  <script>
 import http from "~/services/newMold/mold";
 import dayjs from "dayjs";
-
+import { TheMask } from "vue-the-mask";
 export default {
   props: {
     displayModal: Boolean,
     dataRRIM: Object,
+    modalData: Object,
   },
+  components: { TheMask },
   data() {
     return {
+      mpFiltradasSAP: [],
+      codMP: "",
+      tecnico:"",
+      validacaoCodDescricao: false,
+      sapCodDescricao: "",
       status: "",
       codRGM: "",
+      codNNP: "",
       toToggleFilter: 0,
       machine: "",
       dateCurrent: dayjs().format("YYYY-MM-DD"),
       myRouter: false,
       count: 0,
       processValidation: false,
-
-      productsOptions: [],
       indexProduct: "",
-      reasonSolicitation: "Novo",
+      reasonIdSolicitation: Number,
 
       quantidade: "",
-      tecnico: "",
       newData: "",
 
       listAllMachines: [],
@@ -257,12 +236,6 @@ export default {
         client: "",
         date: "",
         reason: "",
-        // homologation: {
-        //   created_user: {
-        //     tecnico: "Rafael",
-        //     role: "Eng_Analista",
-        //   },
-        // },
         InjectionProcess: {
           proc_technician: "",
           quantity: 0,
@@ -286,23 +259,39 @@ export default {
     };
   },
   computed: {
-    showContainer() {
-      if (this.$route.name === "") {
-        return (this.myRouter = false);
-      }
-      if (
-        this.$route.name === "resin-test" ||
-        this.$route.name === "sol-modificacao"
-      ) {
-        return (this.myRouter = true);
+    maskValidacao() {
+      return this.sapCodDescricao.length < 19;
+    },
+    
+  },
+  methods: {
+    async validarCodProduto() {
+      try {
+        const response = await http.listCodProducts(this.sapCodDescricao);
+
+        if (response.data.result === undefined) {
+          this.$toast.error("Código do Produto inválido");
+          return (this.validacaoCodDescricao = false);
+        }
+
+        this.validacaoCodDescricao = !!response.data.result.Code;
+        this.mpFiltradasSAP = response.data.result.itens;
+
+        const materiaPrimaItens = this.mpFiltradasSAP.filter((item) => {
+          return (
+            item.ItmsGrpNam === "MATERIA PRIMA" ||
+            item.ItmsGrpNam === "MP - MISTURA"
+          );
+        });
+
+        this.concatenarMPeDescricao(materiaPrimaItens);
+      } catch (error) {
+        console.error("Erro ao validar código de produto:", error);
       }
     },
-  },
-
-  methods: {
     async saveNewSolicitation() {
+
       if (
-        !this.newSolicitation.cod_prod ||
         !this.quantidade ||
         !this.newData ||
         !this.machine ||
@@ -311,37 +300,34 @@ export default {
         this.$toast.warning("Algum campo não foi preenchido");
         return;
       }
-
-      this.testSolicitation.code_sap = this.newSolicitation.cod_prod;
-      this.testSolicitation.product_description = this.indexProduct;
-      this.testSolicitation.client = this.dataRRIM.CLIENTE;
-      this.testSolicitation.reason = this.reasonSolicitation;
-      this.testSolicitation.InjectionProcess.proc_technician =
-        this.dataRRIM.homologacao[0].created_user.nome;
-      this.testSolicitation.InjectionProcess.quantity = parseInt(
-        this.quantidade
-      );
-      this.testSolicitation.date = this.newData;
+      this.testSolicitation.code_sap = this.sapCodDescricao
+      this.testSolicitation.product_description = this.modalData.desc_product
+      this.testSolicitation.client = this.modalData.client;
+      this.testSolicitation.date   =  this.newData
+      this.testSolicitation.reason = this.reasonIdSolicitation
+      this.testSolicitation.homologation
       this.testSolicitation.InjectionProcess.feedstocks.kg = 0;
-      this.testSolicitation.InjectionProcess.feedstocks.description =
-        this.feedstocksDescription;
+      this.testSolicitation.InjectionProcess.feedstocks.description = this.codMP
+      this.testSolicitation.InjectionProcess.proc_technician = this.modalData.injectionProcess.proc_technician
+      this.modalData.injectionProcess.feedstock.description
+
       this.testSolicitation.InjectionProcess.labor.amount = parseInt(
         this.laborAmount
       );
-      this.testSolicitation.InjectionProcess.labor.description =
-        this.laborDescription;
-      this.testSolicitation.InjectionProcess.mold.mold = this.dataRRIM.MOLDE;
+      this.testSolicitation.InjectionProcess.quantity = parseInt(this.quantidade)
+      this.testSolicitation.InjectionProcess.mold.mold = this.modalData.injectionProcess.mold.desc_mold
       this.testSolicitation.InjectionProcess.mold.number_cavity = parseInt(
-        this.moldNumber
+        this.modalData.injectionProcess.mold.number_cavity
       );
 
       this.testSolicitation.InjectionProcess.machine.model = this.machine;
+    
       this.$store.commit("setCountNewModels", this.toToggleFilter++);
 
       await http
         .createNewSolicitation(this.testSolicitation)
         .then((res) => {
-          this.$toast.success("Solicitação realizada com sucesso!");
+          this.$toast.success("Solicitação de Modificação enviada com sucesso!");
           this.closeModal();
         })
         .catch((error) => {
@@ -350,62 +336,53 @@ export default {
           }
         });
 
-        console.log(this.testSolicitation)
+      console.log(this.testSolicitation);
     },
-    catchIndexProduct(event) {
-      this.newSolicitation.cod_prod = event.target.value;
-      const value = this.productsOptions.produto.find(
-        (item) => item.COD_PRODUTO === event.target.value
-      );
-      this.indexProduct = value.DESC_PRODUTO;
-      this.feedstocksDescription = `${value.COD_MATERIA_PRIMA} - ${value.DESC_MATERIA_PRIMA}`;
+    async concatenarMPeDescricao(materiaPrimaItens) {
+      await materiaPrimaItens;
+      this.codMP = materiaPrimaItens[0].Code + materiaPrimaItens[0].ItmsGrpNam;
     },
-
     closeModal() {
       this.indexProduct = null;
-
       this.quantidade = null;
       this.tecnico = null;
-
       this.laborDescription = null;
       this.laborAmount = null;
-
       this.moldMold = null;
       this.moldNumber = null;
-
       this.feedstocksDescription = null;
       this.feedstocksCode = null;
-
       this.count = 0;
       this.processValidation = false;
       this.machine = "";
 
-      this.$emit("closeModal", this.displayModal);
+      this.$emit("modalEmitStatus", false);
+      document.body.style.overflow = "auto";
     },
 
     validarEmit(payload) {
-      if(payload.newValue === 'Retroativo') {
-        this.reasonSolicitation = 2
-      } else {
-        this.reasonSolicitation = 1
+      this.status = payload.newValue;
+      if ( this.status === 'Modificação de Molde'){
+        this.reasonIdSolicitation = 4
       }
+      else if (this.status === 'Novo Produto do Molde')
+      this.reasonIdSolicitation = 3
     },
 
-    addProcess() {
-      if (this.newSolicitation.cod_prod === '') {
-        this.$toast.error("Informe o código do produto");
-      } else if (this.quantidade === "") {
-        this.$toast.error("Quantidade não foi preenchida");
-      } else if (this.quantidade <= 0) {
+    async addProcess() {
+      await this.validarCodProduto();
+
+      if (this.status === "") {
+        this.$toast.error("Campo Motivo não foi preenchido");
+      }
+
+      if (this.quantidade <= 0) {
         this.$toast.error("Campo quantidade com valores impróprios");
-      } else if(this.reasonSolicitation !== 1 && this.reasonSolicitation !== 2) {
-        this.$toast.error("Motivo não foi preenchido");
-      } else{
+      } else if (this.validacaoCodDescricao === true) {
         this.count++;
         this.processValidation = true;
       }
     },
-    
     removeProcess(index) {
       this.count--;
       if (index === this.count) {
@@ -426,8 +403,14 @@ export default {
     },
   },
 
-  async created () {
-    this.productsOptions = this.dataRRIM;
+  created: async function () {
+    try {
+      const res = await http.listAllMachines();
+      this.listAllMachines = res.data.results;
+    } 
+    catch (error) {
+      console.error("Erro ao validar código de produto:", error);
+    }
   },
   watch: {
     quantidade(newValue) {
@@ -453,8 +436,8 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
+  
+  <style lang="scss" scoped>
 .divisor {
   border-bottom: 2px solid rgba(0, 0, 0, 0.397);
   padding: 1rem 0 !important;
@@ -506,11 +489,11 @@ export default {
         cursor: pointer;
       }
     }
-.containerInputsModificacao{
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-}
+    .containerInputsModificacao {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
     .rowInputs {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
@@ -530,31 +513,25 @@ export default {
       }
     }
 
-    .contentInputs {
-      background-color: #ffffff;
-      padding: 0.7rem 0.5rem;
-      align-items: flex-end;
+    .buttonAdd {
+      display: flex;
+      grid-gap: 0.5rem;
+      gap: 0.5rem;
+      justify-content: center;
+      align-items: center;
+      color: var(--gray_text);
+      width: 7.5rem;
+      height: 2.5rem;
+      border-radius: 3rem;
+      background-color: var(--white);
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+        rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+      img {
+        width: 1rem;
+      }
 
-      button {
-        display: flex;
-        gap: 0.5rem;
-        justify-content: center;
-        align-items: center;
-        color: var(--gray_text);
-        width: 7.5rem;
-        height: 2.5rem;
-        border-radius: 3rem;
-        background-color: var(--white);
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
-          rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-
-        img {
-          width: 1rem;
-        }
-
-        @media (max-width: 343px) {
-          margin-left: auto;
-        }
+      @media (max-width: 343px) {
+        margin-left: auto;
       }
     }
 
@@ -598,7 +575,11 @@ export default {
         }
       }
     }
-
+    .text-red {
+      color: #c84a4a;
+      font-weight: bold;
+      border: solid 1px #c84a4a;
+    }
     .containerProcess {
       .tabs {
         display: flex;
@@ -645,3 +626,4 @@ export default {
   }
 }
 </style>
+  

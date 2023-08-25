@@ -2,39 +2,39 @@
   <div class="box">
     <div class="content">
       <div class="header-content">
-        <div
-          :class="flagValidation(dataMold.homologation.status.description)"
-        ></div>
+        <div :class="flagValidation(data.homologation.status.id)">
+        </div>
         <div class="container_button" @click="openInfoCard">
           <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
           <img src="~/static/icons/arrowOpened.svg" alt="" srcset="" v-else />
         </div>
       </div>
+
       <div class="containerMain">
         <div class="informs">
           <div class="inform">
             <h3>Cód. de TryOut</h3>
-            <p>{{ dataMold.number_tryout }}</p>
+            <p>{{ data.number_tryout }}</p>
           </div>
           <div class="inform">
             <h3>Cód. do Produto | SAP</h3>
-            <p>{{ dataMold.code_sap }}</p>
+            <p>{{ data.code_sap }}</p>
           </div>
           <div class="inform">
             <h3>Desc. do Produto</h3>
-            <p>{{ dataMold.desc_product }}</p>
+            <p>{{ data.desc_product }}</p>
           </div>
           <div class="inform">
             <h3>Cliente</h3>
-            <p>{{ dataMold.client }}</p>
+            <p>{{ data.client }}</p>
           </div>
           <div class="inform">
             <h3>Data</h3>
-            <p>{{ dataMolds() }}</p>
+            <p>{{ datas() }}</p>
           </div>
           <div class="inform">
             <h3>Máquina</h3>
-            <p>{{ dataMold.injectionProcess.machine.model }}</p>
+            <p>{{ data.injectionProcess.machine.model }}</p>
           </div>
         </div>
       </div>
@@ -48,17 +48,17 @@
 
           <div class="inform">
             <h3>Quantidade</h3>
-            <p>{{ dataMold.injectionProcess.quantity }}</p>
+            <p>{{ data.injectionProcess.quantity }}</p>
           </div>
 
           <div class="inform">
             <h3>Técnico</h3>
-            <p>{{ dataMold.injectionProcess.proc_technician }}</p>
+            <p>{{ data.injectionProcess.proc_technician }}</p>
           </div>
 
           <div class="inform">
             <h3>Motivo</h3>
-            <p>{{ dataMold.reason }}</p>
+            <p>{{ data.reason.description }}</p>
           </div>
         </div>
 
@@ -66,36 +66,37 @@
           <div class="processBox">
             <h3>Mão de Obra</h3>
             <span>Quantidade</span>
-            <h4>{{ dataMold.injectionProcess.labor.amount }}</h4>
+            <h4>{{ data.injectionProcess.labor.amount }}</h4>
           </div>
 
           <div class="processBox">
             <h3>Molde</h3>
             <span>Descrição</span>
-            <h4>{{ dataMold.injectionProcess.mold.desc_mold }}</h4>
+            <h4>{{ data.injectionProcess.mold.desc_mold }}</h4>
             <div class="processFooter">
               <h4>
-                Qtde Cav: {{ dataMold.injectionProcess.mold.number_cavity }}
+                Qtde Cav: {{ data.injectionProcess.mold.number_cavity }}
               </h4>
             </div>
           </div>
           <div class="processBox">
             <h3>Matéria Prima</h3>
             <span>Código - Descrição</span>
-            <h4>{{ dataMold.injectionProcess.feedstock.description }}</h4>
+            <h4>{{ data.injectionProcess.feedstock.description }}</h4>
           </div>
         </div>
 
-        <div
-          class="info"
-          v-if="dataMold.homologation.status.description !== 'Revisao'"
-        >
+        <div class="info" v-if="data.homologation.status.id === 3">
+          <h3><strong>Status: Aguardando Análise do PCP</strong></h3>
+        </div>
+
+        <div class="info" v-if="data.homologation.status.id !== 3">
           <span>Último Comentário realizado pelo PCP</span>
           <h3>
-            Autor: {{ dataMold.homologation.homologation_user.nome_completo }}
+            Autor: {{ data.homologation.homologation_user.nome }}
           </h3>
           <div class="boxText">
-            <span>{{ dataMold.homologation.comment }}</span>
+            <span>{{ data.homologation.comment }}</span>
           </div>
         </div>
       </div>
@@ -116,49 +117,31 @@
                     Não
                   </button>
 
-                  <BtnPirula
-                    titleBtn="Sim, Cancelar"
-                    color="pcp-approveds"
-                    v-if="$route.name === 'pcp-approveds'"
-                    :dataMold="dataMold"
-                    @click="showPopUp = false"
-                  />
+                  <BtnPirula titleBtn="Sim, Cancelar" color="pcp-approveds" v-if="$route.name === 'pcp-approveds'"
+                    :data="data" @click="showPopUp = false" />
                 </div>
               </div>
             </form>
           </div>
 
-          <button
-            class="btnCancel"
-            v-if="$route.name === 'pcp-approveds'"
-            @click.prevent="showPopUp = true"
-          >
+          <button class="btnCancel" v-if="$route.name === 'pcp-approveds'" @click.prevent="showPopUp = true">
             Cancelar
           </button>
 
-          <BtnPirula
-            titleBtn="Revisar"
-            color="Reprovado"
-            v-if="dataMold.homologation.status.description === 'Reprovado'"
-            :dataMold="dataMold"
-            @updateCard="updateCard"
-          />
+          <BtnPirula titleBtn="Revisar" color="Reprovado" v-if="data.homologation.status.id === 2" :data="data"
+            @updateCard="updateCard" />
 
-          <BtnPirula
-            titleBtn="Gerar Relatório"
-            color="Aprovado"
-            v-if="
-              dataMold.homologation.status.description === 'Aprovado' &&
-              $route.name === 'calendar'
-            "
-            @click.native="relTryout()"
-          />
+          <BtnPirula titleBtn="Gerar Relatório" color="Aprovado" v-if="data.homologation.status.id === 1 &&
+            $route.name === 'sol-modificacao'
+            " @click.native="relTryout()" />
         </SlotBtn>
       </div>
+
+      <!-- <ModalEng :displayModal="statusModal" :dataRevisao="data" @closeModal="closeModal"/> -->
     </div>
   </div>
 </template>
-
+  
 <script>
 import dayjs from "dayjs";
 import Vue from "vue";
@@ -167,16 +150,30 @@ export default Vue.extend({
   layout: "mainFrame",
 
   props: {
-    dataMold: Object,
+    data: Object,
   },
   data() {
     return {
       isOpenInfoCard: false,
-      btnStatus: this.status,
+      statusModal: false,
       showPopUp: false,
     };
   },
   methods: {
+    flagValidation(data) {
+      if (data == 1) {
+        return "flap flap-green";
+      } else if (data == 3) {
+        return "flap flap-blue";
+      } else if (data == 2) {
+        return "flap flap-orange";
+      } else if (data == 6) {
+        return "flap flap-red"
+      } else {
+        return "flap flap-none";
+      }
+    },
+
     relTryout() {
       window.location.replace("http://185.209.179.253:9200/");
     },
@@ -184,8 +181,8 @@ export default Vue.extend({
       this.$emit("updateList");
     },
 
-    dataMolds(valor) {
-      return dayjs(this.dataMold.programmed_date)
+    datas(valor) {
+      return dayjs(this.data.programmed_date)
         .locale("pt-br")
         .add(1, "day")
         .format("DD/MM/YYYY");
@@ -199,21 +196,10 @@ export default Vue.extend({
       }
     },
 
-    flagValidation(data) {
-      if (data == "Aprovado") {
-        return "flap flap-green";
-      } else if (data == "Revisao") {
-        return "flap flap-blue";
-      } else if (data == "Reprovado") {
-        return "flap flap-orange";
-      } else {
-        return "flap flap-none";
-      }
-    },
   },
 });
 </script>
-
+  
 <style lang="scss" scoped>
 .btnCancel {
   min-width: 148px;
@@ -225,6 +211,7 @@ export default Vue.extend({
   font-size: 1rem;
   background-color: var(--blue);
 }
+
 .containerPopUp {
   background-color: rgba(38, 49, 141, 0.342);
   backdrop-filter: blur(2px);
@@ -249,17 +236,21 @@ export default Vue.extend({
     display: flex;
     justify-content: space-between;
     border-radius: 0.5rem;
+
     .headPopup {
       margin-bottom: 1rem;
+
       h2 {
         margin-top: 1rem;
         font-size: 1.7rem;
       }
+
       .frameImg {
         height: 10rem;
         background-color: var(--blue);
         display: grid;
         justify-content: center;
+
         img {
           width: 18rem;
           position: relative;
@@ -267,10 +258,12 @@ export default Vue.extend({
         }
       }
     }
+
     .buttons {
       display: flex;
       gap: 1rem;
       justify-content: flex-end;
+
       .btnPopup {
         width: fit-content !important;
         height: 40px;
@@ -283,6 +276,7 @@ export default Vue.extend({
     }
   }
 }
+
 .box {
   .content {
     width: 100%;
@@ -318,6 +312,10 @@ export default Vue.extend({
 
   .flap-blue {
     background-color: var(--blue);
+  }
+
+  .flap-red {
+    background-color: var(--red);
   }
 
   .flap-orange {
@@ -412,3 +410,4 @@ export default Vue.extend({
   align-items: center;
 }
 </style>
+  

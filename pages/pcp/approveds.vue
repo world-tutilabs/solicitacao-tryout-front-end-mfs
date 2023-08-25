@@ -13,9 +13,7 @@ export default {
       title: 'PCP - Solicitações Aprovadas',
     }
   },
-  created() {
-    this.$store.commit('change_my_router', 'PCP - Solicitações Aprovadas')
-  },
+
 }
 </script>
 

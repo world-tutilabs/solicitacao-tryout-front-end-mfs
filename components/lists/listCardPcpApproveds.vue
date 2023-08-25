@@ -3,8 +3,12 @@
     <Loading />
   </div>
   <div v-else>
-    <CardModel v-for="mold in listHistoric" :key="mold.id" :dataMold="mold" />
-
+    <CardModal
+      v-for="mold in listHistoric"
+      :key="mold.id"
+      :dataMold="mold"
+      :description="mold.reason.description"
+    />
     <Pagination
       :list="listHistoric"
       @displayNewList="displayNewList"
@@ -21,12 +25,13 @@ export default {
     return {
       listHistoric: [],
       currentPage: 0,
+      localValue: "",
     };
   },
   methods: {
     async listAllHistoricReq() {
-      await http.listAllAproveds(this.currentPage, 10, 1).then((res) => {
-        this.listHistoric = res.data.list;
+      await http.listAllAproveds(this.currentPage, 10, 3, 2).then((res) => {
+        this.listHistoric = res.data.result;
       });
     },
 
@@ -43,7 +48,11 @@ export default {
       this.listPaginated = e;
     },
   },
-
+  watch: {
+    value(value) {
+      this.localValue = value;
+    },
+  },
   async fetch() {
     await this.listAllHistoricReq();
   },

@@ -5,15 +5,12 @@
   <div v-else>
     <InputSearch v-model="valueSearch" class="InputSearch" />
     <div v-if="valueSearch.length < 1">
-      <CardModel v-for="mold in listSearch" :key="mold.id" :dataMold="mold" />
+      <CardHistorico v-for="mold in listSearch" :key="mold.id" :dataMold="mold"/>
     </div>
     <div v-else>
-      <CardModel
-        v-for="mold in filterSearchField"
-        :key="mold.id"
+      <CardHistorico v-for="mold in filterSearchField" :key="mold.id"
         :dataMold="mold"
-        @updateList="updateList"
-      />
+        @updateList="updateList"/>
     </div>
     <Pagination
       v-if="listSearch.length > 0"
@@ -21,6 +18,7 @@
       @displayNewList="displayNewList"
     />
   </div>
+
 </template>
 
 <script>
@@ -40,8 +38,7 @@ export default {
   },
   async mounted() {
     await httpLocal.listAllHistoric(0, 10000).then((res) => {
-      this.listSearch = res.data;
-      console.log(this.listSearch);
+      this.listSearch = res.data.result;
     });
   },
   computed: {

@@ -1,7 +1,7 @@
 import axios from "axios"
 import Cookies from 'js-cookie'
 
-const http = axios.create({
+const httpRRIM = axios.create({
   baseURL: `http://185.209.179.253:8400`,                                    //Adicionar Base URL
   headers: {
     "Accept": "application/json",
@@ -10,7 +10,7 @@ const http = axios.create({
 })
 
 
-http.interceptors.request.use(function (config) {
+httpRRIM.interceptors.request.use(function (config) {
   const token = Cookies.get('auth._token.local')
   // const token = `${process.env.TOKEN_LOCAL}`
   if (!token) {
@@ -26,4 +26,4 @@ http.interceptors.request.use(function (config) {
 )
 
 
-export { http }
+export { httpRRIM }

@@ -1,35 +1,42 @@
-import { http } from '../config/index'
-import { httpLocal } from '../configLocal/index'
-import { httpSAP } from '../configSAP/index'
+import { httpRRIM } from '../config-rrim/index'
+import { httpSolTryOut } from '../config-sol-tryout/index'
+import { httpSAP } from '../config-sap/index'
 
 export default {
   listAllRRIM: async (page = 0, offset = 10, statusId) => {
-    return await http.get(`/rrim/list/aprovadas?page=${page}&offset=${offset}&statusId=${statusId}`)
+    return await httpRRIM.get(`/rrim/list/aprovadas?page=${page}&offset=${offset}&statusId=${statusId}`)
   },
-  // listAllRRIM: async (page = 0, offset = 10,) => {
-  //   return await http.get(`/rrim/list/aprovadas?page=${page}&offset=${offset}`)
-  // },
-  // listAll: async () => {
-  //   return await http.get(`/list/aprovadas?page=0&offset=100000`)
-  // },
+
+  listCodProducts: async (id) => {
+    return await httpSAP.get(`/api/v1/sap/tutilabs/boms/${id}`)
+  },
+
+  listAll: async (id) => {
+    return await httpRRIM.get(`/rrim/find/${id}`)
+  },
 
   listAllMachines: async () => {
     return await httpSAP.get('/api/v1/sap/tutilabs/machines')
   },
 
-  listAllHistoric: async (offset = 0, limit = 10) => {
-    return await httpLocal.get(`/list?limit=${limit}&offset=${offset}`)
+  // listAllHistoric: async (offset = 0, limit = 10, reason = 1) => {
+  //   return await httpSolTryOut.get(`/list?limit=${limit}&offset=${offset}&reason=${reason}`)
+  // },
+
+  listAllAproveds: async (offset = 0, limit = 10, status, reason = 1) => {
+    return await httpSolTryOut.get(`/list?limit=${limit}&offset=${offset}&status=${status}&reason=${reason}`)
   },
 
-  listAllAproveds: async (offset = 0, limit = 10, status) => {
-    return await httpLocal.get(`/listByStatus?limit=${limit}&offset=${offset}&status=${status}`)
+  listAllHistoricModification: async (offset = 5, limit = 5, reason=2) => {
+    return await httpSolTryOut.get(`/list?offset=${offset}&limit=${limit}&reason=${reason}`)
   },
+  
 
   createNewSolicitation: async (data) => {
-    return await httpLocal.post(`/signup`, data)
+    return await httpSolTryOut.post(`/signup`, data)
   },
 
   updateSolicitation: async (id, data) => {
-    return await httpLocal.put(`/update/${id}`, data)
+    return await httpSolTryOut.put(`/update/${id}`, data)
   }
 }

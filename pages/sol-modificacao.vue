@@ -1,62 +1,62 @@
 <template>
   <div>
     <div class="tabs">
-      <button @click="newMoldes = true" :class="{ focus: newMoldes }">
-        Novos Moldes
+      <button @click="newModification = true" :class="{ focus: newModification }">
+        Sol. Disponíveis
       </button>
-      <button @click="newMoldes = false" :class="{ focus: !newMoldes }">
+      <button @click="newModification = false" :class="{ focus: !newModification }">
         Histórico
       </button>
     </div>
 
-    <div v-if="newMoldes">
-      <ListCardsNewModel />
+    <div v-if="newModification">
+      <ListCardsModifiedMolds />
     </div>
 
     <div v-else>
-      <ListCardsHistoric />
+      <ListCardsSolicitationHistoric />
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: "IndexPage",
-  middleware: "auth_eng",
 
+export default {
+  name: 'IndexPage',
+  middleware: 'auth_eng',
+  created() {
+    this.$store.commit('setFooterByRouter', 'solicitacoes-disponiveis')
+  },
+  data() {
+    return {
+      report_list: [],
+      newModification: true,
+    }
+  },
   head() {
     return {
-      title: "TryOut - Novos Moldes",
-    };
-  },
-  created () {
-    this.$store.commit('setFooterByRouter', 'novos-moldes')
-  },
-
-  watch: {
-    newMoldes (newValue) {
-      if(newValue) {
-        this.$store.commit('setFooterByRouter', 'novos-moldes')
-      } else {
-        this.$store.commit('setFooterByRouter', 'novos-moldes-historico')
-      }
+      title: 'TryOut - Moldes Modificados',
     }
   },
 
-  data() {
-    return {
-      newMoldes: true,
-      data_inicial: "",
-      data_final: "",
-    };
+  watch: {
+    newModification (newValue) {
+      if(newValue) {
+        this.$store.commit('setFooterByRouter', 'solicitacoes-disponiveis')
+      } else {
+        this.$store.commit('setFooterByRouter', 'solicitacoes-historico')
+      }
+    }
   },
-};
+}
 </script>
+
 <style lang="scss" scoped>
 .tabs {
   display: flex;
   height: 5rem;
   align-items: flex-end;
+  margin-bottom: 0.5rem;
 
   button {
     width: 10rem;

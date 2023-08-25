@@ -6,7 +6,7 @@
   <div v-else>
     <InputSearch v-model="valueSearch" class="InputSearch" />
     <div v-if="valueSearch.length < 1">
-      <CardNewModel
+      <CardNovoMolde
         v-for="mold in listSearch"
         :key="mold.id"
         :dataMold="mold"
@@ -14,7 +14,7 @@
     </div>
 
     <div v-else>
-      <CardNewModel
+      <CardNovoMolde
         v-for="mold in filterSearchField"
         :key="mold.id"
         :dataMold="mold"
@@ -30,7 +30,7 @@
 
 <script>
 import http from "~/services/newMold/mold";
-import CardNewModel from "../Cards/CardNewModel.vue";
+import CardNewModel from "../Cards/CardNovoMolde.vue";
 import Pagination from "../Pagination.vue";
 import Loading from "../Loading.vue";
 
@@ -86,9 +86,6 @@ export default {
 
   async fetch() {
     await this.listAllRRIMReq();
-    // await http.listAll().then((res) => {
-    //   console.log(res.data);
-    // });
   },
 };
 </script>

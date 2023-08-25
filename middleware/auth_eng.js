@@ -1,43 +1,33 @@
-
-import axios from "axios"
-import Cookies from "js-cookie"
+import axios from "axios";
+import Cookies from "js-cookie";
 
 export default async function ({ redirect }) {
-
+  const tokenCookie =
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYXRyaWN1bGEiOiIzODMxIiwiaWF0IjoxNjkyOTY3MDQyLCJleHAiOjE2OTI5OTU4NDIsInN1YiI6ImM3NTA5YTkxLWVmY2UtNGQ2MS1hOGE5LWIzNmVhNDQyNGEzYSJ9.-v1_xVyd24Thf__xNp22YaX6QkXY-mzidGKyrcD7yJE";
   let user;
 
   await axios
     .post(
-      `${process.env.ROUTER_VERIFY_USER}`,
+      `
+      localhost/session/verify`,
       {},
-      { headers: { Authorization: `${Cookies.get("auth._token.local")}` } }
+      { headers: { Authorization: `${tokenCookie}` } }
     )
     .then((res) => {
-      user = res.data.user
-
-      if (user.nivel_de_acesso.descricao === "eng_analista" ||
-        user.nivel_de_acesso.descricao === "eng_admin" ||
-        user.nivel_de_acesso.descricao === "eng"
-      ) {
-
-        return user
-
+      user = res.data.user.nivel_de_acesso.descricao;
+      console.log(user);
+      if (user === "eng_analista" || user === "eng_admin" || user === "eng") {
+        return user;
       } else if (
-        user.nivel_de_acesso.descricao === "pcp_acabamento" ||
-        user.nivel_de_acesso.descricao === "pcp_injecao" ||
-        user.nivel_de_acesso.descricao === "pcp"
+        user === "pcp_acabamento" ||
+        user === "pcp_injecao" ||
+        user === "pcp"
       ) {
-
-        return redirect(`${process.env.ROUTER_SYSTEM_PCP}`)
-
+        return redirect("/pcp/waiting");
       }
-
-    }).catch((e) => {
+    })
+    .catch((e) => {
       console.log(e);
       // return redirect('http://185.209.179.253:7800/login')
-      // return redirect(`${process.env.ROUTER_REDIRECT_SYSTEM_USER}`);
-    })
-
-
-
+    });
 }
