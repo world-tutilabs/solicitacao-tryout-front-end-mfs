@@ -1,4 +1,3 @@
-import { http } from "~/services/config-rrim";
 import axios from "axios"
 import Cookies from "js-cookie"
 
