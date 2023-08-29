@@ -8,13 +8,12 @@ export default async function ({ redirect }) {
   await axios
     .post(
       `
-      localhost/session/verify`,
+      http://185.209.179.253:7900/session/verify`,
       {},
       { headers: { Authorization: `${tokenCookie}` } }
     )
     .then((res) => {
       user = res.data.user.nivel_de_acesso.descricao;
-      console.log(user);
       if (user === "eng_analista" || user === "eng_admin" || user === "eng") {
         return user;
       } else if (

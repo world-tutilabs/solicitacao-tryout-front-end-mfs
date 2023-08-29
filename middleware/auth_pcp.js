@@ -12,6 +12,7 @@ export default async function ({ redirect }) {
     )
     .then((res) => {
       user = res.data.user.nivel_de_acesso.descricao
+      console.log(`check pcpc ${user}`)
       if (
         user === "pcp_acabamento" ||
         user === "pcp_injecao" ||
