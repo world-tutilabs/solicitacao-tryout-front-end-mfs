@@ -256,7 +256,7 @@ nav {
       .containerExit {
         width: 100%;
         display: flex;
-        justify-content: end;
+        justify-content: flex-end;
         border-top: 1px solid var(--gray);
         padding: 1rem;
         .logout {
