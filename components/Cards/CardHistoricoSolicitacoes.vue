@@ -93,7 +93,7 @@
         <div class="info" v-if="data.homologation.status.id !== 3">
           <span>Último Comentário realizado pelo PCP</span>
           <h3>
-            Autor: {{ data.homologation.homologation_user.nome }}
+            Autor:{{ data.homologation.homologation_user.nome_completo }}
           </h3>
           <div class="boxText">
             <span>{{ data.homologation.comment }}</span>
