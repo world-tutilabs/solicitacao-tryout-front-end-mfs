@@ -335,7 +335,6 @@ export default {
           }
         });
 
-      console.log(this.testSolicitation);
     },
     async concatenarMPeDescricao(materiaPrimaItens) {
       await materiaPrimaItens;

@@ -63,7 +63,6 @@ export default {
         return item.solicitation.reason.description === this.selected;
       });
       this.itemsFiltrados = filteredItems;
-      console.log(this.listPcpWaiting);
     },
     async backPage() {
       this.currentPage -= 10;

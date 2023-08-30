@@ -12,7 +12,6 @@ export default async function ({ redirect }) {
     )
     .then((res) => {
       user = res.data.user.nivel_de_acesso.descricao
-      console.log(`check pcpc ${user}`)
       if (
         user === "pcp_acabamento" ||
         user === "pcp_injecao" ||
@@ -24,13 +23,13 @@ export default async function ({ redirect }) {
         user === "eng_admin" ||
         user === "eng"
       ) {
-        // return redirect('/')
+        return redirect('/')
       }
       
     })
-    // .catch((e) => {
-    //   console.log(e)
-    //   return redirect('http://185.209.179.253:7800/login')
+    .catch((e) => {
+      console.log(e)
+      return redirect('http://185.209.179.253:7800/login')
       
-    // });
+    });
 }

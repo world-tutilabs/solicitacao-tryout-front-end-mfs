@@ -137,20 +137,11 @@
             </form>
           </div>
 
-          <button
-            class="btnCancel"
-            v-if="$route.name === 'pcp-approveds'"
-            @click.prevent="showPopUp = true"
-          >
-            Cancelar
-          </button>
-
-          <BtnPirula
-            titleBtn="Revisar"
-            color="Reprovado"
+          <BtnPirula 
+            titleBtn="Revisar" 
+            color="Reprovado" 
+            @click.native="openModalRevisao()" 
             v-if="dataMold.homologation.status.id === 2"
-            :dataMold="dataMold"
-            @updateCard="updateCard"
           />
 
           <BtnPirula
@@ -162,6 +153,26 @@
             "
             @click.native="relTryout()"
           />
+
+          <ModalEng :displayModal="modalRevisao" :dataRevisao="dataMold" @closeModal="closeModal"/>
+
+          <!-- <buttona
+            class="btnCancel"
+            v-if="$route.name === 'pcp-approveds'"
+            @click.prevent="showPopUp = true"
+          >
+            Cancelar
+          </buttona>
+
+          <BtnPirula
+            titleBtn="Revisar"
+            color="Reprovado"
+            v-if="dataMold.homologation.status.id === 2"
+            :dataMold="dataMold"
+            @updateCard="updateCard"
+          /> -->
+
+          
         </SlotBtn>
       </div>
     </div>
@@ -183,9 +194,16 @@ export default Vue.extend({
       isOpenInfoCard: false,
       btnStatus: this.status,
       showPopUp: false,
+      modalRevisao: false
     };
   },
   methods: {
+    openModalRevisao() {
+      this.modalRevisao = true
+    },
+    closeModal() {
+      this.modalRevisao = false
+    },
     relTryout() {
       window.location.replace("http://185.209.179.253:9200/");
     },
