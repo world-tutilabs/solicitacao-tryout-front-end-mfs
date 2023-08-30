@@ -6,8 +6,6 @@
         <img src="~/static/icons/arrowOpened.svg" v-else />
       </div>
     </div>
-
-    <!-- <pre>{{ dataListAllAprov }}</pre> -->
     <div class="cardInformacoes">
       <label for="">
         <h4>N. Tryout</h4>

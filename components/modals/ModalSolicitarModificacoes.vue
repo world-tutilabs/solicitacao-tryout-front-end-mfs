@@ -45,7 +45,7 @@
             <div class="boxInput" v-if="status === 'Novo Produto do Molde'">
               <h5>Cód. NNP</h5>
               <input type="text" v-model="code" />
-              {{ code }}
+      
             </div>
           </section>
           <div class="boxInput">
@@ -58,11 +58,7 @@
             <p>Quantidade:</p>
             <input type="number" min="1" v-model="quantidade" />
           </div>
-          <!-- <div class="boxInput">
-            <p>Técnico:</p>
-            <input type="text" v-model="tecnico" />
-          </div> -->
-
+    
           <button
             class="buttonAdd"
             @click.once="addProcess"
@@ -130,7 +126,7 @@
                     v-for="(machine, index) in listAllMachines"
                     :key="index"
                   >
-                    {{ machine.ResName }}
+                    {{ machine.VisResCode }}
                   </option>
                 </datalist>
               </div>

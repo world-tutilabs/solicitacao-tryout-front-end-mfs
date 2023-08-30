@@ -10,7 +10,7 @@
       <h5>{{ subtitle.title }}</h5>
     </div>
 
-    <div class="container" v-for="subtitle in legenda_pcp" :key="subtitle.title" >
+    <div class="container" v-for="subtitle in legenda_pcp" :key="subtitle.title" v-if="$store.state.showFooter === 'PCP - Solicitações Aprovadas' || $store.state.showFooter === 'PCP - Solicitações Concluidas'|| $store.state.showFooter === 'PCP - Solicitações em Espera'">
       <div class="circle" :style="subtitle.background"></div>
       <h5>{{ subtitle.title }}</h5>
     </div>

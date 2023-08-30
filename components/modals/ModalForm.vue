@@ -50,15 +50,6 @@
           
           <InputSelect @status="validarEmit" :type="'Tryout'" />
   
-          <!-- <div class="boxInput" v-if="showContainer">
-            <p>Motivo</p>
-            <input type="text" value="" />
-          </div>
-
-          <div class="boxInput" v-else>
-            <p>Motivo</p>
-            <input type="text" v-model="reasonSolicitation" />
-          </div> -->
         </div>
   
         <!-- selecionar processos -->
@@ -194,7 +185,6 @@
               </SlotCard>
             </div>
           </div>
-          <!-- <pre>        {{ productsOptions }}</pre> -->
         </div>
         <div class="boxButtons">
           <button class="cancel" @click.prevent="closeModal()">Cancelar</button>
