@@ -3,7 +3,7 @@
     <div class="containerModal">
       <header>
         <div>
-          {{ solicitationUpdated }}
+          <pre>{{ dataRevisao }}</pre>
           <h1>Revisão Engenharia</h1>
           <p>Informações Gerais</p>
         </div>
@@ -40,6 +40,18 @@
               label="Motivo"
               v-model="dataRevisao.reason.description"
               readonly="readonly"
+            />
+          </div>
+          <div class="boxInput" v-if="dataRevisao.reason.description !== 'Novo' && dataRevisao.reason.description !== 'Retroativo'">
+            <FormInput
+              label="Código NNP"
+              v-model="dataRevisao.code"
+              readonly="readonly" v-if="dataRevisao.reason.description === 'Novo Produto'"
+            />
+            <FormInput
+              label="Código RGM"
+              v-model="dataRevisao.code"
+              readonly="readonly" v-else
             />
           </div>
         </div>
@@ -104,9 +116,6 @@
                     @click="inputTypeDate = 'date'"
                   />
                 </div>
-
-              
-        
                 
               </div>
             </div>
@@ -195,6 +204,7 @@ export default {
         product_description: "",
         client: "",
         date: "",
+        code: "666",
         reason: "",
         homologation: {
           created_user: {
@@ -246,7 +256,7 @@ export default {
       this.solicitationUpdated.product_description =
         this.dataRevisao.desc_product;
       this.solicitationUpdated.client = this.dataRevisao.client;
-      this.solicitationUpdated.reason = this.dataRevisao.reason;
+      this.solicitationUpdated.reason = this.dataRevisao.reason.id;
       this.solicitationUpdated.InjectionProcess.proc_technician =
         this.dataRevisao.injectionProcess.proc_technician;
       this.solicitationUpdated.InjectionProcess.quantity = parseInt(
@@ -269,16 +279,15 @@ export default {
         this.dataRevisao.injectionProcess.mold.number_cavity
       );
 
-      console.log(JSON.parse(this.solicitationUpdated))
-      // await http
-      //   .updateSolicitation(this.dataRevisao.id, this.solicitationUpdated)
-      //   .then((res) => {
-      //     this.$toast.info("Solicitação enviada para o PCP");
-      //     this.closeModal();
-      //   })
-      //   .catch((error) => {
-      //     this.$toast.warning("Campos não preenchidos.");
-      //   });
+      await http
+        .updateSolicitation(this.dataRevisao.id, this.solicitationUpdated)
+        .then((res) => {
+          this.$toast.info("Solicitação enviada para o PCP");
+          this.closeModal();
+        })
+        .catch((error) => {
+          this.$toast.warning("Campos não preenchidos.");
+        });
     },
   },
   components: { FormInputSelect },
@@ -305,6 +314,10 @@ export default {
     background-color: var(--bg);
     padding: 1vw;
     border-radius: 0.5rem;
+
+    .btn-closed {
+      cursor: pointer;
+    }
 
     header {
       p {
