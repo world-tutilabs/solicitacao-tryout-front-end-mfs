@@ -334,7 +334,6 @@ export default {
           }
         });
 
-        console.log('send', this.testSolicitation)
     },
     catchIndexProduct(event) {
       this.newSolicitation.cod_prod = event.target.value;

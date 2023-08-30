@@ -3,6 +3,7 @@
     <div class="containerModal">
       <header>
         <div>
+          {{ solicitationUpdated }}
           <h1>Revisão Engenharia</h1>
           <p>Informações Gerais</p>
         </div>
@@ -75,17 +76,8 @@
                     readonly="readonly"
                   />
                 </div>
-                <div class="boxInput">
-                  <FormInput
-                    label="Data Programada"
-                    v-model="dateProgrammed"
-                    type="date"
-                    :min="dateCurrent"
-                    @click="inputTypeDate = 'date'"
-                  />
-                </div>
 
-              <div class="boxInput">
+                <div class="boxInput">
                 <div class="inputData">
                   <p>Máquina</p>
 
@@ -102,6 +94,18 @@
                   </datalist>
                 </div>
               </div>
+
+                <div class="boxInput">
+                  <FormInput
+                    label="Data Programada"
+                    v-model="dateProgrammed"
+                    type="date"
+                    :min="dateCurrent"
+                    @click="inputTypeDate = 'date'"
+                  />
+                </div>
+
+              
         
                 
               </div>
@@ -227,7 +231,6 @@ export default {
 
   async created () {
     await AllMachine.listAllMachines().then( (res) => {
-      console.log(res.data)
       this.listAllMachines = res.data.results
     })
 
@@ -265,6 +268,8 @@ export default {
       this.solicitationUpdated.InjectionProcess.mold.number_cavity = parseInt(
         this.dataRevisao.injectionProcess.mold.number_cavity
       );
+
+      console.log(JSON.parse(this.solicitationUpdated))
       // await http
       //   .updateSolicitation(this.dataRevisao.id, this.solicitationUpdated)
       //   .then((res) => {
@@ -317,20 +322,23 @@ export default {
     }
 
     .rowInputs {
-      display: flex;
+      display: grid;
       gap: 1rem;
+      grid-template-columns: 1fr 1fr 1fr 1fr ;
       padding: 0 0.5rem;
-      flex-wrap: wrap;
 
       .boxInput {
+        
         p {
           font-size: 0.8rem;
           font-weight: var(--bold);
         }
-      }
 
-      .inputData {
+        .inputData {
         height: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
 
         input {
           padding: 0.5rem;
@@ -339,6 +347,9 @@ export default {
           background-color: var(--gray);
         }
       }
+      }
+
+      
     }
 
     form {

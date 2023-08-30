@@ -23,7 +23,6 @@
     async created () {
         await httpNovoMolde.listAllHistoricModification(0, 10).then( (res) => {
             this.listAllHistoricSolicitations = res.data.result
-            console.log(res)
         })
   
     }
