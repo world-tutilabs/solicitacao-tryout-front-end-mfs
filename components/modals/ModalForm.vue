@@ -515,7 +515,6 @@ export default {
     }
 
     .contentInputs {
-      background-color: #ffffff;
       padding: 0.7rem 0.5rem;
       align-items: flex-end;
 
