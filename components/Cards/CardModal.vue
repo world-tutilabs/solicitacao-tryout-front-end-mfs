@@ -100,7 +100,7 @@
           v-if="dataMold.homologation.status.description !== 'Revisao'"
         >
           <span>Último Comentário realizado pelo PCP</span>
-          <h3>Autor: {{ dataMold.homologation.created_user.nome }}</h3>
+          <h3>Autor: {{ dataMold.homologation.homologation_user.nome_completo }}</h3>
           <div class="boxText">
             <span>{{ dataMold.homologation.comment }}</span>
           </div>

@@ -10,6 +10,8 @@
         </div>
       </div>
 
+      <!-- <pre>{{ data }}</pre> -->
+
       <div class="containerMain">
         <div class="informs">
           <div class="inform">
@@ -36,6 +38,13 @@
             <h3>Máquina</h3>
             <p>{{ data.injectionProcess.machine.model }}</p>
           </div>
+
+          <div class="inform" >
+            <h3 v-if="data.reason.description === 'Modificação de Molde'">Código RGM</h3>
+            <h3 v-else>Código NNP</h3>
+            <p>{{ data.code }}</p>
+          </div>
+
         </div>
       </div>
 
@@ -128,8 +137,12 @@
             Cancelar
           </button>
 
-          <BtnPirula titleBtn="Revisar" color="Reprovado" v-if="data.homologation.status.id === 2" :data="data"
-            @updateCard="updateCard" />
+            <BtnPirula 
+            titleBtn="Revisar" 
+            color="Reprovado" 
+            @click.native="openModalRevisao()" 
+            v-if="data.homologation.status.id === 2"
+          />
 
           <BtnPirula titleBtn="Gerar Relatório" color="Aprovado" v-if="data.homologation.status.id === 1 &&
             $route.name === 'sol-modificacao'
@@ -137,7 +150,8 @@
         </SlotBtn>
       </div>
 
-      <!-- <ModalEng :displayModal="statusModal" :dataRevisao="data" @closeModal="closeModal"/> -->
+      <ModalEng :displayModal="statusModal" :dataRevisao="data" @closeModal="closeModal"/>
+
     </div>
   </div>
 </template>
@@ -160,6 +174,14 @@ export default Vue.extend({
     };
   },
   methods: {
+
+    openModalRevisao() {
+      this.statusModal = true
+    },
+    closeModal() {
+      this.statusModal = false
+    },
+
     flagValidation(data) {
       if (data == 1) {
         return "flap flap-green";
