@@ -3,9 +3,9 @@
     <Loading />
   </div>
   <div v-else>
-    <CardModal v-for="mold in listHistoric" :key="mold.id" :dataMold="mold" />
+    <CardModal v-for="mold in listHistoric" :key="mold.id" :dataMold="mold" :description="mold.reason.description" />
     <Pagination
-      :list="listSearch"
+      :list="listHistoric"
       @displayNewList="displayNewList"
     />
   </div>
@@ -25,7 +25,7 @@ export default {
     async listAllHistoricReq() {
       await http.listAllAproveds(this.currentPage, 10, 5, 2).then((res) => {
         this.listHistoric = res.data.result;
-        console.log(res.data)
+        // console.log(res.data)
       });
 
     },

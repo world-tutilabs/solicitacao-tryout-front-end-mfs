@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <pre>{{ dataListAllAprov}}</pre>
+    <!-- <pre>{{ dataListAllAprov }}</pre> -->
     <div class="cardInformacoes">
       <label for="">
         <h4>N. Tryout</h4>
@@ -35,10 +35,10 @@
         <h4>Descrição</h4>
         <span>{{ dataListAllAprov.reason.description }}</span>
       </label>
-      <!-- <label for="">
+      <label for="">
         <h4>Homologado por</h4>
-        <span>{{ dataListAllAprov.homologation.nome_completo }}</span>
-      </label> -->
+        <span>{{ dataListAllAprov.homologation.created_user.nome}}</span>
+      </label>
     </div>
 
     <div v-if="infoCardStatus" class="cardButton">
@@ -71,46 +71,61 @@ export default Vue.extend({
       infoCardStatus: false,
       userHomologation: "",
       dataListAllAprov: {
-        number_tryout: "",
-        code_sap: "",
-        client: "",
-        desc_product: "",
-
-        reason: {
-          id: 0,
-          description: "",
-        },
-        homologation_user: {
-          id: "",
-          cargo: {
-            id: "",
-            descricao: "",
-          },
-          email: "",
-          status: "",
-          criado_em: "",
-          matricula: "",
-          User_Sistema: [
-            {
-              sistema: {
-                id: "",
-                descricao: "",
-              },
-            },
-          ],
-          atualizado_em: "",
-          nome_completo: "",
-          nivel_de_acesso: {
-            id: "",
-            descricao: "",
-          },
-        },
-        homologation_at: "",
-        comment: "",
-        status: {
-          id: 0,
-          description: "",
-        },
+        id: "",
+    number_tryout: 0,
+    code_sap: "",
+    desc_product: "",
+    client: "",
+    programmed_date: "",
+    code: "",
+    reason: {
+      id: 1,
+      description: "",
+    },
+    homologation: {
+      id: "",
+      fk_solicitation: "",
+      created_user: {
+        date: "",
+        nome: "",
+        role: "",
+        email: "",
+        matricula: "",
+      },
+      created_at: "",
+      homologation_user: "",
+      homologation_at: "",
+      comment: "",
+      status: {
+        id: 3,
+        description: "",
+      }
+    },
+    injectionProcess: {
+      id: "",
+      id_tryout: "",
+      proc_technician: "",
+      quantity: 1500,
+      feedstock: {
+        id: "",
+        description: "",
+        kg: 0
+      },
+      labor: {
+        id: "",
+        description: "",
+        amount: 20
+      },
+      mold: {
+        id: "",
+        number_cavity: 8,
+        desc_mold: "",
+      },
+      machine: {
+        id: "",
+        model: "",
+      }
+    }
       } as Aprovados,
     };
   },
@@ -125,6 +140,7 @@ export default Vue.extend({
       this.modal = true;
       document.body.style.overflow = "hidden";
     },
+
     closeModal(e: boolean): void {
       this.modal = !this.modal;
       document.body.style.overflow = "auto";
@@ -133,7 +149,7 @@ export default Vue.extend({
       return (this.infoCardStatus = !this.infoCardStatus);
     },
 
-    formatDate(date: string, plusDay: number) {
+    formatDate(date: string) {
       return dayjs(date).format("DD/MM/YY");
     },
   },

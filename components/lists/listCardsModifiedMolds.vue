@@ -1,9 +1,8 @@
 <template>
   <div>
-
     <CardNovasModificacoes v-for="(data, index) in listAllReportApproveds" :key="index" :dataListAllAprov="data" />
 
-
+  
     <!-- <Pagination :list="listAllReportApproveds" @displayNewList="displayNewList"/> -->
   </div>
 </template>

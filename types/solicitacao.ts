@@ -1,64 +1,52 @@
 export interface Aprovados {
-    number_tryout: string,
+    id: string,
+    number_tryout: number,
     code_sap: string,
     desc_product: string,
     client: string,
     programmed_date: string,
     code: string,
     reason: {
-      id: number,
+      id: 1,
       description: string,
     },
-    homologation_user: {
+    homologation: {
       id: string,
-      cargo: {
-        id: string,
-        descricao: string,
+      fk_solicitation: string,
+      created_user: {
+        date: string,
+        nome: string,
+        role: string,
+        email: string,
+        matricula: string,
       },
-      email: string,
-      status: string,
-      criado_em: string,
-      matricula: string,
-      User_Sistema: [
-        {
-          sistema: {
-            id: string,
-            descricao: string,
-          }
-        }
-      ],
-      atualizado_em: string,
-      nome_completo: string,
-      nivel_de_acesso: {
-        id: string,
-        descricao: string,
+      created_at: string,
+      homologation_user: string,
+      homologation_at: string,
+      comment: string,
+      status: {
+        id: 3,
+        description: string,
       }
     },
-    homologation_at: string,
-    comment: string,
-    status: {
-      id: number,
-    description: string,
-    }
-  
     injectionProcess: {
       id: string,
       id_tryout: string,
       proc_technician: string,
-      quantity: number
+      quantity: 1500,
       feedstock: {
         id: string,
         description: string,
-        kg: number,
+        kg: 0
       },
       labor: {
         id: string,
         description: string,
-        amount: number,
+        amount: 20
       },
       mold: {
         id: string,
-        number_cavity: number,
+        number_cavity: 8,
         desc_mold: string,
       },
       machine: {
@@ -66,7 +54,6 @@ export interface Aprovados {
         model: string,
       }
     }
-  
-
   }
 
+  
