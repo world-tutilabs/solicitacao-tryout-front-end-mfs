@@ -18,29 +18,6 @@
       {{ titleBtn }}
     </button>
 
-    <div v-if="dataMold">
-      <!-- <ModalForm
-        :displayModal="modalStatus"
-        @closeModal="closeModal"
-        :dataRRIM="dataMold"
-        v-if="this.color === 'RRIM'"
-      />
-
-      <ModalEng
-        :displayModal="modalStatus"
-        @closeModal="closeModal"
-        v-else-if="this.color === 'Reprovado'"
-        :dataRevisao="dataMold"
-      />
-
-      <ModalFormPcp
-        :displayModal="modalStatus"
-        @closeModal="closeModal"
-        v-else
-        :dataPCP="dataMold"
-      />
-     -->
-    </div>
   </div>
 </template>
 

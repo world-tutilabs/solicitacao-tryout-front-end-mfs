@@ -37,7 +37,7 @@
           <div class="boxInput">
             <FormInput
               label="Motivo"
-              v-model="dataRevisao.reason"
+              v-model="dataRevisao.reason.description"
               readonly="readonly"
             />
           </div>
@@ -71,7 +71,7 @@
                 <div class="boxInput">
                   <FormInput
                     label="Motivo"
-                    v-model="dataRevisao.reason"
+                    v-model="dataRevisao.reason.description"
                     readonly="readonly"
                   />
                 </div>
@@ -85,13 +85,25 @@
                   />
                 </div>
 
-                <div class="boxInput">
-                  <FormInputSelect
-                    label="Máquina"
-                    :options="listAllMachines.results"
-                    v-model="dataRevisao.injectionProcess.machine.model"
-                  />
+              <div class="boxInput">
+                <div class="inputData">
+                  <p>Máquina</p>
+
+                  <input type="text" list="machines" v-model="machine" />
+
+                  <datalist id="machines">
+                    <option
+                      v-for="(machine, index) in listAllMachines"
+                      :key="index"
+                    >
+                      {{ machine.VisResCode }}
+                    </option>
+
+                  </datalist>
                 </div>
+              </div>
+        
+                
               </div>
             </div>
             <div class="cardTryOut">
@@ -157,14 +169,14 @@
 <script>
 import http from "../../services/newMold/mold";
 import dayjs from "dayjs";
-import httpNewMold from "~/services/newMold/mold";
 import FormInputSelect from "../Form/FormInputSelect.vue";
+import AllMachine from '../../services/newMold/mold'
 
 export default {
   data() {
     return {
       dateCurrent: dayjs().format("YYYY-MM-DD"),
-
+      machine: "",
       dateProgrammed: "",
       listAllMachines: [],
       inputTypeDate: "text",
@@ -212,9 +224,19 @@ export default {
     displayModal: Boolean,
     dataRevisao: Object,
   },
+
+  async created () {
+    await AllMachine.listAllMachines().then( (res) => {
+      console.log(res.data)
+      this.listAllMachines = res.data.results
+    })
+
+    this.solicitationUpdated.InjectionProcess.machine.model =
+        this.dataRevisao.injectionProcess.machine.model;
+  },
   methods: {
     closeModal() {
-      this.$emit("closeModal", this.displayModal);
+      this.$emit("closeModal", false);
     },
     updateSoli: async function () {
       this.solicitationUpdated.code_sap = this.dataRevisao.code_sap;
@@ -230,8 +252,7 @@ export default {
       this.solicitationUpdated.date = this.dateProgrammed;
       // input de Kg
       this.solicitationUpdated.InjectionProcess.feedstocks.kg = 0;
-      this.solicitationUpdated.InjectionProcess.machine.model =
-        this.dataRevisao.injectionProcess.machine.model;
+
       this.solicitationUpdated.InjectionProcess.feedstocks.description =
         this.dataRevisao.injectionProcess.feedstock.description;
       this.solicitationUpdated.InjectionProcess.labor.amount = parseInt(
@@ -244,15 +265,15 @@ export default {
       this.solicitationUpdated.InjectionProcess.mold.number_cavity = parseInt(
         this.dataRevisao.injectionProcess.mold.number_cavity
       );
-      await http
-        .updateSolicitation(this.dataRevisao.id, this.solicitationUpdated)
-        .then((res) => {
-          this.$toast.info("Solicitação enviada para o PCP");
-          this.closeModal();
-        })
-        .catch((error) => {
-          this.$toast.warning("Campos não preenchidos.");
-        });
+      // await http
+      //   .updateSolicitation(this.dataRevisao.id, this.solicitationUpdated)
+      //   .then((res) => {
+      //     this.$toast.info("Solicitação enviada para o PCP");
+      //     this.closeModal();
+      //   })
+      //   .catch((error) => {
+      //     this.$toast.warning("Campos não preenchidos.");
+      //   });
     },
   },
   components: { FormInputSelect },
@@ -305,6 +326,17 @@ export default {
         p {
           font-size: 0.8rem;
           font-weight: var(--bold);
+        }
+      }
+
+      .inputData {
+        height: 1rem;
+
+        input {
+          padding: 0.5rem;
+          border-radius: 0.4rem;
+          border: none;
+          background-color: var(--gray);
         }
       }
     }
