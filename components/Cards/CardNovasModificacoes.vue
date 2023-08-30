@@ -1,13 +1,11 @@
 <template>
   <div class="containerCard">
     <div class="header-content">
-        <div class="container_button" @click="openInfoCard">
-          <img src="~/static/icons/arrowClosed.svg" v-if="infoCardStatus" />
-          <img src="~/static/icons/arrowOpened.svg" v-else />
-        </div>
+      <div class="container_button" @click="openInfoCard">
+        <img src="~/static/icons/arrowClosed.svg" v-if="infoCardStatus" />
+        <img src="~/static/icons/arrowOpened.svg" v-else />
       </div>
-    
-
+    </div>
     <div class="cardInformacoes">
       <label for="">
         <h4>N. Tryout</h4>
@@ -26,17 +24,19 @@
 
       <label for="">
         <h4>Homologado em</h4>
-        <span>{{ formatDate(dataListAllAprov.homologation.homologation_at, 1) }}</span>
+        <span>{{
+          formatDate(dataListAllAprov.homologation.homologation_at)
+        }}</span>
       </label>
 
       <label for="">
         <h4>Descrição</h4>
         <span>{{ dataListAllAprov.reason.description }}</span>
       </label>
-      <!-- <label for="">
+      <label for="">
         <h4>Homologado por</h4>
-        <span>{{ dataListAllAprov.homologation.nome_completo }}</span>
-      </label> -->
+        <span>{{ dataListAllAprov.homologation.created_user.nome}}</span>
+      </label>
     </div>
 
     <div v-if="infoCardStatus" class="cardButton">
@@ -49,14 +49,14 @@
         :dataRRIM="dataRRIM"
       />
     </div>
-  <!-- <pre>  {{ dataListAllAprov }}</pre> -->
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import dayjs  from "dayjs"
+import dayjs from "dayjs";
 import http from "~/services/newMold/mold";
+import { Aprovados } from "@/types/solicitacao";
 export default Vue.extend({
   props: {
     dataListAllAprov: Array,
@@ -66,24 +66,79 @@ export default Vue.extend({
     return {
       modal: false,
       dataRRIM: {},
-      infoCardStatus:false,
+      infoCardStatus: false,
       userHomologation: "",
+      dataListAllAprov: {
+        id: "",
+    number_tryout: 0,
+    code_sap: "",
+    desc_product: "",
+    client: "",
+    programmed_date: "",
+    code: "",
+    reason: {
+      id: 1,
+      description: "",
+    },
+    homologation: {
+      id: "",
+      fk_solicitation: "",
+      created_user: {
+        date: "",
+        nome: "",
+        role: "",
+        email: "",
+        matricula: "",
+      },
+      created_at: "",
+      homologation_user: "",
+      homologation_at: "",
+      comment: "",
+      status: {
+        id: 3,
+        description: "",
+      }
+    },
+    injectionProcess: {
+      id: "",
+      id_tryout: "",
+      proc_technician: "",
+      quantity: 1500,
+      feedstock: {
+        id: "",
+        description: "",
+        kg: 0
+      },
+      labor: {
+        id: "",
+        description: "",
+        amount: 20
+      },
+      mold: {
+        id: "",
+        number_cavity: 8,
+        desc_mold: "",
+      },
+      machine: {
+        id: "",
+        model: "",
+      }
+    }
+      } as Aprovados,
     };
   },
   created: async function () {
     await http.listAll(1).then((res) => {
-        this.dataRRIM = res.data;
-      });
-      // const nome_completo = this.dataListAllAprov.homologation.homologation_user.nome_completo;
-      // console.log(nome_completo);
-      // this.userHomologation = nome_completo
-},
+      this.dataRRIM = res.data;
+    });
+  },
+
   methods: {
     async showModal() {
       this.modal = true;
       document.body.style.overflow = "hidden";
-    
     },
+
     closeModal(e: boolean): void {
       this.modal = !this.modal;
       document.body.style.overflow = "auto";
@@ -91,10 +146,10 @@ export default Vue.extend({
     openInfoCard(): boolean {
       return (this.infoCardStatus = !this.infoCardStatus);
     },
-    
-    formatDate(date: string, plusDay: number) {
-      return dayjs(date).add(plusDay, 'day').format('DD/MM/YY')
-    }
+
+    formatDate(date: string) {
+      return dayjs(date).format("DD/MM/YY");
+    },
   },
 });
 </script>
@@ -116,17 +171,15 @@ export default Vue.extend({
     grid-row-gap: 0px;
   }
   .header-content {
-  display: flex;
-  justify-content: flex-end;
-  height: auto;
+    display: flex;
+    justify-content: flex-end;
+    height: auto;
 
-  .container_button {
-    cursor: pointer;
+    .container_button {
+      cursor: pointer;
+    }
   }
-
-  
-}
-.cardButton{
+  .cardButton {
     border-top: 0.1rem solid #e0e0e0;
   }
 }

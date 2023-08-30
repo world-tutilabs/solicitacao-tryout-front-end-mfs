@@ -2,7 +2,6 @@
   <div>
     <nav>
       <div>
-        <!-- <img src="~/static/icons/iconMolde.svg" alt="molde" /> -->
         <a
           class="buttonBack"
           value="menuSistemas"
@@ -76,10 +75,6 @@
                 <strong>Nível de Acesso:</strong>
                 {{ $store.state.isUser.data.user.nivel_de_acesso.descricao }}
               </p>
-
-              <!-- <button style="padding: 10px; border-radius: 4px" @click="showChange">
-                Trocar Senha
-              </button> -->
             </div>
             <ChangePassword
               v-if="showPassword"

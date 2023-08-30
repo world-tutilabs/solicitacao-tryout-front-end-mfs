@@ -3,6 +3,7 @@
     <div class="content">
       <div class="header-content">
         <div :class="flagValidation(description)"> 
+
       </div>
         <div class="container_button" @click="openInfoCard">
           <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
@@ -98,7 +99,7 @@
           </div>
         </div>
     <pre>
-      <!-- {{ dataMold }} -->
+
     </pre>    
       </div>
 

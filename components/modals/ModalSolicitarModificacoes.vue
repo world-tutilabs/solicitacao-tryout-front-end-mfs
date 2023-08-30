@@ -39,12 +39,13 @@
           <section>
             <div class="boxInput" v-if="status === 'Modificação de Molde'">
               <h5>Cód. RGM</h5>
-              <input type="text" v-model="codRGM" />
+              <input type="text" v-model="code" />
             </div>
 
             <div class="boxInput" v-if="status === 'Novo Produto do Molde'">
               <h5>Cód. NNP</h5>
-              <input type="text" v-model="codNNP" />
+              <input type="text" v-model="code" />
+      
             </div>
           </section>
           <div class="boxInput">
@@ -57,11 +58,7 @@
             <p>Quantidade:</p>
             <input type="number" min="1" v-model="quantidade" />
           </div>
-          <!-- <div class="boxInput">
-            <p>Técnico:</p>
-            <input type="text" v-model="tecnico" />
-          </div> -->
-
+    
           <button
             class="buttonAdd"
             @click.once="addProcess"
@@ -129,7 +126,7 @@
                     v-for="(machine, index) in listAllMachines"
                     :key="index"
                   >
-                    {{ machine.ResName }}
+                    {{ machine.VisResCode }}
                   </option>
                 </datalist>
               </div>
@@ -210,7 +207,7 @@ export default {
       processValidation: false,
       indexProduct: "",
       reasonIdSolicitation: Number,
-
+      code:"",
       quantidade: "",
       newData: "",
 
@@ -235,6 +232,7 @@ export default {
         product_description: "",
         client: "",
         date: "",
+        code:"",
         reason: "",
         InjectionProcess: {
           proc_technician: "",
@@ -300,16 +298,17 @@ export default {
         this.$toast.warning("Algum campo não foi preenchido");
         return;
       }
-      this.testSolicitation.code_sap = this.sapCodDescricao
-      this.testSolicitation.product_description = this.modalData.desc_product
+      this.testSolicitation.code_sap = this.sapCodDescricao;
+      this.testSolicitation.product_description = this.modalData.desc_product;
       this.testSolicitation.client = this.modalData.client;
-      this.testSolicitation.date   =  this.newData
-      this.testSolicitation.reason = this.reasonIdSolicitation
-      this.testSolicitation.homologation
+      this.testSolicitation.date   =  this.newData;
+      this.testSolicitation.code = this.code;
+      this.testSolicitation.reason = this.reasonIdSolicitation;
+      this.testSolicitation.homologation;
       this.testSolicitation.InjectionProcess.feedstocks.kg = 0;
-      this.testSolicitation.InjectionProcess.feedstocks.description = this.codMP
+      this.testSolicitation.InjectionProcess.feedstocks.description = this.codMP;
       this.testSolicitation.InjectionProcess.proc_technician = this.modalData.injectionProcess.proc_technician
-      this.modalData.injectionProcess.feedstock.description
+      this.modalData.injectionProcess.feedstock.description;
 
       this.testSolicitation.InjectionProcess.labor.amount = parseInt(
         this.laborAmount

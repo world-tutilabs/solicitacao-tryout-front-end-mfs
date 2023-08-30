@@ -42,8 +42,6 @@
             />
           </div>
         </div>
-
-        <!-- so aparece quando selecionar um processo -->
         <div class="containerProcess">
           <div class="tabs">
             <div class="tab">

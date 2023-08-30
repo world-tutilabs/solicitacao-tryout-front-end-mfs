@@ -2,8 +2,9 @@
   <div class="box">
     <div class="content">
       <div class="header-content">
+    
         <div :class="flagValidation(description)">
-          <!-- {{ description }} -->
+      
         </div>
         <div class="container_button" @click="openInfoCard">
           <img src="~/static/icons/arrowClosed.svg" v-if="isOpenInfoCard" />
@@ -36,14 +37,14 @@
             <h3>Máquina</h3>
             <p>{{ dataMold.injectionProcess.machine.model }}</p>
           </div>
-
+          
 
           <div class="inform" v-if="dataMold.reason.description !== 'Novo' || dataMold.reason.description !== 'Retroativo'">
             <h3 v-if="dataMold.reason.description === 'Novo Produto'">Código NNP</h3>
             <h3 v-if="dataMold.reason.description === 'Modificação de Molde'">Código RGM</h3>
             <p>{{ dataMold.code }}</p>
           </div>
-
+  
         </div>
       </div>
 
@@ -318,7 +319,7 @@ export default Vue.extend({
   }
 
   .flap-none {
-    background-color: var(--lilac);
+    background-color: transparent;
   }
 
   .flap-green {

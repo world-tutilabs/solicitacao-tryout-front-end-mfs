@@ -50,15 +50,6 @@
           
           <InputSelect @status="validarEmit" :type="'Tryout'" />
   
-          <!-- <div class="boxInput" v-if="showContainer">
-            <p>Motivo</p>
-            <input type="text" value="" />
-          </div>
-
-          <div class="boxInput" v-else>
-            <p>Motivo</p>
-            <input type="text" v-model="reasonSolicitation" />
-          </div> -->
         </div>
   
         <!-- selecionar processos -->
@@ -194,7 +185,6 @@
               </SlotCard>
             </div>
           </div>
-          <!-- <pre>        {{ productsOptions }}</pre> -->
         </div>
         <div class="boxButtons">
           <button class="cancel" @click.prevent="closeModal()">Cancelar</button>
@@ -344,7 +334,7 @@ export default {
           }
         });
 
-        console.log(this.testSolicitation)
+        console.log('send', this.testSolicitation)
     },
     catchIndexProduct(event) {
       this.newSolicitation.cod_prod = event.target.value;
@@ -525,7 +515,6 @@ export default {
     }
 
     .contentInputs {
-      background-color: #ffffff;
       padding: 0.7rem 0.5rem;
       align-items: flex-end;
 

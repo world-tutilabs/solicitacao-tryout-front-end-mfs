@@ -24,13 +24,13 @@ export default async function ({ redirect }) {
         user === "eng_admin" ||
         user === "eng"
       ) {
-        return redirect('/')
+        // return redirect('/')
       }
       
     })
-    .catch((e) => {
-      console.log(e)
-      return redirect('http://185.209.179.253:7800/login')
+    // .catch((e) => {
+    //   console.log(e)
+    //   return redirect('http://185.209.179.253:7800/login')
       
-    });
+    // });
 }
