@@ -89,9 +89,7 @@ export default {
     });
     this.newDateProgammed(SolicitationApproved);
     this.dataNewMold = SolicitationApproved;
-    // if(SolicitationApproved.length !== 0){
 
-    // }
   },
 
   methods: {
