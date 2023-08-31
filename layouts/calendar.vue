@@ -2,6 +2,8 @@
   <div class="content-calendar">
     <Navbar />
     <Nuxt />
+    <SubtitleFooter />
+    <Footer />
   </div>
 </template>
 
