@@ -52,7 +52,8 @@
               class="cardCalendar"
               v-if="newDate(date) === newDateCard(mold.programmed_date)"
             >
-              <CardModel :dataMold="mold" :typeCard="'solicitation'" />
+              <!-- <CardModal :dataMold="mold" :typeCard="'solicitation'" /> -->
+              <CardHistoricoSolicitacoes  :data="mold" />
             </div>
           </div>
         </div>
@@ -81,14 +82,14 @@ export default {
     };
   },
 
-  created: async function () {
-    const values = await serviceNewMold.listAllHistoric();
+  async created () {
 
-    const SolicitationApproved = values.data.filter((solicitation) => {
-      return solicitation.homologation.status.description === "Aprovado";
-    });
-    this.newDateProgammed(SolicitationApproved);
-    this.dataNewMold = SolicitationApproved;
+    await serviceNewMold.listAllHistoricModification(0, 100000).then( (res) => {
+      this.dataNewMold = res.data.result
+    })
+
+    this.$store.commit('setFooterByRouter', 'calendar')
+    this.newDateProgammed(this.dataNewMold)
 
   },
 
@@ -290,7 +291,6 @@ export default {
         overflow-y: auto;
         border-radius: 5px;
         .cardCalendar {
-          background-color: var(--gray);
           padding: 10px;
           border-radius: 10px;
         }

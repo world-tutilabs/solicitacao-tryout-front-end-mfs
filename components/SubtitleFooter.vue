@@ -5,7 +5,7 @@
       <h5>{{ subtitle.title }}</h5>
     </div>
 
-    <div class="container" v-for="subtitle in legenda_modificacoes" :key="subtitle.title"  v-if="$store.state.showFooter === 'solicitacoes-historico' || $store.state.showFooter === 'solicitacoes-disponiveis'">
+    <div class="container" v-for="subtitle in legenda_modificacoes" :key="subtitle.title"  v-if="$store.state.showFooter === 'solicitacoes-historico' || $store.state.showFooter === 'solicitacoes-disponiveis' || $store.state.showFooter === 'calendar'">
       <div class="circle" :style="subtitle.background"></div>
       <h5>{{ subtitle.title }}</h5>
     </div>
