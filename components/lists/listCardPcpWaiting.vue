@@ -19,13 +19,6 @@
       :description="mold.solicitation.reason.description"
     />
 
-    <Pagination
-      v-if="listSearch.length > 0"
-      :list="listSearch"
-      @displayNewList="displayNewList"
-      @nextPage="nextPage"
-      @backPage="backPage"
-    />
   </div>
 </template>
 
