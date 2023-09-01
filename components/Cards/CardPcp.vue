@@ -97,10 +97,7 @@
               {{ dataMold.solicitation.injectionProcess.feedstock.description }}
             </h4>
           </div>
-        </div>
-    <pre>
-
-    </pre>    
+        </div> 
       </div>
 
       <div class="contentContainer" v-if="isOpenInfoCard">

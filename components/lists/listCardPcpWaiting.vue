@@ -18,6 +18,9 @@
       :dataMold="mold"
       :description="mold.solicitation.reason.description"
     />
+    <div class="message-list" v-if="itemsToShow.length === 0">
+      <span>Nenhum resultado...</span>
+    </div>
 
   </div>
 </template>
@@ -146,5 +149,10 @@ select.filterStatus:focus {
 select:-moz-focusring {
   color: transparent;
   text-shadow: 0 0 0 #000;
+}
+
+.message-list {
+  display: flex;
+  justify-content: center;
 }
 </style>

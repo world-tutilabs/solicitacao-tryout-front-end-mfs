@@ -3,7 +3,6 @@
     <div class="containerModal">
       <header>
         <div>
-          <pre>{{ dataRevisao }}</pre>
           <h1>Revisão Engenharia</h1>
           <p>Informações Gerais</p>
         </div>

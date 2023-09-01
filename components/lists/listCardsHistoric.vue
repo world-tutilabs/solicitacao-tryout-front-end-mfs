@@ -7,10 +7,11 @@
 		<div class="internal-header">
 			<InputSearch v-model="valueSearch" class="InputSearch" />
 			<div class="pagination-controller" v-if="valueSearch.length < 1">
-				<button class="btn" @click="backPage" v-if="currentPage > 0"><img src="~/static/icons/arrowOpened.svg" class="img-back" /></button>
+				<button class="btn" @click="backPage" v-if="currentPage > 0" :disabled="isDisabled"><img
+						src="~/static/icons/arrowOpened.svg" class="img-back" /></button>
 				<button class="btn" @click="initPage" v-if="currentPage > 0">1</button>
 				<button class="btn count">{{ countPage }}</button>
-				<button class="btn" @click="nextPage" v-if="listHistoric.length === 10"> 
+				<button class="btn" @click="nextPage" v-if="listHistoric.length === 10" :disabled="isDisabled">
 					<img src="~/static/icons/arrowOpened.svg" class="img-next" />
 				</button>
 			</div>
@@ -39,6 +40,7 @@ export default {
 			listHistoric: [],
 			valueSearch: "",
 			listSearch: [],
+			isDisabled: false
 		};
 	},
 	async mounted() {
@@ -63,28 +65,30 @@ export default {
 			return allContent;
 		},
 	},
-	
+
 	methods: {
 		async listAllHistoricReq() {
+			this.isDisabled = true
 			await httpLocal.listAllHistoric(this.currentPage, 10).then(async (res) => {
 				this.listHistoric = res.data.result;
+				this.isDisabled = false
 			});
 		},
 
 		async initPage() {
 			[this.currentPage, this.countPage] = [0, 1]
 			await this.listAllHistoricReq()
-    	},
+		},
 
 		async nextPage() {
 			[this.currentPage, this.countPage] = [this.currentPage + 10, this.countPage + 1]
 			await this.listAllHistoricReq()
 		},
 
-    	async backPage() {
+		async backPage() {
 			[this.currentPage, this.countPage] = [this.currentPage - 10, this.countPage - 1]
 			await this.listAllHistoricReq()
-    	}
+		}
 	},
 
 	async fetch() {
@@ -111,7 +115,7 @@ export default {
 			width: 4rem;
 			height: 2rem;
 			border: 1px solid var(--green);
-			background-color: transparent;
+			background-color: var(--white);
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -119,17 +123,24 @@ export default {
 			img {
 				width: 1rem;
 			}
+
 			.img-next {
 				transform: rotate(-90deg);
 			}
+
 			.img-back {
 				transform: rotate(90deg);
 			}
 		}
 
+		:hover {
+			background-color: transparent;
+		}
+
+
 		.count {
-			border: 2px solid var(--green);
+			background-color: var(--green);
+			color: var(--white);
 		}
 	}
-}
-</style>
+}</style>

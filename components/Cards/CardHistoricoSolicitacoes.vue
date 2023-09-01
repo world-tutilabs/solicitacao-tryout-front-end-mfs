@@ -10,8 +10,6 @@
         </div>
       </div>
 
-      <!-- <pre>{{ data }}</pre> -->
-
       <div class="containerMain">
         <div class="informs">
           <div class="inform">
