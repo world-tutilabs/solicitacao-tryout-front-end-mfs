@@ -8,9 +8,9 @@
       <section  class="filter-header">
         <InputSearch v-model="valueSearch" class="InputSearch" />
         <section class="header" > 
-          <select v-model="selected" class="filterStatus" >
-            <option value="Todos" >Todos</option>
-            <option value="Molde Familia">Molde Familia</option>
+          <select v-model="selected" class="filterStatus" @click="filter">
+            <option value="false" >Todos</option>
+            <option value="true">Molde Familia</option>
           </select>
         </section>
       </section>
@@ -68,7 +68,8 @@ export default {
       listRRIM: [],
       listSearch: [],
       isDisabled: false,
-      selected:"Todos",
+      selected:"",
+      itemsFiltrados:{}
 
     };
   },
@@ -94,6 +95,22 @@ export default {
   },
 
   methods: {
+    // async moldFamilia(){
+    //   await http.AllRRIMMoldFamilia( 0, 10, 2, 'true').then((res) => {
+    //       const result = res.data.list;
+
+    //     })
+    // },
+      
+    filter() {
+      const filteredItems = this.listRRIM.filter((item) => {
+        return item.molde_familia === this.selected;
+      });
+      this.itemsFiltrados = filteredItems;
+      console.log( this.itemsFiltrados);
+      
+    },
+
     async reqListRRIM() {
       this.isDisabled = true;
       await http.listAllRRIM(this.currentPage, 10, 2).then((res) => {

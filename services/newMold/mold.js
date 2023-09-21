@@ -6,6 +6,9 @@ export default {
   listAllRRIM: async (page = 0, offset = 10, statusId) => {
     return await httpRRIM.get(`/rrim/list/aprovadas?page=${page}&offset=${offset}&statusId=${statusId}`)
   },
+  AllRRIMMoldFamilia: async (page = 0, offset = 10, statusId, moldFamilia) => {
+    return await httpRRIM.get(`/rrim/list/aprovadas?page=${page}&offset=${offset}&statusId=${statusId}?molde_familia=${moldFamilia}`)
+  },
 
   listCodProducts: async (id) => {
     return await httpSAP.get(`/api/v1/sap/tutilabs/boms/${id}`)

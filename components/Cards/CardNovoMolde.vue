@@ -38,8 +38,8 @@
           </div>
           <div class="inform">
             <h3>Molde Familia</h3>
-            <p> yes or no </p>
-            <p> yes or no </p>
+            <h5 v-if="dataMold.molde_familia === true"> Molde Familia</h5>
+            <p v-else> Molde Normal </p>
           </div>
         </div>
       </div>
