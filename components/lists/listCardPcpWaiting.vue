@@ -99,6 +99,7 @@ export default {
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  
 
   .filterStatus {
     width: 11rem;

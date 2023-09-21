@@ -36,6 +36,11 @@
             <h3>Data Homologação</h3>
             <p>{{ formatDate(dataMold.created_at, 0) }}</p>
           </div>
+          <div class="inform">
+            <h3>Molde Familia</h3>
+            <p> yes or no </p>
+            <p> yes or no </p>
+          </div>
         </div>
       </div>
 
