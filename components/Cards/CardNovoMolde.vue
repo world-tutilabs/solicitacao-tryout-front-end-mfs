@@ -38,7 +38,7 @@
           </div>
           <div class="inform">
             <h3>Molde Familia</h3>
-            <h5 v-if="dataMold.molde_familia === 'true'"> Molde Familia</h5>
+            <h5 v-if="dataMold.molde_familia === 'true'" style="color: coral;"> Molde Familia</h5>
             <p v-else> Molde Normal </p>
           </div>
         </div>

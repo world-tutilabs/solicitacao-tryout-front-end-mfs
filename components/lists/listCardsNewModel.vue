@@ -5,13 +5,13 @@
 
   <div v-else>
     <div class="internal-header">
-      <section  class="filter-header">
+      <section class="filter-header">
         <InputSearch v-model="valueSearch" class="InputSearch" />
-        <section class="header" > 
-          <select v-model="selected" class="filterStatus" @click="filter">
-            <option value="todos" >Todos</option>
-            <option value="normal">Molde Normal</option>
-            <option value="familia">Molde Familia</option>
+        <section class="header">
+          <select v-model="selected" class="filterStatus">
+            <option value=""></option>
+            <option value="false">Molde Normal</option>
+            <option value="true">Molde Familia</option>
           </select>
         </section>
       </section>
@@ -39,7 +39,11 @@
     </div>
 
     <div v-if="valueSearch.length < 1">
-      <CardNovoMolde v-for="mold in listRRIM" :key="mold.id" :dataMold="mold" />
+      <CardNovoMolde
+        v-for="mold in itemsToShow"
+        :key="mold.id"
+        :dataMold="mold"
+      />
     </div>
 
     <div v-else>
@@ -67,11 +71,11 @@ export default {
       countPage: 1,
       valueSearch: "",
       listRRIM: [],
+      listRRIMMoldFamily: [],
       listSearch: [],
       isDisabled: false,
-      selected: "todos",
-      itemsFiltrados:{}
-
+      selected: "",
+      itemsFiltrados: {},
     };
   },
 
@@ -85,7 +89,19 @@ export default {
           String(filter.ID).toLowerCase().match(this.valueSearch)
         );
       });
+
       return allContent;
+    },
+
+    itemsToShow() {
+      if (this.selected === "true") {
+        return this.listRRIMMoldFamily;
+      }
+      if (this.selected === "false") {
+        return this.listRRIMMoldFamily;
+      } else {
+        return this.listRRIM;
+      }
     },
   },
 
@@ -94,16 +110,28 @@ export default {
       this.listSearch = res.data.list;
     });
   },
-
+  watch: {
+    selected(novaSelected, antigaSelected) {
+      if (this.selected === "true" || "false") {
+        this.reqMoldFamilia();
+      } else {
+        this.reqListRRIM();
+      }
+      console.log(`${antigaSelected} para ${novaSelected}`);
+    },
+  },
   methods: {
-      
-    filter() {
-      const filteredItems = this.listRRIM.filter((item) => {
-        return item.molde_familia === this.selected;
-      });
-      this.itemsFiltrados = filteredItems;
-      console.log( this.itemsFiltrados);
-      
+    async reqMoldFamilia() {
+      this.isDisabled = true;
+      await http
+        .RRIMMoldFamilia(this.currentPage, 10, 2, this.selected)
+        .then((res) => {
+          const list = res.data.list;
+          this.listRRIMMoldFamily = list;
+
+          console.log(this.listRRIMMoldFamily);
+          this.isDisabled = false;
+        });
     },
 
     async reqListRRIM() {
@@ -116,9 +144,8 @@ export default {
 
     async initPage() {
       [this.currentPage, this.countPage] = [0, 1];
-      await this.reqListRRIM();
+      (await this.reqListRRIM()) || this.reqMoldFamilia();
     },
-    
 
     async nextPage() {
       [this.currentPage, this.countPage] = [
@@ -126,6 +153,9 @@ export default {
         this.countPage + 1,
       ];
       await this.reqListRRIM();
+      if (this.selected.length > 3) {
+        this.reqMoldFamilia();
+      }
     },
 
     async backPage() {
@@ -134,6 +164,9 @@ export default {
         this.countPage - 1,
       ];
       await this.reqListRRIM();
+      if (this.selected.length > 3) {
+        this.reqMoldFamilia();
+      }
     },
   },
 
@@ -188,11 +221,11 @@ export default {
     }
   }
 }
-.filter-header{
-  display: flex; 
+.filter-header {
+  display: flex;
   flex-wrap: wrap;
-  align-items: center; 
-  gap: .5rem;
+  align-items: center;
+  gap: 0.5rem;
 }
 select {
   background-image: linear-gradient(120deg, green 50%, transparent 56%),
@@ -205,7 +238,6 @@ select {
   border-color: #868686;
   outline: 0;
   height: 2.6rem;
-
 
   /* styling */
   background-color: white;
@@ -239,5 +271,4 @@ select:-moz-focusring {
   color: transparent;
   text-shadow: 0 0 0 #000;
 }
-
 </style>
