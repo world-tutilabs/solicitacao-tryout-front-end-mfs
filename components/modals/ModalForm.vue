@@ -65,7 +65,7 @@
             <input type="number" min="1" v-model="quantidade" />
           </div>
           <div class="boxInput">
-            <p>Técnico a </p>
+            <p>Técnico</p>
             <input
               type="text"
               v-model="dataRRIM.homologacao[0].created_user.nome"
