@@ -37,6 +37,7 @@
           <div class="inform">
             <h3>Máquina</h3>
             <p>{{ dataMold.injectionProcess.machine.model }}</p>
+
           </div>
         </div>
       </div>
@@ -75,6 +76,7 @@
             <h3>Molde</h3>
             <span>Descrição</span>
             <h4>{{ dataMold.injectionProcess.mold.desc_mold }}</h4>
+            
             <div class="processFooter">
               <h4>
                 Qtde Cav: {{ dataMold.injectionProcess.mold.number_cavity }}
