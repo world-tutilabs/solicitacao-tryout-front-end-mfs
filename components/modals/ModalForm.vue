@@ -6,7 +6,7 @@
           <h1>Solicitar de TryOut</h1>
           <p>Informações Gerais</p>
         </div>
-
+        <pre>{{  }}</pre>
         <div @click="closeModal()" class="btn-closed">
           <img src="~/static/icons/x.svg" />
         </div>
@@ -239,6 +239,7 @@ export default {
         desc_prod: "",
         client: "",
         reason: "",
+        
       },
 
       testSolicitation: {
@@ -247,6 +248,7 @@ export default {
         client: "",
         date: "",
         reason: "",
+        molde_familia:"",
         InjectionProcess: {
           proc_technician: "",
           quantity: 0,
@@ -300,6 +302,7 @@ export default {
       this.testSolicitation.product_description = this.indexProduct;
       this.testSolicitation.client = this.dataRRIM.CLIENTE;
       this.testSolicitation.reason = this.reasonSolicitation;
+      this.testSolicitation.molde_familia = this.dataRRIM.molde_familia;
       this.testSolicitation.InjectionProcess.proc_technician =
         this.dataRRIM.homologacao[0].created_user.nome;
       this.testSolicitation.InjectionProcess.quantity = parseInt(
