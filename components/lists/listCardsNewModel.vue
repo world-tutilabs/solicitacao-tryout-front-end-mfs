@@ -9,7 +9,7 @@
         <InputSearch v-model="valueSearch" class="InputSearch" />
         <section class="header">
           <select v-model="selected" class="filterStatus">
-            <option value=""></option>
+            <option value="all">Todos</option>
             <option value="false">Molde Normal</option>
             <option value="true">Molde Familia</option>
           </select>
@@ -30,7 +30,7 @@
         <button
           class="btn"
           @click="nextPage"
-          v-if="listRRIM.length === 10"
+          v-if="listRRIM.length === 10  "
           :disabled="isDisabled"
         >
           <img src="~/static/icons/arrowOpened.svg" class="img-next" />
@@ -95,7 +95,7 @@ export default {
 
     itemsToShow() {
       if (this.selected === "true") {
-        return this.listRRIMMoldFamily;
+        return this.listRRIMMoldFamily ;
       }
       if (this.selected === "false") {
         return this.listRRIMMoldFamily;
@@ -111,27 +111,32 @@ export default {
     });
   },
   watch: {
-    selected(novaSelected, antigaSelected) {
-      if (this.selected === "true" || "false") {
-        this.reqMoldFamilia();
+    async selected(novaSelected, antigaSelected) {
+      if (this.selected === "false" || this.selected === "true") {
+        if (novaSelected !== antigaSelected) {
+          this.currentPage = 0;
+          this.countPage = 1;
+          this.reqMoldFamilia();
+        }
       } else {
         this.reqListRRIM();
       }
-      console.log(`${antigaSelected} para ${novaSelected}`);
     },
   },
   methods: {
     async reqMoldFamilia() {
       this.isDisabled = true;
-      await http
-        .RRIMMoldFamilia(this.currentPage, 10, 2, this.selected)
-        .then((res) => {
-          const list = res.data.list;
-          this.listRRIMMoldFamily = list;
+      if (this.selected === "false" || this.selected === "true") {
+        await http
+          .RRIMMoldFamilia(this.currentPage, 10, 2, this.selected)
+          .then((res) => {
+            const list = res.data.list;
+            this.listRRIMMoldFamily = list;
 
-          console.log(this.listRRIMMoldFamily);
-          this.isDisabled = false;
-        });
+            console.log(this.listRRIMMoldFamily);
+            this.isDisabled = false;
+          });
+      }
     },
 
     async reqListRRIM() {
@@ -143,19 +148,17 @@ export default {
     },
 
     async initPage() {
-      [this.currentPage, this.countPage] = [0, 1];
-      (await this.reqListRRIM()) || this.reqMoldFamilia();
+      this.currentPage = 0;
+      this.countPage = 1;
+      await this.reqListRRIM();
+      this.checkAndRequestMoldFamilia();
     },
 
     async nextPage() {
-      [this.currentPage, this.countPage] = [
-        this.currentPage + 10,
-        this.countPage + 1,
-      ];
+      this.currentPage += 10;
+      this.countPage += 1;
       await this.reqListRRIM();
-      if (this.selected.length > 3) {
-        this.reqMoldFamilia();
-      }
+      this.checkAndRequestMoldFamilia();
     },
 
     async backPage() {
@@ -164,8 +167,12 @@ export default {
         this.countPage - 1,
       ];
       await this.reqListRRIM();
-      if (this.selected.length > 3) {
-        this.reqMoldFamilia();
+      this.checkAndRequestMoldFamilia();
+    },
+
+    async checkAndRequestMoldFamilia() {
+      if (this.selected === "false" || this.selected === "true") {
+        await this.reqMoldFamilia();
       }
     },
   },
