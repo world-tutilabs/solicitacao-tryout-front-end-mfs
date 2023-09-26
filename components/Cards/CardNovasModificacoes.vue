@@ -127,11 +127,11 @@ export default Vue.extend({
       } as Aprovados,
     };
   },
-  created: async function () {
-    await http.listAll(1).then((res) => {
-      this.dataRRIM = res.data;
-    });
-  },
+  // created: async function () {
+  //   await http.listAll(1).then((res) => {
+  //     this.dataRRIM = res.data;
+  //   });
+  // },
 
   methods: {
     async showModal() {
