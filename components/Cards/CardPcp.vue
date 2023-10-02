@@ -37,6 +37,11 @@
             <h3>Máquina</h3>
             <p>{{ dataMold.solicitation.injectionProcess.machine.model }}</p>
           </div>
+          <div class="inform">
+            <h3>Molde Familia</h3>
+            <h5 v-if="dataMold.solicitation.molde_familia === 'true'" style="color: coral;"> Molde Familia</h5>
+            <p v-else> Molde Normal </p>
+          </div>
 
           <div class="inform" v-if="dataMold.solicitation.reason.description !== 'Novo' || dataMold.solicitation.reason.description !== 'Retroativo'">
             <h3 v-if="dataMold.solicitation.reason.description === 'Novo Produto'">Código NNP</h3>
