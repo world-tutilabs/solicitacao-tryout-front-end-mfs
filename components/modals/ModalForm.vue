@@ -6,7 +6,6 @@
           <h1>Solicitar de TryOut</h1>
           <p>Informações Gerais</p>
         </div>
-        <pre>{{  }}</pre>
         <div @click="closeModal()" class="btn-closed">
           <img src="~/static/icons/x.svg" />
         </div>
@@ -47,11 +46,10 @@
             <p>Cliente</p>
             <input type="text" v-model="dataRRIM.CLIENTE" disabled />
           </div>
-          
+
           <InputSelect @status="validarEmit" :type="'Tryout'" />
-  
         </div>
-  
+
         <!-- selecionar processos -->
         <div class="rowInputs contentInputs">
           <div class="boxInput">
@@ -109,8 +107,18 @@
 
               <div class="boxInput">
                 <p>Motivo</p>
-                <input type="text" value="Novo Molde" disabled v-if="reasonSolicitation === 1"/>
-                <input type="text" value="Retroativo" disabled v-if="reasonSolicitation === 2"/>
+                <input
+                  type="text"
+                  value="Novo Molde"
+                  disabled
+                  v-if="reasonSolicitation === 1"
+                />
+                <input
+                  type="text"
+                  value="Retroativo"
+                  disabled
+                  v-if="reasonSolicitation === 2"
+                />
               </div>
 
               <div class="boxInput inputData">
@@ -191,7 +199,6 @@
           <button class="save" @click.prevent="saveNewSolicitation()">
             Salvar
           </button>
-
         </div>
       </div>
     </div>
@@ -239,7 +246,6 @@ export default {
         desc_prod: "",
         client: "",
         reason: "",
-        
       },
 
       testSolicitation: {
@@ -248,7 +254,7 @@ export default {
         client: "",
         date: "",
         reason: "",
-        molde_familia:"",
+        molde_familia: "",
         InjectionProcess: {
           proc_technician: "",
           quantity: 0,
@@ -332,11 +338,19 @@ export default {
           this.closeModal();
         })
         .catch((error) => {
+          console.log(error);
           if (error.response.status === 500) {
             this.$toast.error("Erro no servidores");
           }
         });
 
+      this.$nuxt.refresh();
+
+      this.newSolicitation.cod_prod = "";
+      this.quantidade = "";
+      this.newData = "";
+      this.machine = "";
+      this.laborAmount = "";
     },
     catchIndexProduct(event) {
       this.newSolicitation.cod_prod = event.target.value;
@@ -370,28 +384,31 @@ export default {
     },
 
     validarEmit(payload) {
-      if(payload.newValue === 'Retroativo') {
-        this.reasonSolicitation = 2
+      if (payload.newValue === "Retroativo") {
+        this.reasonSolicitation = 2;
       } else {
-        this.reasonSolicitation = 1
+        this.reasonSolicitation = 1;
       }
     },
 
     addProcess() {
-      if (this.newSolicitation.cod_prod === '') {
+      if (this.newSolicitation.cod_prod === "") {
         this.$toast.error("Informe o código do produto");
       } else if (this.quantidade === "") {
         this.$toast.error("Quantidade não foi preenchida");
       } else if (this.quantidade <= 0) {
         this.$toast.error("Campo quantidade com valores impróprios");
-      } else if(this.reasonSolicitation !== 1 && this.reasonSolicitation !== 2) {
+      } else if (
+        this.reasonSolicitation !== 1 &&
+        this.reasonSolicitation !== 2
+      ) {
         this.$toast.error("Motivo não foi preenchido");
-      } else{
+      } else {
         this.count++;
         this.processValidation = true;
       }
     },
-    
+
     removeProcess(index) {
       this.count--;
       if (index === this.count) {
@@ -412,7 +429,7 @@ export default {
     },
   },
 
-  async created () {
+  async created() {
     this.productsOptions = this.dataRRIM;
   },
   watch: {
@@ -492,11 +509,11 @@ export default {
         cursor: pointer;
       }
     }
-.containerInputsModificacao{
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-}
+    .containerInputsModificacao {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
     .rowInputs {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
