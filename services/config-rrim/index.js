@@ -1,6 +1,16 @@
 import axios from "axios"
 import Cookies from 'js-cookie'
 
+// servidor
+// const httpRRIM = axios.create({
+//   baseURL: `http://185.209.179.253:8400`,                                           //Adicionar Base URL
+//   headers: {
+//     "Accept": "application/json",
+//     "Content": "application/json"
+//   }
+// })
+
+// local
 const httpRRIM = axios.create({
   baseURL: `http://172.21.3.192:3366`,                                           //Adicionar Base URL
   headers: {
