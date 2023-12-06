@@ -27,13 +27,11 @@
         <div class="rowInputs">
           <div class="boxInput">
             <p>Código do Produto:</p>
+
             <input type="text" list="products" @change="catchIndexProduct" />
 
             <datalist id="products">
-              <option
-                v-for="(products, index) in productsOptions.produto"
-                :key="index"
-              >
+              <option v-for="(products, index) in dataRRIM.produto" :key="index">
                 {{ products.COD_PRODUTO }}
               </option>
             </datalist>
@@ -64,11 +62,7 @@
           </div>
           <div class="boxInput">
             <p>Técnico</p>
-            <input
-              type="text"
-              v-model="dataRRIM.homologacao[0].created_user.nome"
-              disabled
-            />
+            <input type="text" v-model="dataRRIM.homologacao[0].created_user.nome" disabled />
           </div>
 
           <button @click.prevent="addProcess" v-if="!processValidation">
@@ -82,11 +76,7 @@
           <div class="tabs">
             <div class="tab" v-for="index in count" :key="index">
               <p>Processo Injeção</p>
-              <img
-                @click="removeProcess(index)"
-                src="~/static/icons/x.svg"
-                alt=""
-              />
+              <img @click="removeProcess(index)" src="~/static/icons/x.svg" alt="" />
             </div>
           </div>
           <div class="frameProcess" v-if="processValidation">
@@ -98,27 +88,13 @@
 
               <div class="boxInput">
                 <p>Técnico</p>
-                <input
-                  type="text"
-                  v-model="dataRRIM.homologacao[0].created_user.nome"
-                  disabled
-                />
+                <input type="text" v-model="dataRRIM.homologacao[0].created_user.nome" disabled />
               </div>
 
               <div class="boxInput">
                 <p>Motivo</p>
-                <input
-                  type="text"
-                  value="Novo Molde"
-                  disabled
-                  v-if="reasonSolicitation === 1"
-                />
-                <input
-                  type="text"
-                  value="Retroativo"
-                  disabled
-                  v-if="reasonSolicitation === 2"
-                />
+                <input type="text" value="Novo Molde" disabled v-if="reasonSolicitation === 1" />
+                <input type="text" value="Retroativo" disabled v-if="reasonSolicitation === 2" />
               </div>
 
               <div class="boxInput inputData">
@@ -132,22 +108,13 @@
                 <input type="text" list="machines" v-model="machine" />
 
                 <datalist id="machines">
-                  <option
-                    v-for="(machine, index) in dataRRIM.molde_aberto"
-                    :key="index"
-                  >
+                  <option v-for="(machine, index) in dataRRIM.molde_aberto" :key="index">
                     {{ machine.MAQUINA_OP1 }}
                   </option>
-                  <option
-                    v-for="(machine, index) in dataRRIM.molde_aberto"
-                    :key="index"
-                  >
+                  <option v-for="(machine, index) in dataRRIM.molde_aberto" :key="index">
                     {{ machine.MAQUINA_OP2 }}
                   </option>
-                  <option
-                    v-for="(machine, index) in dataRRIM.molde_aberto"
-                    :key="index"
-                  >
+                  <option v-for="(machine, index) in dataRRIM.molde_aberto" :key="index">
                     {{ machine.MAQUINA_OP3 }}
                   </option>
                 </datalist>
@@ -157,39 +124,19 @@
             <div class="cardTryOut">
               <SlotCard>
                 <Title title="Mão de Obra" />
-                <FormInput
-                  label="Quantidade"
-                  type="number"
-                  min="1"
-                  v-model="laborAmount"
-                />
+                <FormInput label="Quantidade" type="number" min="1" v-model="laborAmount" />
               </SlotCard>
 
               <SlotCard>
                 <Title title="Molde" />
-                <FormInput
-                  label="Descrição"
-                  type="text"
-                  v-model="dataRRIM.MOLDE"
-                  disabled
-                />
-                <FormInput
-                  label="N° Cavidade"
-                  type="number"
-                  min="1"
-                  :value="calculeCavity(dataRRIM.molde_aberto[0].cavidade)"
-                  disabled
-                />
+                <FormInput label="Descrição" type="text" v-model="dataRRIM.MOLDE" disabled />
+                <FormInput label="N° Cavidade" type="number" min="1"
+                  :value="calculeCavity(dataRRIM.molde_aberto[0].cavidade)" disabled />
               </SlotCard>
 
               <SlotCard>
                 <Title title="Matéria Prima" />
-                <FormInput
-                  label="Cód + Descrição"
-                  type="text"
-                  v-model="feedstocksDescription"
-                  disabled
-                />
+                <FormInput label="Cód + Descrição" type="text" v-model="feedstocksDescription" disabled />
               </SlotCard>
             </div>
           </div>
@@ -354,11 +301,14 @@ export default {
     },
     catchIndexProduct(event) {
       this.newSolicitation.cod_prod = event.target.value;
-      const value = this.productsOptions.produto.find(
-        (item) => item.COD_PRODUTO === event.target.value
-      );
-      this.indexProduct = value.DESC_PRODUTO;
-      this.feedstocksDescription = `${value.COD_MATERIA_PRIMA} - ${value.DESC_MATERIA_PRIMA}`;
+
+      this.dataRRIM.produto.map((item) => {
+
+        if (item.COD_PRODUTO === event.target.value) {
+          this.indexProduct = item.DESC_PRODUTO
+          this.feedstocksDescription = `${item.COD_MATERIA_PRIMA} - ${item.DESC_MATERIA_PRIMA}`
+        }
+      })
     },
 
     closeModal() {
@@ -509,11 +459,13 @@ export default {
         cursor: pointer;
       }
     }
+
     .containerInputsModificacao {
       display: flex;
       gap: 2rem;
       flex-wrap: wrap;
     }
+
     .rowInputs {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
